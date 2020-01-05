@@ -81,12 +81,17 @@ public class Corner {
 	}
 	
 	
-	public void moveCorner(int[] rotationPoint, int rotationAngle) {
+	public void rotateCorner(int[] rotationPoint, int rotationAngle) {
 		currentAngle += rotationAngle;
 		updateQadrants();
 		getNewCoords(rotationPoint);
 		
 	
+	}
+	
+	public void moveCorner(int velX, int velY) {
+		x += velX;
+		y += velY;
 		
 	}
 	private int getPointDistance(int[] rotationPoint) {
