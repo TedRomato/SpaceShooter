@@ -13,28 +13,51 @@ public class GameObject {
 			System.out.println("Rotation point wrong coords in constructor");
 		}
 		
-		this.rotationPoint = rotationPoint;
+		this.setRotationPoint(rotationPoint);
 		this.rotationAngle = rotationAngle;
 
 	}
 	
 	public void rotateOb() {
 		for(Corner corner : corners) {
-			corner.rotateCorner(rotationPoint, rotationAngle);
+			corner.rotateCorner(getRotationPoint(), rotationAngle);
 		}
 	}
 	
 	public void moveOb() {
 		for(Corner corner : corners) {
-			corner.moveCorner(velX,velY);
+			corner.moveCorner(velX,getVelY());
 		}
-		rotationPoint[0] += velX;
-		rotationPoint[1] += velY;
+		getRotationPoint()[0] += velX;
+		getRotationPoint()[1] += getVelY();
 	}
 	
 	public void setVels(int velX, int velY) {
 		this.velX = velX;
+		this.setVelY(velY);
+	}
+
+	public int[] getRotationPoint() {
+		return rotationPoint;
+	}
+
+	public void setRotationPoint(int[] rotationPoint) {
+		this.rotationPoint = rotationPoint;
+	}
+
+	public int getVelY() {
+		return velY;
+	}
+
+	public void setVelY(int velY) {
 		this.velY = velY;
+	}
+	public int getVelX() {
+		return velX;
+	}
+
+	public void setVelX(int velX) {
+		this.velX = velX;
 	}
 	
 	

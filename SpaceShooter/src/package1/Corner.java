@@ -35,6 +35,30 @@ public class Corner {
 		}
 		
 	}
+	
+	public int getXYRatio(int[] rotationPoint) {
+		int x = 0;
+		int y = 0;
+		if (qadrant == 1) {
+			x = countSinusPoint();
+			y =  - (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
+		}else if (qadrant == 3) {
+			x =  - countSinusPoint();
+			y = (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
+		}else if (qadrant == 2) {
+			y =  countSinusPoint();
+			x =  (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
+		}else if (qadrant == 4) {
+			y = - countSinusPoint();
+			x = - (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
+		}
+		if(Math.abs(y) < 1) {
+			return 1;
+		}
+		return x/y;
+	
+	}
+	
 	private double getAngle(int[] rotationPoint) {
 		if(qadrant == 1 || qadrant == 3) {
 			return Math.toDegrees(Math.asin(Math.abs(rotationPoint[0]-x)/distance)) + (qadrant-1)*90;
@@ -73,8 +97,8 @@ public class Corner {
 			y = rotationPoint[0] + countSinusPoint();
 			x = rotationPoint[0] + (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
 		}else if (qadrant == 4) {
-			y = rotationPoint[0] + countSinusPoint();
-			x = rotationPoint[0] + (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
+			y = rotationPoint[0] - countSinusPoint();
+			x = rotationPoint[0] - (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
 		}
 			
 		
