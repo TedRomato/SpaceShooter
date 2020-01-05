@@ -32,6 +32,11 @@ public class GameObject {
 		rotationPoint[1] += velY;
 	}
 	
+	public void setVels(int velX, int velY) {
+		this.velX = velX;
+		this.velY = velY;
+	}
+	
 	
 	
 	
