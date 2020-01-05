@@ -5,7 +5,7 @@ public class Player extends GameObject {
 	private boolean goUp, goDown, goLeft, goRight;
 	private int maxSpeed;
 	private int acceleration;
-	public Player(int[][] corners, int[] rotationPoint,int rotationAngle) {
+	public Player(Corner[] corners, int[] rotationPoint, int rotationAngle) {
 		super(corners, rotationPoint, rotationAngle);
 		
 	}

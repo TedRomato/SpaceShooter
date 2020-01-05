@@ -1,23 +1,24 @@
 package package1;
 
 public class GameObject {
-	private int[][] corners;
+	private Corner[] corners;
 	private int[] rotationPoint;
 	private int rotationAngle;
 	
-	public GameObject(int[][] corners, int[] rotationPoint, int rotationAngle) {
-		for(int[] i : corners) {
-			if(i.length != 2) {
-				System.out.println("Object wrong coords");
-			}	
-		}
+	
+	public GameObject(Corner[] corners, int[] rotationPoint, int rotationAngle) {
+	
 		if(rotationPoint.length != 2) {
-			System.out.println("Rotation point wrong coords");
+			System.out.println("Rotation point wrong coords in constructor");
 		}
-		this.corners = corners;
+		
 		this.rotationPoint = rotationPoint;
 		this.rotationAngle = rotationAngle;
+
 	}
+	
+	
+	
 	
 
 }
