@@ -1,7 +1,11 @@
 package package1;
 
-public class Player extends GameObject {
-	private boolean forward;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class Player extends GameObject implements KeyListener{
+	private boolean forward, turnRight, turnLeft;
+	char moveChar = 'w', turnLeftChar = 'a', turnRightChar = 'd';
 	private Corner moveDirection;
 	private double xyRatio;
 	private int maxSpeed;
@@ -31,6 +35,58 @@ public class Player extends GameObject {
 			currentSpeed = maxSpeed;
 		}
 	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getKeyChar() == moveChar) {
+			forward = true;
+			
+		}
+		if(e.getKeyChar() == turnLeftChar) {
+			turnLeft = true;
+			makeNegativeRotation();
+		}
+		if(e.getKeyChar() == turnRightChar) {
+			turnRight = true;
+			makePositiveRotation();
+			
+		}
 	
+	}
+
+
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getKeyChar() == moveChar) {
+			forward = false;
+			
+		}
+		if(e.getKeyChar() == turnLeftChar) {
+			turnLeft = false;
+		}
+		if(e.getKeyChar() == turnRightChar) {
+			turnRight = false;
+			
+		}
+	
+	}
+	
+	private void makePositiveRotation() {
+		setRotationAngle(Math.abs(getRotationAngle()));
+	}
+	private void makeNegativeRotation() {
+		setRotationAngle(-Math.abs(getRotationAngle()));
+	}
+		
 	
 }

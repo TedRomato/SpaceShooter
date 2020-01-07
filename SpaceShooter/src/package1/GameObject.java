@@ -60,6 +60,13 @@ public class GameObject {
 		this.velX = velX;
 	}
 	
+	public int getRotationAngle() {
+		return rotationAngle;
+	}
+	public void setRotationAngle(int rotationAngle) {
+		this.rotationAngle = rotationAngle;
+	}
+	
 	
 	
 	
