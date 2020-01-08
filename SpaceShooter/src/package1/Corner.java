@@ -7,6 +7,7 @@ public class Corner {
 	private int distance;
 	
 	public Corner(int[] coordinates, int[] rotationPoint) {
+
 		x = coordinates[0];
 		y = coordinates[1];
 		if(coordinates.length!=2) {
@@ -15,7 +16,6 @@ public class Corner {
 		distance = getPointDistance(rotationPoint);
 		qadrant = getQadrant(rotationPoint);
 		currentAngle = getAngle(rotationPoint);
-		
 	}
 	
 	private int getQadrant(int[] rotationPoint) {
