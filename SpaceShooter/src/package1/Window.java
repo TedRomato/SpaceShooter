@@ -82,8 +82,7 @@ public class Window extends JFrame {
 		}
 	}
 	public void render() {
-		
-			
+				
 	}
 	public void tick() {
 		
