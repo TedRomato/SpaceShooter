@@ -28,14 +28,14 @@ public class GameObject {
 	
 	public void moveOb() {
 		for(Corner corner : corners) {
-			corner.moveCorner(velX,getVelY());
+			corner.moveCorner(getVelX(),getVelY());
 		}
-		getRotationPoint()[0] += velX;
+		getRotationPoint()[0] += getVelX();
 		getRotationPoint()[1] += getVelY();
 	}
 	
 	public void setVels(int velX, int velY) {
-		this.velX = velX;
+		this.setVelX(velX);
 		this.setVelY(velY);
 	}
 

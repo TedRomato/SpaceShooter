@@ -55,14 +55,14 @@ public class Window extends JFrame {
 		Corner peak = new Corner(new int[] {100,100}, new int[] {100,70});
         Corner rightCorner = new Corner(new int[] {120,70}, new int[] {100,70});
         Corner leftCorner = new Corner(new int[] {80,70}, new int[] {100,70});
-        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new int[] {100,70}, 10);
-        p.setVels(0, 1);
+        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new int[] {100,70}, 1);
+        p.setVels(0, 100);
 		
 		
 	}
 	public void start() {
 		long lastTime = System.nanoTime();
-        double amountOfTicks = 60.0;
+        double amountOfTicks = 120.0;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -99,6 +99,8 @@ public class Window extends JFrame {
 	public void render() {
 		//TEST
 		p.moveOb();
+	//	p.rotateOb();
+
 		bs = getBufferStrategy();
         if(bs == null) {
          createBufferStrategy(3);
