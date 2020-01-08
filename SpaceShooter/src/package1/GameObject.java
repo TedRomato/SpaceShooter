@@ -9,14 +9,14 @@ public class GameObject {
 	private int velX, velY;
 	
 	
-	public GameObject(Corner[] corners, int[] rotationPoint, int rotationAngle) {
-	
-		if(rotationPoint.length != 2) {
+	public GameObject(Corner[] corners/*, int[] rotationPoint, int rotationAngle*/) {
+		this.corners = corners;
+		/*if(rotationPoint.length != 2) {
 			System.out.println("Rotation point wrong coords in constructor");
 		}
 		
 		this.setRotationPoint(rotationPoint);
-		this.rotationAngle = rotationAngle;
+		this.rotationAngle = rotationAngle;*/
 
 	}
 	
