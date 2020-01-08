@@ -6,16 +6,17 @@ public class Corner {
 	private int qadrant;
 	private int distance;
 	
-	public Corner(int[] coordinates, int[] rotationPoint) {
-		x = coordinates[0];
+	public Corner(int x, int y/*int[] coordinates, int[] rotationPoint*/) {
+		this.x = x;
+		this.y = y;
+		/*x = coordinates[0];
 		y = coordinates[1];
 		if(coordinates.length!=2) {
 			System.out.println("Corner wrong coords in constructor");
 		}
 		distance = getPointDistance(rotationPoint);
 		qadrant = getQadrant(rotationPoint);
-		currentAngle = getAngle(rotationPoint);
-		
+		currentAngle = getAngle(rotationPoint);*/
 	}
 	
 	private int getQadrant(int[] rotationPoint) {
