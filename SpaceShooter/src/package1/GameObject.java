@@ -1,5 +1,7 @@
 package package1;
 
+import java.awt.Graphics;
+
 public class GameObject {
 	private Corner[] corners;
 	private int[] rotationPoint;
@@ -66,9 +68,17 @@ public class GameObject {
 	public void setRotationAngle(int rotationAngle) {
 		this.rotationAngle = rotationAngle;
 	}
+	public void render(Graphics g) {
+		for(int i = 0;i<corners.length;i++) {
+			if(i<corners.length-1) {
+				g.drawLine(corners[i].getX(), corners[i].getY(), corners[i+1].getX(), corners[i+1].getY());
+			}
+			else {
+				g.drawLine(corners[i].getX(), corners[i].getY(), corners[0].getX(), corners[0].getY());
+			}
+		}
 	
-	
-	
+	}
 	
 
 }
