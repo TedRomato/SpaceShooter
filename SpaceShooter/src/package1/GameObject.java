@@ -9,14 +9,14 @@ public class GameObject {
 	private int velX, velY;
 	
 	
-	public GameObject(Corner[] corners/*, int[] rotationPoint, int rotationAngle*/) {
+	public GameObject(Corner[] corners, int[] rotationPoint, int rotationAngle) {
 		this.corners = corners;
-		/*if(rotationPoint.length != 2) {
+		if(rotationPoint.length != 2) {
 			System.out.println("Rotation point wrong coords in constructor");
 		}
 		
 		this.setRotationPoint(rotationPoint);
-		this.rotationAngle = rotationAngle;*/
+		this.rotationAngle = rotationAngle;
 
 	}
 	
@@ -28,14 +28,14 @@ public class GameObject {
 	
 	public void moveOb() {
 		for(Corner corner : corners) {
-			corner.moveCorner(velX,getVelY());
+			corner.moveCorner(getVelX(),getVelY());
 		}
-		getRotationPoint()[0] += velX;
+		getRotationPoint()[0] += getVelX();
 		getRotationPoint()[1] += getVelY();
 	}
 	
 	public void setVels(int velX, int velY) {
-		this.velX = velX;
+		this.setVelX(velX);
 		this.setVelY(velY);
 	}
 

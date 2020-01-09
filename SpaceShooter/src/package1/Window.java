@@ -15,7 +15,7 @@ public class Window extends JFrame {
 	private boolean running = true;
 	private Graphics g;
 	private BufferStrategy bs;
-	private Corner c1,c2,c3;
+	private Player p;
 	private Corner[] corners = new Corner[3];
 	private GameObject GO;
 	public Window() {
@@ -51,18 +51,18 @@ public class Window extends JFrame {
 		});
 		exit.setBounds(getWidth()/2-150,getHeight()/2,150,75);
 		add(exit);
+		//TEST
+		Corner peak = new Corner(new int[] {100,100}, new int[] {100,70});
+        Corner rightCorner = new Corner(new int[] {120,70}, new int[] {100,70});
+        Corner leftCorner = new Corner(new int[] {80,70}, new int[] {100,70});
+        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new int[] {100,70}, 1);
+        p.setVels(0, 100);
 		
-		c1 = new Corner(50,50);
-		corners[0] = c1;
-		c2 = new Corner(75,50);
-		corners[1] = c2;
-		c3 = new Corner(50,75);
-		corners[2] = c3;
 		
 	}
 	public void start() {
 		long lastTime = System.nanoTime();
-        double amountOfTicks = 60.0;
+        double amountOfTicks = 120.0;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -97,20 +97,25 @@ public class Window extends JFrame {
 		}
 	}
 	public void render() {
-		GO = new GameObject(corners);
+		//TEST
+		p.moveOb();
+	//	p.rotateOb();
+
 		bs = getBufferStrategy();
         if(bs == null) {
          createBufferStrategy(3);
          return;
         }   
         g = bs.getDrawGraphics();
-        GO.render(g);
+      //TEST
+        p.render(g);
         g.clearRect(0,0,WIDTH,HEIGHT);
 		g.setColor(Color.BLUE);
 		bs.show();
 		g.dispose();
 		
 			
+
 	}
 	public void tick() {
 		
