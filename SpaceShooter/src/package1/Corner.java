@@ -89,15 +89,15 @@ public class Corner {
 	
 		if (qadrant == 1) {
 			x = rotationPoint[0] + countSinusPoint();
-			y = rotationPoint[0] - (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
+			y = rotationPoint[1] - (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
 		}else if (qadrant == 3) {
 			x = rotationPoint[0] - countSinusPoint();
-			y = rotationPoint[0] + (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
+			y = rotationPoint[1] + (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
 		}else if (qadrant == 2) {
-			y = rotationPoint[0] + countSinusPoint();
+			y = rotationPoint[1] + countSinusPoint();
 			x = rotationPoint[0] + (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
 		}else if (qadrant == 4) {
-			y = rotationPoint[0] - countSinusPoint();
+			y = rotationPoint[1] - countSinusPoint();
 			x = rotationPoint[0] - (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
 		}
 			
@@ -105,7 +105,7 @@ public class Corner {
 	}
 	
 	
-	public void rotateCorner(int[] rotationPoint, int rotationAngle) {
+	public void rotateCorner(int[] rotationPoint, double rotationAngle) {
 		currentAngle += rotationAngle;
 		updateQadrants();
 		getNewCoords(rotationPoint);

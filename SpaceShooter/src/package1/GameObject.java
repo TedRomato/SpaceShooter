@@ -5,11 +5,11 @@ import java.awt.Graphics;
 public class GameObject {
 	private Corner[] corners;
 	private int[] rotationPoint;
-	private int rotationAngle;
+	private double rotationAngle;
 	private int velX, velY;
 	
 	
-	public GameObject(Corner[] corners, int[] rotationPoint, int rotationAngle) {
+	public GameObject(Corner[] corners, int[] rotationPoint, double rotationAngle) {
 		this.corners = corners;
 		if(rotationPoint.length != 2) {
 			System.out.println("Rotation point wrong coords in constructor");
@@ -20,6 +20,8 @@ public class GameObject {
 
 	}
 	
+
+
 	public void rotateOb() {
 		for(Corner corner : corners) {
 			corner.rotateCorner(getRotationPoint(), rotationAngle);
@@ -62,11 +64,11 @@ public class GameObject {
 		this.velX = velX;
 	}
 	
-	public int getRotationAngle() {
+	public double getRotationAngle() {
 		return rotationAngle;
 	}
-	public void setRotationAngle(int rotationAngle) {
-		this.rotationAngle = rotationAngle;
+	public void setRotationAngle(double d) {
+		this.rotationAngle = d;
 	}
 	public void render(Graphics g) {
 		for(int i = 0;i<corners.length;i++) {
