@@ -52,11 +52,11 @@ public class Window extends JFrame {
 		exit.setBounds(getWidth()/2-150,getHeight()/2,150,75);
 		add(exit);
 		//TEST
-		Corner peak = new Corner(new double[] {100,100}, new double[] {75,75});
-        Corner rightCorner = new Corner(new double[] {50,50}, new double[] {75,75});
-        Corner leftCorner = new Corner(new double[] {150,50}, new double[] {75,75});
-        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {75,75}, -4.333);
-        p.setVels(0, 4);
+		Corner peak = new Corner(new double[] {100,100}, new double[] {100,60});
+        Corner rightCorner = new Corner(new double[] {50,50}, new double[] {100,60});
+        Corner leftCorner = new Corner(new double[] {150,50}, new double[] {100,60});
+        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {100,60}, -4.333);
+        p.setVels(1, 1);
 		
 		
 	}
