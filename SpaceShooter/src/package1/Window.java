@@ -52,23 +52,22 @@ public class Window extends JFrame {
 		exit.setBounds(getWidth()/2-150,getHeight()/2,150,75);
 		add(exit);
 		//TEST
-		Corner peak = new Corner(new int[] {100,100}, new int[] {100,70});
-        Corner rightCorner = new Corner(new int[] {120,70}, new int[] {100,70});
-        Corner leftCorner = new Corner(new int[] {80,70}, new int[] {100,70});
-        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new int[] {100,70}, 0.1);
-        p.setVels(0, 1);
+		Corner peak = new Corner(new double[] {100,100}, new double[] {75,75});
+        Corner rightCorner = new Corner(new double[] {50,50}, new double[] {75,75});
+        Corner leftCorner = new Corner(new double[] {150,50}, new double[] {75,75});
+        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {75,75}, -4.333);
+        p.setVels(0, 4);
 		
 		
 	}
 	public void start() {
 		long lastTime = System.nanoTime();
-        double amountOfTicks = 100.0;
+        double amountOfTicks = 60;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
-        while(running)
-        {
+        while(running){
         	long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
@@ -83,7 +82,7 @@ public class Window extends JFrame {
                 if(System.currentTimeMillis() - timer > 1000)
                 {
                 	timer += 1000;
-                    System.out.println("FPS: "+ frames);
+               //   System.out.println("FPS: "+ frames);
                     frames = 0;
                     }
         }
@@ -105,7 +104,6 @@ public class Window extends JFrame {
         p.render(g);
         bs.show();
         g.clearRect(0,0,getWidth(),getHeight());
-        g.clearRect(0,0,WIDTH,HEIGHT);
 		g.setColor(Color.BLUE);
 		
 		g.dispose();
@@ -119,7 +117,7 @@ public class Window extends JFrame {
 	}
 	public void tick() {
 		
-    	render();
+		render();
     	p.moveOb();
 		p.rotateOb();
         

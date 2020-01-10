@@ -11,7 +11,7 @@ public class Player extends GameObject implements KeyListener{
 	private int maxSpeed;
 	private int currentSpeed = 0;
 	private int acceleration;
-	public Player(Corner[] corners, int[] rotationPoint, double d) {
+	public Player(Corner[] corners, double[] rotationPoint, double d) {
 		super(corners, rotationPoint, d);
 	}
 	
