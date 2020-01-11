@@ -1,12 +1,12 @@
 package package1;
 
 public class Corner {
-	private int x,y;
+	private double x,y;
 	private double currentAngle;
 	private int qadrant;
-	private int distance;
+	private double distance;
 	
-	public Corner(int[] coordinates, int[] rotationPoint) {
+	public Corner(double[] coordinates, double[] rotationPoint) {
 
 		x = coordinates[0];
 		y = coordinates[1];
@@ -15,11 +15,16 @@ public class Corner {
 		}
 		distance = getPointDistance(rotationPoint);
 		qadrant = getQadrant(rotationPoint);
+
 		currentAngle = getAngle(rotationPoint);
+
 	}
 	
-	private int getQadrant(int[] rotationPoint) {
-		if(x > rotationPoint[0]) {
+	private int getQadrant(double[] rotationPoint) {
+		if(x == rotationPoint[0] || y == rotationPoint[1]) {
+			return 0;
+		}
+		else if(x > rotationPoint[0]) {
 			if(y > rotationPoint[1]) {
 				return  2;
 			}else {
@@ -30,115 +35,158 @@ public class Corner {
 				return 3;
 			}else {
 				return 4;
+			}	
+		}
+	}
+	
+	public double getXYRatio(double[] ds) {
+		double x = 0;
+		double y = 0;
+		if (qadrant == 1) {
+			y = Math.abs(countSinusPoint());
+			x = Math.abs((Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint())));
+		}else if (qadrant == 2) {
+			x = Math.abs(countSinusPoint());
+			y = Math.abs((Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint())));
+		}else if (qadrant == 3) {
+			y = Math.abs(countSinusPoint());
+			x = Math.abs((Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint())));
+		}else if (qadrant == 4) {
+			x = Math.abs(countSinusPoint());
+			y = Math.abs((Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint())));
+		}
+		if(y == 0) {
+			return Double.POSITIVE_INFINITY;
+		} if(x == 0) {
+			return 0;
+		}
+		
+		return x/y;
+	
+	}
+	
+	private double getAngle(double[] rotationPoint) {
+
+		if(qadrant == 1 || qadrant == 3) {
+			return Math.toDegrees(Math.asin(Math.abs(rotationPoint[0]-x)/distance)) + (qadrant-1)*90;
+		}else if(qadrant == 2 || qadrant == 4) {
+			return Math.toDegrees(Math.asin(Math.abs(rotationPoint[1]-y)/distance)) + (qadrant-1)*90;
+		} else {
+			if(x == rotationPoint[0]) {
+				if(y > rotationPoint[0]) {
+					return 0;
+				} else {
+					return 180;
+				}
+			} else {
+				if(x > rotationPoint[0]) {
+					return 90;
+				} else {
+					return 270;
+				}
+			
 			}
 			
 		}
 		
 	}
 	
-	public int getXYRatio(int[] rotationPoint) {
-		int x = 0;
-		int y = 0;
-		if (qadrant == 1) {
-			x = countSinusPoint();
-			y =  - (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
-		}else if (qadrant == 3) {
-			x =  - countSinusPoint();
-			y = (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
-		}else if (qadrant == 2) {
-			y =  countSinusPoint();
-			x =  (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
-		}else if (qadrant == 4) {
-			y = - countSinusPoint();
-			x = - (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
+	private void updateQadrants(double rotationPoint[]) {
+
+		if (currentAngle < 360) {
+			qadrant = 4;
 		}
-		if(Math.abs(y) < 1) {
-			return 1;
+		if (currentAngle < 270) {
+			qadrant = 3;
 		}
-		return x/y;
-	
-	}
-	
-	private double getAngle(int[] rotationPoint) {
-		if(qadrant == 1 || qadrant == 3) {
-			return Math.toDegrees(Math.asin(Math.abs(rotationPoint[0]-x)/distance)) + (qadrant-1)*90;
-		}else if(qadrant == 2 || qadrant == 4) {
-			return Math.toDegrees(Math.asin(Math.abs(rotationPoint[1]-y)/distance)) + (qadrant-1)*90;
-		} else {
-			System.out.println("getAngle chyba");
-			return 0;
+		if (currentAngle < 180) {
+			qadrant = 2;
 		}
+		if (currentAngle < 90) {
+			qadrant = 1;
+		}
+		if(currentAngle > 360) {
+			qadrant = 1;
+			currentAngle = currentAngle -360;
+		}
+		if(currentAngle < 0) {
+			qadrant = 4;
+			currentAngle = 360 + currentAngle;
+		}
+
+
 		
 	}
 	
-	private void updateQadrants() {
-		if(currentAngle - (qadrant-1) * 90 >= 0) {
-			qadrant++;
-		}
-		if(qadrant > 4) {
-			qadrant = 1;
-			currentAngle -= 360;
-		}
+	private double countSinusPoint() {
+
+		return   (distance * Math.cos(Math.toRadians((currentAngle - ((qadrant-1)*90)))));
 	}
 	
-	private int countSinusPoint() {
-		return   (int) Math.round((distance * Math.sin(currentAngle - (qadrant-1)*90)));
-	}
-	
-	private void getNewCoords(int[] rotationPoint) {
-	
+	private void getNewCoords(double[] ds) {
+
 		if (qadrant == 1) {
-			x = rotationPoint[0] + countSinusPoint();
-			y = rotationPoint[0] - (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
-		}else if (qadrant == 3) {
-			x = rotationPoint[0] - countSinusPoint();
-			y = rotationPoint[0] + (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
+			y = ds[1] - countSinusPoint();
+			x = ds[0] + (Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
 		}else if (qadrant == 2) {
-			y = rotationPoint[0] + countSinusPoint();
-			x = rotationPoint[0] + (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
+			x = ds[0] + countSinusPoint();
+			y = ds[1] + (Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
+		}else if (qadrant == 3) {
+			y = ds[1] + countSinusPoint();
+			x = ds[0] -  (Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
 		}else if (qadrant == 4) {
-			y = rotationPoint[0] - countSinusPoint();
-			x = rotationPoint[0] - (int) Math.round(Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
+			x = ds[0] - countSinusPoint();
+			y = ds[1] -  (Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
 		}
 			
 		
 	}
 	
 	
-	public void rotateCorner(int[] rotationPoint, int rotationAngle) {
+	public void rotateCorner(double[] ds, double rotationAngle) {
 		currentAngle += rotationAngle;
-		updateQadrants();
-		getNewCoords(rotationPoint);
+		updateQadrants(ds);
+		getNewCoords(ds);
+		
+
+
+
+
 		
 	
 	}
 	
-	public void moveCorner(int velX, int velY) {
+	public void moveCorner(double velX, double velY) {
 		x += velX;
 		y += velY;
 		
 	}
-	private int getPointDistance(int[] rotationPoint) {
-		int x = rotationPoint[0]-this.x;
-		int y = rotationPoint[1]-this.y;
-		return (int) Math.round(Math.sqrt(x*x + y*y));
+	private double getPointDistance(double[] rotationPoint) {
+		double x = rotationPoint[0]-this.x;
+		double y = rotationPoint[1]-this.y;
+		return Math.sqrt(x*x + y*y);
 		
 	}
 
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 
-	public void setX(int x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 
-	public void setY(int y) {
+	public void setY(double y) {
 		this.y = y;
+	}
+	
+	public int getQadrant() {
+		return qadrant;
+		
 	}
 	
 }

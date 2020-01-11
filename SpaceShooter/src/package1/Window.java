@@ -52,23 +52,22 @@ public class Window extends JFrame {
 		exit.setBounds(getWidth()/2-150,getHeight()/2,150,75);
 		add(exit);
 		//TEST
-		Corner peak = new Corner(new int[] {100,100}, new int[] {100,70});
-        Corner rightCorner = new Corner(new int[] {120,70}, new int[] {100,70});
-        Corner leftCorner = new Corner(new int[] {80,70}, new int[] {100,70});
-        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new int[] {100,70}, 1);
-        p.setVels(0, 100);
+		Corner peak = new Corner(new double[] {100,100}, new double[] {100,60});
+        Corner rightCorner = new Corner(new double[] {50,50}, new double[] {100,60});
+        Corner leftCorner = new Corner(new double[] {150,50}, new double[] {100,60});
+        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {100,60}, -4.333);
+        p.setVels(1, 1);
 		
 		
 	}
 	public void start() {
 		long lastTime = System.nanoTime();
-        double amountOfTicks = 120.0;
+        double amountOfTicks = 60;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
-        while(running)
-        {
+        while(running){
         	long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
@@ -77,16 +76,13 @@ public class Window extends JFrame {
                 tick();
                 delta--;
                 }
-                if(running) 
-                {
-                	render();
-                }
+                
                 frames++;
                             
                 if(System.currentTimeMillis() - timer > 1000)
                 {
                 	timer += 1000;
-                    System.out.println("FPS: "+ frames);
+               //   System.out.println("FPS: "+ frames);
                     frames = 0;
                     }
         }
@@ -97,9 +93,6 @@ public class Window extends JFrame {
 		}
 	}
 	public void render() {
-		//TEST
-		p.moveOb();
-	//	p.rotateOb();
 
 		bs = getBufferStrategy();
         if(bs == null) {
@@ -107,18 +100,27 @@ public class Window extends JFrame {
          return;
         }   
         g = bs.getDrawGraphics();
-      //TEST
+
         p.render(g);
-        g.clearRect(0,0,WIDTH,HEIGHT);
+        bs.show();
+        g.clearRect(0,0,getWidth(),getHeight());
 		g.setColor(Color.BLUE);
-		bs.show();
+		
 		g.dispose();
+		
+
+		
+
 		
 			
 
 	}
 	public void tick() {
 		
+		render();
+    	p.moveOb();
+		p.rotateOb();
+        
 	}
 	public static void main(String[] args) {
 		new Window();

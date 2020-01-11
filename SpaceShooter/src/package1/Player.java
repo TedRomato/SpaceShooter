@@ -11,8 +11,8 @@ public class Player extends GameObject implements KeyListener{
 	private int maxSpeed;
 	private int currentSpeed = 0;
 	private int acceleration;
-	public Player(Corner[] corners, int[] rotationPoint, int rotationAngle) {
-		super(corners, rotationPoint, rotationAngle);
+	public Player(Corner[] corners, double[] rotationPoint, double d) {
+		super(corners, rotationPoint, d);
 	}
 	
 	
@@ -39,6 +39,7 @@ public class Player extends GameObject implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getKeyChar() == moveChar) {
+			System.out.println("pressed");
 			forward = true;
 			
 		}

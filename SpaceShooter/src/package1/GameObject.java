@@ -4,22 +4,25 @@ import java.awt.Graphics;
 
 public class GameObject {
 	private Corner[] corners;
-	private int[] rotationPoint;
-	private int rotationAngle;
-	private int velX, velY;
+	private double[] rotationPoint;
+	private double rotationAngle;
+	private double velX;
+	private double velY;
 	
 	
-	public GameObject(Corner[] corners, int[] rotationPoint, int rotationAngle) {
+	public GameObject(Corner[] corners, double[] rotationPoint2, double rotationAngle) {
 		this.corners = corners;
-		if(rotationPoint.length != 2) {
+		if(rotationPoint2.length != 2) {
 			System.out.println("Rotation point wrong coords in constructor");
 		}
 		
-		this.setRotationPoint(rotationPoint);
+		this.setRotationPoint(rotationPoint2);
 		this.rotationAngle = rotationAngle;
 
 	}
 	
+
+
 	public void rotateOb() {
 		for(Corner corner : corners) {
 			corner.rotateCorner(getRotationPoint(), rotationAngle);
@@ -39,42 +42,47 @@ public class GameObject {
 		this.setVelY(velY);
 	}
 
-	public int[] getRotationPoint() {
+	public double[] getRotationPoint() {
 		return rotationPoint;
 	}
 
-	public void setRotationPoint(int[] rotationPoint) {
-		this.rotationPoint = rotationPoint;
+	public void setRotationPoint(double[] rotationPoint2) {
+		this.rotationPoint = rotationPoint2;
 	}
 
-	public int getVelY() {
+	public double getVelY() {
 		return velY;
 	}
 
-	public void setVelY(int velY) {
+	public void setVelY(double velY) {
 		this.velY = velY;
 	}
-	public int getVelX() {
+	public double getVelX() {
 		return velX;
 	}
 
-	public void setVelX(int velX) {
+	public void setVelX(double velX) {
 		this.velX = velX;
 	}
 	
-	public int getRotationAngle() {
+	public double getRotationAngle() {
 		return rotationAngle;
 	}
-	public void setRotationAngle(int rotationAngle) {
-		this.rotationAngle = rotationAngle;
+	public void setRotationAngle(double d) {
+		this.rotationAngle = d;
+	}
+	
+	public Corner[] getCorners() {
+		return corners;
+		
 	}
 	public void render(Graphics g) {
 		for(int i = 0;i<corners.length;i++) {
 			if(i<corners.length-1) {
-				g.drawLine(corners[i].getX(), corners[i].getY(), corners[i+1].getX(), corners[i+1].getY());
+				g.drawLine((int) Math.round(corners[i].getX()),(int) Math.round(corners[i].getY()),(int) Math.round(corners[i+1].getX()),(int) Math.round(corners[i+1].getY()));
 			}
 			else {
-				g.drawLine(corners[i].getX(), corners[i].getY(), corners[0].getX(), corners[0].getY());
+				g.drawLine((int) Math.round(corners[i].getX()),(int) Math.round(corners[i].getY()),(int) Math.round(corners[0].getX()),(int) Math.round(corners[0].getY()));
 			}
 		}
 	
