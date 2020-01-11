@@ -28,36 +28,37 @@ public class Window extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		setLayout(null);
+		addKeyListener(new Keys());
 		
-		JButton start = new JButton("START");
-		start.addActionListener(new ActionListener() {
+		//JButton start = new JButton("START");
+		//start.addActionListener(new ActionListener() {
 			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				start();
-			}
-		});
-		start.setBounds(getWidth()/2-150,getHeight()/2-75, 150, 75);
-		add(start);
-		
-		JButton exit = new JButton("EXIT");
-		exit.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose();
+			//@Override
+			//public void actionPerformed(ActionEvent e) {
 				
-			}
-		});
-		exit.setBounds(getWidth()/2-150,getHeight()/2,150,75);
-		add(exit);
+			//}
+		//});
+		//start.setBounds(getWidth()/2-150,getHeight()/2-75, 150, 75);
+		//add(start);
+		
+		//JButton exit = new JButton("EXIT");
+		//exit.addActionListener(new ActionListener() {
+			
+			//@Override
+			//public void actionPerformed(ActionEvent e) {
+				//dispose();
+				
+			//}
+		//});
+		//exit.setBounds(getWidth()/2-150,getHeight()/2,150,75);
+		//add(exit);
 		//TEST
 		Corner peak = new Corner(new double[] {100,100}, new double[] {100,60});
         Corner rightCorner = new Corner(new double[] {50,50}, new double[] {100,60});
         Corner leftCorner = new Corner(new double[] {150,50}, new double[] {100,60});
         p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {100,60}, -4.333);
         p.setVels(1, 1);
-		
+        start();
 		
 	}
 	public void start() {
