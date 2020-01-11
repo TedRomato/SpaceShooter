@@ -20,7 +20,7 @@ public class Corner {
 
 	}
 	
-	private int getQadrant(double[] rotationPoint) {
+	public int getQadrant(double[] rotationPoint) {
 		if(x == rotationPoint[0] || y == rotationPoint[1]) {
 			return 0;
 		}

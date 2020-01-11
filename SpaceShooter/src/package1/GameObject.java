@@ -30,6 +30,7 @@ public class GameObject {
 	}
 	
 	public void moveOb() {
+		System.out.println();
 		for(Corner corner : corners) {
 			corner.moveCorner(getVelX(),getVelY());
 		}
