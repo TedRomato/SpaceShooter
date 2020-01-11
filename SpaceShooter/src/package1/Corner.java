@@ -43,21 +43,24 @@ public class Corner {
 		double x = 0;
 		double y = 0;
 		if (qadrant == 1) {
-			x = countSinusPoint();
-			y =  - Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint());
-		}else if (qadrant == 3) {
-			x =  - countSinusPoint();
-			y = Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint());
+			y = Math.abs(countSinusPoint());
+			x = Math.abs((Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint())));
 		}else if (qadrant == 2) {
-			y =  countSinusPoint();
-			x =  Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint());
+			x = Math.abs(countSinusPoint());
+			y = Math.abs((Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint())));
+		}else if (qadrant == 3) {
+			y = Math.abs(countSinusPoint());
+			x = Math.abs((Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint())));
 		}else if (qadrant == 4) {
-			y = - countSinusPoint();
-			x = - Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint());
+			x = Math.abs(countSinusPoint());
+			y = Math.abs((Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint())));
 		}
-		if(Math.abs(y) < 1) {
-			return 1;
+		if(y == 0) {
+			return Double.POSITIVE_INFINITY;
+		} if(x == 0) {
+			return 0;
 		}
+		
 		return x/y;
 	
 	}

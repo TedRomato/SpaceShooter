@@ -79,7 +79,6 @@ public class GameObject {
 	public void render(Graphics g) {
 		for(int i = 0;i<corners.length;i++) {
 			if(i<corners.length-1) {
-				System.out.println((int) Math.round(corners[i].getX()) + " " + (int) Math.round(corners[i].getY()) + " " +(int) Math.round(corners[i+1].getX()) + " " + (int) Math.round(corners[i+1].getY()));
 				g.drawLine((int) Math.round(corners[i].getX()),(int) Math.round(corners[i].getY()),(int) Math.round(corners[i+1].getX()),(int) Math.round(corners[i+1].getY()));
 			}
 			else {
