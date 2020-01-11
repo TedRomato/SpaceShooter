@@ -35,22 +35,17 @@ public class Window extends JFrame implements KeyListener{
 		/*
 		JButton start = new JButton("START");
 		start.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				start();
-			}
-		});
-		start.setBounds(getWidth()/2-150,getHeight()/2-75, 150, 75);
-		add(start);
+=======
+		addKeyListener(new Keys());
 		
-		JButton exit = new JButton("EXIT");
-		exit.addActionListener(new ActionListener() {
+		//JButton start = new JButton("START");
+		//start.addActionListener(new ActionListener() {
+>>>>>>> 391842c Keys
 			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose();
+			//@Override
+			//public void actionPerformed(ActionEvent e) {
 				
+<<<<<<< Upstream, based on origin/master
 			}
 		});
 		exit.setBounds(getWidth()/2-150,getHeight()/2,150,75);
@@ -85,6 +80,7 @@ public class Window extends JFrame implements KeyListener{
         pes = new Meteor(new Corner[] {top, left, bot, right},new double[] {200,250}, 0.5, new Corner(new double[] {250,300}, new double[] {200,250}), -0.2, 1);
         start();
 		
+
 		
 	}
 	public void start() {
