@@ -52,17 +52,17 @@ public class Window extends JFrame {
 		exit.setBounds(getWidth()/2-150,getHeight()/2,150,75);
 		add(exit);
 		//TEST
-		Corner peak = new Corner(new double[] {100,100}, new double[] {100,60});
-        Corner rightCorner = new Corner(new double[] {50,50}, new double[] {100,60});
-        Corner leftCorner = new Corner(new double[] {150,50}, new double[] {100,60});
-        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {100,60}, -4.333);
-        p.setVels(1, 1);
+		Corner peak = new Corner(new double[] {200,200}, new double[] {175,175});
+        Corner rightCorner = new Corner(new double[] {150,200}, new double[] {175,175});
+        Corner leftCorner = new Corner(new double[] {200,150}, new double[] {175,175});
+        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {175,175}, 1, new Corner(new double[] {200,200}, new double[] {175,175}));
+        p.setVels(0, 0);
 		
 		
 	}
 	public void start() {
 		long lastTime = System.nanoTime();
-        double amountOfTicks = 60;
+        double amountOfTicks = 120;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -71,6 +71,7 @@ public class Window extends JFrame {
         	long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
+            render();
             while(delta >=1)
             	{
                 tick();
@@ -82,7 +83,7 @@ public class Window extends JFrame {
                 if(System.currentTimeMillis() - timer > 1000)
                 {
                 	timer += 1000;
-               //   System.out.println("FPS: "+ frames);
+            //      System.out.println("FPS: "+ frames);
                     frames = 0;
                     }
         }
@@ -115,12 +116,11 @@ public class Window extends JFrame {
 			
 
 	}
-	public void tick() {
-		
-		render();
-    	p.moveOb();
+	public void tick() {		
+		p.moveOb();
 		p.rotateOb();
-        
+    	p.updatePlayer();
+
 	}
 	public static void main(String[] args) {
 		new Window();
