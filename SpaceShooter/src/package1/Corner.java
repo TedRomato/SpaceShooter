@@ -144,6 +144,7 @@ public class Corner {
 		currentAngle += rotationAngle;
 		updateQadrants(ds);
 		getNewCoords(ds);
+		
 
 
 

@@ -6,7 +6,8 @@ public class GameObject {
 	private Corner[] corners;
 	private double[] rotationPoint;
 	private double rotationAngle;
-	private int velX, velY;
+	private double velX;
+	private double velY;
 	
 	
 	public GameObject(Corner[] corners, double[] rotationPoint2, double rotationAngle) {
@@ -49,18 +50,18 @@ public class GameObject {
 		this.rotationPoint = rotationPoint2;
 	}
 
-	public int getVelY() {
+	public double getVelY() {
 		return velY;
 	}
 
-	public void setVelY(int velY) {
+	public void setVelY(double velY) {
 		this.velY = velY;
 	}
-	public int getVelX() {
+	public double getVelX() {
 		return velX;
 	}
 
-	public void setVelX(int velX) {
+	public void setVelX(double velX) {
 		this.velX = velX;
 	}
 	
@@ -78,6 +79,7 @@ public class GameObject {
 	public void render(Graphics g) {
 		for(int i = 0;i<corners.length;i++) {
 			if(i<corners.length-1) {
+				System.out.println((int) Math.round(corners[i].getX()) + " " + (int) Math.round(corners[i].getY()) + " " +(int) Math.round(corners[i+1].getX()) + " " + (int) Math.round(corners[i+1].getY()));
 				g.drawLine((int) Math.round(corners[i].getX()),(int) Math.round(corners[i].getY()),(int) Math.round(corners[i+1].getX()),(int) Math.round(corners[i+1].getY()));
 			}
 			else {
