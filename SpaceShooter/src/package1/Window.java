@@ -1,16 +1,19 @@
 package package1;
 
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class Window extends JFrame {
+public class Window extends JFrame implements KeyListener{
 	private JButton exit, start;
 	private boolean running = true;
 	private Graphics g;
@@ -28,7 +31,8 @@ public class Window extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		setLayout(null);
-		
+		addKeyListener(this);
+		/*
 		JButton start = new JButton("START");
 		start.addActionListener(new ActionListener() {
 			
@@ -50,19 +54,21 @@ public class Window extends JFrame {
 			}
 		});
 		exit.setBounds(getWidth()/2-150,getHeight()/2,150,75);
-		add(exit);
+		add(exit);*/
+		
 		//TEST
-		Corner peak = new Corner(new double[] {200,200}, new double[] {175,175});
-        Corner rightCorner = new Corner(new double[] {150,200}, new double[] {175,175});
-        Corner leftCorner = new Corner(new double[] {200,150}, new double[] {175,175});
-        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {175,175}, 1, new Corner(new double[] {200,200}, new double[] {175,175}));
+		Corner peak = new Corner(new double[] {300,300}, new double[] {300,275});
+        Corner rightCorner = new Corner(new double[] {275,250}, new double[] {300,275});
+        Corner leftCorner = new Corner(new double[] {325,250}, new double[] {300,275});
+        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {300,275}, -2, new Corner(new double[] {300,300}, new double[] {300,275}));
         p.setVels(0, 0);
+        start();
 		
 		
 	}
 	public void start() {
 		long lastTime = System.nanoTime();
-        double amountOfTicks = 120;
+        double amountOfTicks =120;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -117,13 +123,29 @@ public class Window extends JFrame {
 
 	}
 	public void tick() {		
-		p.moveOb();
-		p.rotateOb();
-    	p.updatePlayer();
+    	p.updatePlayer(); 
+    	
 
 	}
 	public static void main(String[] args) {
 		new Window();
+	}
+	@
+	Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+		p.keyPressed(e);
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		p.keyReleased(e);
 	}
 	
 }

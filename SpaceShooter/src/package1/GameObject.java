@@ -20,6 +20,18 @@ public class GameObject {
 		this.rotationAngle = rotationAngle;
 
 	}
+	public void checkCollision(GameObject go) {
+		
+	}
+	
+	
+	
+	private double[] getAB(Corner one, Corner two) {
+		double a,b;
+		a = (one.getY()-two.getY())/(one.getX()-two.getX()); 
+		b = one.getY() - a*one.getX();
+		return new double[] {a,b};
+	}
 	
 
 
