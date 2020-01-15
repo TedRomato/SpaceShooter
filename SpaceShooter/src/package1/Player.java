@@ -4,11 +4,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Player extends GameObject implements KeyListener{
-	private boolean forward = true, turnRight = false, turnLeft = false;
+	private boolean forward = false, turnRight = false, turnLeft = false;
 	char moveChar = 'w', turnLeftChar = 'a', turnRightChar = 'd';
 	private Corner moveDirection;
 	private double xyRatio;
-	private double maxSpeed = 2;
+	private double maxSpeed = 4 ;
 	private double currentSpeed = 0;
 	private double acceleration = maxSpeed/100;
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
@@ -19,9 +19,24 @@ public class Player extends GameObject implements KeyListener{
 	
 	public void updatePlayer() {
 		updateSpeed();
-		getNewRatios();
-		setNewVels();
-		System.out.println(getVelX() + " " + getVelY());
+		moveOb();
+		if(turnRight || turnLeft) {
+			rotateOb();
+		}
+		if(forward) {
+			getNewRatios();
+			setNewVels();
+		}
+		
+	
+	}
+	
+	private void updateRotation() {
+		if(turnRight) {
+			makePositiveRotation();
+		} else if(turnLeft) {
+			makeNegativeRotation();
+		}
 	}
 	
 	public void rotateOb() {
@@ -81,6 +96,13 @@ public class Player extends GameObject implements KeyListener{
 		}
 		if(currentSpeed > maxSpeed) {
 			currentSpeed = maxSpeed;
+		}if(forward != true && currentSpeed > 0 - acceleration) {
+			currentSpeed -= acceleration;
+			if(currentSpeed < 0) {
+				currentSpeed = 0;
+			}
+			getNewRatios();
+			setNewVels();
 		}
 	}
 	@Override

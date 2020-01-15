@@ -20,6 +20,14 @@ public class Corner {
 
 	}
 	
+	public boolean checkIfUnder(double a, double b) {
+		if (a*getX()+b < getY()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public int getQadrant(double[] rotationPoint) {
 		if(x == rotationPoint[0] || y == rotationPoint[1]) {
 			return 0;
