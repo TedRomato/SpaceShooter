@@ -6,6 +6,5 @@ import java.awt.event.KeyListener;
 
 public class Game{
 
-	
 
 }

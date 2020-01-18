@@ -21,6 +21,58 @@ public class GameObject {
 
 	}
 	
+	//p = peak, rc, lc pes = leftTop, mid, rightBot
+	public boolean checkCollision(GameObject go) {
+		boolean isCollision = false;
+		double[] ab;
+		System.out.println("Checking new collision");
+		for(Corner checkedCorner : corners) {
+			System.out.println("Checking new corner");
+			for(int i = 0; i < go.getCorners().length; i++) {
+				System.out.println("corner num " + i);
+				if(i == go.getCorners().length-1) {
+					if(checkedCorner.getX() > go.getCorners()[i].getX() && checkedCorner.getX() < go.getCorners()[0].getX() || checkedCorner.getX() < go.getCorners()[i].getX() && checkedCorner.getX() > go.getCorners()[0].getX() ) {
+						ab = getAB(go.getCorners()[i],go.getCorners()[0]);
+						isCollision = changeBooleanCollision(isCollision,checkedCorner.checkIfUnder(ab[0], ab[1]));
+						
+					} 
+				}else {
+					if(checkedCorner.getX() > go.getCorners()[i+1].getX() && checkedCorner.getX() < go.getCorners()[i].getX() || checkedCorner.getX() < go.getCorners()[i+1].getX() && checkedCorner.getX() > go.getCorners()[i].getX() ) {
+						ab = getAB(go.getCorners()[i],go.getCorners()[i+1]);
+						isCollision = changeBooleanCollision(isCollision,checkedCorner.checkIfUnder(ab[0], ab[1]));
+					}
+				}
+				System.out.println(isCollision);
+			}
+			if(isCollision) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean changeBooleanCollision(boolean b, boolean newB) {
+		if(newB == false) {
+			return b;
+		}
+		if(b == true && newB == true) {
+			return false;
+		}
+		//if(b == false && newB == true)
+		else{
+			return true;
+		}
+	}
+	
+	
+	
+	private double[] getAB(Corner one, Corner two) {
+		double a,b;
+		a = (one.getY()-two.getY())/(one.getX()-two.getX()); 
+		b = one.getY() - a*one.getX();
+		return new double[] {a,b};
+	}
+	
 
 
 	public void rotateOb() {
@@ -30,7 +82,7 @@ public class GameObject {
 	}
 	
 	public void moveOb() {
-		System.out.println();
+		
 		for(Corner corner : corners) {
 			corner.moveCorner(getVelX(),getVelY());
 		}
