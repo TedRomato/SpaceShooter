@@ -163,13 +163,15 @@ public class Corner {
 		currentAngle += rotationAngle;
 		updateQadrants(ds);
 		getNewCoords(ds);
-		
-
-
-
-
-		
 	
+	}
+	
+	private boolean checkIfYIsSmaller(double a, double b) {
+		if(a*getX() + b > y) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	public void moveCorner(double velX, double velY) {

@@ -16,7 +16,7 @@ public class Player extends GameObject implements KeyListener{
 	private double acceleration = maxSpeed/100;
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d);
-		// CHYBA JE V MD PREPISUJE SE ZAKLAD VSECH CORNERU KTERE JSIU ODVOZENE Z MD 
+		
 		moveDirection = new Corner(md, rotationPoint);
 		movePoint = new Corner(md, rotationPoint);
 		getNewRatios();	
@@ -123,6 +123,7 @@ public class Player extends GameObject implements KeyListener{
 	}
 	
 	private void updateMovePoint() {
+		// CHYBA kdyz zkousim get x a get y prepisovat do setru Direction tak to nefunguje :(
 		if(forward) {
 			moveDirection = new Corner(movePoint, getRotationPoint());
 		}
@@ -211,6 +212,7 @@ public class Player extends GameObject implements KeyListener{
 		g.fillRect((int) Math.round(getRotationPoint()[0]),(int) Math.round(getRotationPoint()[1]), 9, 9);
 		g.setColor(Color.BLUE);
 		g.fillRect((int) Math.round(movePoint.getX()),(int) Math.round(movePoint.getY()), 8, 8);
+		g.setColor(Color.BLACK);
 	}
 		
 	
