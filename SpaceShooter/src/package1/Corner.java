@@ -17,7 +17,6 @@ public class Corner {
 		qadrant = getQadrant(rotationPoint);
 
 		currentAngle = getAngle(rotationPoint);
-
 	}
 	
 	public boolean checkIfUnder(double a, double b) {
@@ -63,10 +62,19 @@ public class Corner {
 			x = Math.abs(countSinusPoint());
 			y = Math.abs((Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint())));
 		}
-		if(y == 0) {
-			return Double.POSITIVE_INFINITY;
-		} if(x == 0) {
-			return 0;
+		if(x == 0 && y == 0) {
+			if(y != ds[1]) {
+				return 0;
+			}else {
+				return Double.POSITIVE_INFINITY;
+			}
+		}
+		else {
+			if(y == 0) {
+				return Double.POSITIVE_INFINITY;
+			} if(x == 0) {
+				return 0;
+			}
 		}
 		
 		return x/y;
@@ -195,6 +203,15 @@ public class Corner {
 	public int getQadrant() {
 		return qadrant;
 		
+	}
+	//IMPORTANT
+
+	public Corner(Corner c, double[] rp) {
+		this.x = c.getX();
+		this.y = c.getY();
+		this.currentAngle = c.getAngle(rp);
+		this.qadrant = c.getQadrant();
+		this.distance= c.getPointDistance(rp);
 	}
 	
 }

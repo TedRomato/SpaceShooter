@@ -1,5 +1,7 @@
 package package1;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -7,25 +9,38 @@ public class Player extends GameObject implements KeyListener{
 	private boolean forward = false, turnRight = false, turnLeft = false;
 	char moveChar = 'w', turnLeftChar = 'a', turnRightChar = 'd';
 	private Corner moveDirection;
+	private Corner movePoint;
 	private double xyRatio;
 	private double maxSpeed = 4 ;
 	private double currentSpeed = 0;
 	private double acceleration = maxSpeed/100;
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d);
-		moveDirection = md;
+		// CHYBA JE V MD PREPISUJE SE ZAKLAD VSECH CORNERU KTERE JSIU ODVOZENE Z MD 
+		moveDirection = new Corner(md, rotationPoint);
+		movePoint = new Corner(md, rotationPoint);
+		getNewRatios();	
+
 	}
 	
 	
 	public void updatePlayer() {
+		
+		updateMovePoint();
+		
 		updateSpeed();
+
 		moveOb();
+
 		if(turnRight || turnLeft) {
 			rotateOb();
+
 		}
 		if(forward) {
 			getNewRatios();
+
 			setNewVels();
+
 		}
 		
 	
@@ -43,7 +58,7 @@ public class Player extends GameObject implements KeyListener{
 		for(Corner corner : getCorners()) {
 			corner.rotateCorner(getRotationPoint(), getRotationAngle());
 		}
-		moveDirection.rotateCorner(getRotationPoint(), getRotationAngle());	
+		movePoint.rotateCorner(getRotationPoint(), getRotationAngle());	
 		}
 	
 	public void moveOb() {
@@ -52,8 +67,12 @@ public class Player extends GameObject implements KeyListener{
 		}
 		getRotationPoint()[0] += getVelX();
 		getRotationPoint()[1] += getVelY();
+
+
+		movePoint.moveCorner(getVelX(),getVelY());
 		moveDirection.moveCorner(getVelX(),getVelY());
-		
+
+	
 	}
 	
 	
@@ -64,13 +83,16 @@ public class Player extends GameObject implements KeyListener{
 	} 
 	
 	private void setNewVels() {
-		if(xyRatio == Double.POSITIVE_INFINITY) {
+		
+		if(xyRatio == 0) {
 			setVelY(currentSpeed);
 			setVelX(0);
+			setStraightVectorY();
 		}
-		else if(xyRatio == 0) {
+		else if(xyRatio == Double.POSITIVE_INFINITY) {
 			setVelY(0);
 			setVelX(currentSpeed);
+			setStraightVectorX();
 		}
 		else {
 			if(moveDirection.getQadrant() == 2 || moveDirection.getQadrant() == 3) {
@@ -88,6 +110,22 @@ public class Player extends GameObject implements KeyListener{
 			
 		}
 		
+	}private void setStraightVectorX(){
+		if(moveDirection.getX() < getRotationPoint()[0]) {
+			setVelX(-currentSpeed);
+		}
+		
+	}
+	private void setStraightVectorY(){
+		if(moveDirection.getY() < getRotationPoint()[0]) {
+			setVelY(-currentSpeed);
+		}
+	}
+	
+	private void updateMovePoint() {
+		if(forward) {
+			moveDirection = new Corner(movePoint, getRotationPoint());
+		}
 	}
 	
 	public void updateSpeed() {
@@ -157,6 +195,22 @@ public class Player extends GameObject implements KeyListener{
 	}
 	private void makeNegativeRotation() {
 		setRotationAngle(-Math.abs(getRotationAngle()));
+	}
+	public void render(Graphics g) {
+		for(int i = 0;i<getCorners().length;i++) {
+			if(i<getCorners().length-1) {
+				g.drawLine((int) Math.round(getCorners()[i].getX()),(int) Math.round(getCorners()[i].getY()),(int) Math.round(getCorners()[i+1].getX()),(int) Math.round(getCorners()[i+1].getY()));
+			}
+			else {
+				g.drawLine((int) Math.round(getCorners()[i].getX()),(int) Math.round(getCorners()[i].getY()),(int) Math.round(getCorners()[0].getX()),(int) Math.round(getCorners()[0].getY()));
+			}
+		}
+		g.setColor(Color.red);
+		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
+		g.setColor(Color.darkGray);
+		g.fillRect((int) Math.round(getRotationPoint()[0]),(int) Math.round(getRotationPoint()[1]), 9, 9);
+		g.setColor(Color.BLUE);
+		g.fillRect((int) Math.round(movePoint.getX()),(int) Math.round(movePoint.getY()), 8, 8);
 	}
 		
 	
