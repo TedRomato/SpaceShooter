@@ -20,7 +20,7 @@ public class Window extends JFrame implements KeyListener{
 	private BufferStrategy bs;
 	private Player p;
 	private Corner[] corners = new Corner[3];
-	private GameObject GO;
+	private GameObject pes;
 	public Window() {
 		super("EPIC TITLE");
 		//setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -62,6 +62,11 @@ public class Window extends JFrame implements KeyListener{
         Corner leftCorner = new Corner(new double[] {325,250}, new double[] {300,275});
         p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {300,275}, -2, new Corner(new double[] {300,300}, new double[] {300,275}));
         p.setVels(0, 0);
+        
+        Corner leftTop = new Corner(new double[] {100,100}, new double[] {300,275});
+        Corner mid = new Corner(new double[] {175,150}, new double[] {300,275});
+        Corner rightBot = new Corner(new double[] {225,250}, new double[] {300,275});
+        pes = new GameObject(new Corner[] {leftTop, mid,rightBot},new double[] {300,275}, -2);
         start();
 		
 		
@@ -109,6 +114,7 @@ public class Window extends JFrame implements KeyListener{
         g = bs.getDrawGraphics();
 
         p.render(g);
+        pes.render(g);
         bs.show();
         g.clearRect(0,0,getWidth(),getHeight());
 		g.setColor(Color.BLUE);
@@ -124,6 +130,7 @@ public class Window extends JFrame implements KeyListener{
 	}
 	public void tick() {		
     	p.updatePlayer(); 
+    	System.out.println(p.checkCollision(pes) + "  collision");
     	
 
 	}
