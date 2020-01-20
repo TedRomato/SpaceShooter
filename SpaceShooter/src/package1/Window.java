@@ -129,7 +129,7 @@ public class Window extends JFrame implements KeyListener{
 
 	}
 	public void tick() {		
-    	p.updatePlayer(); 
+    	p.updateLivingOb(); 
     	System.out.println(p.checkCollision(pes) + "  collision");
     	
 
