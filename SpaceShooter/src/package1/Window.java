@@ -60,13 +60,14 @@ public class Window extends JFrame implements KeyListener{
 		Corner peak = new Corner(new double[] {300,300}, new double[] {300,275});
         Corner rightCorner = new Corner(new double[] {275,250}, new double[] {300,275});
         Corner leftCorner = new Corner(new double[] {325,250}, new double[] {300,275});
-        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {300,275}, -2, new Corner(new double[] {300,300}, new double[] {300,275}));
+        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {300,275}, 2, new Corner(new double[] {300,300}, new double[] {300,275}));
         p.setVels(0, 0);
         
         Corner leftTop = new Corner(new double[] {100,100}, new double[] {300,275});
-        Corner mid = new Corner(new double[] {175,150}, new double[] {300,275});
-        Corner rightBot = new Corner(new double[] {225,250}, new double[] {300,275});
-        pes = new GameObject(new Corner[] {leftTop, mid,rightBot},new double[] {300,275}, -2);
+        Corner leftBot = new Corner(new double[] {100,200}, new double[] {300,275});
+  //      Corner rightBot = new Corner(new double[] {225,200}, new double[] {300,275});
+        Corner rightTop = new Corner(new double[] {225,100}, new double[] {300,275});
+        pes = new GameObject(new Corner[] {leftTop, rightTop,leftBot},new double[] {300,275}, -2);
         start();
 		
 		
@@ -130,7 +131,16 @@ public class Window extends JFrame implements KeyListener{
 	}
 	public void tick() {		
     	p.updateLivingOb(); 
-    	System.out.println(p.checkCollision(pes) + "  collision");
+    //	System.out.println(p.checkCollision(pes) + "  collision");
+    	p.updateReflection();
+    	if(p.getCrossedLineCorners(pes) != null && p.getCrossedLineCorners(pes).length >= 2) {
+    		System.out.println("CORNERS : "+p.getCrossedLineCorners(pes)[0].getX() +" : "+  p.getCrossedLineCorners(pes)[0].getY()  +"    "+  p.getCrossedLineCorners(pes)[1].getX()  +" : "+  p.getCrossedLineCorners(pes)[1].getY());
+    		p.reflect(p.getCrossedLineCorners(pes)[0], p.getCrossedLineCorners(pes)[1]);
+    		
+    		
+    	}
+    	
+    	
     	
 
 	}

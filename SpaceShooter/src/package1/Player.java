@@ -18,8 +18,10 @@ public class Player extends LivingObject implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getKeyChar() == moveChar) {
-			System.out.println("pressed");
-			setForward(true);
+			if(getReflected() == false) {
+				setForward(true);
+			}
+			
 			
 		}
 		if(e.getKeyChar() == turnLeftChar) {
