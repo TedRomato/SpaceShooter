@@ -158,6 +158,8 @@ public class Corner {
 	}
 	
 	
+	
+	
 	public void rotateCorner(double[] ds, double rotationAngle) {
 		currentAngle += rotationAngle;
 		updateQadrants(ds);

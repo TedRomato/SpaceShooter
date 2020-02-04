@@ -12,7 +12,7 @@ public class LivingObject extends GameObject{
 	private Corner moveDirection;
 	private Corner movePoint;
 	private double xyRatio;
-	private double maxSpeed = 4 ;
+	private double maxSpeed = 5;
 	private double currentSpeed = 0;
 	private double acceleration = maxSpeed/100;
 	private boolean reflected = false;

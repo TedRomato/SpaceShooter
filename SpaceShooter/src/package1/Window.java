@@ -63,10 +63,10 @@ public class Window extends JFrame implements KeyListener{
         p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {300,275}, 2, new Corner(new double[] {300,300}, new double[] {300,275}));
         p.setVels(0, 0);
         
-        Corner leftTop = new Corner(new double[] {100,100}, new double[] {300,275});
-        Corner leftBot = new Corner(new double[] {100,200}, new double[] {300,275});
+        Corner leftTop = new Corner(new double[] {501,501}, new double[] {300,275});
+        Corner leftBot = new Corner(new double[] {500,510}, new double[] {300,275});
   //      Corner rightBot = new Corner(new double[] {225,200}, new double[] {300,275});
-        Corner rightTop = new Corner(new double[] {225,100}, new double[] {300,275});
+        Corner rightTop = new Corner(new double[] {610,500}, new double[] {300,275});
         pes = new GameObject(new Corner[] {leftTop, rightTop,leftBot},new double[] {300,275}, -2);
         start();
 		
