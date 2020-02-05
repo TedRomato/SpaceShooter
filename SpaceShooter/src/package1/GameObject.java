@@ -77,10 +77,12 @@ public class GameObject {
 	private Corner[] getCornerReflectedCorners(Corner collided, Corner one, Corner two) {
 		// TODO vyresit pro nekonecno a nulu
 		double[] collidedRP = new double[] {collided.getX(), collided.getY()};
-		double angleOne = one.getAngle(collidedRP);
-		double angleTwo = two.getAngle(collidedRP);
-		Corner newOne = getNewCorner(angleOne, collidedRP, one.getQadrant(collidedRP));
-		Corner newTwo = getNewCorner(angleTwo, collidedRP, two.getQadrant(collidedRP));
+		Corner one1 = new Corner(new double[] {one.getX(),one.getY()},collidedRP);
+		Corner two1 = new Corner(new double[] {two.getX(),two.getY()},collidedRP);
+		double angleOne = one1.getAngle(collidedRP);
+		double angleTwo = two1.getAngle(collidedRP);
+		Corner newOne = getNewCorner(angleOne, collidedRP, one1.getQadrant(collidedRP));
+		Corner newTwo = getNewCorner(angleTwo, collidedRP, two1.getQadrant(collidedRP));
 		return new Corner[] {newOne, newTwo};
 	}
 	
@@ -95,7 +97,7 @@ public class GameObject {
 	
 	
 	private double[] gNCSwitch(double angle,int quadrant) {
-		double distance = 10;
+		double distance = 300;
 		double y;
 		double x;
 		switch(quadrant) {
@@ -104,17 +106,27 @@ public class GameObject {
 				x = Math.sqrt(distance*distance - y*y);
 				return new double[] {x, -y};
 			case 2:
-				x = Math.cos(Math.toRadians(angle))*distance;
+				x = Math.cos(Math.toRadians(angle-90))*distance;
 				y = Math.sqrt(distance*distance - x*x);
 				return new double[] {x, y};
 			case 3: 
-				y = Math.cos(Math.toRadians(angle))*distance;
+				y = Math.cos(Math.toRadians(angle-180))*distance;
 				x = Math.sqrt(distance*distance - y*y);
 				return new double[] {-x, y};
 			case 4: 
-				x = Math.cos(Math.toRadians(angle))*distance;
+				x = Math.cos(Math.toRadians(angle-270))*distance;
 				y = Math.sqrt(distance*distance - x*x);
 				return new double[] {-x, -y};
+			case 0:
+				if(angle == 90) {
+					return new double[] {distance, 0};
+				} else if(angle == 270){
+					return new double[] {-distance, 0};
+				} else if(angle == 180){
+					return new double[] {0, distance};
+				} else if(angle == 0 || angle == 360){
+					return new double[] {0, -distance};
+				}
 		}
 		System.out.println("Chyba get new cords switch");
 		return null;
@@ -163,7 +175,6 @@ public class GameObject {
 			
 		}
 		corners = gettingNewCornerHandle(go.getCorners()[0],go.getCorners()[go.getCorners().length-1],getCorners()[0],getCorners()[getCorners().length-1], corners);
-		
 	/*	if(corners.length == 2) {
 			System.out.println("corne1 x: " + corners[0].getX() + "corner1 y: " + corners[0].getY());
 			System.out.println("corner2 x: " + corners[1].getX() +"corner2 y: " + corners[1].getY());
@@ -312,8 +323,7 @@ public class GameObject {
 				g.drawLine((int) Math.round(corners[i].getX()),(int) Math.round(corners[i].getY()),(int) Math.round(corners[0].getX()),(int) Math.round(corners[0].getY()));
 			}
 		}
-		//TODO opravit vytvareni novejch corneru + predelat kdy vytvarim novy cornery (hned jak crossuje dva najednou tak to musim resit jinak nez ted)
-	//	g.drawLine((int) Math.round(223.06435498642347), (int) Math.round(140.1891244844603 ), (int) Math.round(215.27783213757314), (int) Math.round(152.3408229439226));
+
 	
 	}
 

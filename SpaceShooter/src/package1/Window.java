@@ -63,18 +63,18 @@ public class Window extends JFrame implements KeyListener{
         p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {300,275}, 2, new Corner(new double[] {300,300}, new double[] {300,275}));
         p.setVels(0, 0);
         
-        Corner leftTop = new Corner(new double[] {501,501}, new double[] {300,275});
-        Corner leftBot = new Corner(new double[] {500,510}, new double[] {300,275});
-  //      Corner rightBot = new Corner(new double[] {225,200}, new double[] {300,275});
-        Corner rightTop = new Corner(new double[] {610,500}, new double[] {300,275});
-        pes = new GameObject(new Corner[] {leftTop, rightTop,leftBot},new double[] {300,275}, -2);
+        Corner leftTop = new Corner(new double[] {350,350}, new double[] {300,275});
+        Corner leftBot = new Corner(new double[] {350,450}, new double[] {300,275});
+        Corner rightBot = new Corner(new double[] {450,450}, new double[] {300,275});
+        Corner rightTop = new Corner(new double[] {450,350}, new double[] {300,275});
+        pes = new GameObject(new Corner[] {leftTop, rightTop,rightBot,leftBot},new double[] {300,275}, -2);
         start();
 		
 		
 	}
 	public void start() {
 		long lastTime = System.nanoTime();
-        double amountOfTicks =120;
+        double amountOfTicks =20;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -116,6 +116,9 @@ public class Window extends JFrame implements KeyListener{
 
         p.render(g);
         pes.render(g);
+        if(p.getCrossedLineCorners(pes).length == 2) {
+        	g.drawLine((int)Math.round(p.getCrossedLineCorners(pes)[0].getX()), (int)Math.round(p.getCrossedLineCorners(pes)[0].getY()), (int)Math.round(p.getCrossedLineCorners(pes)[1].getX()),(int)Math.round(p.getCrossedLineCorners(pes)[1].getY()));
+        }
         bs.show();
         g.clearRect(0,0,getWidth(),getHeight());
 		g.setColor(Color.BLUE);
@@ -134,7 +137,7 @@ public class Window extends JFrame implements KeyListener{
     //	System.out.println(p.checkCollision(pes) + "  collision");
     	p.updateReflection();
     	if(p.getCrossedLineCorners(pes) != null && p.getCrossedLineCorners(pes).length >= 2) {
-    		System.out.println("CORNERS : "+p.getCrossedLineCorners(pes)[0].getX() +" : "+  p.getCrossedLineCorners(pes)[0].getY()  +"    "+  p.getCrossedLineCorners(pes)[1].getX()  +" : "+  p.getCrossedLineCorners(pes)[1].getY());
+    		//System.out.println("CORNERS : "+p.getCrossedLineCorners(pes)[0].getX() +" : "+  p.getCrossedLineCorners(pes)[0].getY()  +"    "+  p.getCrossedLineCorners(pes)[1].getX()  +" : "+  p.getCrossedLineCorners(pes)[1].getY());
     		p.reflect(p.getCrossedLineCorners(pes)[0], p.getCrossedLineCorners(pes)[1]);
     		
     		

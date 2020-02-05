@@ -88,10 +88,10 @@ public class Corner {
 			return Math.toDegrees(Math.asin(Math.abs(rotationPoint[1]-y)/distance)) + (qadrant-1)*90;
 		} else {
 			if(x == rotationPoint[0]) {
-				if(y > rotationPoint[0]) {
-					return 0;
-				} else {
+				if(y > rotationPoint[1]) {
 					return 180;
+				} else {
+					return 0;
 				}
 			} else {
 				if(x > rotationPoint[0]) {

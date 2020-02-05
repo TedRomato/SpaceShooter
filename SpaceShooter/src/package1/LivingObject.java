@@ -61,9 +61,11 @@ public class LivingObject extends GameObject{
 	}
 	
 	public void reflect(Corner c1, Corner c2) {
+		//TODO udealt metodu ve ktere se spoji reflect a get crossed lines, jinak resit reflect pro corner odraz a line odraz :)
 		if(reflectedTimer >= 10 || reflectedTimer == 0) {
 			double rpx;
 			double rpy;
+			
 			if(getAB(moveDirection, new Corner(new double[] {getRotationPoint()[0],getRotationPoint()[1]}, new double[] {getRotationPoint()[0],getRotationPoint()[1]}))[0] == Double.NEGATIVE_INFINITY  || getAB(moveDirection, new Corner(new double[] {getRotationPoint()[0],getRotationPoint()[1]}, new double[] {getRotationPoint()[0],getRotationPoint()[1]}))[0] == Double.POSITIVE_INFINITY) {
 				rpx = moveDirection.getX();
 				rpy = rpx*getAB(c1, c2)[0] + getAB(c1, c2)[1];
@@ -71,7 +73,7 @@ public class LivingObject extends GameObject{
 				rpx = c1.getX();
 				rpy = rpx*getAB(moveDirection, new Corner(new double[] {getRotationPoint()[0],getRotationPoint()[1]}, new double[] {getRotationPoint()[0],getRotationPoint()[1]}))[0] + getAB(moveDirection, new Corner(new double[] {getRotationPoint()[0],getRotationPoint()[1]}, new double[] {getRotationPoint()[0],getRotationPoint()[1]}))[1];
 			}
-			
+
 			else {
 				rpx = getCrossedLineX(getAB(c1, c2), getAB(moveDirection, new Corner(new double[] {getRotationPoint()[0],getRotationPoint()[1]}, new double[] {getRotationPoint()[0],getRotationPoint()[1]})));
 				rpy = rpx*getAB(c1, c2)[0] + getAB(c1, c2)[1];
@@ -80,22 +82,26 @@ public class LivingObject extends GameObject{
 			double[] temprp = new double[] {rpx, rpy};
 			Corner co = new Corner(new double[] {c1.getX(),c1.getY()} , temprp );
 			Corner ct = new Corner(new double[] {c2.getX(),c2.getY()} , temprp );
-			double nmdAngle = getDifference(co, ct ,getRotationPoint()[0] , getRotationPoint()[1], temprp);
-		
+			//New Move Direction Angle
+			double nmdAngle = getNMDAngle(co, ct ,getRotationPoint()[0] , getRotationPoint()[1], temprp);
+			System.out.println(nmdAngle);
 			if(nmdAngle - moveDirection.getAngle(getRotationPoint()) < 0) {
 				moveDirection.rotateCorner(getRotationPoint(), -(moveDirection.getAngle(getRotationPoint())-nmdAngle));
 			} else {
 				moveDirection.rotateCorner(getRotationPoint(), nmdAngle - moveDirection.getAngle(getRotationPoint()));
 			}
-			
-			getNewRatios();
-			setCurrentSpeed(maxSpeed);
-			setNewVels();
-			forward = false;
-			reflected = true;
+		
+			updateAfterReflect();
 		}
-		
-		
+			
+	}
+	
+	private void updateAfterReflect() {
+		getNewRatios();
+		setCurrentSpeed(maxSpeed);
+		setNewVels();
+		forward = false;
+		reflected = true;
 	}
 	
 	
@@ -110,7 +116,7 @@ public class LivingObject extends GameObject{
 	}
 	
 	
-	private double getDifference(Corner co, Corner ct ,double x , double y, double[] trp) {
+	private double getNMDAngle(Corner co, Corner ct ,double x , double y, double[] trp) {
 		double angleToRotate = 90;
 		switch(co.getQadrant()) {
 			case 1: 
