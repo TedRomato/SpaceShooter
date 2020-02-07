@@ -155,6 +155,7 @@ public class GameObject {
 	public Corner[] getCrossedLineCorners(GameObject go) {
 		Corner[] crossedCorner = checkIfAnyCornerCollision(go);
 		if(crossedCorner != null) {
+			//bacha jestli najizdis na vnitrni cornery
 			return getCornerReflectedCorners(crossedCorner[0], crossedCorner[1], crossedCorner[2]);
 		}
 		Corner[] corners = new Corner[] {};
@@ -275,7 +276,7 @@ public class GameObject {
 		getRotationPoint()[1] += getVelY();
 	}
 	
-	public void setVels(int velX, int velY) {
+	public void setVels(double velX, double velY) {
 		this.setVelX(velX);
 		this.setVelY(velY);
 	}

@@ -12,12 +12,12 @@ public class LivingObject extends GameObject{
 	private Corner moveDirection;
 	private Corner movePoint;
 	private double xyRatio;
-	private double maxSpeed = 5;
+	private double maxSpeed = 2.5;
 	private double currentSpeed = 0;
-	private double acceleration = maxSpeed/100;
+	private double acceleration = maxSpeed/200;
 	private boolean reflected = false;
 	private int reflectedTimer = 0;
-	private int reflectedLenght = 40;
+	private int reflectedLenght = 80;
 	public LivingObject(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d);
 		moveDirection = new Corner(md, rotationPoint);
@@ -60,8 +60,19 @@ public class LivingObject extends GameObject{
 	
 	}
 	
+	private double getTempRpX(Corner c1, Corner c2) {
+		double difference = Math.abs(c1.getX() - c2.getX());
+		if(c1.getX() > c2.getX()) {
+			return c2.getX() + difference/2;
+		} else if(c1.getX() < c2.getX()) {
+			return c1.getX() + difference/2;
+		}
+		
+		System.out.println("71 living ob returns null");
+		return (Double) null;
+	}
+	
 	public void reflect(Corner c1, Corner c2) {
-		//TODO udealt metodu ve ktere se spoji reflect a get crossed lines, jinak resit reflect pro corner odraz a line odraz :)
 		if(reflectedTimer >= 10 || reflectedTimer == 0) {
 			double rpx;
 			double rpy;
@@ -75,8 +86,13 @@ public class LivingObject extends GameObject{
 			}
 
 			else {
-				rpx = getCrossedLineX(getAB(c1, c2), getAB(moveDirection, new Corner(new double[] {getRotationPoint()[0],getRotationPoint()[1]}, new double[] {getRotationPoint()[0],getRotationPoint()[1]})));
+				
+				rpx = getTempRpX(c1, c2);
 				rpy = rpx*getAB(c1, c2)[0] + getAB(c1, c2)[1];
+				/*
+				rpx = getCrossedLineX(getAB(c1, c2), getAB(moveDirection, new Corner(new double[] {getRotationPoint()[0],getRotationPoint()[1]}, new double[] {getRotationPoint()[0],getRotationPoint()[1]})));
+				rpy = rpx*getAB(c1, c2)[0] + getAB(c1, c2)[1]; */
+				
 			}
 
 			double[] temprp = new double[] {rpx, rpy};
