@@ -60,20 +60,35 @@ public class Window extends JFrame implements KeyListener{
 		Corner peak = new Corner(new double[] {300,300}, new double[] {300,275});
         Corner rightCorner = new Corner(new double[] {275,250}, new double[] {300,275});
         Corner leftCorner = new Corner(new double[] {325,250}, new double[] {300,275});
-        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {300,275}, -2, new Corner(new double[] {300,300}, new double[] {300,275}));
+        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {300,275}, 1, new Corner(new double[] {300,300}, new double[] {300,275}));
         p.setVels(0, 0);
-        
-        Corner leftTop = new Corner(new double[] {100,100}, new double[] {300,275});
-        Corner mid = new Corner(new double[] {175,150}, new double[] {300,275});
-        Corner rightBot = new Corner(new double[] {225,250}, new double[] {300,275});
-        pes = new GameObject(new Corner[] {leftTop, mid,rightBot},new double[] {300,275}, -2);
+        //trojuhelnik s vnitrnim rohem
+        Corner top = new Corner(new double[] {200,200}, new double[] {200,250});
+        Corner left = new Corner(new double[] {150,250}, new double[] {200,250});
+        Corner right = new Corner(new double[] {250,250}, new double[] {200,250});
+        Corner bot = new Corner(new double[] {200,300}, new double[] {300,275});
+        //ctverec
+        /*
+        Corner leftTop = new Corner(new double[] {350,350}, new double[] {300,275});
+        Corner leftBot = new Corner(new double[] {350,450}, new double[] {300,275});
+        Corner rightBot = new Corner(new double[] {450,450}, new double[] {300,275});
+        Corner rightTop = new Corner(new double[] {450,350}, new double[] {300,275});
+        pes = new GameObject(new Corner[] {leftTop, rightTop,rightBot,leftBot},new double[] {300,275}, -2);
+        */
+        //kosoctverec
+     /*   Corner top = new Corner(new double[] {200,200}, new double[] {300,275});
+        Corner left = new Corner(new double[] {150,250}, new double[] {300,275});
+        Corner right = new Corner(new double[] {250,250}, new double[] {300,275});
+        Corner bot = new Corner(new double[] {200,300}, new double[] {300,275});*/
+        pes = new GameObject(new Corner[] {top, left, bot, right},new double[] {300,275}, -0.1);
+        pes.setVels(0.2, 0);
         start();
 		
 		
 	}
 	public void start() {
 		long lastTime = System.nanoTime();
-        double amountOfTicks =120;
+        double amountOfTicks = 240;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -115,6 +130,9 @@ public class Window extends JFrame implements KeyListener{
 
         p.render(g);
         pes.render(g);
+        if(p.getCrossedLineCorners(pes).length == 2) {
+        	g.drawLine((int)Math.round(p.getCrossedLineCorners(pes)[0].getX()), (int)Math.round(p.getCrossedLineCorners(pes)[0].getY()), (int)Math.round(p.getCrossedLineCorners(pes)[1].getX()),(int)Math.round(p.getCrossedLineCorners(pes)[1].getY()));
+        }
         bs.show();
         g.clearRect(0,0,getWidth(),getHeight());
 		g.setColor(Color.BLUE);
@@ -130,7 +148,18 @@ public class Window extends JFrame implements KeyListener{
 	}
 	public void tick() {		
     	p.updateLivingOb(); 
-    	System.out.println(p.checkCollision(pes) + "  collision");
+    //	System.out.println(p.checkCollision(pes) + "  collision");
+    	p.updateReflection();
+    	pes.rotateOb();
+    	pes.moveOb();
+    	if(p.getCrossedLineCorners(pes) != null && p.getCrossedLineCorners(pes).length >= 2) {
+    		//System.out.println("CORNERS : "+p.getCrossedLineCorners(pes)[0].getX() +" : "+  p.getCrossedLineCorners(pes)[0].getY()  +"    "+  p.getCrossedLineCorners(pes)[1].getX()  +" : "+  p.getCrossedLineCorners(pes)[1].getY());
+    		p.reflect(p.getCrossedLineCorners(pes)[0], p.getCrossedLineCorners(pes)[1]);
+    		
+    		
+    	}
+    	
+    	
     	
 
 	}
