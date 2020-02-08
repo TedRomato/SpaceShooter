@@ -20,7 +20,7 @@ public class Window extends JFrame implements KeyListener{
 	private BufferStrategy bs;
 	private Player p;
 	private Corner[] corners = new Corner[3];
-	private GameObject pes;
+	private Meteor pes, les;
 	public Window() {
 		super("EPIC TITLE");
 		//setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -57,38 +57,39 @@ public class Window extends JFrame implements KeyListener{
 		add(exit);*/
 		
 		//TEST
-		Corner peak = new Corner(new double[] {300,300}, new double[] {300,275});
-        Corner rightCorner = new Corner(new double[] {275,250}, new double[] {300,275});
-        Corner leftCorner = new Corner(new double[] {325,250}, new double[] {300,275});
-        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {300,275}, 1, new Corner(new double[] {300,300}, new double[] {300,275}));
-        p.setVels(0, 0);
+		Corner peak = new Corner(new double[] {400,200}, new double[] {400,175});
+        Corner rightCorner = new Corner(new double[] {375,150}, new double[] {400,175});
+        Corner leftCorner = new Corner(new double[] {425,150}, new double[] {400,175});
+        p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {400,175}, 1, new Corner(new double[] {400,200}, new double[] {400,175}));
         //trojuhelnik s vnitrnim rohem
+       /*
         Corner top = new Corner(new double[] {200,200}, new double[] {200,250});
         Corner left = new Corner(new double[] {150,250}, new double[] {200,250});
         Corner right = new Corner(new double[] {250,250}, new double[] {200,250});
-        Corner bot = new Corner(new double[] {200,300}, new double[] {300,275});
-        //ctverec
-        /*
-        Corner leftTop = new Corner(new double[] {350,350}, new double[] {300,275});
-        Corner leftBot = new Corner(new double[] {350,450}, new double[] {300,275});
-        Corner rightBot = new Corner(new double[] {450,450}, new double[] {300,275});
-        Corner rightTop = new Corner(new double[] {450,350}, new double[] {300,275});
-        pes = new GameObject(new Corner[] {leftTop, rightTop,rightBot,leftBot},new double[] {300,275}, -2);
-        */
-        //kosoctverec
-     /*   Corner top = new Corner(new double[] {200,200}, new double[] {300,275});
-        Corner left = new Corner(new double[] {150,250}, new double[] {300,275});
-        Corner right = new Corner(new double[] {250,250}, new double[] {300,275});
         Corner bot = new Corner(new double[] {200,300}, new double[] {300,275});*/
-        pes = new GameObject(new Corner[] {top, left, bot, right},new double[] {300,275}, -0.1);
-        pes.setVels(0.2, 0);
+        //ctverec
+        
+        Corner leftTop = new Corner(new double[] {350,350}, new double[] {400,400});
+        Corner leftBot = new Corner(new double[] {350,450}, new double[] {400,400});
+        Corner rightBot = new Corner(new double[] {450,450}, new double[] {400,400});
+        Corner rightTop = new Corner(new double[] {450,350}, new double[] {400,400});
+        les = new Meteor(new Corner[] {leftTop, leftBot, rightBot, rightTop},new double[] {400,400}, -0.5, new Corner(new double[] {350,400}, new double[] {400,400}), -0.2, 1);
+        
+        //kosoctverec
+        Corner top = new Corner(new double[] {200,200}, new double[] {200,250});
+        Corner left = new Corner(new double[] {150,250}, new double[] {200,250});
+        Corner right = new Corner(new double[] {250,250}, new double[] {200,250});
+        Corner bot = new Corner(new double[] {200,300}, new double[] {200,250});
+        
+        
+        pes = new Meteor(new Corner[] {top, left, bot, right},new double[] {200,250}, 0.5, new Corner(new double[] {250,300}, new double[] {200,250}), -0.2, 1);
         start();
 		
 		
 	}
 	public void start() {
 		long lastTime = System.nanoTime();
-        double amountOfTicks = 240;
+        double amountOfTicks = 250;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -130,9 +131,7 @@ public class Window extends JFrame implements KeyListener{
 
         p.render(g);
         pes.render(g);
-        if(p.getCrossedLineCorners(pes).length == 2) {
-        	g.drawLine((int)Math.round(p.getCrossedLineCorners(pes)[0].getX()), (int)Math.round(p.getCrossedLineCorners(pes)[0].getY()), (int)Math.round(p.getCrossedLineCorners(pes)[1].getX()),(int)Math.round(p.getCrossedLineCorners(pes)[1].getY()));
-        }
+        les.render(g);
         bs.show();
         g.clearRect(0,0,getWidth(),getHeight());
 		g.setColor(Color.BLUE);
@@ -147,16 +146,26 @@ public class Window extends JFrame implements KeyListener{
 
 	}
 	public void tick() {		
-    	p.updateLivingOb(); 
+    	p.updateOb(); 
     //	System.out.println(p.checkCollision(pes) + "  collision");
     	p.updateReflection();
-    	pes.rotateOb();
-    	pes.moveOb();
+    	pes.updateOb();
+    	les.updateOb();
     	if(p.getCrossedLineCorners(pes) != null && p.getCrossedLineCorners(pes).length >= 2) {
     		//System.out.println("CORNERS : "+p.getCrossedLineCorners(pes)[0].getX() +" : "+  p.getCrossedLineCorners(pes)[0].getY()  +"    "+  p.getCrossedLineCorners(pes)[1].getX()  +" : "+  p.getCrossedLineCorners(pes)[1].getY());
-    		p.reflect(p.getCrossedLineCorners(pes)[0], p.getCrossedLineCorners(pes)[1]);
-    		
-    		
+    		p.reflect(p.getCrossedLineCorners(pes)[0], p.getCrossedLineCorners(pes)[1]);		
+    	}
+    	if(p.getCrossedLineCorners(les) != null && p.getCrossedLineCorners(les).length >= 2) {
+    		//System.out.println("CORNERS : "+p.getCrossedLineCorners(pes)[0].getX() +" : "+  p.getCrossedLineCorners(pes)[0].getY()  +"    "+  p.getCrossedLineCorners(pes)[1].getX()  +" : "+  p.getCrossedLineCorners(pes)[1].getY());
+    		p.reflect(p.getCrossedLineCorners(les)[0], p.getCrossedLineCorners(les)[1]);		
+    	}
+    	if(pes.getCrossedLineCorners(les) != null && pes.getCrossedLineCorners(les).length >= 2) {
+    		System.out.println("CORNERS pes : "+pes.getCrossedLineCorners(les)[0].getX() +" : "+  pes.getCrossedLineCorners(les)[0].getY()  +"    "+  pes.getCrossedLineCorners(les)[1].getX()  +" : "+  pes.getCrossedLineCorners(les)[1].getY());
+    		pes.reflect(pes.getCrossedLineCorners(les)[0], pes.getCrossedLineCorners(les)[1]);		
+    	}
+    	if(les.getCrossedLineCorners(pes) != null && les.getCrossedLineCorners(pes).length >= 2) {
+    		System.out.println("CORNERS les : "+les.getCrossedLineCorners(pes)[0].getX() +" : "+  les.getCrossedLineCorners(pes)[0].getY()  +"    "+  les.getCrossedLineCorners(pes)[1].getX()  +" : "+  les.getCrossedLineCorners(pes)[1].getY());
+    		les.reflect(les.getCrossedLineCorners(pes)[0], les.getCrossedLineCorners(pes)[1]);		
     	}
     	
     	

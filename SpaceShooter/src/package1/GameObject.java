@@ -155,9 +155,11 @@ public class GameObject {
 	public Corner[] getCrossedLineCorners(GameObject go) {
 		Corner[] crossedCorner = checkIfAnyCornerCollision(go);
 		if(crossedCorner != null) {
+			System.out.println("Jsem v crossed Corner");
 			//bacha jestli najizdis na vnitrni cornery
 			return getCornerReflectedCorners(crossedCorner[0], crossedCorner[1], crossedCorner[2]);
 		}
+		
 		Corner[] corners = new Corner[] {};
 		double smallestYDifference = Double.POSITIVE_INFINITY;
 		//for each ob loop all lines ---> for all lines loop all lines of scnd ob
@@ -206,25 +208,34 @@ public class GameObject {
 		if(abo[0] == Double.POSITIVE_INFINITY || abo[0] == Double.NEGATIVE_INFINITY) {
 			if(abl[0] * o1.getX() + abl[1] <= o1.getY() && abl[0] * o1.getX() + abl[1] >= o2.getY() || abl[0] * o1.getX() + abl[1] >= o1.getY() && abl[0] * o1.getX() + abl[1] <= o2.getY()) {
 				if(o1.getX() <= l1.getX() && o1.getX() >= l2.getX() || o1.getX() <= l2.getX() && o1.getX() >= l1.getX()) {
+					System.out.println("vracim true v 1");
 					return true;
 				}
 			}
 		}
 		double cpx = getCrossedLineX(abo, abl);
-		if(cpx >= o1.getX() && cpx <= o2.getX()) { 	
-			if(cpx >= l1.getX() && cpx < l2.getX()) {
-				return true;
-			} else if(cpx < l1.getX() && cpx >= l2.getX()){
-				return true;
+		double cpy = abo[0]*cpx + abo[1];
+		if(cpy < o1.getY() && cpy > o2.getY() || cpy < o2.getY() && cpy > o1.getY() && cpy < l1.getY() && cpy > l2.getY() || cpy < l2.getY() && cpy > l1.getY()) {
+			if(cpx >= o1.getX() && cpx <= o2.getX()) { 	
+				if(cpx >= l1.getX() && cpx < l2.getX()) {
+					System.out.println("vracim true v 2a");
+					return true;
+				} else if(cpx < l1.getX() && cpx >= l2.getX()){
+					System.out.println("vracim true v 2b");
+					return true;
+				}
 			}
+			else if(cpx < o1.getX() && cpx >= o2.getX()){
+				if(cpx >= l1.getX() && cpx < l2.getX()) {
+					System.out.println("vracim true v 3a");
+					return true;
+				} else if(cpx < l1.getX() && cpx >= l2.getX()){
+					System.out.println("cpx " + cpx );
+					System.out.println("vracim true v 3b");
+					return true;
+				}
+			} 
 		}
-		else if(cpx < o1.getX() && cpx >= o2.getX()){
-			if(cpx >= l1.getX() && cpx < l2.getX()) {
-				return true;
-			} else if(cpx < l1.getX() && cpx >= l2.getX()){
-				return true;
-			}
-		} 
 		
 		return false;
 			
@@ -251,6 +262,11 @@ public class GameObject {
 	}
 	
 	
+	public void updateOb() {
+		moveOb();
+		rotateOb();
+	}
+		
 	
 	protected double[] getAB(Corner one, Corner two) {
 		double a,b;
