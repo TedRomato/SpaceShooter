@@ -61,17 +61,19 @@ public class Corner {
 			x = Math.abs(countSinusPoint());
 			y = Math.abs((Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint())));
 		}
+		
+
 		if(x == 0 && y == 0) {
-			if(y != ds[1]) {
+			if(this.y != ds[1]) {
 				return 0;
 			}else {
 				return Double.POSITIVE_INFINITY;
 			}
 		}
 		else {
-			if(y == 0) {
+			if(this.y == 0) {
 				return Double.POSITIVE_INFINITY;
-			} if(x == 0) {
+			} if(this.x == 0) {
 				return 0;
 			}
 		}
