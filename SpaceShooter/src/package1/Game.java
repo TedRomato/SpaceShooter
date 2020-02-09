@@ -14,7 +14,8 @@ public class Game extends JPanel{
 	private  Meteor pes, les;
 	private GameObject[] objects;
 	private MovingObject[] reflectableObs;
-	private GameObject[] reflectedLivingObs;
+	private MovingObject[] reflectingObs;
+	private LivingObject[] livingObsReflectUpdate;
 	//public static JPanel gp = new GamePanel();
 	private boolean running = true;
 	
@@ -32,11 +33,11 @@ public class Game extends JPanel{
 	    Corner bot = new Corner(new double[] {200,300}, new double[] {300,275});*/
 	    //ctverec
 	    
-	    Corner leftTop = new Corner(new double[] {350,350}, new double[] {400,400});
-	    Corner leftBot = new Corner(new double[] {350,450}, new double[] {400,400});
-	    Corner rightBot = new Corner(new double[] {450,450}, new double[] {400,400});
-	    Corner rightTop = new Corner(new double[] {450,350}, new double[] {400,400});
-	    les = new Meteor(new Corner[] {leftTop, leftBot, rightBot, rightTop},new double[] {400,400}, -0.5, new Corner(new double[] {350,400}, new double[] {400,400}), -0.2, 1);
+	    Corner leftTop = new Corner(new double[] {450,350}, new double[] {500,400});
+	    Corner leftBot = new Corner(new double[] {450,450}, new double[] {500,400});
+	    Corner rightBot = new Corner(new double[] {550,450}, new double[] {500,400});
+	    Corner rightTop = new Corner(new double[] {550,350}, new double[] {500,400});
+	    les = new Meteor(new Corner[] {leftTop, leftBot, rightBot, rightTop},new double[] {500,400}, -0.5, new Corner(new double[] {450,400}, new double[] {500,400}), -0.2, 1);
 	    
 	    //kosoctverec
 	    Corner top = new Corner(new double[] {200,200}, new double[] {200,250});
@@ -48,6 +49,8 @@ public class Game extends JPanel{
 	    pes = new Meteor(new Corner[] {top, left, bot, right},new double[] {200,250}, 0.5, new Corner(new double[] {250,300}, new double[] {200,250}), -0.2, 1);
 	    objects = new GameObject[] {pes,les,p};
 	    reflectableObs = new MovingObject[] {pes,les,p};
+	    reflectingObs=new MovingObject[] {pes,les};
+	    livingObsReflectUpdate = new LivingObject[] {p};
 	}
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -99,38 +102,25 @@ public class Game extends JPanel{
 	}
 	public void tick() {		
     	updateAllObs();
-    //	System.out.println(p.checkCollision(pes) + "  collision");
-    	p.updateReflection();
+    	updateLivingObsReflect();
     	checkAndHandleAllRefs();
 	}
-    	/*
-    	if(p.getCrossedLineCorners(pes) != null && p.getCrossedLineCorners(pes).length >= 2) {
-    		//System.out.println("CORNERS : "+p.getCrossedLineCorners(pes)[0].getX() +" : "+  p.getCrossedLineCorners(pes)[0].getY()  +"    "+  p.getCrossedLineCorners(pes)[1].getX()  +" : "+  p.getCrossedLineCorners(pes)[1].getY());
-    		p.reflect(p.getCrossedLineCorners(pes)[0], p.getCrossedLineCorners(pes)[1]);		
-    	}
-    	if(p.getCrossedLineCorners(les) != null && p.getCrossedLineCorners(les).length >= 2) {
-    		//System.out.println("CORNERS : "+p.getCrossedLineCorners(pes)[0].getX() +" : "+  p.getCrossedLineCorners(pes)[0].getY()  +"    "+  p.getCrossedLineCorners(pes)[1].getX()  +" : "+  p.getCrossedLineCorners(pes)[1].getY());
-    		p.reflect(p.getCrossedLineCorners(les)[0], p.getCrossedLineCorners(les)[1]);		
-    	}
-    	if(pes.getCrossedLineCorners(les) != null && pes.getCrossedLineCorners(les).length >= 2) {
-    		pes.reflect(pes.getCrossedLineCorners(les)[0], pes.getCrossedLineCorners(les)[1]);		
-    	}
-    	if(les.getCrossedLineCorners(pes) != null && les.getCrossedLineCorners(pes).length >= 2) {
-    		les.reflect(les.getCrossedLineCorners(pes)[0], les.getCrossedLineCorners(pes)[1]);		
-    	}
-	}*/
+	
+	
+	private void updateLivingObsReflect() {
+		if(livingObsReflectUpdate != null) {	
+			for(LivingObject livingOb : livingObsReflectUpdate) {
+				livingOb.updateReflection();
+			}
+		}
+	}
+    	
 	
 	private void checkAndHandleAllRefs() {
-		int i = 0;
-		while(i < reflectableObs.length) {
-			int q = 0;
-			while(q < reflectableObs.length) {
-				if(i != q) {
-					reflectableObs[i].checkAndHandleReflect(reflectableObs[q]);;
-				}
-				q++;
+		for(MovingObject mob : reflectableObs) {
+			for(MovingObject ob : reflectingObs) {
+				mob.checkAndHandleReflect(ob);
 			}
-			i++;
 		}
 	}
 	
@@ -161,27 +151,7 @@ public class Game extends JPanel{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		renderAll(g2);
-/*		p.render(g2);
-        pes.render(g2);
-        les.render(g2);*/
-}
-	
-	/*
-class GamePanel extends JPanel{ 
-	@Override
-	public Dimension getPreferredSize() {
-		// TODO Auto-generated method stub
-		return new Dimension(1920,1080);
+
 	}
-	@Override
-	protected void paintComponent(Graphics g) {
-		// TODO Auto-generated method stub
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		p.render(g2);
-        pes.render(g2);
-        les.render(g2);
-		}
-	}*/
+	
 }

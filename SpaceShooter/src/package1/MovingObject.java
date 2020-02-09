@@ -44,9 +44,11 @@ public class MovingObject extends GameObject{
 	
 	
 	public void checkAndHandleReflect(GameObject otherOb) {
-		Corner[] corners = getCrossedLineCorners(otherOb);
-		if(corners != null && corners.length == 2) {
-			reflect(corners[0], corners[1]);
+		if(otherOb != this) {
+			Corner[] corners = getCrossedLineCorners(otherOb);
+			if(corners != null && corners.length == 2) {
+				reflect(corners[0], corners[1]);
+			}
 		}
 	}
 	
