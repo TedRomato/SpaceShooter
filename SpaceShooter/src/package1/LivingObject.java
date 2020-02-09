@@ -16,6 +16,7 @@ public class LivingObject extends MovingObject{
 	public LivingObject(Corner[] corners, double[] rotationPoint2, double rotationAngle, Corner md) {
 		super(corners, rotationPoint2, rotationAngle, md);
 		movePoint = new Corner(md, rotationPoint2);
+		setReflectedSpeed(maxSpeed*2);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -114,6 +115,8 @@ public void updateOb() {
 			}
 		}
 	}
+	
+	
 	
 	protected void setForward(boolean b) {
 		forward = b;
