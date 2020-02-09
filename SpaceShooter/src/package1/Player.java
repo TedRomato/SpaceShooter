@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+
 public class Player extends LivingObject implements KeyListener{
 	
 	char moveChar = 'w', turnLeftChar = 'a', turnRightChar = 'd';
@@ -13,6 +14,7 @@ public class Player extends LivingObject implements KeyListener{
 		
 	}
 	
+
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -60,7 +62,7 @@ public class Player extends LivingObject implements KeyListener{
 			setRight(false);
 			
 		}
-	
+
 	}
 		
 	

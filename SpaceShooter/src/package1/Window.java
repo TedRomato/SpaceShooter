@@ -3,6 +3,7 @@ package package1;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,49 +13,30 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class Window extends JFrame implements KeyListener{
 	private JButton exit, start;
 	private boolean running = true;
 	private Graphics g;
 	private BufferStrategy bs;
-	private Player p;
+	public static Player p;
 	private Corner[] corners = new Corner[3];
-	private Meteor pes, les;
+	public static Meteor pes, les;
+	private Game game;
 	public Window() {
 		super("EPIC TITLE");
-		//setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setResizable(false);
-		setSize(1280,720);
-		//setUndecorated(true);
+		setSize(1920,1080);
+		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		game = new Game();
+		add(Game.gp);
 		setVisible(true);
 		setLayout(null);
 		addKeyListener(this);
-		/*
-		JButton start = new JButton("START");
-		start.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				start();
-			}
-		});
-		start.setBounds(getWidth()/2-150,getHeight()/2-75, 150, 75);
-		add(start);
-		
-		JButton exit = new JButton("EXIT");
-		exit.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-				
-			}
-		});
-		exit.setBounds(getWidth()/2-150,getHeight()/2,150,75);
-		add(exit);*/
 		
 		//TEST
 		Corner peak = new Corner(new double[] {400,200}, new double[] {400,175});
@@ -83,11 +65,12 @@ public class Window extends JFrame implements KeyListener{
         
         
         pes = new Meteor(new Corner[] {top, left, bot, right},new double[] {200,250}, 0.5, new Corner(new double[] {250,300}, new double[] {200,250}), -0.2, 1);
-        start();
+        game.start();
 		
+
 		
 	}
-	public void start() {
+	/*public void start() {
 		long lastTime = System.nanoTime();
         double amountOfTicks = 250;
         double ns = 1000000000 / amountOfTicks;
@@ -98,7 +81,7 @@ public class Window extends JFrame implements KeyListener{
         	long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
-            render();
+            panel.repaint();
             while(delta >=1)
             	{
                 tick();
@@ -171,7 +154,7 @@ public class Window extends JFrame implements KeyListener{
     	
     	
 
-	}
+	}*/
 	public static void main(String[] args) {
 		new Window();
 	}
@@ -184,7 +167,10 @@ public class Window extends JFrame implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+		if(e.getKeyCode() == e.VK_ESCAPE) {
+			dispose();
+			game.stop();
+		}
 		p.keyPressed(e);
 	}
 	@Override
