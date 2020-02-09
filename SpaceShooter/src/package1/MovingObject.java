@@ -42,7 +42,15 @@ public class MovingObject extends GameObject{
 		return (Double) null;
 	}
 	
-	public void reflect(Corner c1, Corner c2) {
+	
+	public void checkAndHandleReflect(GameObject otherOb) {
+		Corner[] corners = getCrossedLineCorners(otherOb);
+		if(corners != null && corners.length == 2) {
+			reflect(corners[0], corners[1]);
+		}
+	}
+	
+	private void reflect(Corner c1, Corner c2) {
 		reflected = true;
 		if(getReflected()) {
 			double rpx;

@@ -13,6 +13,8 @@ public class Game extends JPanel{
 	private  Player p;
 	private  Meteor pes, les;
 	private GameObject[] objects;
+	private MovingObject[] reflectableObs;
+	private GameObject[] reflectedLivingObs;
 	//public static JPanel gp = new GamePanel();
 	private boolean running = true;
 	
@@ -45,6 +47,7 @@ public class Game extends JPanel{
 	    
 	    pes = new Meteor(new Corner[] {top, left, bot, right},new double[] {200,250}, 0.5, new Corner(new double[] {250,300}, new double[] {200,250}), -0.2, 1);
 	    objects = new GameObject[] {pes,les,p};
+	    reflectableObs = new MovingObject[] {pes,les,p};
 	}
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -95,11 +98,12 @@ public class Game extends JPanel{
 		}
 	}
 	public void tick() {		
-    	p.updateOb(); 
+    	updateAllObs();
     //	System.out.println(p.checkCollision(pes) + "  collision");
     	p.updateReflection();
-    	pes.updateOb();
-    	les.updateOb();
+    	checkAndHandleAllRefs();
+	}
+    	/*
     	if(p.getCrossedLineCorners(pes) != null && p.getCrossedLineCorners(pes).length >= 2) {
     		//System.out.println("CORNERS : "+p.getCrossedLineCorners(pes)[0].getX() +" : "+  p.getCrossedLineCorners(pes)[0].getY()  +"    "+  p.getCrossedLineCorners(pes)[1].getX()  +" : "+  p.getCrossedLineCorners(pes)[1].getY());
     		p.reflect(p.getCrossedLineCorners(pes)[0], p.getCrossedLineCorners(pes)[1]);		
@@ -109,13 +113,31 @@ public class Game extends JPanel{
     		p.reflect(p.getCrossedLineCorners(les)[0], p.getCrossedLineCorners(les)[1]);		
     	}
     	if(pes.getCrossedLineCorners(les) != null && pes.getCrossedLineCorners(les).length >= 2) {
-    		System.out.println("CORNERS pes : "+pes.getCrossedLineCorners(les)[0].getX() +" : "+  pes.getCrossedLineCorners(les)[0].getY()  +"    "+  pes.getCrossedLineCorners(les)[1].getX()  +" : "+  pes.getCrossedLineCorners(les)[1].getY());
     		pes.reflect(pes.getCrossedLineCorners(les)[0], pes.getCrossedLineCorners(les)[1]);		
     	}
     	if(les.getCrossedLineCorners(pes) != null && les.getCrossedLineCorners(pes).length >= 2) {
-    		System.out.println("CORNERS les : "+les.getCrossedLineCorners(pes)[0].getX() +" : "+  les.getCrossedLineCorners(pes)[0].getY()  +"    "+  les.getCrossedLineCorners(pes)[1].getX()  +" : "+  les.getCrossedLineCorners(pes)[1].getY());
     		les.reflect(les.getCrossedLineCorners(pes)[0], les.getCrossedLineCorners(pes)[1]);		
     	}
+	}*/
+	
+	private void checkAndHandleAllRefs() {
+		int i = 0;
+		while(i < reflectableObs.length) {
+			int q = 0;
+			while(q < reflectableObs.length) {
+				if(i != q) {
+					reflectableObs[i].checkAndHandleReflect(reflectableObs[q]);;
+				}
+				q++;
+			}
+			i++;
+		}
+	}
+	
+	private void updateAllObs() {
+		for(GameObject go : objects) {
+			go.updateOb();
+		}
 	}
 	
 	private void renderAll(Graphics g) {
