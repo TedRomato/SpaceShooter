@@ -208,7 +208,6 @@ public class GameObject {
 		if(abo[0] == Double.POSITIVE_INFINITY || abo[0] == Double.NEGATIVE_INFINITY) {
 			if(abl[0] * o1.getX() + abl[1] <= o1.getY() && abl[0] * o1.getX() + abl[1] >= o2.getY() || abl[0] * o1.getX() + abl[1] >= o1.getY() && abl[0] * o1.getX() + abl[1] <= o2.getY()) {
 				if(o1.getX() <= l1.getX() && o1.getX() >= l2.getX() || o1.getX() <= l2.getX() && o1.getX() >= l1.getX()) {
-					System.out.println("vracim true v 1");
 					return true;
 				}
 			}
@@ -218,20 +217,15 @@ public class GameObject {
 		if(cpy < o1.getY() && cpy > o2.getY() || cpy < o2.getY() && cpy > o1.getY() && cpy < l1.getY() && cpy > l2.getY() || cpy < l2.getY() && cpy > l1.getY()) {
 			if(cpx >= o1.getX() && cpx <= o2.getX()) { 	
 				if(cpx >= l1.getX() && cpx < l2.getX()) {
-					System.out.println("vracim true v 2a");
 					return true;
 				} else if(cpx < l1.getX() && cpx >= l2.getX()){
-					System.out.println("vracim true v 2b");
 					return true;
 				}
 			}
 			else if(cpx < o1.getX() && cpx >= o2.getX()){
 				if(cpx >= l1.getX() && cpx < l2.getX()) {
-					System.out.println("vracim true v 3a");
 					return true;
 				} else if(cpx < l1.getX() && cpx >= l2.getX()){
-					System.out.println("cpx " + cpx );
-					System.out.println("vracim true v 3b");
 					return true;
 				}
 			} 
