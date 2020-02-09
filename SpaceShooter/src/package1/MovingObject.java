@@ -10,6 +10,7 @@ public class MovingObject extends GameObject{
 	private boolean reflected = false;
 	private int reflectedTimer = 0;
 	private int reflectedLenght = 80;
+	private double reflectedSpeed = currentSpeed * 2;
 	public MovingObject(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d);
 		moveDirection = new Corner(md, rotationPoint);
@@ -41,7 +42,17 @@ public class MovingObject extends GameObject{
 		return (Double) null;
 	}
 	
-	public void reflect(Corner c1, Corner c2) {
+	
+	public void checkAndHandleReflect(GameObject otherOb) {
+		if(otherOb != this) {
+			Corner[] corners = getCrossedLineCorners(otherOb);
+			if(corners != null && corners.length == 2) {
+				reflect(corners[0], corners[1]);
+			}
+		}
+	}
+	
+	private void reflect(Corner c1, Corner c2) {
 		reflected = true;
 		if(getReflected()) {
 			double rpx;
@@ -213,7 +224,7 @@ public class MovingObject extends GameObject{
 	
 	private void updateAfterReflect() {
 		getNewRatios();
-		setCurrentSpeed(2);
+		setCurrentSpeed(reflectedSpeed);
 		setNewVels();
 		setReflected(true);
 	}
@@ -231,7 +242,9 @@ public class MovingObject extends GameObject{
 		}
 	}
 	
-	
+	protected void setReflectedSpeed(double d) {
+		reflectedSpeed = d;
+	}
 	
 	
 
