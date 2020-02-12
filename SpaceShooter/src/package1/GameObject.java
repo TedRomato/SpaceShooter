@@ -27,6 +27,14 @@ public class GameObject {
 	
 	//p = peak, rc, lc pes = leftTop, mid, rightBot
 	public boolean checkCollision(GameObject go) {
+		if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	private boolean checkCollisionInside(GameObject go) {
 		boolean isCollision = false;
 		double[] ab;
 		for(Corner checkedCorner : corners) {
@@ -49,6 +57,7 @@ public class GameObject {
 				return true;
 			}
 		}
+
 		setCollision(false);
 		return false;
 	}
@@ -71,7 +80,7 @@ public class GameObject {
 	private boolean checkIfCornerCollision(Corner co) {
 	//	System.out.println(checkCollision(new GameObject(new Corner[] {co,co}, new double[] {0,0}, 0)));
 		GameObject c = new GameObject(new Corner[] {co,co}, new double[] {0,0}, 0);
-		return c.checkCollision(this);
+		return c.checkCollisionInside(this);
 	}
 	
 	private Corner[] getCornerReflectedCorners(Corner collided, Corner one, Corner two) {
@@ -155,7 +164,6 @@ public class GameObject {
 	public Corner[] getCrossedLineCorners(GameObject go) {
 		Corner[] crossedCorner = checkIfAnyCornerCollision(go);
 		if(crossedCorner != null) {
-			System.out.println("Jsem v crossed Corner");
 			//bacha jestli najizdis na vnitrni cornery
 			return getCornerReflectedCorners(crossedCorner[0], crossedCorner[1], crossedCorner[2]);
 		}

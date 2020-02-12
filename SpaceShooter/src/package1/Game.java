@@ -16,6 +16,7 @@ public class Game extends JPanel{
 	private MovingObject[] reflectableObs;
 	private MovingObject[] reflectingObs;
 	private LivingObject[] livingObsReflectUpdate;
+	private GameObject[][] arrayList;
 	//public static JPanel gp = new GamePanel();
 	private boolean running = true;
 	
@@ -49,8 +50,12 @@ public class Game extends JPanel{
 	    pes = new Meteor(new Corner[] {top, left, bot, right},new double[] {200,250}, 0.5, new Corner(new double[] {250,300}, new double[] {200,250}), -0.2, 1);
 	    objects = new GameObject[] {pes,les,p};
 	    reflectableObs = new MovingObject[] {pes,les,p};
-	    reflectingObs=new MovingObject[] {pes,les};
+	    reflectingObs = new MovingObject[] {pes,les,p};
 	    livingObsReflectUpdate = new LivingObject[] {p};
+	    arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate};
+	    
+	    
+	    
 	}
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -102,6 +107,7 @@ public class Game extends JPanel{
 	}
 	public void tick() {		
     	updateAllObs();
+    	checkAndHandleCollision();
     	updateLivingObsReflect();
     	checkAndHandleAllRefs();
 	}
@@ -122,6 +128,88 @@ public class Game extends JPanel{
 				mob.checkAndHandleReflect(ob);
 			}
 		}
+	}
+	
+	private void checkAndHandleCollision() {
+		GameObject[] compareArray = objects; 
+		System.out.println("compare array : " + compareArray.length + "   object array : " + objects.length);
+		for(int i = 0; i < objects.length; i++) {
+			for(int x = 0; x < compareArray.length; x++) {
+				
+				if(objects[i] != compareArray[x]) {
+					
+					if(objects[i].checkCollision(compareArray[x])) {
+						System.out.println("NAAAARAZ");
+						System.out.println("NAAAARAZ");
+						System.out.println("NAAAARAZ");
+						System.out.println("NAAAARAZ");
+						System.out.println("NAAAARAZ");
+						System.out.println("NAAAARAZ");
+						
+						removeObFromGame(objects[i]);
+					}
+				}
+				System.out.println("2compare array : " + compareArray.length + "  ||  2object array : " + objects.length);
+	
+			}
+		}
+		
+	}
+	//TODO fix
+	private void removeObFromGame(GameObject ob){
+	//	System.out.println("NEW REMOVING");
+		for(int i = 0; i < arrayList.length; i++) {
+	/*		System.out.println("--------");
+			System.out.println(arrayList[i]);
+			System.out.println(" ");*/
+			for(int index = 0; index < arrayList[i].length; index++) {
+	//			System.out.println(" ");
+	//			System.out.println(arrayList[i][index]);
+				if(arrayList[i][index] == ob) {
+	//				System.out.println("REMOVING : " + arrayList[i][index]);
+					arrayList[i] =  makeNewArrayWithout(arrayList[i], index);
+				}
+			}
+		}
+		fixGameArrays();
+		
+	}
+	//TODO
+	private void fixGameArrays() {
+		objects = arrayList[0];
+	    reflectableObs = makeGameObArMovingArr(arrayList[1]);
+	    reflectingObs = makeGameObArMovingArr(arrayList[2]);
+	    livingObsReflectUpdate = makeGameObArLivingArr(arrayList[3]);
+	}
+	
+	private MovingObject[] makeGameObArMovingArr(GameObject[] arr) {
+		MovingObject[] newArr = new MovingObject[arr.length];
+		for(int i = 0; i < arr.length; i++) {
+			newArr[i] = (MovingObject) arr[i];
+		}
+		return newArr;
+	}
+	private LivingObject[] makeGameObArLivingArr(GameObject[] arr) {
+		LivingObject[] newArr = new LivingObject[arr.length];
+		for(int i = 0; i < arr.length; i++) {
+			newArr[i] = (LivingObject) arr[i];
+		}
+		return newArr;
+	}
+		
+	private GameObject[] makeNewArrayWithout(GameObject[] array ,int index){
+	//	System.out.println("array "+array.length);
+		GameObject[] newArray = new GameObject[array.length - 1];
+		
+		int add = 0;
+		for(int i = 0; i < newArray.length; i++) {
+			if(i == index) {
+				add = 1;
+			}
+			newArray[i] = array[i + add];
+		}
+	//	System.out.println("newArray "+ newArray.length);
+		return newArray;
 	}
 	
 	private void updateAllObs() {
