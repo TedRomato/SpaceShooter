@@ -9,6 +9,10 @@ public class GameObject {
 	private double velX;
 	private double velY;
 	private boolean collision;
+	private int HP = 3;
+	private int invulnerabilityLength = 10;
+	private int invulnerabilityTimer = 0;
+	private boolean invulnurable = false;
 
 	
 	
@@ -23,10 +27,33 @@ public class GameObject {
 
 	}
 	
+	
+	public void startInvulnurability() {
+		invulnerabilityTimer = invulnerabilityLength;
+		invulnurable = true;
+	}
+	
+	public void updateInvulnurability() {
+		if(invulnurable) {
+			invulnerabilityTimer --;
+			if(invulnerabilityTimer <= 0) {
+				invulnurable = false;
+			}
+		}
+	}
+	
 
 	
 	//p = peak, rc, lc pes = leftTop, mid, rightBot
 	public boolean checkCollision(GameObject go) {
+		if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	private boolean checkCollisionInside(GameObject go) {
 		boolean isCollision = false;
 		double[] ab;
 		for(Corner checkedCorner : corners) {
@@ -49,6 +76,7 @@ public class GameObject {
 				return true;
 			}
 		}
+
 		setCollision(false);
 		return false;
 	}
@@ -71,7 +99,7 @@ public class GameObject {
 	private boolean checkIfCornerCollision(Corner co) {
 	//	System.out.println(checkCollision(new GameObject(new Corner[] {co,co}, new double[] {0,0}, 0)));
 		GameObject c = new GameObject(new Corner[] {co,co}, new double[] {0,0}, 0);
-		return c.checkCollision(this);
+		return c.checkCollisionInside(this);
 	}
 	
 	private Corner[] getCornerReflectedCorners(Corner collided, Corner one, Corner two) {
@@ -155,7 +183,6 @@ public class GameObject {
 	public Corner[] getCrossedLineCorners(GameObject go) {
 		Corner[] crossedCorner = checkIfAnyCornerCollision(go);
 		if(crossedCorner != null) {
-			System.out.println("Jsem v crossed Corner");
 			//bacha jestli najizdis na vnitrni cornery
 			return getCornerReflectedCorners(crossedCorner[0], crossedCorner[1], crossedCorner[2]);
 		}
@@ -289,6 +316,19 @@ public class GameObject {
 	public void setVels(double velX, double velY) {
 		this.setVelX(velX);
 		this.setVelY(velY);
+	}
+	
+	
+	public boolean getInvulnurability() {
+		return invulnurable;
+	}
+	
+	public void setHp(int HP) {
+		this.HP = HP;
+	}
+	
+	public int getHP() {
+		return HP;
 	}
 
 	public double[] getRotationPoint() {
