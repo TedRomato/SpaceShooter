@@ -10,17 +10,22 @@ import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 
 public class Game extends JPanel{
+	private int screenWidth, screenHeight;
 	private  Player p;
 	private  Meteor pes, les;
+	private GameObject[] borders;
 	private GameObject[] objects;
 	private MovingObject[] reflectableObs;
 	private MovingObject[] reflectingObs;
 	private LivingObject[] livingObsReflectUpdate;
+	private MovingObject[] borderSensitive;
 	private GameObject[][] arrayList;
 	//public static JPanel gp = new GamePanel();
 	private boolean running = true;
 	
-	public Game() {
+	public Game(int sw,int sh) {
+		this.screenHeight = sh;
+		this.screenWidth = sw;
 		//TEST
 		Corner peak = new Corner(new double[] {400,200}, new double[] {400,175});
 	    Corner rightCorner = new Corner(new double[] {375,150}, new double[] {400,175});
@@ -33,6 +38,19 @@ public class Game extends JPanel{
 	    Corner right = new Corner(new double[] {250,250}, new double[] {200,250});
 	    Corner bot = new Corner(new double[] {200,300}, new double[] {300,275});*/
 	    //ctverec
+	    
+	    
+	    Corner rightBotC = new Corner(new double[] {screenWidth,screenHeight}, new double[] {500,400});
+	    Corner leftBotC = new Corner(new double[] {screenWidth,0}, new double[] {500,400});
+	    Corner rightTopC = new Corner(new double[] {0,screenHeight}, new double[] {500,400});
+	    Corner leftTopC = new Corner(new double[] {0,0}, new double[] {500,400});
+	    
+	    GameObject rightBorder = new GameObject(new Corner[] {rightTopC, rightBotC}, new double[] {500,400}, 0);
+	    GameObject leftBorder = new GameObject(new Corner[] {leftTopC, leftBotC}, new double[] {500,400}, 0);
+	    GameObject topBorder = new GameObject(new Corner[] {rightTopC, leftTopC}, new double[] {500,400}, 0);
+	    GameObject botBorder = new GameObject(new Corner[] {leftBotC, rightBotC}, new double[] {500,400}, 0);
+	    
+	    borders = new GameObject[] {rightBorder,leftBorder,topBorder,botBorder};
 	    
 	    Corner leftTop = new Corner(new double[] {450,350}, new double[] {500,400});
 	    Corner leftBot = new Corner(new double[] {450,450}, new double[] {500,400});
@@ -52,7 +70,8 @@ public class Game extends JPanel{
 	    reflectableObs = new MovingObject[] {pes,les,p};
 	    reflectingObs = new MovingObject[] {pes,les,p};
 	    livingObsReflectUpdate = new LivingObject[] {p};
-	    arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate};
+	    borderSensitive = new MovingObject[] {p};
+	    arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive};
 	    
 	    
 	    
@@ -110,6 +129,7 @@ public class Game extends JPanel{
     	checkAndHandleCollision();
     	updateLivingObsReflect();
     	checkAndHandleAllRefs();
+    	reflectFromSides();
         deleteNoHpObs();
     	updateAllInvs();
 	}
@@ -166,6 +186,16 @@ public class Game extends JPanel{
 		}
 		
 	}
+	
+	private void reflectFromSides() {
+		for(MovingObject go : borderSensitive) {
+			for(GameObject border : borders) {
+				go.checkAndHandleReflect(border);
+			}
+		}
+	}
+	
+	
 	//TODO fix
 	private void removeObFromGame(GameObject ob){
 		for(int i = 0; i < arrayList.length; i++) {
@@ -184,6 +214,7 @@ public class Game extends JPanel{
 	    reflectableObs = makeGameObArMovingArr(arrayList[1]);
 	    reflectingObs = makeGameObArMovingArr(arrayList[2]);
 	    livingObsReflectUpdate = makeGameObArLivingArr(arrayList[3]);
+	
 	}
 	
 	private MovingObject[] makeGameObArMovingArr(GameObject[] arr) {

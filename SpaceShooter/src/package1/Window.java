@@ -30,7 +30,7 @@ public class Window extends JFrame implements KeyListener{
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		game = new Game();
+		game = new Game(getWidth(), getHeight());
 		add(game);
 		setVisible(true);
 		setLayout(null);
