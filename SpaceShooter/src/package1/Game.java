@@ -38,7 +38,7 @@ public class Game extends JPanel{
 	    Corner leftBot = new Corner(new double[] {450,450}, new double[] {500,400});
 	    Corner rightBot = new Corner(new double[] {550,450}, new double[] {500,400});
 	    Corner rightTop = new Corner(new double[] {550,350}, new double[] {500,400});
-	    les = new Meteor(new Corner[] {leftTop, leftBot, rightBot, rightTop},new double[] {500,400}, -0.5, new Corner(new double[] {450,400}, new double[] {500,400}), -0.2, 1);
+	    les = new Meteor(new Corner[] {leftTop, leftBot, rightBot, rightTop},new double[] {500,400}, -0.5, new Corner(new double[] {450,400}, new double[] {500,400}), -0.2, 3);
 	    
 	    //kosoctverec
 	    Corner top = new Corner(new double[] {200,200}, new double[] {200,250});
@@ -47,7 +47,7 @@ public class Game extends JPanel{
 	    Corner bot = new Corner(new double[] {200,300}, new double[] {200,250});
 	    
 	    
-	    pes = new Meteor(new Corner[] {top, left, bot, right},new double[] {200,250}, 0.5, new Corner(new double[] {250,300}, new double[] {200,250}), -0.2, 1);
+	    pes = new Meteor(new Corner[] {top, left, bot, right},new double[] {200,250}, 0.5, new Corner(new double[] {250,300}, new double[] {200,250}), -0.2, 2);
 	    objects = new GameObject[] {pes,les,p};
 	    reflectableObs = new MovingObject[] {pes,les,p};
 	    reflectingObs = new MovingObject[] {pes,les,p};
@@ -141,7 +141,7 @@ public class Game extends JPanel{
 					
 					if(objects[i].checkCollision(compareArray[x])) {
 						if(objects[i].getInvulnurability() == false) {
-							objects[i].setHp(objects[i].getHP()-1);
+							objects[i].setHP(objects[i].getHP()-1);
 							objects[i].startInvulnurability();
 						}
 					}

@@ -323,7 +323,7 @@ public class GameObject {
 		return invulnurable;
 	}
 	
-	public void setHp(int HP) {
+	public void setHP(int HP) {
 		this.HP = HP;
 	}
 	

@@ -17,6 +17,7 @@ public class LivingObject extends MovingObject{
 		super(corners, rotationPoint2, rotationAngle, md);
 		movePoint = new Corner(md, rotationPoint2);
 		setReflectedSpeed(maxSpeed*2);
+		setHP(5);
 		// TODO Auto-generated constructor stub
 	}
 	
