@@ -139,14 +139,9 @@ public class Game extends JPanel{
 				if(objects[i] != compareArray[x]) {
 					
 					if(objects[i].checkCollision(compareArray[x])) {
-						System.out.println("NAAAARAZ");
-						System.out.println("NAAAARAZ");
-						System.out.println("NAAAARAZ");
-						System.out.println("NAAAARAZ");
-						System.out.println("NAAAARAZ");
-						System.out.println("NAAAARAZ");
 						
 						removeObFromGame(objects[i]);
+						i--;
 					}
 				}
 				System.out.println("2compare array : " + compareArray.length + "  ||  2object array : " + objects.length);
