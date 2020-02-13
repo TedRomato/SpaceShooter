@@ -9,6 +9,10 @@ public class GameObject {
 	private double velX;
 	private double velY;
 	private boolean collision;
+	private int HP = 3;
+	private int invulnerabilityLength = 10;
+	private int invulnerabilityTimer = 0;
+	private boolean invulnurable = false;
 
 	
 	
@@ -21,6 +25,21 @@ public class GameObject {
 		this.setRotationPoint(rotationPoint2);
 		this.rotationAngle = rotationAngle;
 
+	}
+	
+	
+	public void startInvulnurability() {
+		invulnerabilityTimer = invulnerabilityLength;
+		invulnurable = true;
+	}
+	
+	public void updateInvulnurability() {
+		if(invulnurable) {
+			invulnerabilityTimer --;
+			if(invulnerabilityTimer <= 0) {
+				invulnurable = false;
+			}
+		}
 	}
 	
 
@@ -297,6 +316,19 @@ public class GameObject {
 	public void setVels(double velX, double velY) {
 		this.setVelX(velX);
 		this.setVelY(velY);
+	}
+	
+	
+	public boolean getInvulnurability() {
+		return invulnurable;
+	}
+	
+	public void setHp(int HP) {
+		this.HP = HP;
+	}
+	
+	public int getHP() {
+		return HP;
 	}
 
 	public double[] getRotationPoint() {
