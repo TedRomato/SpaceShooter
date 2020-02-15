@@ -241,7 +241,7 @@ public class GameObject {
 		}
 		double cpx = getCrossedLineX(abo, abl);
 		double cpy = abo[0]*cpx + abo[1];
-		if(cpy < o1.getY() && cpy > o2.getY() || cpy < o2.getY() && cpy > o1.getY() && cpy < l1.getY() && cpy > l2.getY() || cpy < l2.getY() && cpy > l1.getY()) {
+		if(cpy <= o1.getY() && cpy >= o2.getY() || cpy < o2.getY() && cpy > o1.getY() && cpy < l1.getY() && cpy > l2.getY() || cpy < l2.getY() && cpy > l1.getY()) {
 			if(cpx >= o1.getX() && cpx <= o2.getX()) { 	
 				if(cpx >= l1.getX() && cpx < l2.getX()) {
 					return true;

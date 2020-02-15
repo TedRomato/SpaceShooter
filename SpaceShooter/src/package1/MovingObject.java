@@ -6,7 +6,7 @@ import java.awt.Graphics;
 public class MovingObject extends GameObject{
 	protected Corner moveDirection;
 	private double xyRatio;
-	private double currentSpeed = 0.1;
+	private double currentSpeed = 0;
 	private boolean reflected = false;
 	private int reflectedTimer = 0;
 	private int reflectedLenght = 80;
@@ -275,6 +275,9 @@ public class MovingObject extends GameObject{
 	
 	protected void setCurrentSpeed(double speed) {
 		currentSpeed = speed;
+		reflectedSpeed = speed;
+		setNewVels();
+		
 		
 	}
 	protected boolean getReflected() {

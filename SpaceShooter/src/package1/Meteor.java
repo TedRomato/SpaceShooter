@@ -9,6 +9,7 @@ public class Meteor extends MovingObject {
 		this.speed = speed;
 		this.size = size;
 		setNewHp();
+		setCurrentSpeed(speed);
 		
 	
 	}
