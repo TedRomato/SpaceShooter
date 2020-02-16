@@ -223,4 +223,34 @@ public class Corner {
 		this.distance= c.getPointDistance(rp);
 	}
 	
+	
+	public void updateNoRotation(double[] rp) {
+		qadrant = getQadrant(rp);
+		currentAngle = getAngle(rp);
+		
+	}
+	
+	public void turnAround(char c, double[] rp) {
+		switch(c){
+		case 'y':
+			this.setY(moveToOtherSide(this.getY(), rp[1]));
+			break;
+		
+		case 'x':
+			this.setX(moveToOtherSide(this.getX(), rp[0]));
+			break;
+			
+			}
+		}
+	
+	
+	private double moveToOtherSide(double corner, double rp) {
+		double difference = Math.abs(rp - corner);
+		if(corner < rp) {
+			return rp + difference;
+		} else {
+			return rp - difference;
+		}
+	}
+	
 }

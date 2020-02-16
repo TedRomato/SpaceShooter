@@ -50,7 +50,7 @@ public class Game extends JPanel{
 	    GameObject topBorder = new GameObject(new Corner[] {rightTopC, leftTopC}, new double[] {500,400}, 0);
 	    GameObject botBorder = new GameObject(new Corner[] {leftBotC, rightBotC}, new double[] {500,400}, 0);
 	    
-	    borders = new GameObject[] {rightBorder,leftBorder,topBorder,botBorder};
+	    borders = new GameObject[] {botBorder,rightBorder,topBorder,leftBorder};
 	    
 	    Corner leftTop = new Corner(new double[] {450,350}, new double[] {500,400});
 	    Corner leftBot = new Corner(new double[] {450,450}, new double[] {500,400});
@@ -93,7 +93,7 @@ public class Game extends JPanel{
 	
 	public void start() {
 		long lastTime = System.nanoTime();
-        double amountOfTicks = 250;
+        double amountOfTicks = 220;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -124,14 +124,16 @@ public class Game extends JPanel{
 			running = false;
 		}
 	}
-	public void tick() {		
+	
+	public void tick() {	
     	updateAllObs();
     	checkAndHandleCollision();
     	updateLivingObsReflect();
         checkAndHandleAllRefs();
-        reflectFromSides();
         deleteNoHpObs();
     	updateAllInvs();
+        reflectFromSides();
+
 	}
 	
 	
@@ -188,9 +190,15 @@ public class Game extends JPanel{
 	}
 	
 	private void reflectFromSides() {
-		for(MovingObject go : borderSensitive) {
-			for(GameObject border : borders) {
-				go.checkAndHandleReflect(border);
+		for(int i = 0; i < borders.length; i++) {
+			for(MovingObject go : borderSensitive) {
+				if(go.getClass().getSimpleName().equals("Meteor") ) {
+					if(go.checkCollision(borders[i])) {
+						((Meteor) go).reflectMeteorFromSide(i);
+					}
+				}else {
+					go.checkAndHandleReflect(borders[i]);
+				}
 			}
 		}
 	}

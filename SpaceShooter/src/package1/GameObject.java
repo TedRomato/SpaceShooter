@@ -386,5 +386,8 @@ public class GameObject {
 		this.collision = collision;
 	}
 	
+	
+	
+	
 
 }
