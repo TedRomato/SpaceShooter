@@ -26,11 +26,11 @@ public class Window extends JFrame implements KeyListener{
 		super("EPIC TITLE");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setResizable(false);
-		setSize(1920,1080);
+		setSize(1540,870);
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		game = new Game();
+		game = new Game(getWidth(), getHeight());
 		add(game);
 		setVisible(true);
 		setLayout(null);
