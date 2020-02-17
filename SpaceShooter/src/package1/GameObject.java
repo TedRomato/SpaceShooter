@@ -53,7 +53,7 @@ public class GameObject {
 		}
 	}
 	
-	private boolean checkCollisionInside(GameObject go) {
+	protected boolean checkCollisionInside(GameObject go) {
 		boolean isCollision = false;
 		double[] ab;
 		for(Corner checkedCorner : corners) {

@@ -52,7 +52,7 @@ public class MovingObject extends GameObject{
 		}
 	}
 	
-	private void reflect(Corner c1, Corner c2) {
+	protected void reflect(Corner c1, Corner c2) {
 		reflected = true;
 		if(getReflected()) {
 			double rpx;

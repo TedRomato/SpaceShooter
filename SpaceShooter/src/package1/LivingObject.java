@@ -135,15 +135,54 @@ public void updateOb() {
 	}
 	
 	public void addAttachment(ObjectAttachment att) {
-		if(attachments != null) {
+		if(attachments == null) {
 			attachments = new ObjectAttachment[] {att};
 		} else {
 			ObjectAttachment[] tempAtt = attachments;
-			attachments = new ObjectAttachment[tempAtt.length +1];
+			attachments = new ObjectAttachment[tempAtt.length +1 ];
 			for(int i = 0; i < tempAtt.length ; i++) {
 				attachments[i] = tempAtt[i];
 			} 
 			attachments[attachments.length - 1] = att;
+		}
+	}
+	
+	public boolean checkCollision(GameObject go) {
+		System.out.println("------------");
+		System.out.println("Object  : " + go.getClass().getSimpleName());
+		if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2) {
+			return true;
+		}
+		
+		for(ObjectAttachment att : attachments) {
+			System.out.println("c inside : " + att.checkCollisionInside(go) + "   gclc : " + att.getCrossedLineCorners(go).length);
+			if(att.checkCollisionInside(go) || att.getCrossedLineCorners(go).length == 2) {
+				return true;
+			}
+		}
+	
+		return false;
+		
+	}
+	
+	public void checkAndHandleReflect(GameObject otherOb) {
+		if(otherOb != this) {
+			Corner[] corners = null;
+			
+			
+			corners = getCrossedLineCorners(otherOb);
+			
+			if(corners == null) {
+				for(ObjectAttachment att : attachments) {
+					corners = att.getCrossedLineCorners(otherOb);
+				}
+			}
+			
+			
+			
+			if(corners != null && corners.length == 2) {
+				reflect(corners[0], corners[1]);
+			}
 		}
 	}
 	
