@@ -12,6 +12,7 @@ public class LivingObject extends MovingObject{
 	private Corner movePoint;
 	private double maxSpeed = 2.5;
 	private double acceleration = maxSpeed/200;
+	private ObjectAttachment[] attachments;
 	
 	public LivingObject(Corner[] corners, double[] rotationPoint2, double rotationAngle, Corner md) {
 		super(corners, rotationPoint2, rotationAngle, md);
@@ -61,16 +62,32 @@ public void updateOb() {
 	}
 	
 	public void rotateOb() {
-		for(Corner corner : getCorners()) {
-			corner.rotateCorner(getRotationPoint(), getRotationAngle());
+		for(Corner c : getCorners()) {
+			c.rotateCorner(getRotationPoint(), getRotationAngle());
 		}
+		if(attachments != null) {
+			for(ObjectAttachment att : attachments) {
+				for(Corner c : att.getCorners()) {
+					c.rotateCorner(getRotationPoint(), getRotationAngle());
+				}
+			}
+		}
+		
 		movePoint.rotateCorner(getRotationPoint(), getRotationAngle());	
 		}
 	
 	public void moveOb() {
-		for(Corner corner : getCorners()) {
-			corner.moveCorner(getVelX(),getVelY());
+		for(Corner c : getCorners()) {
+			c.moveCorner(getVelX(),getVelY());
 		}
+		if(attachments != null) {
+			for(ObjectAttachment att : attachments) {
+				for(Corner c : att.getCorners()) {
+					c.moveCorner(getVelX(),getVelY());
+				}
+			}
+		}
+		
 		getRotationPoint()[0] += getVelX();
 		getRotationPoint()[1] += getVelY();
 
@@ -117,6 +134,19 @@ public void updateOb() {
 		}
 	}
 	
+	public void addAttachment(ObjectAttachment att) {
+		if(attachments != null) {
+			attachments = new ObjectAttachment[] {att};
+		} else {
+			ObjectAttachment[] tempAtt = attachments;
+			attachments = new ObjectAttachment[tempAtt.length +1];
+			for(int i = 0; i < tempAtt.length ; i++) {
+				attachments[i] = tempAtt[i];
+			} 
+			attachments[attachments.length - 1] = att;
+		}
+	}
+	
 	
 	
 	protected void setForward(boolean b) {
@@ -137,6 +167,7 @@ public void updateOb() {
 		return turnRight;
 	}
 	
+	
 	public void render(Graphics g) {
 		for(int i = 0;i<getCorners().length;i++) {
 			if(i<getCorners().length-1) {
@@ -144,6 +175,19 @@ public void updateOb() {
 			}
 			else {
 				g.drawLine((int) Math.round(getCorners()[i].getX()),(int) Math.round(getCorners()[i].getY()),(int) Math.round(getCorners()[0].getX()),(int) Math.round(getCorners()[0].getY()));
+			}
+		}
+		
+		if(attachments != null && attachments.length > 0) {
+			for(int x = 0; x < attachments.length; x++) {
+				for(int i = 0; i < attachments[x].getCorners().length;i++) {
+					if(i < attachments[x].getCorners().length-1) {
+						g.drawLine((int) Math.round(attachments[x].getCorners()[i].getX()),(int) Math.round(attachments[x].getCorners()[i].getY()),(int) Math.round(attachments[x].getCorners()[i+1].getX()),(int) Math.round(attachments[x].getCorners()[i+1].getY()));
+					}
+					else {
+						g.drawLine((int) Math.round(attachments[x].getCorners()[i].getX()),(int) Math.round(attachments[x].getCorners()[i].getY()),(int) Math.round(attachments[x].getCorners()[0].getX()),(int) Math.round(attachments[x].getCorners()[0].getY()));
+					}
+				}
 			}
 		}
 		g.setColor(Color.red);
