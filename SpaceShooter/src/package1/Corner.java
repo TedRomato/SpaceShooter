@@ -1,10 +1,17 @@
 package package1;
 
 public class Corner {
-	private double x,y;
-	private double currentAngle;
-	private int qadrant;
-	private double distance;
+	
+	private double x,y; //X and Y coordinate
+	private double currentAngle; //currentAngle from constructor RP
+	private int qadrant;  //Corners quadrant based on constructor RP
+	private double distance; //Distance from its constructor RP
+	
+	/*Corners are a foundation object from which visible objects are made of. 
+	They are used to determine tilt and borders of object sides*/
+	
+	//WORKING NOTE
+	//Anytime working with Corners dont't forget to change distance, quadrant and currentAngle corresponding to new RP you are trying to use
 	
 	public Corner(double[] coordinates, double[] rotationPoint) {
 
@@ -18,11 +25,36 @@ public class Corner {
 		currentAngle = getAngle(rotationPoint);
 	}
 	
+	
+	//checks if this corner is under function line --> intakes a and b from : a*x+b = y
 	public boolean checkIfUnder(double a, double b) {
 		if (a*getX()+b < getY()) {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	/*gets quadrant of corner based on rotationPonit --> quadrants go from 1 - 4 counting clockwise from top right segments
+	 If the points are in between segments (XC == XRp ||  YC == YRp) -- then this method return 0 */
+	 
+	
+	public int getQadrant(Corner rp) {
+		if(x == rp.getX() || y == rp.getY()) {
+			return 0;
+		}
+		else if(x > rp.getX()) {
+			if(y > rp.getY()) {
+				return  2;
+			}else {
+				return 1;
+			}
+		} else {
+			if(y > rp.getY()) {
+				return 3;
+			}else {
+				return 4;
+			}	
 		}
 	}
 	
@@ -45,7 +77,12 @@ public class Corner {
 		}
 	}
 	
-	public double getXYRatio(double[] ds) {
+	
+	
+	/*gets xy ratio of (corner x - rp x) / (corner y - rp y) 
+	If the points are in quadrant 0 in vertical line returns : 0 || in horizontal line returns : Double.POSITIVE_INFINITY*/
+	
+	public double getXYRatio(Corner rp) {
 		double x = 0;
 		double y = 0;
 		if (qadrant == 1) {
@@ -62,24 +99,48 @@ public class Corner {
 			y = Math.abs((Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint())));
 		}
 		
-
+//TADYY
 		if(x == 0 && y == 0) {
-			if(this.y != ds[1]) {
+			if(this.y != rp.getY()) {
 				return 0;
+				
 			}else {
 				return Double.POSITIVE_INFINITY;
 			}
 		}
-		else {
-			if(this.y == 0) {
-				return Double.POSITIVE_INFINITY;
-			} if(this.x == 0) {
-				return 0;
-			}
-		}
+	
 		
 		return x/y;
 	
+	}
+	
+	
+	//gets Angle from a rotation Point
+	
+	public double getAngle(Corner rotationPoint) {
+
+		if(qadrant == 1 || qadrant == 3) {
+			return Math.toDegrees(Math.asin(Math.abs(rotationPoint.getX()-x)/distance)) + (qadrant-1)*90;
+		}else if(qadrant == 2 || qadrant == 4) {
+			return Math.toDegrees(Math.asin(Math.abs(rotationPoint.getY()-y)/distance)) + (qadrant-1)*90;
+		} else {
+			if(x == rotationPoint.getX()) {
+				if(y > rotationPoint.getY()) {
+					return 180;
+				} else {
+					return 0;
+				}
+			} else {
+				if(x > rotationPoint.getX()) {
+					return 90;
+				} else {
+					return 270;
+				}
+			
+			}
+			
+		}
+		
 	}
 	
 	public double getAngle(double[] rotationPoint) {
@@ -107,8 +168,9 @@ public class Corner {
 		}
 		
 	}
+	//Updates quadrant based on currentAngle 
 	
-	private void updateQadrants(double rotationPoint[]) {
+	private void updateQadrants() {
 
 		if (currentAngle < 360) {
 			qadrant = 4;
@@ -135,59 +197,84 @@ public class Corner {
 		
 	}
 	
+	
+	
 	private double countSinusPoint() {
 
 		return   (distance * Math.cos(Math.toRadians((currentAngle - ((qadrant-1)*90)))));
 	}
 	
-	private void getNewCoords(double[] ds) {
+	//Gets new coords based on currentAngle and Position of RP
+	
+	private void getNewCoords(Corner rp) {
 
 		if (qadrant == 1) {
-			y = ds[1] - countSinusPoint();
-			x = ds[0] + (Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
+			y = rp.getY() - countSinusPoint();
+			x = rp.getX() + (Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
 		}else if (qadrant == 2) {
-			x = ds[0] + countSinusPoint();
-			y = ds[1] + (Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
+			x = rp.getX() + countSinusPoint();
+			y = rp.getY() + (Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
 		}else if (qadrant == 3) {
-			y = ds[1] + countSinusPoint();
-			x = ds[0] -  (Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
+			y = rp.getY() + countSinusPoint();
+			x = rp.getX() -  (Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
 		}else if (qadrant == 4) {
-			x = ds[0] - countSinusPoint();
-			y = ds[1] -  (Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
+			x = rp.getX() - countSinusPoint();
+			y = rp.getY() -  (Math.sqrt(distance*distance - countSinusPoint()*countSinusPoint()));
 		}
 			
 		
 	}
 	
 	
+	//rotates Corner around set RP
 	
-	
-	public void rotateCorner(double[] ds, double rotationAngle) {
+	public void rotateCorner(Corner rp, double rotationAngle) {
 		currentAngle += rotationAngle;
-		updateQadrants(ds);
-		getNewCoords(ds);
+		updateQadrants();
+		getNewCoords(rp);
 	
 	}
 	
-	private boolean checkIfYIsSmaller(double a, double b) {
-		if(a*getX() + b > y) {
-			return true;
-		}else {
-			return false;
-		}
-	}
+	
 	
 	public void moveCorner(double velX, double velY) {
 		x += velX;
 		y += velY;
 		
 	}
+	
+	//gets distance between this and any other point
+	
+	private double getPointDistance(Corner rp) {
+		double x = rp.getX()-this.x;
+		double y = rp.getY()-this.y;
+		return Math.sqrt(x*x + y*y);
+		
+	}
+	
 	private double getPointDistance(double[] rotationPoint) {
 		double x = rotationPoint[0]-this.x;
 		double y = rotationPoint[1]-this.y;
 		return Math.sqrt(x*x + y*y);
 		
 	}
+	
+	
+	//rotates object around different RP and keeps the old one working
+	
+	public void rotateAroundDifferentRP(Corner newRP, double angle, Corner rp) {
+		//Dodelat
+		Corner temp = new Corner(new double[] {getX(),getY()}, new double[] {newRP.getX(), newRP.getY()});
+		temp.rotateCorner(newRP, angle);
+		setX(temp.getX());
+		setY(temp.getY());
+		Corner temp2 = new Corner(new double[] {temp.getX(),temp.getY()}, rp);
+		currentAngle = temp2.getAngle(rp);
+		distance = getPointDistance(rp);
+		
+		
+	}
+	
 
 	public double getX() {
 		return x;
@@ -224,20 +311,38 @@ public class Corner {
 	}
 	
 	
-	public void updateNoRotation(double[] rp) {
+	public Corner(Corner c, Corner rotationPoint) {
+		this.x = c.getX();
+		this.y = c.getY();
+		distance = getPointDistance(rotationPoint);
+		qadrant = getQadrant(rotationPoint);
+		currentAngle = getAngle(rotationPoint);
+	}
+
+	public Corner(double[] c, Corner rp) {
+		this.x = c[0];
+		this.y = c[1];
+		distance = getPointDistance(rp);
 		qadrant = getQadrant(rp);
 		currentAngle = getAngle(rp);
+	}
+
+	public void updateNoRotation(Corner corner) {
+		qadrant = getQadrant(corner);
+		currentAngle = getAngle(corner);
 		
 	}
 	
-	public void turnAround(char c, double[] rp) {
+	//changes position of corner to other side of the RP -- x || y based on char input
+	
+	public void turnAround(char c, Corner corner) {
 		switch(c){
 		case 'y':
-			this.setY(moveToOtherSide(this.getY(), rp[1]));
+			this.setY(moveToOtherSide(this.getY(), corner.getY()));
 			break;
 		
 		case 'x':
-			this.setX(moveToOtherSide(this.getX(), rp[0]));
+			this.setX(moveToOtherSide(this.getX(), corner.getX()));
 			break;
 			
 			}

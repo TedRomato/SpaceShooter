@@ -20,17 +20,26 @@ public class Game extends JPanel{
 	private LivingObject[] livingObsReflectUpdate;
 	private MovingObject[] borderSensitive;
 	private GameObject[][] arrayList;
+	private ObjectAttachment attachmentTry;
 	//public static JPanel gp = new GamePanel();
 	private boolean running = true;
 	
 	public Game(int sw,int sh) {
 		this.screenHeight = sh;
 		this.screenWidth = sw;
+		
+		
+		//Atachment
+		Corner peakA = new Corner(new double[] {400,100}, new double[] {400,175});
+	    Corner rightCornerA = new Corner(new double[] {390,150}, new double[] {400,175});
+	    Corner leftCornerA = new Corner(new double[] {410,150}, new double[] {400,175});
+	    attachmentTry = new ObjectAttachment(new Corner[] {peakA, rightCornerA, leftCornerA}, new double[] {400,175},new double[] {400,150},-5);
 		//TEST
 		Corner peak = new Corner(new double[] {400,200}, new double[] {400,175});
 	    Corner rightCorner = new Corner(new double[] {375,150}, new double[] {400,175});
 	    Corner leftCorner = new Corner(new double[] {425,150}, new double[] {400,175});
 	    p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {400,175}, 1, new Corner(new double[] {400,200}, new double[] {400,175}));
+	    p.addAttachment(attachmentTry);
 	    //trojuhelnik s vnitrnim rohem
 	   /*
 	    Corner top = new Corner(new double[] {200,200}, new double[] {200,250});
@@ -56,7 +65,7 @@ public class Game extends JPanel{
 	    Corner leftBot = new Corner(new double[] {450,450}, new double[] {500,400});
 	    Corner rightBot = new Corner(new double[] {550,450}, new double[] {500,400});
 	    Corner rightTop = new Corner(new double[] {550,350}, new double[] {500,400});
-	    les = new Meteor(new Corner[] {leftTop, leftBot, rightBot, rightTop},new double[] {500,400}, -0.5, new Corner(new double[] {450,400}, new double[] {500,400}), 0.8, 3);
+	    les = new Meteor(new Corner[] {leftTop, leftBot, rightBot, rightTop},new double[] {500,400}, -0.5, new Corner(new double[] {450,400}, new double[] {500,400}), 0.5, 3);
 	    
 	    //kosoctverec
 	    Corner top = new Corner(new double[] {200,200}, new double[] {200,250});
@@ -65,7 +74,7 @@ public class Game extends JPanel{
 	    Corner bot = new Corner(new double[] {200,300}, new double[] {200,250});
 	    
 	    
-	    pes = new Meteor(new Corner[] {top, left, bot, right},new double[] {200,250}, 0.5, new Corner(new double[] {250,300}, new double[] {200,250}), 0.2, 2);
+	    pes = new Meteor(new Corner[] {top, left, bot, right},new double[] {200,250}, 0.6, new Corner(new double[] {250,300}, new double[] {200,250}), 0.4, 2);
 	    objects = new GameObject[] {pes,les,p};
 	    reflectableObs = new MovingObject[] {pes,les,p};
 	    reflectingObs = new MovingObject[] {pes,les,p};
@@ -126,13 +135,15 @@ public class Game extends JPanel{
 	}
 	
 	public void tick() {	
-    	updateAllObs();
+	//	p.rotateAttachments(); 
+		updateAllObs();
     	checkAndHandleCollision();
     	updateLivingObsReflect();
         checkAndHandleAllRefs();
         deleteNoHpObs();
     	updateAllInvs();
         reflectFromSides();
+
 
 	}
 	
@@ -145,11 +156,20 @@ public class Game extends JPanel{
 		}
 	}
     	
-	
+	//handle reflections from objects with attachments
 	private void checkAndHandleAllRefs() {
 		for(MovingObject mob : reflectableObs) {
 			for(MovingObject ob : reflectingObs) {
-				mob.checkAndHandleReflect(ob);
+				if(mob != ob) {
+					mob.checkAndHandleReflect(ob);
+					if(ob.getClass().getSimpleName().equals("LivingObject") || ob.getClass().getSimpleName().equals("Player")) {
+						if(((LivingObject) ob).getAttachments().length > 0) {
+							for(ObjectAttachment att : ((LivingObject) ob).getAttachments()) {
+								mob.checkAndHandleReflect(att);
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -261,6 +281,8 @@ public class Game extends JPanel{
 		}
 	}
 	
+	
+	
 	private void renderAll(Graphics g) {
 		if(objects != null) {
 			if(objects.length > 0) {
@@ -273,6 +295,10 @@ public class Game extends JPanel{
 			ob.render(g);
 		}
 	}
+	
+	
+	
+	
 	
 	public Dimension getPreferredSize() {
 		// TODO Auto-generated method stub
@@ -287,5 +313,6 @@ public class Game extends JPanel{
 		renderAll(g2);
 
 	}
+
 	
 }
