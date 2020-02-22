@@ -34,10 +34,10 @@ public class Meteor extends MovingObject {
 			break;
 		}
 		moveDirection.updateNoRotation(getRotationPoint());
-		setCurrentSpeed(getCurrentSpeed()+2);
+		setCurrentSpeed(getCurrentSpeed()+8);
 		setNewVels();
 		moveOb();
-		setCurrentSpeed(getCurrentSpeed()-2);
+		setCurrentSpeed(getCurrentSpeed()-8);
 	}
 	
 	

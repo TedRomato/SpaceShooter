@@ -90,8 +90,7 @@ public void updateOb() {
 			}
 		}
 		
-		getRotationPoint()[0] += getVelX();
-		getRotationPoint()[1] += getVelY();
+		getRotationPoint().moveCorner(getVelX(), getVelY());
 
 
 		movePoint.moveCorner(getVelX(),getVelY());
@@ -246,7 +245,7 @@ public void updateOb() {
 		g.setColor(Color.red);
 		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
 		g.setColor(Color.darkGray);
-		g.fillRect((int) Math.round(getRotationPoint()[0]),(int) Math.round(getRotationPoint()[1]), 9, 9);
+		g.fillRect((int) Math.round(getRotationPoint().getX()),(int) Math.round(getRotationPoint().getY()), 9, 9);
 		g.setColor(Color.BLUE);
 		g.fillRect((int) Math.round(movePoint.getX()),(int) Math.round(movePoint.getY()), 8, 8);
 		g.setColor(Color.BLACK);

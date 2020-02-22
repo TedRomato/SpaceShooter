@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 public class GameObject {
 	private Corner[] corners;
-	private double[] rotationPoint;
+	private Corner rotationPoint;
 	private double rotationAngle;
 	private double velX;
 	private double velY;
@@ -309,8 +309,7 @@ public class GameObject {
 		for(Corner corner : corners) {
 			corner.moveCorner(getVelX(),getVelY());
 		}
-		getRotationPoint()[0] += getVelX();
-		getRotationPoint()[1] += getVelY();
+		getRotationPoint().moveCorner(getVelX(),getVelY());
 	}
 	
 	public void setVels(double velX, double velY) {
@@ -331,12 +330,12 @@ public class GameObject {
 		return HP;
 	}
 
-	public double[] getRotationPoint() {
+	public Corner getRotationPoint() {
 		return rotationPoint;
 	}
 
 	public void setRotationPoint(double[] rotationPoint2) {
-		this.rotationPoint = rotationPoint2;
+		this.rotationPoint = new Corner(new double[] {rotationPoint2[0] ,rotationPoint2[1]}, new double[] {0,0}) ;
 	}
 
 	public double getVelY() {
@@ -366,10 +365,7 @@ public class GameObject {
 		
 	}
 	
-	public void addToRP(double velX, double velY) {
-		this.rotationPoint[0] += velX;
-		this.rotationPoint[1] += velY;
-	}
+
 
 	public void render(Graphics g) {
 		for(int i = 0;i<corners.length;i++) {
