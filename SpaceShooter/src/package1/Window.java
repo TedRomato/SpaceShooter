@@ -24,12 +24,14 @@ public class Window extends JFrame implements KeyListener{
 		super("EPIC TITLE");
 		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setResizable(false);
-		setSize(1920,1080);
-		//setUndecorated(true);
+
+		setSize(1540,870);
+		setUndecorated(true);
+
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
 		
-		game = new Game();
 		
 		menu = new JPanel();
 		menu.setSize(1920, 1080);
@@ -69,6 +71,10 @@ public class Window extends JFrame implements KeyListener{
 		
 		
 		add(menu);
+
+		game = new Game(getWidth(), getHeight());
+		add(game);
+
 		setVisible(true);
 		addKeyListener(this);
         while(true) {
