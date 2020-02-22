@@ -17,7 +17,7 @@ public class Game extends JPanel{
 	private MovingObject[] reflectingObs;
 	private LivingObject[] livingObsReflectUpdate;
 	//public static JPanel gp = new GamePanel();
-	private boolean running = true;
+	public static boolean running = false;
 	
 	public Game() {
 		//TEST

@@ -17,25 +17,64 @@ import javax.swing.JPanel;
 
 public class Window extends JFrame implements KeyListener{
 	private JButton exit, start;
-	private boolean running = true;
-	private Graphics g;
-	private BufferStrategy bs;
-
 	private Game game;
+	private JPanel menu;
+	
 	public Window() {
 		super("EPIC TITLE");
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setResizable(false);
 		setSize(1920,1080);
-		setUndecorated(true);
+		//setUndecorated(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 		game = new Game();
-		add(game);
+		
+		menu = new JPanel();
+		menu.setSize(1920, 1080);
+		
+		
+		start = new JButton("New Game");
+		start.setBounds(1920-50, 1080-25, 100, 50);
+		start.setFocusable(false);
+		start.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				getContentPane().removeAll();
+				getContentPane().invalidate();
+				getContentPane().add(game);
+				getContentPane().revalidate();
+				game.running = true;
+				
+			}
+		});
+		menu.add(start);
+		
+		exit = new JButton("Exit");
+		exit.setBounds(1920-50, 1080-75, 100, 50);
+		exit.setFocusable(false);
+		exit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				dispose();
+				game.stop();
+			}
+		});
+		menu.add(exit);
+		
+		
+		add(menu);
 		setVisible(true);
-		setLayout(null);
 		addKeyListener(this);
-        game.start();	
+        while(true) {
+		game.start();
+		System.out.println("true");
+        }	
 	}
 	
 	public static void main(String[] args) {
