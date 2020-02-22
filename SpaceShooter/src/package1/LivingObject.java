@@ -8,6 +8,11 @@ import java.math.RoundingMode;
 
 //PRESUNOUT METODY LIVING OBJECTU Z HRACE 
 public class LivingObject extends MovingObject{
+	
+	//is able to change its move direction based on move point 
+	//does have acceleration and max Speed
+	//can have attachments 
+	//other than that same methods, but work for attachment as well
 	private boolean forward = false, turnRight = false, turnLeft = false;
 	private Corner movePoint;
 	private double maxSpeed = 2.5;
@@ -18,21 +23,16 @@ public class LivingObject extends MovingObject{
 		super(corners, rotationPoint2, rotationAngle, md);
 		movePoint = new Corner(md, rotationPoint2);
 		setReflectedSpeed(maxSpeed*2);
-		setHP(5);
+		setHP(10);
 		// TODO Auto-generated constructor stub
 	}
 	
 	
 public void updateOb() {
-		
-		//NaN error typek mizii for no reason :( asi nekde setuju infinity jako speed
-
 				
-		updateMovePoint();
 
 		updateSpeed();
 
-		
 		moveOb();
 
 	
@@ -42,8 +42,12 @@ public void updateOb() {
 
 
 		}
+		
 		updateForward();
+		
 		if(forward) {
+			updateMDtoMP();
+			
 			getNewRatios();
 
 
@@ -112,13 +116,13 @@ public void updateOb() {
 		}
 	}
 	
-	private void updateMovePoint() {
-		// CHYBA kdyz zkousim get x a get y prepisovat do setru Direction tak to nefunguje :(
-		if(forward) {
-			moveDirection = new Corner(movePoint, getRotationPoint());
-		}
+	private void updateMDtoMP() {
+		
+		moveDirection = new Corner(movePoint, getRotationPoint());
+		
 	}
 	
+	//handles acceleration 
 	
 	public void updateSpeed() {
 		if(forward && getCurrentSpeed() < maxSpeed) {
@@ -147,6 +151,8 @@ public void updateOb() {
 			}
 		}
 	}
+	
+	//adds attachment to ob
 	
 	public void addAttachment(ObjectAttachment att) {
 		if(attachments == null) {
@@ -251,5 +257,11 @@ public void updateOb() {
 		g.setColor(Color.BLACK);
 		g.fillRect((int) Math.round(attachments[0].getAttachmentRP().getX()),(int) Math.round(attachments[0].getAttachmentRP().getY()), 8, 8);
 		
+	}
+
+
+	public ObjectAttachment[] getAttachments() {
+		// TODO Auto-generated method stub
+		return attachments;
 	}
 } 

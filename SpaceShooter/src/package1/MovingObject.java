@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class MovingObject extends GameObject{
+	//game object that follows move direction Corner
+	//able to set speed and reflect properly
 	protected Corner moveDirection;
 	private double xyRatio;
 	private double currentSpeed = 0;
@@ -28,20 +30,7 @@ public class MovingObject extends GameObject{
 		rotateOb();
 	
 	}
-	
-	private double getTempRpX(Corner c1, Corner c2) {
-		double difference = Math.abs(c1.getX() - c2.getX());
-		if(c1.getX() > c2.getX()) {
-			return c2.getX() + difference/2;
-		} else if(c1.getX() < c2.getX()) {
-			return c1.getX() + difference/2;
-		}
-		
-		System.out.println("71 moving ob returns null");
-		return (Double) null;
-	}
-	
-	
+	//reflects this from otherOb if collision
 	public void checkAndHandleReflect(GameObject otherOb) {
 		if(otherOb != this) {
 			Corner[] corners = getCrossedLineCorners(otherOb);
@@ -51,6 +40,18 @@ public class MovingObject extends GameObject{
 		}
 	}
 	
+	//updates object after reflect
+	
+	public void updateAfterReflect() {
+		getNewRatios();
+		setCurrentSpeed(reflectedSpeed);
+		setNewVels();
+		setReflected(true);
+	}
+	
+	
+	//relfects from  line 
+	//NOTE : it doesn't matter if objects touch with line 
 	protected void reflect(Corner c1, Corner c2) {
 		reflected = true;
 		if(getReflected()) {
@@ -90,11 +91,18 @@ public class MovingObject extends GameObject{
 		updateAfterReflect();		
 	}
 	
-	
-	
-	
-	
-	
+	private double getTempRpX(Corner c1, Corner c2) {
+		double difference = Math.abs(c1.getX() - c2.getX());
+		if(c1.getX() > c2.getX()) {
+			return c2.getX() + difference/2;
+		} else if(c1.getX() < c2.getX()) {
+			return c1.getX() + difference/2;
+		}
+		
+		System.out.println("71 moving ob returns null");
+		return (Double) null;
+	}
+		
 	
 	private double getNMDAngle(Corner co, Corner ct ,double x , double y, double[] trp) {
 		double angleToRotate = 90;
@@ -184,7 +192,7 @@ public class MovingObject extends GameObject{
 	
 	
 	
-	
+	//
 	protected void getNewRatios() {
 		xyRatio = moveDirection.getXYRatio(getRotationPoint());
 		
@@ -220,12 +228,7 @@ public class MovingObject extends GameObject{
 			
 	}
 	
-	public void updateAfterReflect() {
-		getNewRatios();
-		setCurrentSpeed(reflectedSpeed);
-		setNewVels();
-		setReflected(true);
-	}
+	
 	
 	
 	private void setStraightVectorX(){
@@ -270,6 +273,8 @@ public class MovingObject extends GameObject{
 		g.setColor(Color.BLACK);
 	}
 	
+	
+	//sets speed
 	
 	protected void setCurrentSpeed(double speed) {
 		currentSpeed = speed;

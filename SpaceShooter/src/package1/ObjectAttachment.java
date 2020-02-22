@@ -10,6 +10,8 @@ public class ObjectAttachment extends GameObject{
 		this.attachmentRP = new Corner(attachmentRP,rotationPoint);
 	}
 	
+	//rotates attachment based on its rp 
+	
 	public void rotateAttachment(double angle) {
 		for(Corner c : getCorners()) {
 			c.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());

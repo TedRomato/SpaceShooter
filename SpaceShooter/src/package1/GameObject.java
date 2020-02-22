@@ -3,6 +3,10 @@ package package1;
 import java.awt.Graphics;
 
 public class GameObject {
+	
+	//Basic object
+	//Made out of Corners 
+	//able to rotate, move and has some additional fucntions
 	private Corner[] corners;
 	private Corner rotationPoint;
 	private double rotationAngle;
@@ -10,6 +14,7 @@ public class GameObject {
 	private double velY;
 	private boolean collision;
 	private int HP = 3;
+    //can be activated after reflection for other beahaviour
 	private int invulnerabilityLength = 10;
 	private int invulnerabilityTimer = 0;
 	private boolean invulnurable = false;
@@ -26,6 +31,21 @@ public class GameObject {
 		this.rotationAngle = rotationAngle;
 
 	}
+	//updates object --> move and rotate
+	public void updateOb() {
+		moveOb();
+		rotateOb();
+	}
+	
+	
+	//Check collision  between this object and go
+		public boolean checkCollision(GameObject go) {
+			if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2) {
+				return true;
+			}else {
+				return false;
+			}
+		}
 	
 	
 	public void startInvulnurability() {
@@ -44,14 +64,9 @@ public class GameObject {
 	
 
 	
-	//p = peak, rc, lc pes = leftTop, mid, rightBot
-	public boolean checkCollision(GameObject go) {
-		if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2) {
-			return true;
-		}else {
-			return false;
-		}
-	}
+	
+	
+	
 	
 	protected boolean checkCollisionInside(GameObject go) {
 		boolean isCollision = false;
@@ -81,6 +96,8 @@ public class GameObject {
 		return false;
 	}
 	
+
+	
 	private Corner[] checkIfAnyCornerCollision(GameObject go) {
 		for(int i = 1; i < go.getCorners().length-1; i++) {
 			if(checkIfCornerCollision(go.getCorners()[i])) {
@@ -97,7 +114,6 @@ public class GameObject {
 	}
 	
 	private boolean checkIfCornerCollision(Corner co) {
-	//	System.out.println(checkCollision(new GameObject(new Corner[] {co,co}, new double[] {0,0}, 0)));
 		GameObject c = new GameObject(new Corner[] {co,co}, new double[] {0,0}, 0);
 		return c.checkCollisionInside(this);
 	}
@@ -180,10 +196,11 @@ public class GameObject {
 			
 	}
 	
+	//returns Corners to reflect from (if bumped into line returns line corners || if bumped into corner return corners that are distanced same length on both lines going from corner and placed on roght side of collision) 
+	
 	public Corner[] getCrossedLineCorners(GameObject go) {
 		Corner[] crossedCorner = checkIfAnyCornerCollision(go);
 		if(crossedCorner != null) {
-			//bacha jestli najizdis na vnitrni cornery
 			return getCornerReflectedCorners(crossedCorner[0], crossedCorner[1], crossedCorner[2]);
 		}
 		
@@ -214,17 +231,8 @@ public class GameObject {
 	}
 	
 	
-	private double getLineCornerYDifference(Corner o1, Corner o2, double x, double y) {
-		double difference;
-		double ab[];
-		ab = getAB(o1, o2);
-		difference = x*ab[0] + ab[1] - y;
-		if(ab[0] == Double.POSITIVE_INFINITY || ab[0] == Double.NEGATIVE_INFINITY) {
-			return Math.abs(0);
-		}
-		return Math.abs(difference); 
-	}
 	
+	//checks if those o1 - o2 && l1-l2 cross
 	
 	private boolean checkIfCrosses(Corner o1, Corner o2, Corner l1, Corner l2) {		
 		//functions
@@ -282,11 +290,8 @@ public class GameObject {
 		}
 	}
 	
+	//rotates and moves ob
 	
-	public void updateOb() {
-		moveOb();
-		rotateOb();
-	}
 		
 	
 	protected double[] getAB(Corner one, Corner two) {

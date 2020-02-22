@@ -135,7 +135,7 @@ public class Game extends JPanel{
 	}
 	
 	public void tick() {	
-		p.rotateAttachments(); 
+	//	p.rotateAttachments(); 
 		updateAllObs();
     	checkAndHandleCollision();
     	updateLivingObsReflect();
@@ -156,11 +156,20 @@ public class Game extends JPanel{
 		}
 	}
     	
-	
+	//handle reflections from objects with attachments
 	private void checkAndHandleAllRefs() {
 		for(MovingObject mob : reflectableObs) {
 			for(MovingObject ob : reflectingObs) {
-				mob.checkAndHandleReflect(ob);
+				if(mob != ob) {
+					mob.checkAndHandleReflect(ob);
+					if(ob.getClass().getSimpleName().equals("LivingObject") || ob.getClass().getSimpleName().equals("Player")) {
+						if(((LivingObject) ob).getAttachments().length > 0) {
+							for(ObjectAttachment att : ((LivingObject) ob).getAttachments()) {
+								mob.checkAndHandleReflect(att);
+							}
+						}
+					}
+				}
 			}
 		}
 	}
