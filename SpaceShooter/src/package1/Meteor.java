@@ -1,12 +1,12 @@
 package package1;
 
 public class Meteor extends MovingObject {
+	//Moving object that reflects differently from borders of screen to make for a more interesting gameplay
+	//comes in three basic types
 	int size;
-	double speed;
 	public Meteor(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, double speed, int size) {
 		super(corners, rotationPoint, rotationAngle, md);
 		// TODO Auto-generated constructor stub
-		this.speed = speed;
 		setReflectedSpeed(speed);
 		this.size = size;
 		setNewHp();
@@ -34,10 +34,10 @@ public class Meteor extends MovingObject {
 			break;
 		}
 		moveDirection.updateNoRotation(getRotationPoint());
-		setCurrentSpeed(getCurrentSpeed()+2);
+		setCurrentSpeed(getCurrentSpeed()+8);
 		setNewVels();
 		moveOb();
-		setCurrentSpeed(getCurrentSpeed()-2);
+		setCurrentSpeed(getCurrentSpeed()-8);
 	}
 	
 	
