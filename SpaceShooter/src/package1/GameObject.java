@@ -365,6 +365,12 @@ public class GameObject {
 		return corners;
 		
 	}
+	
+	public void addToRP(double velX, double velY) {
+		this.rotationPoint[0] += velX;
+		this.rotationPoint[1] += velY;
+	}
+
 	public void render(Graphics g) {
 		for(int i = 0;i<corners.length;i++) {
 			if(i<corners.length-1) {

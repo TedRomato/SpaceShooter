@@ -188,6 +188,20 @@ public class Corner {
 		return Math.sqrt(x*x + y*y);
 		
 	}
+	
+	public void rotateAroundDifferentRP(double[] newRP, double angle, double[] objectRP) {
+		//Dodelat
+		Corner temp = new Corner(new double[] {getX(),getY()}, newRP);
+		temp.rotateCorner(newRP, angle);
+		setX(temp.getX());
+		setY(temp.getY());
+		Corner temp2 = new Corner(new double[] {temp.getX(),temp.getY()}, objectRP);
+		currentAngle = temp2.getAngle(objectRP);
+		distance = getPointDistance(objectRP);
+		
+		
+	}
+	
 
 	public double getX() {
 		return x;

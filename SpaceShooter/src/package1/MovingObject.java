@@ -24,7 +24,6 @@ public class MovingObject extends GameObject{
 	
 	public void updateOb() {
 		
-		//NaN error typek mizii for no reason :( asi nekde setuju infinity jako speed
 		moveOb();
 		rotateOb();
 	
@@ -153,7 +152,7 @@ public class MovingObject extends GameObject{
 					}
 				}
 		}
-		System.out.println("DANGER 68 LivingOb");
+		System.out.println("DANGER 155 LivingOb");
 		return (Double) null;
 	}
 	

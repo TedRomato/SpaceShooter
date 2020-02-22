@@ -70,7 +70,10 @@ public void updateOb() {
 				for(Corner c : att.getCorners()) {
 					c.rotateCorner(getRotationPoint(), getRotationAngle());
 				}
+				att.attachmentRP.rotateCorner(getRotationPoint(), getRotationAngle());
+
 			}
+
 		}
 		
 		movePoint.rotateCorner(getRotationPoint(), getRotationAngle());	
@@ -80,11 +83,10 @@ public void updateOb() {
 		for(Corner c : getCorners()) {
 			c.moveCorner(getVelX(),getVelY());
 		}
+		
 		if(attachments != null) {
 			for(ObjectAttachment att : attachments) {
-				for(Corner c : att.getCorners()) {
-					c.moveCorner(getVelX(),getVelY());
-				}
+				att.moveAttachment(getVelX(), getVelY());
 			}
 		}
 		
@@ -96,6 +98,19 @@ public void updateOb() {
 		moveDirection.moveCorner(getVelX(),getVelY());
 
 	
+	}
+	
+	public  void rotateAttachments() {
+		if(turnRight || turnLeft) {
+			for(ObjectAttachment att : attachments) {
+				att.rotateAttachment(att.getAngleToRotateConstantly(getRotationAngle()));
+			}
+		}
+		else {
+			for(ObjectAttachment att : attachments) {
+				att.rotateAttachment(att.getRotationAngle());
+			}
+		}
 	}
 	
 	private void updateMovePoint() {
@@ -148,14 +163,11 @@ public void updateOb() {
 	}
 	
 	public boolean checkCollision(GameObject go) {
-		System.out.println("------------");
-		System.out.println("Object  : " + go.getClass().getSimpleName());
 		if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2) {
 			return true;
 		}
 		
 		for(ObjectAttachment att : attachments) {
-			System.out.println("c inside : " + att.checkCollisionInside(go) + "   gclc : " + att.getCrossedLineCorners(go).length);
 			if(att.checkCollisionInside(go) || att.getCrossedLineCorners(go).length == 2) {
 				return true;
 			}
@@ -172,11 +184,13 @@ public void updateOb() {
 			
 			corners = getCrossedLineCorners(otherOb);
 			
-			if(corners == null) {
-				for(ObjectAttachment att : attachments) {
-					corners = att.getCrossedLineCorners(otherOb);
+			
+			for(ObjectAttachment att : attachments) {
+				if(corners.length != 2) {
+				corners = att.getCrossedLineCorners(otherOb);
 				}
 			}
+			
 			
 			
 			
@@ -236,5 +250,7 @@ public void updateOb() {
 		g.setColor(Color.BLUE);
 		g.fillRect((int) Math.round(movePoint.getX()),(int) Math.round(movePoint.getY()), 8, 8);
 		g.setColor(Color.BLACK);
+		g.fillRect((int) Math.round(attachments[0].getAttachmentRP().getX()),(int) Math.round(attachments[0].getAttachmentRP().getY()), 8, 8);
+		
 	}
 } 

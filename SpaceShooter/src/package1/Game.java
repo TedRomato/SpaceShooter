@@ -33,7 +33,7 @@ public class Game extends JPanel{
 		Corner peakA = new Corner(new double[] {400,100}, new double[] {400,175});
 	    Corner rightCornerA = new Corner(new double[] {390,150}, new double[] {400,175});
 	    Corner leftCornerA = new Corner(new double[] {410,150}, new double[] {400,175});
-	    attachmentTry = new ObjectAttachment(new Corner[] {peakA, rightCornerA, leftCornerA}, new double[] {400,175},new double[] {400,175},2);
+	    attachmentTry = new ObjectAttachment(new Corner[] {peakA, rightCornerA, leftCornerA}, new double[] {400,175},new double[] {400,150},-5);
 		//TEST
 		Corner peak = new Corner(new double[] {400,200}, new double[] {400,175});
 	    Corner rightCorner = new Corner(new double[] {375,150}, new double[] {400,175});
@@ -102,7 +102,7 @@ public class Game extends JPanel{
 	
 	public void start() {
 		long lastTime = System.nanoTime();
-        double amountOfTicks = 220;
+        double amountOfTicks = 120;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -135,13 +135,15 @@ public class Game extends JPanel{
 	}
 	
 	public void tick() {	
-    	updateAllObs();
+		p.rotateAttachments(); 
+		updateAllObs();
     	checkAndHandleCollision();
     	updateLivingObsReflect();
         checkAndHandleAllRefs();
         deleteNoHpObs();
     	updateAllInvs();
         reflectFromSides();
+
 
 	}
 	
@@ -270,6 +272,8 @@ public class Game extends JPanel{
 		}
 	}
 	
+	
+	
 	private void renderAll(Graphics g) {
 		if(objects != null) {
 			if(objects.length > 0) {
@@ -282,6 +286,10 @@ public class Game extends JPanel{
 			ob.render(g);
 		}
 	}
+	
+	
+	
+	
 	
 	public Dimension getPreferredSize() {
 		// TODO Auto-generated method stub
@@ -296,5 +304,6 @@ public class Game extends JPanel{
 		renderAll(g2);
 
 	}
+
 	
 }
