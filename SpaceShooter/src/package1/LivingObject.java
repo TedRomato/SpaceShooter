@@ -205,7 +205,9 @@ public void updateOb() {
 		}
 	}
 	
-	
+	protected Corner getMP() {
+		return movePoint;
+	}
 	
 	protected void setForward(boolean b) {
 		forward = b;
