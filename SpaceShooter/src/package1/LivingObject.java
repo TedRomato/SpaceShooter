@@ -27,8 +27,12 @@ public class LivingObject extends MovingObject{
 		// TODO Auto-generated constructor stub
 	}
 	
+	public void setMaxSpeed(double maxSpeed) {
+		this.maxSpeed = maxSpeed;
+	}
 	
-public void updateOb() {
+	
+	public void updateOb() {
 				
 
 		updateSpeed();
@@ -171,10 +175,11 @@ public void updateOb() {
 		if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2) {
 			return true;
 		}
-		
-		for(ObjectAttachment att : attachments) {
-			if(att.checkCollisionInside(go) || att.getCrossedLineCorners(go).length == 2) {
-				return true;
+		if(attachments != null) {
+			for(ObjectAttachment att : attachments) {
+				if(att.checkCollisionInside(go) || att.getCrossedLineCorners(go).length == 2) {
+					return true;
+				}
 			}
 		}
 	
@@ -189,10 +194,11 @@ public void updateOb() {
 			
 			corners = getCrossedLineCorners(otherOb);
 			
-			
-			for(ObjectAttachment att : attachments) {
-				if(corners.length != 2) {
-				corners = att.getCrossedLineCorners(otherOb);
+			if(attachments != null) {
+				for(ObjectAttachment att : attachments) {
+					if(corners.length != 2) {
+					corners = att.getCrossedLineCorners(otherOb);
+					}
 				}
 			}
 			
@@ -257,7 +263,10 @@ public void updateOb() {
 		g.setColor(Color.BLUE);
 		g.fillRect((int) Math.round(movePoint.getX()),(int) Math.round(movePoint.getY()), 8, 8);
 		g.setColor(Color.BLACK);
+		
 		g.fillRect((int) Math.round(attachments[0].getAttachmentRP().getX()),(int) Math.round(attachments[0].getAttachmentRP().getY()), 8, 8);
+
+		
 		
 	}
 

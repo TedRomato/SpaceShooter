@@ -11,8 +11,9 @@ import javax.swing.JPanel;
 
 public class Game extends JPanel{
 	private int screenWidth, screenHeight;
-	private  Player p;
-	private  Meteor pes, les;
+	private Player p;
+	private AI ai;
+	private Meteor pes, les;
 	private GameObject[] borders;
 	private GameObject[] objects;
 	private MovingObject[] reflectableObs;
@@ -28,8 +29,14 @@ public class Game extends JPanel{
 		this.screenHeight = sh;
 		this.screenWidth = sw;
 		
-		
-		//Atachment
+		//ai
+		Corner peakAI = new Corner(new double[] {600,400}, new double[] {600,375});
+	    Corner rightCornerAI = new Corner(new double[] {575,350}, new double[] {600,375});
+	    Corner leftCornerAI = new Corner(new double[] {625,350}, new double[] {600,375});
+	    Corner goalCorner = new Corner(new double[] {1000,800}, new double[] {600,375});
+	    ai = new AI(new Corner[] {peakAI, rightCornerAI, leftCornerAI},new double[] {600,375}, 0.8, new Corner(new double[] {600,400}, new double[] {600,375}), goalCorner);
+		ai.setMaxSpeed(0.8);
+	    //Atachment
 		Corner peakA = new Corner(new double[] {400,100}, new double[] {400,175});
 	    Corner rightCornerA = new Corner(new double[] {390,150}, new double[] {400,175});
 	    Corner leftCornerA = new Corner(new double[] {410,150}, new double[] {400,175});
@@ -75,11 +82,11 @@ public class Game extends JPanel{
 	    
 	    
 	    pes = new Meteor(new Corner[] {top, left, bot, right},new double[] {200,250}, 0.6, new Corner(new double[] {250,300}, new double[] {200,250}), 0.4, 2);
-	    objects = new GameObject[] {pes,les,p};
-	    reflectableObs = new MovingObject[] {pes,les,p};
-	    reflectingObs = new MovingObject[] {pes,les,p};
-	    livingObsReflectUpdate = new LivingObject[] {p};
-	    borderSensitive = new MovingObject[] {p, les, pes};
+	    objects = new GameObject[] {pes,les,p,ai};
+	    reflectableObs = new MovingObject[] {pes,les,p,ai};
+	    reflectingObs = new MovingObject[] {pes,les,p,ai};
+	    livingObsReflectUpdate = new LivingObject[] {p,ai};
+	    borderSensitive = new MovingObject[] {p, les, pes,ai};
 	    arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive};
 	    
 	    
@@ -135,7 +142,7 @@ public class Game extends JPanel{
 	}
 	
 	public void tick() {	
-	//	p.rotateAttachments(); 
+		ai.updateAI(p);
 		updateAllObs();
     	checkAndHandleCollision();
     	updateLivingObsReflect();

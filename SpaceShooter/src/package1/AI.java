@@ -1,5 +1,8 @@
 package package1;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class AI extends LivingObject{
 	Corner goalDestination;
 	
@@ -8,17 +11,70 @@ public class AI extends LivingObject{
 		super(corners, rotationPoint, rotationAngle, md);
 		this.goalDestination = goalDestination;
 		this.goalDestination.setToNewRP(rotationPoint);
+		setForward(true);
 		// TODO Auto-generated constructor stub
 	}
-	//AHOJ
+	
+	public void updateAI(Player p) {
+		setGoalToPlayer(p);
+		updateForward();
+		updateRotation();
+	}
+	
+	private void setGoalToPlayer(Player p) {
+		goalDestination.setX(p.getRotationPoint().getX());
+		goalDestination.setY(p.getRotationPoint().getY());
+	}
 	
 	
-	public void updateRotation() {
+	private void updateForward() {
+		if(getReflected() == false) {
+			setForward(true);
+		}
+	}
+	
+	private void updateRotation() {
 		this.goalDestination.setToNewRP(getRotationPoint());
 		double movePointAngle = getMP().getAngle(getRotationPoint());
 		double goalDestinationAngle = goalDestination.getAngle(getRotationPoint());
 		double[] angleDifference = getMP().getAngleDifferencRL(movePointAngle, goalDestinationAngle);
+		if(angleDifference[0] < 2 || angleDifference[1] < 2) {
+			setRight(false);
+			setLeft(false);
+		}
+		else if(angleDifference[0] < angleDifference[1]) {
+			setRight(true);
+			setLeft(false);
+			makePositiveRotation();
+			
+		} else {
+			setLeft(true);
+			setRight(false);
+			makeNegativeRotation();
+			
+		}
 		
+	}
+	
+	public void render(Graphics g) {
+		for(int i = 0;i<getCorners().length;i++) {
+			if(i<getCorners().length-1) {
+				g.drawLine((int) Math.round(getCorners()[i].getX()),(int) Math.round(getCorners()[i].getY()),(int) Math.round(getCorners()[i+1].getX()),(int) Math.round(getCorners()[i+1].getY()));
+			}
+			else {
+				g.drawLine((int) Math.round(getCorners()[i].getX()),(int) Math.round(getCorners()[i].getY()),(int) Math.round(getCorners()[0].getX()),(int) Math.round(getCorners()[0].getY()));
+			}
+		}
+		
+		g.setColor(Color.red);
+		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
+		g.setColor(Color.darkGray);
+		g.fillRect((int) Math.round(getRotationPoint().getX()),(int) Math.round(getRotationPoint().getY()), 9, 9);
+		g.setColor(Color.BLUE);
+		g.fillRect((int) Math.round(getMP().getX()),(int) Math.round(getMP().getY()), 8, 8);
+		g.setColor(Color.BLACK);
+		g.fillRect((int) Math.round(goalDestination.getX()),(int) Math.round(goalDestination.getY()), 9, 9);
+
 	}
 
 }
