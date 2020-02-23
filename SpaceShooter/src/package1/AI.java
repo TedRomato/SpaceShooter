@@ -10,6 +10,8 @@ public class AI extends LivingObject{
 		this.goalDestination.setToNewRP(rotationPoint);
 		// TODO Auto-generated constructor stub
 	}
+	//AHOJ
+	
 	
 	public void updateRotation() {
 		this.goalDestination.setToNewRP(getRotationPoint());
