@@ -2,10 +2,17 @@ package package1;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 
 public class AI extends LivingObject{
+	Random random = new Random();
 	Corner goalDestination;
-	
+	//main detectionLine  --> in direction of move point
+	DetectionLine mainDetectionLine;
+	//side lines --> from closest to middle to farthest from middle
+	DetectionLine[] leftDetectionLines;
+	DetectionLine[] rightDetectionLines;
+	boolean collisionDanger = false;
 
 	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
 		super(corners, rotationPoint, rotationAngle, md);
@@ -15,10 +22,60 @@ public class AI extends LivingObject{
 		// TODO Auto-generated constructor stub
 	}
 	
+	//Guides AI to goal destination, if about to crash gives priority to avoiding collision
+	
 	public void updateAI(Player p) {
-		setGoalToPlayer(p);
-		updateForward();
-		updateRotation();
+		if(collisionDanger == false) {
+			setGoalToPlayer(p);
+			updateForward();
+			updateRotation();
+		}
+	}
+	
+	private void checkAndHandleTrack(GameObject go) {
+		boolean rightCollision = false;
+		boolean leftCollision = false;
+		for(int i = 0; i < leftDetectionLines.length && i < rightDetectionLines.length; i++) {
+			if(leftDetectionLines[i].checkCollision(go)) {
+				leftCollision = true;
+			}
+			if(rightDetectionLines[i].checkCollision(go)) {
+				rightCollision = true;
+			}
+			if(leftCollision && rightCollision) {
+				rightCollision = false;
+				leftCollision = false;
+			}
+		}
+		if(leftCollision == true) {
+			setRotationRight();
+			collisionDanger = true;
+		}
+		else if(rightCollision == true) {
+			setRotationLeft();
+			collisionDanger = true;
+		}
+		
+		else if(mainDetectionLine.checkCollision(go)) {
+			setRotationRight();
+			collisionDanger = true;
+		}
+		else {
+			collisionDanger = false;
+		}
+	}
+	
+	
+	private void setRotationRight() {
+		setRight(true);
+		setLeft(false);
+		makePositiveRotation();
+	}
+	
+	private void setRotationLeft() {
+		setLeft(true);
+		setRight(false);
+		makeNegativeRotation();
 	}
 	
 	private void setGoalToPlayer(Player p) {
@@ -53,6 +110,10 @@ public class AI extends LivingObject{
 			makeNegativeRotation();
 			
 		}
+		
+	}
+	
+	public void makeDetectionLines() {
 		
 	}
 	

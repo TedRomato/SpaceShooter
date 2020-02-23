@@ -31,6 +31,11 @@ public class GameObject {
 		this.rotationAngle = rotationAngle;
 
 	}
+	public GameObject(Corner[] corners, Corner rp, double rotationAngle) {
+		this.corners = corners;
+		rotationPoint = rp;
+		this.rotationAngle = rotationAngle;
+	}
 	//updates object --> move and rotate
 	public void updateOb() {
 		moveOb();
