@@ -173,12 +173,13 @@ public class MovingObject extends GameObject{
 		return false;
 	}
 	
-	
+	/*
 	public void rotateOb() {
 		for(Corner corner : getCorners()) {
 			corner.rotateCorner(getRotationPoint(), getRotationAngle());
 			}
 		}
+		*/
 	
 	public void moveOb() {
 		for(Corner corner : getCorners()) {
@@ -250,12 +251,7 @@ public class MovingObject extends GameObject{
 	
 
 	
-	protected void makePositiveRotation() {
-		setRotationAngle(Math.abs(getRotationAngle()));
-	}
-	protected void makeNegativeRotation() {
-		setRotationAngle(-Math.abs(getRotationAngle()));
-	}
+	
 	public void render(Graphics g) {
 		for(int i = 0;i<getCorners().length;i++) {
 			if(i<getCorners().length-1) {

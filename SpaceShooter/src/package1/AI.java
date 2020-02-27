@@ -19,17 +19,54 @@ public class AI extends LivingObject{
 		this.goalDestination = goalDestination;
 		this.goalDestination.setToNewRP(rotationPoint);
 		setForward(true);
-		// TODO Auto-generated constructor stub
+		setHP(100);
+		
 	}
 	
-	//Guides AI to goal destination, if about to crash gives priority to avoiding collision
+	public static AI makeNewAI(double x, double y) {
+		//ai
+		Corner peakAI = new Corner(new double[] {x,y + 25}, new double[] {x ,y});
+	    Corner rightCornerAI = new Corner(new double[] {x-25,y-25}, new double[] {x ,y});
+	    Corner leftCornerAI = new Corner(new double[] {x+25,y-25}, new double[] {x ,y});
+	    Corner goalCorner = new Corner(new double[] {1000,800}, new double[] {x ,y});
+	    //Hmatove vousky
+	    Corner base1 = new Corner(new double[] {x,y + 25}, new double[] {x ,y});
+	    Corner base2 = new Corner(new double[] {x-55,y-35}, new double[] {x ,y});
+	    Corner base3 = new Corner(new double[] {x+55,y-35}, new double[] {x ,y});
+	    Corner basePeak = new Corner(new double[] {x,y+125}, new double[] {x ,y}); 
+	    Corner rightP = new Corner(new double[] {x+40,y+125}, new double[] {x ,y});
+	    Corner leftP = new Corner(new double[] {x-40,y+125}, new double[] {x ,y});
+	    //dl
+	    DetectionLine mdl = new DetectionLine(base1, basePeak, new double[] {x ,y}, 0.5);
+	    DetectionLine ldl = new DetectionLine(base2, leftP, new double[] {x ,y}, 0.5);
+	    DetectionLine rdl = new DetectionLine(base3, rightP, new double[] {x ,y}, 0.5);
+	    AI ai = new AI(new Corner[] {peakAI, rightCornerAI, leftCornerAI}, new double[] {x,y}, 0.5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner);
+	    ai.makeDetection(mdl, new DetectionLine[] {rdl}, new DetectionLine[] {ldl});
+	    ai.setMaxSpeed(0.8);
+	    return ai;
+	}
 	
-	public void updateAI(Player p) {
+	//Guides AI to goal destination, if about to crash gives priority to avoiding collision 
+	
+	public void updateAI(Player p, GameObject[] gos) {
+		
+		for(GameObject go : gos) {
+			if(go != this) {
+			checkAndHandleTrack(go);
+			}
+			if(collisionDanger) {
+				break;
+			}
+		}
 		if(collisionDanger == false) {
 			setGoalToPlayer(p);
-			updateForward();
-			updateRotation();
 		}
+		
+		updateRotationToGoal();
+		updateForward();
+		
+		
+		
 	}
 	
 	private void checkAndHandleTrack(GameObject go) {
@@ -47,17 +84,18 @@ public class AI extends LivingObject{
 				leftCollision = false;
 			}
 		}
+
 		if(leftCollision == true) {
-			setRotationRight();
+			setGoalToCorner(rightDetectionLines[0].getForwardCorner());	
 			collisionDanger = true;
 		}
 		else if(rightCollision == true) {
-			setRotationLeft();
+			setGoalToCorner(leftDetectionLines[0].getForwardCorner());	
 			collisionDanger = true;
 		}
 		
 		else if(mainDetectionLine.checkCollision(go)) {
-			setRotationRight();
+			setGoalToCorner(rightDetectionLines[0].getForwardCorner());	
 			collisionDanger = true;
 		}
 		else {
@@ -83,6 +121,11 @@ public class AI extends LivingObject{
 		goalDestination.setY(p.getRotationPoint().getY());
 	}
 	
+	private void setGoalToCorner(Corner c) {
+		goalDestination.setX(c.getX());
+		goalDestination.setY(c.getY());
+	}
+	
 	
 	private void updateForward() {
 		if(getReflected() == false) {
@@ -90,7 +133,7 @@ public class AI extends LivingObject{
 		}
 	}
 	
-	private void updateRotation() {
+	private void updateRotationToGoal() {
 		this.goalDestination.setToNewRP(getRotationPoint());
 		double movePointAngle = getMP().getAngle(getRotationPoint());
 		double goalDestinationAngle = goalDestination.getAngle(getRotationPoint());
@@ -113,8 +156,70 @@ public class AI extends LivingObject{
 		
 	}
 	
-	public void makeDetectionLines() {
+	public void makeDetection(DetectionLine main, DetectionLine[] right, DetectionLine[] left) {
+		mainDetectionLine = main;
+		leftDetectionLines = left;
+		rightDetectionLines = right;
 		
+	}
+	
+	public void rotateOb() {
+		super.rotateOb();
+		rotateDls();
+		
+	}
+	
+	public void moveOb() {
+		super.moveOb();
+		moveDls();
+		
+		
+	}
+	
+	public boolean detectionLineExist() {
+		if(mainDetectionLine == null || leftDetectionLines == null || rightDetectionLines == null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
+	private void moveDls() {
+		for(DetectionLine dl : rightDetectionLines) {
+			dl.setVels(getVelX(), getVelY());
+			dl.moveOb();
+		}
+		for(DetectionLine dl : leftDetectionLines) {
+			dl.setVels(getVelX(), getVelY());
+			dl.moveOb();
+		}
+		mainDetectionLine.setVels(getVelX(), getVelY());
+		mainDetectionLine.moveOb();
+	}
+	
+	private void rotateDls() {
+		for(DetectionLine dl : rightDetectionLines) {
+			if(getTurnRight()) {
+				dl.makePositiveRotation();
+			}else if(getTurnLeft()) {
+				dl.makeNegativeRotation();
+			}
+			dl.rotateOb();
+		}
+		for(DetectionLine dl : leftDetectionLines) {
+			if(getTurnRight()) {
+				dl.makePositiveRotation();
+			}else if(getTurnLeft()) {
+				dl.makeNegativeRotation();
+			}
+			dl.rotateOb();
+		}
+		if(getTurnRight()) {
+			mainDetectionLine.makePositiveRotation();
+		}else if(getTurnLeft()) {
+			mainDetectionLine.makeNegativeRotation();
+		}
+		mainDetectionLine.rotateOb();
 	}
 	
 	public void render(Graphics g) {
@@ -133,8 +238,17 @@ public class AI extends LivingObject{
 		g.fillRect((int) Math.round(getRotationPoint().getX()),(int) Math.round(getRotationPoint().getY()), 9, 9);
 		g.setColor(Color.BLUE);
 		g.fillRect((int) Math.round(getMP().getX()),(int) Math.round(getMP().getY()), 8, 8);
-		g.setColor(Color.BLACK);
+		g.setColor(Color.YELLOW);
 		g.fillRect((int) Math.round(goalDestination.getX()),(int) Math.round(goalDestination.getY()), 9, 9);
+		g.setColor(Color.black);
+
+		for(DetectionLine dl : rightDetectionLines) {
+			dl.render(g);
+		}
+		for(DetectionLine dl : leftDetectionLines) {
+			dl.render(g);
+		}
+		mainDetectionLine.render(g);
 
 	}
 

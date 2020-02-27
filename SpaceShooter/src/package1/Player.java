@@ -18,7 +18,7 @@ public class Player extends LivingObject implements KeyListener{
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
+		
 		if(e.getKeyChar() == moveChar) {
 			if(getReflected() == false) {
 				setForward(true);
@@ -42,7 +42,7 @@ public class Player extends LivingObject implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+
 		
 	}
 
@@ -50,7 +50,7 @@ public class Player extends LivingObject implements KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+		
 		if(e.getKeyChar() == moveChar) {
 			setForward(false);
 			

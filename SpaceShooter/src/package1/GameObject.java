@@ -347,6 +347,9 @@ public class GameObject {
 	public void setRotationPoint(double[] rotationPoint2) {
 		this.rotationPoint = new Corner(new double[] {rotationPoint2[0] ,rotationPoint2[1]}, new double[] {0,0}) ;
 	}
+	public void setRotationPoint(Corner rotationPoint2) {
+		this.rotationPoint = rotationPoint2 ;
+	}
 
 	public double getVelY() {
 		return velY;
@@ -375,6 +378,13 @@ public class GameObject {
 		
 	}
 	
+	public void makePositiveRotation() {
+		setRotationAngle(Math.abs(getRotationAngle()));
+	}
+	
+	public void makeNegativeRotation() {
+		setRotationAngle(-Math.abs(getRotationAngle()));
+	}
 
 
 	public void render(Graphics g) {

@@ -24,7 +24,6 @@ public class LivingObject extends MovingObject{
 		movePoint = new Corner(md, rotationPoint2);
 		setReflectedSpeed(maxSpeed*2);
 		setHP(10);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void setMaxSpeed(double maxSpeed) {
@@ -70,9 +69,7 @@ public class LivingObject extends MovingObject{
 	}
 	
 	public void rotateOb() {
-		for(Corner c : getCorners()) {
-			c.rotateCorner(getRotationPoint(), getRotationAngle());
-		}
+		super.rotateOb();
 		if(attachments != null) {
 			for(ObjectAttachment att : attachments) {
 				for(Corner c : att.getCorners()) {
@@ -272,7 +269,7 @@ public class LivingObject extends MovingObject{
 
 
 	public ObjectAttachment[] getAttachments() {
-		// TODO Auto-generated method stub
+		
 		return attachments;
 	}
 } 
