@@ -260,6 +260,26 @@ public class Corner {
 	}
 	
 	
+	//returns two values --> difference of mainAngle and Secondary angle Clockwise and main and secondary angle counterClockwise 
+	public double[] getAngleDifferencRL(double mainAngle, double secondaryAngle) {
+		double right;
+		if(mainAngle <= secondaryAngle) {
+			right = secondaryAngle - mainAngle;
+		} else {
+			right = 360 - mainAngle + secondaryAngle;
+		}
+		
+		double left;
+		if(mainAngle >= secondaryAngle) {
+			left = mainAngle - secondaryAngle;
+		} else {
+			left = 360 - secondaryAngle + mainAngle;	
+		}
+		
+		return new double[] {right, left};
+	}
+	
+	
 	//rotates object around different RP and keeps the old one working
 	
 	public void rotateAroundDifferentRP(Corner newRP, double angle, Corner rp) {
@@ -300,7 +320,19 @@ public class Corner {
 	
 	
 	
-	//IMPORTANT
+	public void setToNewRP(double[] rp) {
+		Corner c = new Corner(new double[] {getX(), getY()},rp);
+		this.qadrant = c.getQadrant();
+		this.currentAngle = c.getAngle(rp);
+		this.distance = getPointDistance(rp);
+	}
+	
+	public void setToNewRP(Corner rp) {
+		Corner c = new Corner(new double[] {getX(), getY()},rp);
+		this.qadrant = c.getQadrant();
+		this.currentAngle = c.getAngle(rp);
+		this.distance = getPointDistance(rp);
+	}
 
 	public Corner(Corner c, double[] rp) {
 		this.x = c.getX();
@@ -356,6 +388,20 @@ public class Corner {
 		} else {
 			return rp - difference;
 		}
+	}
+	
+	public boolean isCornerOnRigth(Corner main) {
+		if(this.getX() >= main.getX()) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isUnderCorner(Corner main) {
+		if(this.getY() >= main.getY()) {
+			return true;
+		}
+		return false;
 	}
 	
 }
