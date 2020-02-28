@@ -232,14 +232,7 @@ public class LivingObject extends MovingObject{
 	
 	
 	public void render(Graphics g) {
-		for(int i = 0;i<getCorners().length;i++) {
-			if(i<getCorners().length-1) {
-				g.drawLine((int) Math.round(getCorners()[i].getX()),(int) Math.round(getCorners()[i].getY()),(int) Math.round(getCorners()[i+1].getX()),(int) Math.round(getCorners()[i+1].getY()));
-			}
-			else {
-				g.drawLine((int) Math.round(getCorners()[i].getX()),(int) Math.round(getCorners()[i].getY()),(int) Math.round(getCorners()[0].getX()),(int) Math.round(getCorners()[0].getY()));
-			}
-		}
+		super.render(g);
 		
 		if(attachments != null && attachments.length > 0) {
 			for(int x = 0; x < attachments.length; x++) {
@@ -253,6 +246,7 @@ public class LivingObject extends MovingObject{
 				}
 			}
 		}
+		/*
 		g.setColor(Color.red);
 		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
 		g.setColor(Color.darkGray);
@@ -262,6 +256,7 @@ public class LivingObject extends MovingObject{
 		g.setColor(Color.BLACK);
 		
 		g.fillRect((int) Math.round(attachments[0].getAttachmentRP().getX()),(int) Math.round(attachments[0].getAttachmentRP().getY()), 8, 8);
+		*/
 
 		
 		

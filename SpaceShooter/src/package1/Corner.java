@@ -390,4 +390,18 @@ public class Corner {
 		}
 	}
 	
+	public boolean isCornerOnRigth(Corner main) {
+		if(this.getX() >= main.getX()) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isUnderCorner(Corner main) {
+		if(this.getY() >= main.getY()) {
+			return true;
+		}
+		return false;
+	}
+	
 }

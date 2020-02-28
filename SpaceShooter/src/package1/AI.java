@@ -223,23 +223,16 @@ public class AI extends LivingObject{
 	}
 	
 	public void render(Graphics g) {
-		for(int i = 0;i<getCorners().length;i++) {
-			if(i<getCorners().length-1) {
-				g.drawLine((int) Math.round(getCorners()[i].getX()),(int) Math.round(getCorners()[i].getY()),(int) Math.round(getCorners()[i+1].getX()),(int) Math.round(getCorners()[i+1].getY()));
-			}
-			else {
-				g.drawLine((int) Math.round(getCorners()[i].getX()),(int) Math.round(getCorners()[i].getY()),(int) Math.round(getCorners()[0].getX()),(int) Math.round(getCorners()[0].getY()));
-			}
-		}
-		
+		super.render(g);
+		/*
 		g.setColor(Color.red);
 		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
 		g.setColor(Color.darkGray);
 		g.fillRect((int) Math.round(getRotationPoint().getX()),(int) Math.round(getRotationPoint().getY()), 9, 9);
 		g.setColor(Color.BLUE);
 		g.fillRect((int) Math.round(getMP().getX()),(int) Math.round(getMP().getY()), 8, 8);
-		g.setColor(Color.YELLOW);
-		g.fillRect((int) Math.round(goalDestination.getX()),(int) Math.round(goalDestination.getY()), 9, 9);
+		g.setColor(Color.GREEN);
+		g.fillRect((int) Math.round(goalDestination.getX()),(int) Math.round(goalDestination.getY()), 15, 15);
 		g.setColor(Color.black);
 
 		for(DetectionLine dl : rightDetectionLines) {
@@ -248,8 +241,8 @@ public class AI extends LivingObject{
 		for(DetectionLine dl : leftDetectionLines) {
 			dl.render(g);
 		}
-		mainDetectionLine.render(g);
-
+		mainDetectionLine.render(g); 
+		 */
 	}
 
 }

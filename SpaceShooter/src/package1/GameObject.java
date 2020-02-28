@@ -400,9 +400,7 @@ public class GameObject {
 	
 	}
 
-	public boolean isCollision() {
-		return collision;
-	}
+
 
 	public void setCollision(boolean collision) {
 		this.collision = collision;

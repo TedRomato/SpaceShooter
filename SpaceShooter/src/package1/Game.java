@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 public class Game extends JPanel{
 	private int screenWidth, screenHeight;
 	private Player p;
-	private AI ai, ai2;
+	private AI ai, ai2, ai3, ai4, ai5;
 	private Meteor pes, les;
 	private GameObject[] borders;
 	private GameObject[] objects;
@@ -23,6 +23,7 @@ public class Game extends JPanel{
 	private MovingObject[] reflectingObs;
 	private LivingObject[] livingObsReflectUpdate;
 	private MovingObject[] borderSensitive;
+	private AI[] ais;
 	private GameObject[][] arrayList;
 	private ObjectAttachment attachmentTry;
 	private GameObject[] aiVisible;
@@ -39,12 +40,16 @@ public class Game extends JPanel{
 	    livingObsReflectUpdate = new LivingObject[] {};
 	    borderSensitive = new MovingObject[] {};
 	    aiVisible = new GameObject[] {};
-		arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible};
+	    ais = new AI[] {};
+		arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais};
 
 		
-		
+	
 	    ai = AI.makeNewAI(400,400);
 	    ai2 = AI.makeNewAI(600, 600);
+	    ai3 = AI.makeNewAI(800, 400);
+	    ai4 = AI.makeNewAI(800, 100);
+	    ai5 = AI.makeNewAI(800, 600);
 
 
 
@@ -77,7 +82,7 @@ public class Game extends JPanel{
 	    GameObject topBorder = new GameObject(new Corner[] {rightTopC, leftTopC}, new double[] {500,400}, 0);
 	    GameObject botBorder = new GameObject(new Corner[] {leftBotC, rightBotC}, new double[] {500,400}, 0);
 	    
-	    borders = new GameObject[] {botBorder,rightBorder,topBorder,leftBorder};
+	    borders = new GameObject[] {botBorder,leftBorder,topBorder,rightBorder};
 	    
 	    Corner leftTop = new Corner(new double[] {450,350}, new double[] {500,400});
 	    Corner leftBot = new Corner(new double[] {450,450}, new double[] {500,400});
@@ -93,11 +98,14 @@ public class Game extends JPanel{
 	    
 	    pes = new Meteor(new Corner[] {top, left, bot, right},new double[] {200,250}, 0.6, new Corner(new double[] {250,300}, new double[] {200,250}), 0.5, 2);
 	    
-	    addObToGame(les, new int[] {3});
-	    addObToGame(pes, new int[] {3});
+	    addObToGame(les, new int[] {3,6});
+	    addObToGame(pes, new int[] {3,6});
 	    addObToGame(ai, new int[] {4});
 	    addObToGame(ai2, new int[] {4});
-	    addObToGame(p, new int[] {5});
+	    addObToGame(ai3, new int[] {4});
+	    addObToGame(ai4, new int[] {4});
+	    addObToGame(ai5, new int[] {4});
+	    addObToGame(p, new int[] {5,6});
 	/*  objects = new GameObject[] {pes,les,p,ai};
 	    reflectableObs = new MovingObject[] {pes,les,p,ai};
 	    reflectingObs = new MovingObject[] {pes,les,p,ai};
@@ -158,8 +166,7 @@ public class Game extends JPanel{
 	
 	public void tick() {	
 
-		ai.updateAI(p, aiVisible);
-		ai2.updateAI(p, aiVisible);
+		handleAI();
 		updateAllObs();
     	checkAndHandleCollision();
     	updateLivingObsReflect();
@@ -177,6 +184,12 @@ public class Game extends JPanel{
 			for(LivingObject livingOb : livingObsReflectUpdate) {
 				livingOb.updateReflection();
 			}
+		}
+	}
+	
+	private void handleAI() {
+		for(AI ai : ais) {
+			ai.updateAI(p, aiVisible);
 		}
 	}
     	
@@ -238,7 +251,7 @@ public class Game extends JPanel{
 			for(MovingObject go : borderSensitive) {
 				if(go.getClass().getSimpleName().equals("Meteor") ) {
 					if(go.checkCollision(borders[i])) {
-						((Meteor) go).reflectMeteorFromSide(i);
+						((Meteor) go).reflectMeteorFromSide(i,go.getRotationPoint());
 					}
 				}else {
 					go.checkAndHandleReflect(borders[i]);
@@ -290,7 +303,16 @@ public class Game extends JPanel{
 	    livingObsReflectUpdate = makeGameObArLivingArr(arrayList[3]);
 	    borderSensitive = makeGameObArMovingArr(arrayList[4]);
 	    aiVisible = arrayList[5];
+	    ais = makeGameObArAIArr(arrayList[6]);
 	
+	}
+	
+	private AI[] makeGameObArAIArr(GameObject[] arr) {
+		AI[] newArr = new AI[arr.length];
+		for(int i = 0; i < arr.length; i++) {
+			newArr[i] = (AI) arr[i];
+		}
+		return newArr;
 	}
 	
 	private MovingObject[] makeGameObArMovingArr(GameObject[] arr) {
