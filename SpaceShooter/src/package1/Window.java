@@ -24,8 +24,7 @@ public class Window extends JFrame implements KeyListener{
 		super("EPIC TITLE");
 		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setResizable(false);
-
-		setSize(1540,870);
+		setSize(1520,800);
 		setUndecorated(true);
 
 		setLocationRelativeTo(null);

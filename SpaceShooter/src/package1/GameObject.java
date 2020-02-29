@@ -31,6 +31,11 @@ public class GameObject {
 		this.rotationAngle = rotationAngle;
 
 	}
+	public GameObject(Corner[] corners, Corner rp, double rotationAngle) {
+		this.corners = corners;
+		rotationPoint = rp;
+		this.rotationAngle = rotationAngle;
+	}
 	//updates object --> move and rotate
 	public void updateOb() {
 		moveOb();
@@ -342,6 +347,9 @@ public class GameObject {
 	public void setRotationPoint(double[] rotationPoint2) {
 		this.rotationPoint = new Corner(new double[] {rotationPoint2[0] ,rotationPoint2[1]}, new double[] {0,0}) ;
 	}
+	public void setRotationPoint(Corner rotationPoint2) {
+		this.rotationPoint = rotationPoint2 ;
+	}
 
 	public double getVelY() {
 		return velY;
@@ -370,6 +378,13 @@ public class GameObject {
 		
 	}
 	
+	public void makePositiveRotation() {
+		setRotationAngle(Math.abs(getRotationAngle()));
+	}
+	
+	public void makeNegativeRotation() {
+		setRotationAngle(-Math.abs(getRotationAngle()));
+	}
 
 
 	public void render(Graphics g) {
@@ -385,9 +400,7 @@ public class GameObject {
 	
 	}
 
-	public boolean isCollision() {
-		return collision;
-	}
+
 
 	public void setCollision(boolean collision) {
 		this.collision = collision;

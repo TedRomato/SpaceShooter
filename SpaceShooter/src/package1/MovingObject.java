@@ -173,12 +173,13 @@ public class MovingObject extends GameObject{
 		return false;
 	}
 	
-	
+	/*
 	public void rotateOb() {
 		for(Corner corner : getCorners()) {
 			corner.rotateCorner(getRotationPoint(), getRotationAngle());
 			}
 		}
+		*/
 	
 	public void moveOb() {
 		for(Corner corner : getCorners()) {
@@ -250,27 +251,15 @@ public class MovingObject extends GameObject{
 	
 
 	
-	protected void makePositiveRotation() {
-		setRotationAngle(Math.abs(getRotationAngle()));
-	}
-	protected void makeNegativeRotation() {
-		setRotationAngle(-Math.abs(getRotationAngle()));
-	}
+	
 	public void render(Graphics g) {
-		for(int i = 0;i<getCorners().length;i++) {
-			if(i<getCorners().length-1) {
-				g.drawLine((int) Math.round(getCorners()[i].getX()),(int) Math.round(getCorners()[i].getY()),(int) Math.round(getCorners()[i+1].getX()),(int) Math.round(getCorners()[i+1].getY()));
-			}
-			else {
-				g.drawLine((int) Math.round(getCorners()[i].getX()),(int) Math.round(getCorners()[i].getY()),(int) Math.round(getCorners()[0].getX()),(int) Math.round(getCorners()[0].getY()));
-			}
-		}
-		g.setColor(Color.red);
+		super.render(g);
+	/*	g.setColor(Color.red);
 		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
 		g.setColor(Color.darkGray);
 		g.fillRect((int) Math.round(getRotationPoint().getX()),(int) Math.round(getRotationPoint().getY()), 9, 9);
 		g.setColor(Color.BLUE);
-		g.setColor(Color.BLACK);
+		g.setColor(Color.BLACK); */
 	}
 	
 	

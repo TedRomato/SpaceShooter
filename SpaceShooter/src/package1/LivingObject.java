@@ -23,12 +23,17 @@ public class LivingObject extends MovingObject{
 		super(corners, rotationPoint2, rotationAngle, md);
 		movePoint = new Corner(md, rotationPoint2);
 		setReflectedSpeed(maxSpeed*2);
-		setHP(100);
-		// TODO Auto-generated constructor stub
+
+		setHP(10);
+	}
+	
+	public void setMaxSpeed(double maxSpeed) {
+		this.maxSpeed = maxSpeed;
+
 	}
 	
 	
-public void updateOb() {
+	public void updateOb() {
 				
 
 		updateSpeed();
@@ -66,9 +71,7 @@ public void updateOb() {
 	}
 	
 	public void rotateOb() {
-		for(Corner c : getCorners()) {
-			c.rotateCorner(getRotationPoint(), getRotationAngle());
-		}
+		super.rotateOb();
 		if(attachments != null) {
 			for(ObjectAttachment att : attachments) {
 				for(Corner c : att.getCorners()) {
@@ -171,10 +174,11 @@ public void updateOb() {
 		if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2) {
 			return true;
 		}
-		
-		for(ObjectAttachment att : attachments) {
-			if(att.checkCollisionInside(go) || att.getCrossedLineCorners(go).length == 2) {
-				return true;
+		if(attachments != null) {
+			for(ObjectAttachment att : attachments) {
+				if(att.checkCollisionInside(go) || att.getCrossedLineCorners(go).length == 2) {
+					return true;
+				}
 			}
 		}
 	
@@ -189,10 +193,11 @@ public void updateOb() {
 			
 			corners = getCrossedLineCorners(otherOb);
 			
-			
-			for(ObjectAttachment att : attachments) {
-				if(corners.length != 2) {
-				corners = att.getCrossedLineCorners(otherOb);
+			if(attachments != null) {
+				for(ObjectAttachment att : attachments) {
+					if(corners.length != 2) {
+					corners = att.getCrossedLineCorners(otherOb);
+					}
 				}
 			}
 			
@@ -205,7 +210,9 @@ public void updateOb() {
 		}
 	}
 	
-	
+	protected Corner getMP() {
+		return movePoint;
+	}
 	
 	protected void setForward(boolean b) {
 		forward = b;
@@ -227,14 +234,7 @@ public void updateOb() {
 	
 	
 	public void render(Graphics g) {
-		for(int i = 0;i<getCorners().length;i++) {
-			if(i<getCorners().length-1) {
-				g.drawLine((int) Math.round(getCorners()[i].getX()),(int) Math.round(getCorners()[i].getY()),(int) Math.round(getCorners()[i+1].getX()),(int) Math.round(getCorners()[i+1].getY()));
-			}
-			else {
-				g.drawLine((int) Math.round(getCorners()[i].getX()),(int) Math.round(getCorners()[i].getY()),(int) Math.round(getCorners()[0].getX()),(int) Math.round(getCorners()[0].getY()));
-			}
-		}
+		super.render(g);
 		
 		if(attachments != null && attachments.length > 0) {
 			for(int x = 0; x < attachments.length; x++) {
@@ -248,6 +248,7 @@ public void updateOb() {
 				}
 			}
 		}
+		/*
 		g.setColor(Color.red);
 		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
 		g.setColor(Color.darkGray);
@@ -255,13 +256,17 @@ public void updateOb() {
 		g.setColor(Color.BLUE);
 		g.fillRect((int) Math.round(movePoint.getX()),(int) Math.round(movePoint.getY()), 8, 8);
 		g.setColor(Color.BLACK);
+		
 		g.fillRect((int) Math.round(attachments[0].getAttachmentRP().getX()),(int) Math.round(attachments[0].getAttachmentRP().getY()), 8, 8);
+		*/
+
+		
 		
 	}
 
 
 	public ObjectAttachment[] getAttachments() {
-		// TODO Auto-generated method stub
+		
 		return attachments;
 	}
 } 

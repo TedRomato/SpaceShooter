@@ -17,28 +17,38 @@ public class Meteor extends MovingObject {
 	
 	//TODO reflectMeteorFromSide FIX IT!!!
 	
-	public void reflectMeteorFromSide(int border) {
+	public void reflectMeteorFromSide(int border, Corner rp) {
 
 		switch(border) {
 		case 0 :
-			moveDirection.turnAround('y', this.getRotationPoint());
+			if(this.moveDirection.isUnderCorner(rp) == true) {
+				moveDirection.turnAround('y', this.getRotationPoint());
+				}
 			break;
 		case 1 :
-			moveDirection.turnAround('x', this.getRotationPoint());
+			if(this.moveDirection.isCornerOnRigth(rp) == false) {
+				moveDirection.turnAround('x', this.getRotationPoint());
+				}
 			break;
 		case 2 :
-			moveDirection.turnAround('y', this.getRotationPoint());
+			if(this.moveDirection.isUnderCorner(rp) == false) {
+				moveDirection.turnAround('y', this.getRotationPoint());
+				}
 			break;
 		case 3 : 
-			moveDirection.turnAround('x', this.getRotationPoint());
+			if(this.moveDirection.isCornerOnRigth(rp) == true) {
+				moveDirection.turnAround('x', this.getRotationPoint());
+				}
 			break;
 		}
 		moveDirection.updateNoRotation(getRotationPoint());
-		setCurrentSpeed(getCurrentSpeed()+8);
+	//	setCurrentSpeed(getCurrentSpeed()+8);
 		setNewVels();
-		moveOb();
-		setCurrentSpeed(getCurrentSpeed()-8);
+	//	moveOb();
+	//	setCurrentSpeed(getCurrentSpeed()-8);
 	}
+	
+	
 	
 	
 	private void setNewHp() {
