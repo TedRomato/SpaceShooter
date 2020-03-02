@@ -16,7 +16,7 @@ public class LivingObject extends MovingObject{
 	private boolean forward = false, turnRight = false, turnLeft = false;
 	private Corner movePoint;
 	private double maxSpeed = 2.5;
-	private double acceleration = maxSpeed/200;
+	private double acceleration = maxSpeed/100;
 	private ObjectAttachment[] attachments;
 	
 	public LivingObject(Corner[] corners, double[] rotationPoint2, double rotationAngle, Corner md) {

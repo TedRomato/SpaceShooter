@@ -11,6 +11,8 @@ public class Player extends LivingObject implements KeyListener{
 	char moveChar = 'w', turnLeftChar = 'a', turnRightChar = 'd';
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
+		setReflectedLenght(35);
+		setRotationAngle(1.5);
 		
 	}
 	

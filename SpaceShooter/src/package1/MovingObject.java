@@ -323,9 +323,7 @@ public class MovingObject extends GameObject{
 		this.reflectedLenght = reflectedLenght;
 	}
 
-
-
-
+	
 	public double getCurrentSpeed() {
 		return currentSpeed;
 	}

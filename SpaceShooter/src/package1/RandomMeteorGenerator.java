@@ -1,7 +1,5 @@
 package package1;
 
-import java.util.LinkedList;
-
 public class RandomMeteorGenerator {
 	Corner[] corners;
 	int meteorSize;
