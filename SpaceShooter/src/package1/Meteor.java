@@ -11,8 +11,14 @@ public class Meteor extends MovingObject {
 		this.size = size;
 		setNewHp();
 		setCurrentSpeed(speed);
-		
-	
+	}
+	public Meteor(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md, double speed, int size) {
+		super(corners, rotationPoint, rotationAngle, md);
+		// TODO Auto-generated constructor stub
+		setReflectedSpeed(speed);
+		this.size = size;
+		setNewHp();
+		setCurrentSpeed(speed);
 	}
 	
 	//TODO reflectMeteorFromSide FIX IT!!!
@@ -42,10 +48,7 @@ public class Meteor extends MovingObject {
 			break;
 		}
 		moveDirection.updateNoRotation(getRotationPoint());
-	//	setCurrentSpeed(getCurrentSpeed()+8);
 		setNewVels();
-	//	moveOb();
-	//	setCurrentSpeed(getCurrentSpeed()-8);
 	}
 	
 	

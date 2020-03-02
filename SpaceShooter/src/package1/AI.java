@@ -31,18 +31,24 @@ public class AI extends LivingObject{
 	    Corner goalCorner = new Corner(new double[] {1000,800}, new double[] {x ,y});
 	    //Hmatove vousky
 	    Corner base1 = new Corner(new double[] {x,y + 25}, new double[] {x ,y});
-	    Corner base2 = new Corner(new double[] {x-55,y-35}, new double[] {x ,y});
-	    Corner base3 = new Corner(new double[] {x+55,y-35}, new double[] {x ,y});
-	    Corner basePeak = new Corner(new double[] {x,y+125}, new double[] {x ,y}); 
-	    Corner rightP = new Corner(new double[] {x+40,y+125}, new double[] {x ,y});
-	    Corner leftP = new Corner(new double[] {x-40,y+125}, new double[] {x ,y});
+	    Corner base2 = new Corner(new double[] {x-55,y-45}, new double[] {x ,y});
+	    Corner base3 = new Corner(new double[] {x+55,y-45}, new double[] {x ,y});
+	    Corner base4 = new Corner(new double[] {x-90,y-35}, new double[] {x ,y});
+	    Corner base5 = new Corner(new double[] {x+90,y-35}, new double[] {x ,y});
+	    Corner basePeak = new Corner(new double[] {x,y+185}, new double[] {x ,y}); 
+	    Corner rightP = new Corner(new double[] {x+40,y+185}, new double[] {x ,y});
+	    Corner leftP = new Corner(new double[] {x-40,y+185}, new double[] {x ,y});
+	    Corner rightP2 = new Corner(new double[] {x+50,y+155}, new double[] {x ,y});
+	    Corner leftP2 = new Corner(new double[] {x-50,y+155}, new double[] {x ,y});
 	    //dl
 	    DetectionLine mdl = new DetectionLine(base1, basePeak, new double[] {x ,y}, 0.5);
 	    DetectionLine ldl = new DetectionLine(base2, leftP, new double[] {x ,y}, 0.5);
 	    DetectionLine rdl = new DetectionLine(base3, rightP, new double[] {x ,y}, 0.5);
+	    DetectionLine ldl2 = new DetectionLine(base4, leftP2, new double[] {x ,y}, 0.5);
+	    DetectionLine rdl2 = new DetectionLine(base5, rightP2, new double[] {x ,y}, 0.5);
 	    AI ai = new AI(new Corner[] {peakAI, rightCornerAI, leftCornerAI}, new double[] {x,y}, 0.5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner);
-	    ai.makeDetection(mdl, new DetectionLine[] {rdl}, new DetectionLine[] {ldl});
-	    ai.setMaxSpeed(0.8);
+	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
+	    ai.setMaxSpeed(1.2);
 	    return ai;
 	}
 	
@@ -50,14 +56,7 @@ public class AI extends LivingObject{
 	
 	public void updateAI(Player p, GameObject[] gos) {
 		
-		for(GameObject go : gos) {
-			if(go != this) {
-			checkAndHandleTrack(go);
-			}
-			if(collisionDanger) {
-				break;
-			}
-		}
+		checkAndHandleTrack(gos);
 		if(collisionDanger == false) {
 			setGoalToPlayer(p);
 		}
@@ -69,14 +68,24 @@ public class AI extends LivingObject{
 		
 	}
 	
-	private void checkAndHandleTrack(GameObject go) {
+	//New and better checkNHandelTrack
+	private void checkAndHandleTrack(GameObject[] gos) {
+		setAllIsTriggered(false);
+		setAllDLTriggeresToCurrentObs(gos);
+		handleTrack();
+	}
+	
+	
+	//if collision on right -- > go left (priority raises closer to main dl)
+	//if collision in the middle find the closest not triggered dl and turn its ditection
+	private void handleTrack() {
 		boolean rightCollision = false;
 		boolean leftCollision = false;
 		for(int i = 0; i < leftDetectionLines.length && i < rightDetectionLines.length; i++) {
-			if(leftDetectionLines[i].checkCollision(go)) {
+			if(leftDetectionLines[i].getTriggered()) {
 				leftCollision = true;
 			}
-			if(rightDetectionLines[i].checkCollision(go)) {
+			if(rightDetectionLines[i].getTriggered()) {
 				rightCollision = true;
 			}
 			if(leftCollision && rightCollision) {
@@ -94,7 +103,7 @@ public class AI extends LivingObject{
 			collisionDanger = true;
 		}
 		
-		else if(mainDetectionLine.checkCollision(go)) {
+		else if(mainDetectionLine.getTriggered()) {
 			setGoalToCorner(rightDetectionLines[0].getForwardCorner());	
 			collisionDanger = true;
 		}
@@ -103,6 +112,36 @@ public class AI extends LivingObject{
 		}
 	}
 	
+	
+	//Loops through all gos and set triggered lines to isTriggered 
+	private void setAllDLTriggeresToCurrentObs(GameObject[] gos) {
+		for(GameObject go : gos) {
+			if(go != this) {
+				for(int i = 0; i < leftDetectionLines.length && i < rightDetectionLines.length; i++) {
+					if(leftDetectionLines[i].getTriggered() == false) {
+						leftDetectionLines[i].setTriggered(go.checkCollision(leftDetectionLines[i]));
+					}
+					if(rightDetectionLines[i].getTriggered() == false) {
+						rightDetectionLines[i].setTriggered(go.checkCollision(rightDetectionLines[i]));
+					}
+				}
+				if(mainDetectionLine.getTriggered() == false) {
+					mainDetectionLine.setTriggered(go.checkCollision(mainDetectionLine));
+				}
+			}
+		}
+	}
+	
+	
+	//Sets all trigger booleans of dlines to false
+	private void setAllIsTriggered(boolean bTo) {
+		for(int i = 0; i < leftDetectionLines.length && i < rightDetectionLines.length; i++) {
+			leftDetectionLines[i].setTriggered(bTo);
+			rightDetectionLines[i].setTriggered(bTo);
+		}
+		mainDetectionLine.setTriggered(bTo);
+		
+	}
 	
 	private void setRotationRight() {
 		setRight(true);
@@ -224,8 +263,8 @@ public class AI extends LivingObject{
 	
 	public void render(Graphics g) {
 		super.render(g);
-		/*
-		g.setColor(Color.red);
+		
+	/*	g.setColor(Color.red);
 		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
 		g.setColor(Color.darkGray);
 		g.fillRect((int) Math.round(getRotationPoint().getX()),(int) Math.round(getRotationPoint().getY()), 9, 9);
@@ -236,13 +275,13 @@ public class AI extends LivingObject{
 		g.setColor(Color.black);
 
 		for(DetectionLine dl : rightDetectionLines) {
-			dl.render(g);
+			dl.renderDL(g);
 		}
 		for(DetectionLine dl : leftDetectionLines) {
-			dl.render(g);
+			dl.renderDL(g);
 		}
-		mainDetectionLine.render(g); 
-		 */
+		mainDetectionLine.renderDL(g); */
+		 
 	}
 
 }

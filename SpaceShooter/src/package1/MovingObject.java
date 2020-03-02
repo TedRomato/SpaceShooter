@@ -18,9 +18,14 @@ public class MovingObject extends GameObject{
 		moveDirection = new Corner(md, rotationPoint);
 		getNewRatios();
 		setNewVels();
-
 	}
 	
+	public MovingObject(Corner[] corners, Corner rotationPoint, double d, Corner md) {
+		super(corners, rotationPoint, d);
+		moveDirection = new Corner(md, rotationPoint);
+		getNewRatios();
+		setNewVels();
+	}
 
 	
 	
@@ -318,9 +323,7 @@ public class MovingObject extends GameObject{
 		this.reflectedLenght = reflectedLenght;
 	}
 
-
-
-
+	
 	public double getCurrentSpeed() {
 		return currentSpeed;
 	}

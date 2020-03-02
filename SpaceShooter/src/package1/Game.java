@@ -14,9 +14,10 @@ import javax.swing.JPanel;
 
 public class Game extends JPanel{
 	private int screenWidth, screenHeight;
+	private RandomMeteorGenerator randomMeteorGenerator = new RandomMeteorGenerator();
 	private Player p;
 	private AI ai, ai2, ai3, ai4, ai5;
-	private Meteor pes, les;
+	private Meteor pes, les, generated,generated2, generated3, generated4;
 	private GameObject[] borders;
 	private GameObject[] objects;
 	private MovingObject[] reflectableObs;
@@ -98,24 +99,24 @@ public class Game extends JPanel{
 	    
 	    pes = new Meteor(new Corner[] {top, left, bot, right},new double[] {200,250}, 0.6, new Corner(new double[] {250,300}, new double[] {200,250}), 0.5, 2);
 	    
-	    addObToGame(les, new int[] {3,6});
-	    addObToGame(pes, new int[] {3,6});
+	    generated = randomMeteorGenerator.generateMeteor(3, 16, new Corner(new double[] {200,200}, new double[] {200,200}) , 10);
+	    generated2 = randomMeteorGenerator.generateMeteor(3, 10, new Corner(new double[] {400,600}, new double[] {200,200}) , 10);
+	    generated3 = randomMeteorGenerator.generateMeteor(3, 15, new Corner(new double[] {200,400}, new double[] {200,200}) , 10);
+	    generated4 = randomMeteorGenerator.generateMeteor(3, 12, new Corner(new double[] {400,800}, new double[] {200,200}) , 10);
+	    
+	    
+	   /* addObToGame(les, new int[] {3,6});
+	    addObToGame(pes, new int[] {3,6});*/
+	    addObToGame(generated, new int[] {3,6});
+	    addObToGame(generated2, new int[] {3,6});
+	    addObToGame(generated3, new int[] {3,6});
+	    addObToGame(generated4, new int[] {3,6});
 	    addObToGame(ai, new int[] {4});
 	    addObToGame(ai2, new int[] {4});
 	    addObToGame(ai3, new int[] {4});
 	    addObToGame(ai4, new int[] {4});
 	    addObToGame(ai5, new int[] {4});
-	    addObToGame(p, new int[] {5,6});
-	/*  objects = new GameObject[] {pes,les,p,ai};
-	    reflectableObs = new MovingObject[] {pes,les,p,ai};
-	    reflectingObs = new MovingObject[] {pes,les,p,ai};
-	    livingObsReflectUpdate = new LivingObject[] {p,ai};
-	    borderSensitive = new MovingObject[] {p, les, pes};
-	    aiVisible = new GameObject[] {pes,les};
-	    
-	    */
-	    
-	    
+	    addObToGame(p, new int[] {5,6});   
 	    
 	}
 	public void keyTyped(KeyEvent e) {

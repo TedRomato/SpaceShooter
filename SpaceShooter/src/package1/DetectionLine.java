@@ -1,10 +1,14 @@
 package package1;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 //c1 is base ---> connected to ai, and c2 is infront of the ai
+//gets triggered if touched 
 
 public class DetectionLine extends GameObject{
+	boolean isTriggered;
+	
 		public DetectionLine(Corner c1, Corner c2, Corner rp, double rotationAngle) {
 			super(new Corner[] {c1,c2}, rp, rotationAngle);
 		}
@@ -16,7 +20,12 @@ public class DetectionLine extends GameObject{
 	
 	
 	public void renderDL(Graphics g) {
+		
+		if(getTriggered()) {
+			g.setColor(Color.red);
+		}
 		g.drawLine((int) Math.round(getCorners()[0].getX()), (int) Math.round(getCorners()[0].getY()), (int) Math.round(getCorners()[1].getX()), (int) Math.round(getCorners()[1].getY()));
+		g.setColor(Color.black);
 	}
 	
 	public Corner getBase() {
@@ -25,6 +34,13 @@ public class DetectionLine extends GameObject{
 	
 	public Corner getForwardCorner() {
 		return getCorners()[1];
+	}
+	public boolean getTriggered() {
+		return isTriggered;
+	}
+	
+	public void setTriggered(boolean triggered) {
+		isTriggered = triggered;
 	}
 
 }
