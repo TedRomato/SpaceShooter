@@ -50,6 +50,14 @@ public class Corner {
 		currentAngle = getAngle(rp);
 	}
 	
+	public Corner(double[] c) {
+		this.x = c[0];
+		this.y = c[1];
+		distance = getPointDistance(c);
+		qadrant = getQadrant(c);
+		currentAngle = getAngle(c);
+	}
+	
 
 	
 	//checks if this corner is under function line --> intakes a and b from : a*x+b = y
@@ -271,14 +279,14 @@ public class Corner {
 	
 	//gets distance between this and any other point
 	
-	private double getPointDistance(Corner rp) {
+	double getPointDistance(Corner rp) {
 		double x = rp.getX()-this.x;
 		double y = rp.getY()-this.y;
 		return Math.sqrt(x*x + y*y);
 		
 	}
 	
-	private double getPointDistance(double[] rotationPoint) {
+	public double getPointDistance(double[] rotationPoint) {
 		double x = rotationPoint[0]-this.x;
 		double y = rotationPoint[1]-this.y;
 		return Math.sqrt(x*x + y*y);

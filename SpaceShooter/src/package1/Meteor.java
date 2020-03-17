@@ -21,7 +21,7 @@ public class Meteor extends MovingObject {
 		setCurrentSpeed(speed);
 	}
 	
-	//TODO reflectMeteorFromSide FIX IT!!!
+	
 	
 	public void reflectMeteorFromSide(int border, Corner rp) {
 

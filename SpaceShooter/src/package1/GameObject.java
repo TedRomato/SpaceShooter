@@ -18,6 +18,8 @@ public class GameObject {
 	private int invulnerabilityLength = 10;
 	private int invulnerabilityTimer = 0;
 	private boolean invulnurable = false;
+	
+	private Square collisionSquare;
 
 	
 	
@@ -29,12 +31,17 @@ public class GameObject {
 		
 		this.setRotationPoint(rotationPoint2);
 		this.rotationAngle = rotationAngle;
-
+		makeSquare(getFurthestDistance());
+		
 	}
+	
+
 	public GameObject(Corner[] corners, Corner rp, double rotationAngle) {
 		this.corners = corners;
 		rotationPoint = rp;
 		this.rotationAngle = rotationAngle;
+		makeSquare(getFurthestDistance());
+
 	}
 	//updates object --> move and rotate
 	public void updateOb() {
@@ -43,15 +50,93 @@ public class GameObject {
 	}
 	
 	
+	public static GameObject generatePeriodicObject(double distance,int cornerAmount, Corner rp) {
+		double angleDifference = 360/cornerAmount;
+		Corner[] corners = new Corner[cornerAmount];
+		for(int i = 0; i < corners.length; i++) {
+			corners[i] = Corner.makeCornerUsinAngle(distance, i*angleDifference, rp);
+		}
+		return new GameObject(corners,rp,0);
+	}
+	
 	//Check collision  between this object and go
 		public boolean checkCollision(GameObject go) {
-			if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2) {
+			if(this.getCollisionSquare().squareCollision(go.getCollisionSquare())) {
+				if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			return false;
+			
+		}
+		
+		
+		//sides bot - y,right - x,top - y,left - x 
+		public boolean checkIfOutsideMap(int[] sides, int distance) {
+			double rpy = this.getRotationPoint().getY();
+			double rpx = this.getRotationPoint().getX();
+			if(rpy > sides[0] + distance || rpy < sides[2] - distance) {
+				return true;
+			}
+			else if(rpx > sides[1] + distance || rpx < sides[3] - distance) {
 				return true;
 			}else {
 				return false;
 			}
+			
+
 		}
+	//generates corner is range from random side;	
+	//inRange = minimum distance of rp - maximum distance of rp (from side)
+	//sides = bot - y,right - x,top - y,left - x 
+	public static Corner generateCornerOutsideMapInRange(int width, int height, int[] range) {
+		Corner c = null;
+		int side = pickRandomSide();
+		double x;
+		double y;
+		switch(side) {
+		case 0:
+			return generateCornerInRect(0 - range[1],height + range[0], 2*range[1] + width, range[1] - range[0]);			
+		case 1:
+			return generateCornerInRect(width + range[0], 0 - range[1],range[1] - range[0],height + 2*range[1]);	
+		case 2:	
+			return generateCornerInRect(0 - range[1], 0 - range[1], 2*range[1] + width, range[1] - range[0]);			
+		case 3:
+			return generateCornerInRect(0 - range[1], 0 - range[1],range[1] - range[0],height + 2*range[1]);			
+			
+		}
+		System.out.println("Side : " + side);
+		System.out.println("returning null");
+		return c;
+		
+	}
 	
+	public static Corner generateCornerInRect(double x,double y,double width,double height) {
+		double xCoord;
+		double yCoord;
+		xCoord = Math.random()*width + x;
+		yCoord = Math.random()*height + y;
+		return new Corner(new double[] {xCoord,yCoord});
+	}
+	
+	
+	private static int pickRandomSide() {
+		return (int) Math.floor(Math.random()*4);
+	}
+	
+	public boolean checkIfOutsideRect(int x, int y, int width, int height) {
+		if(this.getRotationPoint().getX() > x + width || this.getRotationPoint().getX() < x) {
+			return true;
+		}
+		if(this.getRotationPoint().getY() > y + height || this.getRotationPoint().getY() < y) {
+
+			return true;
+		}
+		return false;
+	}
 	
 	public void startInvulnurability() {
 		invulnerabilityTimer = invulnerabilityLength;
@@ -320,11 +405,29 @@ public class GameObject {
 			corner.moveCorner(getVelX(),getVelY());
 		}
 		getRotationPoint().moveCorner(getVelX(),getVelY());
+		collisionSquare.moveSquare(velX, velY);
 	}
 	
 	public void setVels(double velX, double velY) {
 		this.setVelX(velX);
 		this.setVelY(velY);
+	}
+	
+	
+	public double getFurthestDistance() {
+		double furthest = 0;
+		for(Corner c : getCorners()) {
+			if(c.getPointDistance(this.getRotationPoint()) > furthest) {
+				furthest = c.getPointDistance(this.getRotationPoint());
+			}
+		}
+		
+		return furthest;
+	}
+	
+	public void makeSquare(double longestDirection) {
+		longestDirection++;
+		collisionSquare = new Square(new Corner(new double[] {this.getRotationPoint().getX()-longestDirection,this.getRotationPoint().getY()-longestDirection}),longestDirection*2);
 	}
 	
 	
@@ -388,6 +491,7 @@ public class GameObject {
 
 
 	public void render(Graphics g) {
+	//	getCollisionSquare().render(g);
 		for(int i = 0;i<corners.length;i++) {
 			if(i<corners.length-1) {
 				g.drawLine((int) Math.round(corners[i].getX()),(int) Math.round(corners[i].getY()),(int) Math.round(corners[i+1].getX()),(int) Math.round(corners[i+1].getY()));
@@ -399,7 +503,11 @@ public class GameObject {
 
 	
 	}
-
+	
+	
+	public Square getCollisionSquare() {
+		return collisionSquare;
+	}
 
 
 	public void setCollision(boolean collision) {

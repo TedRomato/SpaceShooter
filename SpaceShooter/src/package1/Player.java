@@ -12,12 +12,16 @@ public class Player extends LivingObject implements KeyListener{
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
 		setReflectedLenght(35);
-		setRotationAngle(1.5);
+		setRotationAngle(1.2);
+		setAcceleration(getMaxSpeed() / 100);
 		
 	}
 	
 
-	
+
+
+
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
