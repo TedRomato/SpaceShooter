@@ -20,8 +20,15 @@ public class AI extends LivingObject{
 		this.goalDestination.setToNewRP(rotationPoint);
 		setForward(true);
 		setHP(100);
+		setReflectedLenght(80);
+		setAcceleration(getMaxSpeed() / 220);
+
+
 		
 	}
+	
+	//inRange = minimum distance of rp - maximum distance of rp (from sides); sides = bot - y,right - x,top - y,left - x 
+	
 	
 	public static AI makeNewAI(double x, double y) {
 		//ai
@@ -31,15 +38,15 @@ public class AI extends LivingObject{
 	    Corner goalCorner = new Corner(new double[] {1000,800}, new double[] {x ,y});
 	    //Hmatove vousky
 	    Corner base1 = new Corner(new double[] {x,y + 25}, new double[] {x ,y});
-	    Corner base2 = new Corner(new double[] {x-55,y-45}, new double[] {x ,y});
-	    Corner base3 = new Corner(new double[] {x+55,y-45}, new double[] {x ,y});
-	    Corner base4 = new Corner(new double[] {x-90,y-35}, new double[] {x ,y});
-	    Corner base5 = new Corner(new double[] {x+90,y-35}, new double[] {x ,y});
-	    Corner basePeak = new Corner(new double[] {x,y+185}, new double[] {x ,y}); 
-	    Corner rightP = new Corner(new double[] {x+40,y+185}, new double[] {x ,y});
-	    Corner leftP = new Corner(new double[] {x-40,y+185}, new double[] {x ,y});
-	    Corner rightP2 = new Corner(new double[] {x+50,y+155}, new double[] {x ,y});
-	    Corner leftP2 = new Corner(new double[] {x-50,y+155}, new double[] {x ,y});
+	    Corner base2 = new Corner(new double[] {x-55,y-25}, new double[] {x ,y});
+	    Corner base3 = new Corner(new double[] {x+55,y-25}, new double[] {x ,y});
+	    Corner base4 = new Corner(new double[] {x-100,y-15}, new double[] {x ,y});
+	    Corner base5 = new Corner(new double[] {x+100,y-15}, new double[] {x ,y});
+	    Corner basePeak = new Corner(new double[] {x,y+205}, new double[] {x ,y}); 
+	    Corner rightP = new Corner(new double[] {x+45,y+205}, new double[] {x ,y});
+	    Corner leftP = new Corner(new double[] {x-45,y+205}, new double[] {x ,y});
+	    Corner rightP2 = new Corner(new double[] {x+60,y+175}, new double[] {x ,y});
+	    Corner leftP2 = new Corner(new double[] {x-60,y+175}, new double[] {x ,y});
 	    //dl
 	    DetectionLine mdl = new DetectionLine(base1, basePeak, new double[] {x ,y}, 0.5);
 	    DetectionLine ldl = new DetectionLine(base2, leftP, new double[] {x ,y}, 0.5);
@@ -263,8 +270,8 @@ public class AI extends LivingObject{
 	
 	public void render(Graphics g) {
 		super.render(g);
-		
-	/*	g.setColor(Color.red);
+		/*
+		g.setColor(Color.red);
 		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
 		g.setColor(Color.darkGray);
 		g.fillRect((int) Math.round(getRotationPoint().getX()),(int) Math.round(getRotationPoint().getY()), 9, 9);
@@ -280,8 +287,8 @@ public class AI extends LivingObject{
 		for(DetectionLine dl : leftDetectionLines) {
 			dl.renderDL(g);
 		}
-		mainDetectionLine.renderDL(g); */
-		 
+		mainDetectionLine.renderDL(g); 
+		 */
 	}
 
 }

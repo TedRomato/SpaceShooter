@@ -16,7 +16,7 @@ public class LivingObject extends MovingObject{
 	private boolean forward = false, turnRight = false, turnLeft = false;
 	private Corner movePoint;
 	private double maxSpeed = 2.5;
-	private double acceleration = maxSpeed/100;
+	private double acceleration = maxSpeed/200;
 	private ObjectAttachment[] attachments;
 	
 	public LivingObject(Corner[] corners, double[] rotationPoint2, double rotationAngle, Corner md) {
@@ -24,6 +24,7 @@ public class LivingObject extends MovingObject{
 		movePoint = new Corner(md, rotationPoint2);
 		setReflectedSpeed(maxSpeed*2);
 		setHP(10);
+		makeSquare();
 	}
 	
 	public void setMaxSpeed(double maxSpeed) {
@@ -85,9 +86,7 @@ public class LivingObject extends MovingObject{
 		}
 	
 	public void moveOb() {
-		for(Corner c : getCorners()) {
-			c.moveCorner(getVelX(),getVelY());
-		}
+		super.moveOb();
 		
 		if(attachments != null) {
 			for(ObjectAttachment att : attachments) {
@@ -95,11 +94,7 @@ public class LivingObject extends MovingObject{
 			}
 		}
 		
-		getRotationPoint().moveCorner(getVelX(), getVelY());
-
-
 		movePoint.moveCorner(getVelX(),getVelY());
-		moveDirection.moveCorner(getVelX(),getVelY());
 
 	
 	}
@@ -166,6 +161,7 @@ public class LivingObject extends MovingObject{
 			} 
 			attachments[attachments.length - 1] = att;
 		}
+		makeSquare();
 	}
 	
 	public boolean checkCollision(GameObject go) {
@@ -208,6 +204,19 @@ public class LivingObject extends MovingObject{
 		}
 	}
 	
+	public void makeSquare() {
+		double biggest = 0;
+		biggest = this.getFurthestDistance();
+		if(attachments!=null) {
+			for(ObjectAttachment at : attachments) {
+				if(at.getFurthestDistance() > biggest) {
+					biggest = at.getFurthestDistance();
+				}
+			}
+		}
+		super.makeSquare(biggest);
+	}
+	
 	protected Corner getMP() {
 		return movePoint;
 	}
@@ -230,6 +239,14 @@ public class LivingObject extends MovingObject{
 		return turnRight;
 	}
 	
+	public void setAcceleration(double ac) {
+		this.acceleration = ac;
+	}
+	
+	public double getMaxSpeed() {
+		return maxSpeed;
+	}
+	
 	
 	public void render(Graphics g) {
 		super.render(g);
@@ -246,7 +263,7 @@ public class LivingObject extends MovingObject{
 				}
 			}
 		}
-		/*
+	/*	
 		g.setColor(Color.red);
 		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
 		g.setColor(Color.darkGray);
@@ -254,9 +271,8 @@ public class LivingObject extends MovingObject{
 		g.setColor(Color.BLUE);
 		g.fillRect((int) Math.round(movePoint.getX()),(int) Math.round(movePoint.getY()), 8, 8);
 		g.setColor(Color.BLACK);
-		
-		g.fillRect((int) Math.round(attachments[0].getAttachmentRP().getX()),(int) Math.round(attachments[0].getAttachmentRP().getY()), 8, 8);
 		*/
+		
 
 		
 		

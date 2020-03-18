@@ -1,9 +1,17 @@
 package package1;
 
-public class GameModeClassic {
-	private GameObject[] gameObjects;
+public class GameModeClassic extends Game{
+
+	public GameModeClassic(int sw, int sh) {
+		super(sw, sh);
+		// TODO Auto-generated constructor stub
+	}
 	
-	public void whatever() {
+	public void tick() { 
+		super.tick();
 		
 	}
+	
+	
+	
 }
