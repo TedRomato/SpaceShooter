@@ -21,7 +21,7 @@ public class Window extends JFrame implements KeyListener{
 	private Graphics g;
 	private BufferStrategy bs;
 
-	private Game game;
+	private GameModeClassic game;
 	public Window() {
 		super("EPIC TITLE");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -30,7 +30,7 @@ public class Window extends JFrame implements KeyListener{
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		game = new Game(getWidth(), getHeight());
+		game = new GameModeClassic(getWidth(), getHeight());
 		add(game);
 		setVisible(true);
 		setLayout(null);

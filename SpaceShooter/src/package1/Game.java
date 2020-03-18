@@ -9,16 +9,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
-//TODO fixnout meteor odrazy pro malej sklon  -- > at se mi neodrazi spatnym smerem
-//TODO udelat metodu add to game at to nemusim pripisovat dovsech listu jak autak
 
 public class Game extends JPanel{
-	private int screenWidth, screenHeight;
+	protected int screenWidth;
+	protected int screenHeight;
 	private RandomMeteorGenerator randomMeteorGenerator = new RandomMeteorGenerator();
-	private Player p;
-	private AI ai, ai2, ai3, ai4, ai5;
-	private Meteor les, generated,generated2, generated3, generated4;
-	private GameObject pes;
 	private GameObject[] borders;
 	private GameObject[] objects;
 	private MovingObject[] reflectableObs;
@@ -27,11 +22,9 @@ public class Game extends JPanel{
 	private MovingObject[] borderSensitive;
 	private AI[] ais;
 	private GameObject[][] arrayList;
-	private ObjectAttachment attachmentTry;
 	private GameObject[] aiVisible;
-	private GameObject coin = GameObject.generatePeriodicObject(15, 10, GameObject.generateCornerInRect(100, 100, screenWidth-100, screenHeight-100));
 	private Meteor[] meteors;
-	private int score = 0;
+	
 	private boolean wasCalled = false;
 	//public static JPanel gp = new GamePanel();
 	private boolean running = true;
@@ -39,7 +32,6 @@ public class Game extends JPanel{
 	public Game(int sw,int sh) {
 		this.screenHeight = sh;
 		this.screenWidth = sw;
-		coin.setHP(1);
 		objects = new GameObject[] {};
 	    reflectableObs = new MovingObject[] {};
 	    reflectingObs = new MovingObject[] {};
@@ -50,34 +42,6 @@ public class Game extends JPanel{
 	    meteors = new Meteor[] {};
 		arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais, meteors};
 
-		
-	/*
-	    ai = AI.makeNewAI(400,400);
-	    ai2 = AI.makeNewAI(600, 600);
-	    ai3 = AI.makeNewAI(800, 400);
-	    ai4 = AI.makeNewAI(800, 100);
-	    ai5 = AI.makeNewAI(800, 600);
-*/
-
-	   
-	    
-		Corner peakA = new Corner(new double[] {400,100}, new double[] {400,175});
-	    Corner rightCornerA = new Corner(new double[] {390,150}, new double[] {400,175});
-	    Corner leftCornerA = new Corner(new double[] {410,150}, new double[] {400,175});
-	    attachmentTry = new ObjectAttachment(new Corner[] {peakA, rightCornerA, leftCornerA}, new double[] {400,175},new double[] {400,150},-5);
-		//TEST
-		Corner peak = new Corner(new double[] {400,200}, new double[] {400,175});
-	    Corner rightCorner = new Corner(new double[] {375,150}, new double[] {400,175});
-	    Corner leftCorner = new Corner(new double[] {425,150}, new double[] {400,175});
-	    p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {400,175}, 1, new Corner(new double[] {400,200}, new double[] {400,175}));
-	    p.addAttachment(attachmentTry);
-	    //trojuhelnik s vnitrnim rohem
-	   /*
-	    Corner top = new Corner(new double[] {200,200}, new double[] {200,250});
-	    Corner left = new Corner(new double[] {150,250}, new double[] {200,250});
-	    Corner right = new Corner(new double[] {250,250}, new double[] {200,250});
-	    Corner bot = new Corner(new double[] {200,300}, new double[] {300,275});*/
-	    //ctverec
 	    
 	    Corner rightBotC = new Corner(new double[] {screenWidth,screenHeight}, new double[] {500,400});
 	    Corner leftBotC = new Corner(new double[] {0,screenHeight}, new double[] {500,400});
@@ -92,26 +56,8 @@ public class Game extends JPanel{
 	    borders = new GameObject[] {botBorder,leftBorder,topBorder,rightBorder};
 	    
 	    	    
-	 /*   generated = randomMeteorGenerator.generateRandomMeteorOutside(screenWidth, screenHeight);
-	   		//randomMeteorGenerator.generateMeteor(3, 20, new Corner(new double[] {200,200}, new double[] {200,200}));
-	    generated2 = randomMeteorGenerator.generateRandomMeteorOutside(screenWidth, screenHeight);
-	    		//randomMeteorGenerator.generateMeteor(2, 16, new Corner(new double[] {400,600}, new double[] {200,200}));
-	    generated3 = randomMeteorGenerator.generateRandomMeteorOutside(screenWidth, screenHeight); 
-	    		//randomMeteorGenerator.generateMeteor(2, 16, new Corner(new double[] {200,400}, new double[] {200,200}));
-	    generated4 = randomMeteorGenerator.generateRandomMeteorOutside(screenWidth, screenHeight); 
-	    		//randomMeteorGenerator.generateMeteor(1, 8, new Corner(new double[] {400,800}, new double[] {200,200}));
+
 	   
-	    addObToGame(generated, new int[] {3,6,4});
-	    addObToGame(generated2, new int[] {3,6,4});
-	    addObToGame(generated3, new int[] {3,6,4});
-	    addObToGame(generated4, new int[] {3,6,4}); 
-	    addObToGame(ai, new int[] {4});
-	    addObToGame(ai2, new int[] {4});
-	    addObToGame(ai3, new int[] {4});
-	    addObToGame(ai4, new int[] {4});
-	    addObToGame(ai5, new int[] {4});*/
-	    addObToGame(p, new int[] {5,6,7});  
-	    addObToGame(coin, new int[] {1,2,3,4,5,6,7});
 	    
 	    
 	    
@@ -120,11 +66,9 @@ public class Game extends JPanel{
 		
 	}
 	public void keyPressed(KeyEvent e) {
-	
-		p.keyPressed(e);
+		
 	}
 	public void keyReleased(KeyEvent e) {
-		p.keyReleased(e);
 	}
 	
 	
@@ -163,9 +107,6 @@ public class Game extends JPanel{
 	}
 	
 	public void tick() {	
-		handleAI();
-		updateAllObs();
-        handleCoin();
 		checkAndHandleCollision();
     	updateLivingObsReflect();
     	checkAndHandleAllRefs();
@@ -173,7 +114,8 @@ public class Game extends JPanel{
     	updateAllInvs();
         reflectFromSides();
         removeObsOut();
-   //     respawnMeteorsToAmount(10);
+		updateAllObs();
+
 	}
 	
 	protected void removeObsOut() {
@@ -184,27 +126,9 @@ public class Game extends JPanel{
 		}
 	}
 	
-	protected void handleCoin() {
-		if(coin.getHP() <=0) {
-			 coin = GameObject.generatePeriodicObject(15, 14, GameObject.generateCornerInRect(100, 100, screenWidth-100, screenHeight-100));
-			 coin.setHP(1);
-			 addObToGame(coin, new int[] {1,2,3,4,5,6,7});
 
-		}
-		
-		if(p.checkCollision(coin)) {
-			score++;
-			coin.setHP(0);
-			removeObFromGame(coin);
-		}
-		
-	}
 	
-	private void respawnMeteorsToAmount(int amount) {
-		if(meteors.length < amount) {
-			addObToGame(randomMeteorGenerator.generateRandomMeteorOutside(screenWidth, screenHeight), new int[] {3,6,4});
-		}
-	}
+	
 	
 	private void updateLivingObsReflect() {
 		if(livingObsReflectUpdate != null) {	 
@@ -214,11 +138,6 @@ public class Game extends JPanel{
 		}
 	}
 	
-	private void handleAI() {
-		for(AI ai : ais) {
-			ai.updateAI(p, aiVisible);
-		}
-	}
     	
 	//handle reflections from objects with attachments
 	private void checkAndHandleAllRefs() {
@@ -287,15 +206,21 @@ public class Game extends JPanel{
 		}
 	}
 	
+	protected void respawnMeteorsToAmount(int amount) {
+		if(meteors.length < amount) {
+			addObToGame(randomMeteorGenerator.generateRandomMeteorOutside(screenWidth, screenHeight), new int[] {3,6,4});
+		}
+	}
 	
-	private void addObToGame(GameObject ob) {
+	
+	protected void addObToGame(GameObject ob) {
 		for(int i = 0; i < arrayList.length; i++) {
 			arrayList[i] =  makeNewArrayWith(arrayList[i], ob);
 		}
 		fixGameArrays();
 	}
 	
-	private void addObToGame(GameObject ob,int[] exclude) {
+	protected void addObToGame(GameObject ob,int[] exclude) {
 		for(int i = 0; i < arrayList.length; i++) {
 			boolean excludedArr = false;
 			for(int x = 0; x < exclude.length; x++){
@@ -311,7 +236,7 @@ public class Game extends JPanel{
 	}
 	
 	
-	private void removeObFromGame(GameObject ob){
+	protected void removeObFromGame(GameObject ob){
 		for(int i = 0; i < arrayList.length; i++) {
 			for(int index = 0; index < arrayList[i].length; index++) {
 				if(arrayList[i][index] == ob) {
