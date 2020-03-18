@@ -19,14 +19,21 @@ public class LivingObject extends MovingObject{
 	private double acceleration = maxSpeed/200;
 	private ObjectAttachment[] attachments;
 	
-	public LivingObject(Corner[] corners, double[] rotationPoint2, double rotationAngle, Corner md) {
-		super(corners, rotationPoint2, rotationAngle, md);
-		movePoint = new Corner(md, rotationPoint2);
+	public LivingObject(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md) {
+		super(corners, rotationPoint, rotationAngle, md);
+		movePoint = new Corner(md, rotationPoint);
 		setReflectedSpeed(maxSpeed*2);
 		setHP(10);
 		makeSquare();
 	}
 	
+	public LivingObject(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md) {
+		super(corners, rotationPoint, rotationAngle, md);
+		movePoint = new Corner(md, rotationPoint);
+		setReflectedSpeed(maxSpeed*2);
+		setHP(10);
+		makeSquare();	}
+
 	public void setMaxSpeed(double maxSpeed) {
 		this.maxSpeed = maxSpeed;
 	}
