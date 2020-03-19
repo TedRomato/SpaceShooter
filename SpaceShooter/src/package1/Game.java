@@ -16,6 +16,7 @@ public class Game extends JPanel{
 	private int screenWidth, screenHeight;
 	private Player p;
 	private AI ai, ai2, ai3, ai4, ai5;
+	private Missile mi;
 	private Meteor pes, les;
 	private GameObject[] borders;
 	private GameObject[] objects;
@@ -27,8 +28,10 @@ public class Game extends JPanel{
 	private GameObject[][] arrayList;
 	private ObjectAttachment attachmentTry;
 	private GameObject[] aiVisible;
+	private boolean WasCalled = false;
 	//public static JPanel gp = new GamePanel();
 	public static boolean running = false;
+	private int Count = 0;
 	
 	public Game(int sw,int sh) {
 		this.screenHeight = sh;
@@ -51,7 +54,7 @@ public class Game extends JPanel{
 	    ai4 = AI.makeNewAI(800, 100);
 	    ai5 = AI.makeNewAI(800, 600);
 
-
+	    //mi = Missile.fire();
 
 		Corner peakA = new Corner(new double[] {400,100}, new double[] {400,175});
 	    Corner rightCornerA = new Corner(new double[] {390,150}, new double[] {400,175});
@@ -99,13 +102,14 @@ public class Game extends JPanel{
 	    pes = new Meteor(new Corner[] {top, left, bot, right},new double[] {200,250}, 0.6, new Corner(new double[] {250,300}, new double[] {200,250}), 0.5, 2);
 	    
 	    addObToGame(les, new int[] {3,6});
-	    addObToGame(pes, new int[] {3,6});
+	    /*addObToGame(pes, new int[] {3,6});
 	    addObToGame(ai, new int[] {4});
 	    addObToGame(ai2, new int[] {4});
 	    addObToGame(ai3, new int[] {4});
 	    addObToGame(ai4, new int[] {4});
-	    addObToGame(ai5, new int[] {4});
+	    addObToGame(ai5, new int[] {4});*/
 	    addObToGame(p, new int[] {5,6});
+	    
 	/*  objects = new GameObject[] {pes,les,p,ai};
 	    reflectableObs = new MovingObject[] {pes,les,p,ai};
 	    reflectingObs = new MovingObject[] {pes,les,p,ai};
@@ -165,9 +169,9 @@ public class Game extends JPanel{
 	}
 	
 	public void tick() {	
-
 		handleAI();
 		updateAllObs();
+		handleShooting();
     	checkAndHandleCollision();
     	updateLivingObsReflect();
         checkAndHandleAllRefs();
@@ -178,6 +182,23 @@ public class Game extends JPanel{
 
 	}
 	
+	private void handleShooting(){
+		if(WasCalled == false && p.shoot() !=  null) {
+			addObToGame(p.shoot(), new int[] {1,2,3,4,6});
+			System.out.println("shoot");
+			WasCalled = true;
+		}
+		if(WasCalled == true&& Count<180) { 
+			Count++;
+		}
+		if(Count==180) {
+			WasCalled = false; Count = 0;
+		}
+		if(objects.length>=3) {
+			System.out.println("x: " + objects[2].getRotationPoint().getX()+ "y: "+  objects[2].getRotationPoint().getY());
+		}
+		//System.out.println(Count);
+	}
 	
 	private void updateLivingObsReflect() {
 		if(livingObsReflectUpdate != null) {	

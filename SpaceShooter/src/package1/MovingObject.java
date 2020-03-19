@@ -13,8 +13,8 @@ public class MovingObject extends GameObject{
 	private int reflectedTimer = 0;
 	private int reflectedLenght = 80;
 	private double reflectedSpeed;
-	public MovingObject(Corner[] corners, double[] rotationPoint, double d, Corner md) {
-		super(corners, rotationPoint, d);
+	public MovingObject(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md) {
+		super(corners, rotationPoint, rotationAngle);
 		moveDirection = new Corner(md, rotationPoint);
 		getNewRatios();
 		setNewVels();
@@ -254,12 +254,12 @@ public class MovingObject extends GameObject{
 	
 	public void render(Graphics g) {
 		super.render(g);
-	/*	g.setColor(Color.red);
+		g.setColor(Color.red);
 		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
 		g.setColor(Color.darkGray);
 		g.fillRect((int) Math.round(getRotationPoint().getX()),(int) Math.round(getRotationPoint().getY()), 9, 9);
 		g.setColor(Color.BLUE);
-		g.setColor(Color.BLACK); */
+		g.setColor(Color.BLACK); 
 	}
 	
 	

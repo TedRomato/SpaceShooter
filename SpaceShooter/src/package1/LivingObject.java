@@ -13,8 +13,8 @@ public class LivingObject extends MovingObject{
 	//does have acceleration and max Speed
 	//can have attachments 
 	//other than that same methods, but work for attachment as well
-	private boolean forward = false, turnRight = false, turnLeft = false;
-	private Corner movePoint;
+	private boolean forward = false, turnRight = false, turnLeft = false, shoot = false;
+	private Corner movePoint, shootDirection, shootPoint;
 	private double maxSpeed = 2.5;
 	private double acceleration = maxSpeed/200;
 	private ObjectAttachment[] attachments;
@@ -23,7 +23,8 @@ public class LivingObject extends MovingObject{
 		super(corners, rotationPoint2, rotationAngle, md);
 		movePoint = new Corner(md, rotationPoint2);
 		setReflectedSpeed(maxSpeed*2);
-
+		shootPoint = new Corner(new double[] {movePoint.getX(),movePoint.getY()+20}, rotationPoint2);
+		shootDirection = new Corner(new double[] {movePoint.getX(),movePoint.getY()+40}, rotationPoint2);
 		setHP(10);
 	}
 	
@@ -84,6 +85,8 @@ public class LivingObject extends MovingObject{
 		}
 		
 		movePoint.rotateCorner(getRotationPoint(), getRotationAngle());	
+		shootDirection.rotateCorner(getRotationPoint(), getRotationAngle());
+		shootPoint.rotateCorner(getRotationPoint(), getRotationAngle());
 		}
 	
 	public void moveOb() {
@@ -102,7 +105,8 @@ public class LivingObject extends MovingObject{
 
 		movePoint.moveCorner(getVelX(),getVelY());
 		moveDirection.moveCorner(getVelX(),getVelY());
-
+		shootDirection.moveCorner(getVelX(), getVelY());
+		shootPoint.moveCorner(getVelX(), getVelY());
 	
 	}
 	
@@ -122,8 +126,9 @@ public class LivingObject extends MovingObject{
 	private void updateMDtoMP() {
 		
 		moveDirection = new Corner(movePoint, getRotationPoint());
-		
+	
 	}
+	
 	
 	//handles acceleration 
 	
@@ -209,11 +214,18 @@ public class LivingObject extends MovingObject{
 			}
 		}
 	}
-	
+	protected Corner getSD() {
+		return shootDirection;
+	}
 	protected Corner getMP() {
 		return movePoint;
 	}
-	
+	protected Corner getSP() {
+		return shootPoint;
+	}
+	protected Corner getMD() {
+		return moveDirection;
+	}
 	protected void setForward(boolean b) {
 		forward = b;
 	}
@@ -222,6 +234,12 @@ public class LivingObject extends MovingObject{
 	}
 	protected void setLeft(boolean b) {
 		turnLeft = b;
+	}
+	protected void setShoot(boolean b) {
+		shoot = b;
+	}
+	protected boolean getShoot() {
+		return shoot;
 	}
 	protected boolean getForward() {
 		return forward;
@@ -248,18 +266,21 @@ public class LivingObject extends MovingObject{
 				}
 			}
 		}
-		/*
+		
 		g.setColor(Color.red);
 		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
 		g.setColor(Color.darkGray);
 		g.fillRect((int) Math.round(getRotationPoint().getX()),(int) Math.round(getRotationPoint().getY()), 9, 9);
 		g.setColor(Color.BLUE);
 		g.fillRect((int) Math.round(movePoint.getX()),(int) Math.round(movePoint.getY()), 8, 8);
+		g.setColor(Color.GREEN);
+		g.fillRect((int) Math.round(shootDirection.getX()),(int) Math.round(shootDirection.getY()), 9,9);
+		g.setColor(Color.YELLOW);
+		g.fillRect((int) Math.round(shootPoint.getX()),(int) Math.round(shootPoint.getY()), 9,9);
 		g.setColor(Color.BLACK);
-		
+		/*
 		g.fillRect((int) Math.round(attachments[0].getAttachmentRP().getX()),(int) Math.round(attachments[0].getAttachmentRP().getY()), 8, 8);
-		*/
-
+		 */
 		
 		
 	}

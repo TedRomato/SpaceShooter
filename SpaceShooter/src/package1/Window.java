@@ -19,6 +19,7 @@ public class Window extends JFrame implements KeyListener{
 	private JButton exit, start;
 	private Game game;
 	private JPanel menu;
+	private boolean running = true;
 	
 	public Window() {
 		super("EPIC TITLE");
@@ -62,8 +63,10 @@ public class Window extends JFrame implements KeyListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				dispose();
 				game.stop();
+				running = false;
+				dispose();
+				
 			}
 		});
 		menu.add(exit);
@@ -76,7 +79,7 @@ public class Window extends JFrame implements KeyListener{
 
 		setVisible(true);
 		addKeyListener(this);
-        while(true) {
+        while(running) {
 		game.start();
 		System.out.println("true");
         }	
@@ -94,8 +97,10 @@ public class Window extends JFrame implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getKeyCode() == e.VK_ESCAPE) {
-			dispose();
 			game.stop();
+			running = false;
+			dispose();
+			
 		}
 		game.keyPressed(e);
 	}
