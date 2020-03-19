@@ -74,7 +74,7 @@ public class Game extends JPanel{
 	
 	public void start() {
 		long lastTime = System.nanoTime();
-        double amountOfTicks = 200;
+        double amountOfTicks = 60;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
