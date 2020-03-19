@@ -25,6 +25,40 @@ public class Corner {
 		currentAngle = getAngle(rotationPoint);
 	}
 	
+	public Corner(Corner c, double[] rp) {
+		this.x = c.getX();
+		this.y = c.getY();
+		this.currentAngle = c.getAngle(rp);
+		this.qadrant = c.getQadrant();
+		this.distance= c.getPointDistance(rp);
+	}
+	
+	
+	public Corner(Corner c, Corner rotationPoint) {
+		this.x = c.getX();
+		this.y = c.getY();
+		distance = getPointDistance(rotationPoint);
+		qadrant = getQadrant(rotationPoint);
+		currentAngle = getAngle(rotationPoint);
+	}
+
+	public Corner(double[] c, Corner rp) {
+		this.x = c[0];
+		this.y = c[1];
+		distance = getPointDistance(rp);
+		qadrant = getQadrant(rp);
+		currentAngle = getAngle(rp);
+	}
+	
+	public Corner(double[] c) {
+		this.x = c[0];
+		this.y = c[1];
+		distance = getPointDistance(c);
+		qadrant = getQadrant(c);
+		currentAngle = getAngle(c);
+	}
+	
+
 	
 	//checks if this corner is under function line --> intakes a and b from : a*x+b = y
 	public boolean checkIfUnder(double a, double b) {
@@ -245,14 +279,14 @@ public class Corner {
 	
 	//gets distance between this and any other point
 	
-	private double getPointDistance(Corner rp) {
+	double getPointDistance(Corner rp) {
 		double x = rp.getX()-this.x;
 		double y = rp.getY()-this.y;
 		return Math.sqrt(x*x + y*y);
 		
 	}
 	
-	private double getPointDistance(double[] rotationPoint) {
+	public double getPointDistance(double[] rotationPoint) {
 		double x = rotationPoint[0]-this.x;
 		double y = rotationPoint[1]-this.y;
 		return Math.sqrt(x*x + y*y);
@@ -334,29 +368,15 @@ public class Corner {
 		this.distance = getPointDistance(rp);
 	}
 
-	public Corner(Corner c, double[] rp) {
-		this.x = c.getX();
-		this.y = c.getY();
-		this.currentAngle = c.getAngle(rp);
-		this.qadrant = c.getQadrant();
-		this.distance= c.getPointDistance(rp);
-	}
 	
 	
-	public Corner(Corner c, Corner rotationPoint) {
-		this.x = c.getX();
-		this.y = c.getY();
-		distance = getPointDistance(rotationPoint);
-		qadrant = getQadrant(rotationPoint);
-		currentAngle = getAngle(rotationPoint);
-	}
-
-	public Corner(double[] c, Corner rp) {
-		this.x = c[0];
-		this.y = c[1];
-		distance = getPointDistance(rp);
-		qadrant = getQadrant(rp);
-		currentAngle = getAngle(rp);
+	public static Corner makeCornerUsinAngle(double distance, double angle ,Corner rp) {
+		Corner corner = new Corner(new double[] {0,0}, rp);
+		corner.currentAngle = angle;
+		corner.updateQadrants();
+		corner.distance = distance;
+		corner.getNewCoords(rp);
+		return corner;
 	}
 
 	public void updateNoRotation(Corner corner) {

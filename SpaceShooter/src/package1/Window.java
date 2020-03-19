@@ -17,19 +17,25 @@ import javax.swing.JPanel;
 
 public class Window extends JFrame implements KeyListener{
 	private JButton exit, start;
-	private Game game;
 	private JPanel menu;
 	private boolean running = true;
-	
+	private Graphics g;
+	private BufferStrategy bs;
+
+	private GameModeClassic game;
+
 	public Window() {
 		super("EPIC TITLE");
-		//setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setResizable(false);
-		setSize(1520,800);
-		setUndecorated(true);
 
+		//setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setResizable(false);
+		setSize(1540,865);
+		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
 
 		
 		
@@ -74,7 +80,10 @@ public class Window extends JFrame implements KeyListener{
 		
 		add(menu);
 
-		game = new Game(getWidth(), getHeight());
+		//game = new Game(getWidth(), getHeight());
+
+		game = new GameModeClassic(getWidth(), getHeight());
+
 		add(game);
 
 		setVisible(true);

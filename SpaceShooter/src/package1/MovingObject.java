@@ -18,9 +18,14 @@ public class MovingObject extends GameObject{
 		moveDirection = new Corner(md, rotationPoint);
 		getNewRatios();
 		setNewVels();
-
 	}
 	
+	public MovingObject(Corner[] corners, Corner rotationPoint, double d, Corner md) {
+		super(corners, rotationPoint, d);
+		moveDirection = new Corner(md, rotationPoint);
+		getNewRatios();
+		setNewVels();
+	}
 
 	
 	
@@ -182,10 +187,8 @@ public class MovingObject extends GameObject{
 		*/
 	
 	public void moveOb() {
-		for(Corner corner : getCorners()) {
-			corner.moveCorner(getVelX(),getVelY());
-		}
-		getRotationPoint().moveCorner(getVelX(),getVelY());
+		super.moveOb();
+
 		moveDirection.moveCorner(getVelX(),getVelY());
 
 	
@@ -318,13 +321,17 @@ public class MovingObject extends GameObject{
 		this.reflectedLenght = reflectedLenght;
 	}
 
-
-
-
+	
 	public double getCurrentSpeed() {
 		return currentSpeed;
 	}
 	public double getReflectedSpeed() {
 		return reflectedLenght;
 	}
+	public void setMoveDirection(Corner c) {
+		this.moveDirection = c;
+	}
+	
+	
+	
 }

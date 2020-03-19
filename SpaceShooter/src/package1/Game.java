@@ -9,15 +9,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
-//TODO fixnout meteor odrazy pro malej sklon  -- > at se mi neodrazi spatnym smerem
-//TODO udelat metodu add to game at to nemusim pripisovat dovsech listu jak autak
 
 public class Game extends JPanel{
-	private int screenWidth, screenHeight;
 	private Player p;
-	private AI ai, ai2, ai3, ai4, ai5;
-	private Missile mi;
-	private Meteor pes, les;
+	protected int screenWidth;
+	protected int screenHeight;
+	private RandomMeteorGenerator randomMeteorGenerator = new RandomMeteorGenerator();
 	private GameObject[] borders;
 	private GameObject[] objects;
 	private MovingObject[] reflectableObs;
@@ -26,9 +23,11 @@ public class Game extends JPanel{
 	private MovingObject[] borderSensitive;
 	private AI[] ais;
 	private GameObject[][] arrayList;
-	private ObjectAttachment attachmentTry;
 	private GameObject[] aiVisible;
 	private boolean WasCalled = false;
+	private Meteor[] meteors;
+	
+	private boolean wasCalled = false;
 	//public static JPanel gp = new GamePanel();
 	public static boolean running = false;
 	private int Count = 0;
@@ -36,7 +35,6 @@ public class Game extends JPanel{
 	public Game(int sw,int sh) {
 		this.screenHeight = sh;
 		this.screenWidth = sw;
-		
 		objects = new GameObject[] {};
 	    reflectableObs = new MovingObject[] {};
 	    reflectingObs = new MovingObject[] {};
@@ -44,36 +42,9 @@ public class Game extends JPanel{
 	    borderSensitive = new MovingObject[] {};
 	    aiVisible = new GameObject[] {};
 	    ais = new AI[] {};
-		arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais};
+	    meteors = new Meteor[] {};
+		arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais, meteors};
 
-		
-	
-	    ai = AI.makeNewAI(400,400);
-	    ai2 = AI.makeNewAI(600, 600);
-	    ai3 = AI.makeNewAI(800, 400);
-	    ai4 = AI.makeNewAI(800, 100);
-	    ai5 = AI.makeNewAI(800, 600);
-
-	    //mi = Missile.fire();
-
-		Corner peakA = new Corner(new double[] {400,100}, new double[] {400,175});
-	    Corner rightCornerA = new Corner(new double[] {390,150}, new double[] {400,175});
-	    Corner leftCornerA = new Corner(new double[] {410,150}, new double[] {400,175});
-	    attachmentTry = new ObjectAttachment(new Corner[] {peakA, rightCornerA, leftCornerA}, new double[] {400,175},new double[] {400,150},-5);
-		//TEST
-		Corner peak = new Corner(new double[] {400,200}, new double[] {400,175});
-	    Corner rightCorner = new Corner(new double[] {375,150}, new double[] {400,175});
-	    Corner leftCorner = new Corner(new double[] {425,150}, new double[] {400,175});
-	    p = new Player(new Corner[] {peak, rightCorner, leftCorner},new double[] {400,175}, 1, new Corner(new double[] {400,200}, new double[] {400,175}));
-	    p.addAttachment(attachmentTry);
-	    //trojuhelnik s vnitrnim rohem
-	   /*
-	    Corner top = new Corner(new double[] {200,200}, new double[] {200,250});
-	    Corner left = new Corner(new double[] {150,250}, new double[] {200,250});
-	    Corner right = new Corner(new double[] {250,250}, new double[] {200,250});
-	    Corner bot = new Corner(new double[] {200,300}, new double[] {300,275});*/
-	    //ctverec
-	    
 	    
 	    Corner rightBotC = new Corner(new double[] {screenWidth,screenHeight}, new double[] {500,400});
 	    Corner leftBotC = new Corner(new double[] {0,screenHeight}, new double[] {500,400});
@@ -87,37 +58,6 @@ public class Game extends JPanel{
 	    
 	    borders = new GameObject[] {botBorder,leftBorder,topBorder,rightBorder};
 	    
-	    Corner leftTop = new Corner(new double[] {450,350}, new double[] {500,400});
-	    Corner leftBot = new Corner(new double[] {450,450}, new double[] {500,400});
-	    Corner rightBot = new Corner(new double[] {550,450}, new double[] {500,400});
-	    Corner rightTop = new Corner(new double[] {550,350}, new double[] {500,400});
-	    les = new Meteor(new Corner[] {leftTop, leftBot, rightBot, rightTop},new double[] {500,400}, -0.5, new Corner(new double[] {450,400}, new double[] {500,400}), 0.3, 3);
-	    
-	    //kosoctverec
-	    Corner top = new Corner(new double[] {200,200}, new double[] {200,250});
-	    Corner left = new Corner(new double[] {150,250}, new double[] {200,250});
-	    Corner right = new Corner(new double[] {250,250}, new double[] {200,250});
-	    Corner bot = new Corner(new double[] {200,300}, new double[] {200,250});
-	    
-	    pes = new Meteor(new Corner[] {top, left, bot, right},new double[] {200,250}, 0.6, new Corner(new double[] {250,300}, new double[] {200,250}), 0.5, 2);
-	    
-	    addObToGame(les, new int[] {3,6});
-	    /*addObToGame(pes, new int[] {3,6});
-	    addObToGame(ai, new int[] {4});
-	    addObToGame(ai2, new int[] {4});
-	    addObToGame(ai3, new int[] {4});
-	    addObToGame(ai4, new int[] {4});
-	    addObToGame(ai5, new int[] {4});*/
-	    addObToGame(p, new int[] {5,6});
-	    
-	/*  objects = new GameObject[] {pes,les,p,ai};
-	    reflectableObs = new MovingObject[] {pes,les,p,ai};
-	    reflectingObs = new MovingObject[] {pes,les,p,ai};
-	    livingObsReflectUpdate = new LivingObject[] {p,ai};
-	    borderSensitive = new MovingObject[] {p, les, pes};
-	    aiVisible = new GameObject[] {pes,les};
-	    
-	    */
 	    
 	    
 	    
@@ -126,17 +66,15 @@ public class Game extends JPanel{
 		
 	}
 	public void keyPressed(KeyEvent e) {
-	
-		p.keyPressed(e);
+		
 	}
 	public void keyReleased(KeyEvent e) {
-		p.keyReleased(e);
 	}
 	
 	
 	public void start() {
 		long lastTime = System.nanoTime();
-        double amountOfTicks = 150;
+        double amountOfTicks = 200;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -155,9 +93,9 @@ public class Game extends JPanel{
                 frames++;
                             
                 if(System.currentTimeMillis() - timer > 1000)
-                {
+                { 
                 	timer += 1000;
-            //      System.out.println("FPS: "+ frames);
+                  //  System.out.println("FPS: "+ frames);
                     frames = 0;
                     }
         }
@@ -169,20 +107,20 @@ public class Game extends JPanel{
 	}
 	
 	public void tick() {	
-		handleAI();
-		updateAllObs();
-		handleShooting();
-    	checkAndHandleCollision();
+		//handleShooting();	
+		checkAndHandleCollision();
     	updateLivingObsReflect();
-        checkAndHandleAllRefs();
+    	checkAndHandleAllRefs();
         deleteNoHpObs();
     	updateAllInvs();
         reflectFromSides();
-
+        removeObsOut();
+		updateAllObs();
 
 	}
 	
-	private void handleShooting(){
+
+	/*private void handleShooting(){
 		if(WasCalled == false && p.shoot() !=  null) {
 			addObToGame(p.shoot(), new int[] {1,2,3,4,6});
 			System.out.println("shoot");
@@ -198,21 +136,29 @@ public class Game extends JPanel{
 			System.out.println("x: " + objects[2].getRotationPoint().getX()+ "y: "+  objects[2].getRotationPoint().getY());
 		}
 		//System.out.println(Count);
+	}*/
+
+	protected void removeObsOut() {
+		for(GameObject ob : objects) {
+			if(ob.checkIfOutsideRect(-300, -300,screenWidth + 800, screenHeight + 800)) {
+				removeObFromGame(ob);
+			}
+		}
 	}
 	
+
+	
+	
+
+	
 	private void updateLivingObsReflect() {
-		if(livingObsReflectUpdate != null) {	
+		if(livingObsReflectUpdate != null) {	 
 			for(LivingObject livingOb : livingObsReflectUpdate) {
 				livingOb.updateReflection();
 			}
 		}
 	}
 	
-	private void handleAI() {
-		for(AI ai : ais) {
-			ai.updateAI(p, aiVisible);
-		}
-	}
     	
 	//handle reflections from objects with attachments
 	private void checkAndHandleAllRefs() {
@@ -281,15 +227,21 @@ public class Game extends JPanel{
 		}
 	}
 	
+	protected void respawnMeteorsToAmount(int amount) {
+		if(meteors.length < amount) {
+			addObToGame(randomMeteorGenerator.generateRandomMeteorOutside(screenWidth, screenHeight), new int[] {3,6,4});
+		}
+	}
 	
-	private void addObToGame(GameObject ob) {
+	
+	protected void addObToGame(GameObject ob) {
 		for(int i = 0; i < arrayList.length; i++) {
 			arrayList[i] =  makeNewArrayWith(arrayList[i], ob);
 		}
 		fixGameArrays();
 	}
 	
-	private void addObToGame(GameObject ob,int[] exclude) {
+	protected void addObToGame(GameObject ob,int[] exclude) {
 		for(int i = 0; i < arrayList.length; i++) {
 			boolean excludedArr = false;
 			for(int x = 0; x < exclude.length; x++){
@@ -305,7 +257,7 @@ public class Game extends JPanel{
 	}
 	
 	
-	private void removeObFromGame(GameObject ob){
+	protected void removeObFromGame(GameObject ob){
 		for(int i = 0; i < arrayList.length; i++) {
 			for(int index = 0; index < arrayList[i].length; index++) {
 				if(arrayList[i][index] == ob) {
@@ -325,9 +277,17 @@ public class Game extends JPanel{
 	    borderSensitive = makeGameObArMovingArr(arrayList[4]);
 	    aiVisible = arrayList[5];
 	    ais = makeGameObArAIArr(arrayList[6]);
+	    meteors = makeMeteorArr(arrayList[7]);
 	
 	}
 	
+	private Meteor[] makeMeteorArr(GameObject[] arr) {
+		Meteor[] newArr = new Meteor[arr.length];
+		for(int i = 0; i < arr.length; i++) {
+			newArr[i] = (Meteor) arr[i];
+		}
+		return newArr;
+	}
 	private AI[] makeGameObArAIArr(GameObject[] arr) {
 		AI[] newArr = new AI[arr.length];
 		for(int i = 0; i < arr.length; i++) {
