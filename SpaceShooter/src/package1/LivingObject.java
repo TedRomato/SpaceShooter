@@ -13,10 +13,10 @@ public class LivingObject extends MovingObject{
 	//does have acceleration and max Speed
 	//can have attachments 
 	//other than that same methods, but work for attachment as well
-	Corner TopLeft, TopRight, BotLeft, BotRight, md;
-	private boolean forward = false, turnRight = false, turnLeft = false, shoot = false;
-	private Corner movePoint, shootDirection, shootPoint;
-	private double maxSpeed = 2.5;
+	Corner TopLeft, TopRight, BotLeft, BotRight, md;	
+	private boolean forward = false, turnRight = false, turnLeft = false,shoot = false;;
+	private Corner movePoint, shootDirection, shootPoint;;
+	private double maxSpeed = 7;
 	private double acceleration = maxSpeed/200;
 	private ObjectAttachment[] attachments;
 	
@@ -233,7 +233,7 @@ public class LivingObject extends MovingObject{
 		TopRight = new Corner(new double[] {getSP().getX()+10,getSP().getY()}, new double[] {getSP().getX()+5,getSP().getY()+5});
 		md = new Corner(new double[] {getSD().getX(), getSD().getY()}, new double[] {getSP().getX()+5,getSP().getY()+5});
 		if(getShoot()) {
-		Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, new double[] {getSP().getX()+5,getSP().getY()+5}, 0,md,1.6);
+		Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, new double[] {getSP().getX()+5,getSP().getY()+5}, 0,md,5);
 		m.getNewRatios();
 		m.setNewVels();
 		return m;

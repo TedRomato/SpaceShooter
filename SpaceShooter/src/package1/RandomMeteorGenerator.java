@@ -34,9 +34,9 @@ public class RandomMeteorGenerator {
 	//size, vel, cAmount
 	private double[] generateRandomAtributes() {
 		double size = pickSize();
-		double vel = generateNumInRange(new double[] {0.6,4})/size;
+		double vel = generateNumInRange(new double[] {0.6,4})*2/size;
 		double cornerAmount = (int) Math.floor(generateNumInRange(new double[] {13,18}));
-		double rotationAngle = generateNumInRange(new double[] {0.4,2.5})/size;
+		double rotationAngle = generateNumInRange(new double[] {0.4,2.5})*2/size;
 		if(Math.random() > 0.5) {
 			rotationAngle = - rotationAngle;
 		}

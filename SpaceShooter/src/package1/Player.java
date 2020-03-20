@@ -12,9 +12,8 @@ public class Player extends LivingObject implements KeyListener{
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
 		setReflectedLenght(35);
-		setRotationAngle(1.2);
-		setAcceleration(getMaxSpeed() / 100);
-		setHP(100);
+		setRotationAngle(3.9);
+		setAcceleration(getMaxSpeed() / 45);
 	}
 
 	
@@ -24,8 +23,8 @@ public class Player extends LivingObject implements KeyListener{
 	public Player(Corner[] corners, Corner rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
 		setReflectedLenght(35);
-		setRotationAngle(1.2);
-		setAcceleration(getMaxSpeed() / 100);
+		setRotationAngle(3.9);
+		setAcceleration(getMaxSpeed() / 45);
 		
 	}
 
@@ -96,7 +95,7 @@ public class Player extends LivingObject implements KeyListener{
 	    Corner rightCorner = new Corner(new double[] {rp.getX() - 25, rp.getY() - 25}, rp);
 	    Corner leftCorner = new Corner(new double[] {rp.getX() + 25, rp.getY() - 25}, rp);
 	    
-	    p = new Player(new Corner[] {peak, rightCorner, leftCorner},rp, 1, new Corner(new double[] {rp.getX(),rp.getY()+25}, rp));
+	    p = new Player(new Corner[] {peak, rightCorner, leftCorner},rp,6, new Corner(new double[] {rp.getX(),rp.getY()+25}, rp));
 	    p.addAttachment(attachment);
 	    p.setHP(100);
 	    
