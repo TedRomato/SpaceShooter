@@ -1,3 +1,4 @@
+
 package package1;
 
 import java.awt.Dimension;
@@ -11,6 +12,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 
 public class Game extends JPanel{
+	protected Player p;
 	protected int screenWidth;
 	protected int screenHeight;
 	private RandomMeteorGenerator randomMeteorGenerator = new RandomMeteorGenerator();
@@ -23,13 +25,13 @@ public class Game extends JPanel{
 	private AI[] ais;
 	private GameObject[][] arrayList;
 	private GameObject[] aiVisible;
+	private boolean WasCalled = false;
 	private Meteor[] meteors;
-	protected Player p;
-
 	
 	private boolean wasCalled = false;
 	//public static JPanel gp = new GamePanel();
-	private boolean running = true;
+	public static boolean running = false;
+	private int Count = 0;
 	
 	public Game(int sw,int sh) {
 		this.screenHeight = sh;
@@ -57,10 +59,8 @@ public class Game extends JPanel{
 	    
 	    borders = new GameObject[] {botBorder,leftBorder,topBorder,rightBorder};
 	    
-	    	    
-
-	   
-	    
+	    p = Player.makeNewPlayer(new double[] {100,100});
+		addObToGame(p, new int[] {5,6,7}); 
 	    
 	    
 	}
@@ -109,6 +109,7 @@ public class Game extends JPanel{
 	}
 	
 	public void tick() {	
+		handleShooting();	
 		checkAndHandleCollision();
     	updateLivingObsReflect();
     	checkAndHandleAllRefs();
@@ -120,6 +121,25 @@ public class Game extends JPanel{
 
 	}
 	
+
+	private void handleShooting(){
+		if(WasCalled == false && p.shoot() !=  null) {
+			addObToGame(p.shoot(), new int[] {1,2,3,4,6,7});
+			System.out.println("shoot");
+			WasCalled = true;
+		}
+		if(WasCalled == true&& Count<180) { 
+			Count++;
+		}
+		if(Count==90) {
+			WasCalled = false; Count = 0;
+		}/*
+		if(objects.length>=3) {
+			System.out.println("x: " + objects[2].getRotationPoint().getX()+ "y: "+  objects[2].getRotationPoint().getY());
+		}*/
+		//System.out.println(Count);
+	}
+
 	protected void removeObsOut() {
 		for(GameObject ob : objects) {
 			if(ob.checkIfOutsideRect(-300, -300,screenWidth + 800, screenHeight + 800)) {
@@ -131,6 +151,7 @@ public class Game extends JPanel{
 
 	
 	
+
 	
 	private void updateLivingObsReflect() {
 		if(livingObsReflectUpdate != null) {	 

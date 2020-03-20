@@ -3,15 +3,15 @@ package package1;
 import java.awt.event.KeyEvent;
 
 public class GameModeClassic extends Game{
+
+	private Player p = super.p;
 	private GameObject coin = GameObject.generatePeriodicObject(15, 20, GameObject.generateCornerInRect(100, 100, screenWidth-100, screenHeight-100));
 	private int score = 0;
 	
 
 
 	public GameModeClassic(int sw, int sh) {
-		super(sw, sh);
-		p = Player.makeNewPlayer(new double[] {100,100});
-		addObToGame(p, new int[] {5,6,7});  
+		super(sw, sh); 
 		addObToGame(coin, new int[] {1,2,3,4,5,6,7});
 		// TODO Auto-generated constructor stub
 	}

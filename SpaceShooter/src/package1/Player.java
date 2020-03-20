@@ -8,14 +8,17 @@ import java.awt.event.KeyListener;
 
 public class Player extends LivingObject implements KeyListener{
 	
-	char moveChar = 'w', turnLeftChar = 'a', turnRightChar = 'd';
+	char moveChar = 'w', turnLeftChar = 'a', turnRightChar = 'd', shootChar = ' ';
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
 		setReflectedLenght(35);
 		setRotationAngle(3.9);
 		setAcceleration(getMaxSpeed() / 45);
-		
 	}
+
+	
+
+
 	
 	public Player(Corner[] corners, Corner rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
@@ -27,7 +30,6 @@ public class Player extends LivingObject implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
 		if(e.getKeyChar() == moveChar) {
 			if(getReflected() == false) {
 				setForward(true);
@@ -44,7 +46,9 @@ public class Player extends LivingObject implements KeyListener{
 			makePositiveRotation();
 			
 		}
-	
+		if(e.getKeyChar() == shootChar) {
+			setShoot(true);
+		}
 	}
 
 
@@ -71,6 +75,9 @@ public class Player extends LivingObject implements KeyListener{
 			setRight(false);
 			
 		}
+		if(e.getKeyChar() == shootChar) {
+			setShoot(false);
+		}
 
 	}
 	
@@ -90,7 +97,7 @@ public class Player extends LivingObject implements KeyListener{
 	    
 	    p = new Player(new Corner[] {peak, rightCorner, leftCorner},rp,6, new Corner(new double[] {rp.getX(),rp.getY()+25}, rp));
 	    p.addAttachment(attachment);
-	    p.setHP(5);
+	    p.setHP(100);
 	    
 	    return p;
 	}
