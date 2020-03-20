@@ -8,7 +8,6 @@ import java.awt.event.KeyListener;
 
 public class Player extends LivingObject implements KeyListener{
 	
-	Corner TopLeft, TopRight, BotLeft, BotRight, md;
 	char moveChar = 'w', turnLeftChar = 'a', turnRightChar = 'd', shootChar = ' ';
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
@@ -18,21 +17,7 @@ public class Player extends LivingObject implements KeyListener{
 		setHP(100);
 	}
 
-	public Missile shoot() {
-		TopLeft = new Corner(new double[] {getSP().getX(),getSP().getY()}, new double[] {getSP().getX()+5,getSP().getY()+5});
-		BotLeft = new Corner(new double[] {getSP().getX(),getSP().getY()+10}, new double[] {getSP().getX()+5,getSP().getY()+5});
-		BotRight = new Corner(new double[] {getSP().getX()+10,getSP().getY()+10}, new double[] {getSP().getX()+5,getSP().getY()+5});
-		TopRight = new Corner(new double[] {getSP().getX()+10,getSP().getY()}, new double[] {getSP().getX()+5,getSP().getY()+5});
-		md = new Corner(new double[] {getSD().getX(), getSD().getY()}, new double[] {getSP().getX()+5,getSP().getY()+5});
-		if(getShoot()) {
-		Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, new double[] {getSP().getX()+5,getSP().getY()+5}, 0,md,1.6);
-		m.getNewRatios();
-		m.setNewVels();
-		return m;
-		
-		}
-		else return null;
-	}
+	
 
 
 	
@@ -113,7 +98,7 @@ public class Player extends LivingObject implements KeyListener{
 	    
 	    p = new Player(new Corner[] {peak, rightCorner, leftCorner},rp, 1, new Corner(new double[] {rp.getX(),rp.getY()+25}, rp));
 	    p.addAttachment(attachment);
-	    p.setHP(5);
+	    p.setHP(100);
 	    
 	    return p;
 	}

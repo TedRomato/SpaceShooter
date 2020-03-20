@@ -13,6 +13,7 @@ public class LivingObject extends MovingObject{
 	//does have acceleration and max Speed
 	//can have attachments 
 	//other than that same methods, but work for attachment as well
+	Corner TopLeft, TopRight, BotLeft, BotRight, md;
 	private boolean forward = false, turnRight = false, turnLeft = false, shoot = false;
 	private Corner movePoint, shootDirection, shootPoint;
 	private double maxSpeed = 2.5;
@@ -225,7 +226,21 @@ public class LivingObject extends MovingObject{
 	protected Corner getSD() {
 		return shootDirection;
 	}
-	
+	public Missile shoot() {
+		TopLeft = new Corner(new double[] {getSP().getX(),getSP().getY()}, new double[] {getSP().getX()+5,getSP().getY()+5});
+		BotLeft = new Corner(new double[] {getSP().getX(),getSP().getY()+10}, new double[] {getSP().getX()+5,getSP().getY()+5});
+		BotRight = new Corner(new double[] {getSP().getX()+10,getSP().getY()+10}, new double[] {getSP().getX()+5,getSP().getY()+5});
+		TopRight = new Corner(new double[] {getSP().getX()+10,getSP().getY()}, new double[] {getSP().getX()+5,getSP().getY()+5});
+		md = new Corner(new double[] {getSD().getX(), getSD().getY()}, new double[] {getSP().getX()+5,getSP().getY()+5});
+		if(getShoot()) {
+		Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, new double[] {getSP().getX()+5,getSP().getY()+5}, 0,md,1.6);
+		m.getNewRatios();
+		m.setNewVels();
+		return m;
+		
+		}
+		else return null;
+	}
 	public void makeSquare() {
 		double biggest = 0;
 		biggest = this.getFurthestDistance();
