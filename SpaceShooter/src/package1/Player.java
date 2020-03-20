@@ -15,7 +15,7 @@ public class Player extends LivingObject implements KeyListener{
 		setReflectedLenght(35);
 		setRotationAngle(1.2);
 		setAcceleration(getMaxSpeed() / 100);
-		
+		setHP(100);
 	}
 
 	public Missile shoot() {
