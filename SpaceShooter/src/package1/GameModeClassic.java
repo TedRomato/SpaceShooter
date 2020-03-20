@@ -3,7 +3,6 @@ package package1;
 import java.awt.event.KeyEvent;
 
 public class GameModeClassic extends Game{
-	private Player p;
 	private GameObject coin = GameObject.generatePeriodicObject(15, 20, GameObject.generateCornerInRect(100, 100, screenWidth-100, screenHeight-100));
 	private int score = 0;
 	

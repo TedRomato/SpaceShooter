@@ -24,6 +24,8 @@ public class Game extends JPanel{
 	private GameObject[][] arrayList;
 	private GameObject[] aiVisible;
 	private Meteor[] meteors;
+	protected Player p;
+
 	
 	private boolean wasCalled = false;
 	//public static JPanel gp = new GamePanel();
