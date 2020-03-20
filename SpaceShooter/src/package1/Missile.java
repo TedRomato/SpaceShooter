@@ -9,6 +9,12 @@ public class Missile extends MovingObject{
 		// TODO Auto-generated constructor stub
 	}
 
+	public Missile(Corner[] corners, Corner rp, int rotationAngle, Corner md, int speed) {
+		super(corners, rp, rotationAngle, md);
+		setHP(1);
+		setCurrentSpeed(speed);
+	}
+
 	
 	
 }
