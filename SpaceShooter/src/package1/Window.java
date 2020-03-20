@@ -17,25 +17,81 @@ import javax.swing.JPanel;
 
 public class Window extends JFrame implements KeyListener{
 	private JButton exit, start;
+	private JPanel menu;
 	private boolean running = true;
 	private Graphics g;
 	private BufferStrategy bs;
 
 	private GameModeClassic game;
+
 	public Window() {
 		super("EPIC TITLE");
+
+		//setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setResizable(false);
 		setSize(1540,865);
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+
+		
+		
+		menu = new JPanel();
+		menu.setSize(1920, 1080);
+		
+		
+		start = new JButton("New Game");
+		start.setBounds(1920-50, 1080-25, 100, 50);
+		start.setFocusable(false);
+		start.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				getContentPane().removeAll();
+				getContentPane().invalidate();
+				getContentPane().add(game);
+				getContentPane().revalidate();
+				game.running = true;
+				
+			}
+		});
+		menu.add(start);
+		
+		exit = new JButton("Exit");
+		exit.setBounds(1920-50, 1080-75, 100, 50);
+		exit.setFocusable(false);
+		exit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				game.stop();
+				running = false;
+				dispose();
+				
+			}
+		});
+		menu.add(exit);
+		
+		
+		add(menu);
+
+		//game = new Game(getWidth(), getHeight());
+
 		game = new GameModeClassic(getWidth(), getHeight());
+
 		add(game);
+
 		setVisible(true);
-		setLayout(null);
 		addKeyListener(this);
-        game.start();	
+        while(running) {
+		game.start();
+		System.out.println("true");
+        }	
 	}
 	
 	public static void main(String[] args) {
@@ -50,8 +106,10 @@ public class Window extends JFrame implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getKeyCode() == e.VK_ESCAPE) {
-			dispose();
 			game.stop();
+			running = false;
+			dispose();
+			
 		}
 		game.keyPressed(e);
 	}
