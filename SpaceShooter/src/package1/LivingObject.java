@@ -15,7 +15,7 @@ public class LivingObject extends MovingObject{
 	//other than that same methods, but work for attachment as well
 	private boolean forward = false, turnRight = false, turnLeft = false;
 	private Corner movePoint;
-	private double maxSpeed = 2.5;
+	private double maxSpeed = 7;
 	private double acceleration = maxSpeed/200;
 	private ObjectAttachment[] attachments;
 	
