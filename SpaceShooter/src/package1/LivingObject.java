@@ -13,7 +13,6 @@ public class LivingObject extends MovingObject{
 	//does have acceleration and max Speed
 	//can have attachments 
 	//other than that same methods, but work for attachment as well
-	Corner TopLeft, TopRight, BotLeft, BotRight, md;	
 	private boolean forward = false, turnRight = false, turnLeft = false,shoot = false;;
 	private Corner movePoint, shootDirection, shootPoint;;
 	private double maxSpeed = 7;
@@ -34,6 +33,8 @@ public class LivingObject extends MovingObject{
 		super(corners, rotationPoint, rotationAngle, md);
 		movePoint = new Corner(md, rotationPoint);
 		setReflectedSpeed(maxSpeed*2);
+		shootPoint = new Corner(new double[] {movePoint.getX(),movePoint.getY()+20}, rotationPoint);
+		shootDirection = new Corner(new double[] {movePoint.getX(),movePoint.getY()+40}, rotationPoint);
 		setHP(10);
 		makeSquare();	}
 
@@ -227,17 +228,17 @@ public class LivingObject extends MovingObject{
 		return shootDirection;
 	}
 	public Missile shoot() {
-		TopLeft = new Corner(new double[] {getSP().getX(),getSP().getY()}, new double[] {getSP().getX()+5,getSP().getY()+5});
-		BotLeft = new Corner(new double[] {getSP().getX(),getSP().getY()+10}, new double[] {getSP().getX()+5,getSP().getY()+5});
-		BotRight = new Corner(new double[] {getSP().getX()+10,getSP().getY()+10}, new double[] {getSP().getX()+5,getSP().getY()+5});
-		TopRight = new Corner(new double[] {getSP().getX()+10,getSP().getY()}, new double[] {getSP().getX()+5,getSP().getY()+5});
-		md = new Corner(new double[] {getSD().getX(), getSD().getY()}, new double[] {getSP().getX()+5,getSP().getY()+5});
+		Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
+		Corner TopLeft = new Corner(new double[] {getSP().getX()-5,getSP().getY()-5}, rp);
+		Corner BotLeft = new Corner(new double[] {getSP().getX()-5,getSP().getY()+5}, rp);
+		Corner BotRight = new Corner(new double[] {getSP().getX()+5,getSP().getY()+5}, rp);
+		Corner TopRight = new Corner(new double[] {getSP().getX()+5,getSP().getY()-5}, rp);
+		Corner md = new Corner(new double[] {getSD().getX(), getSD().getY()}, rp);
 		if(getShoot()) {
-		Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, new double[] {getSP().getX()+5,getSP().getY()+5}, 0,md,5);
-		m.getNewRatios();
-		m.setNewVels();
-		return m;
-		
+			Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, rp, 0,md,12);
+			m.getNewRatios();
+			m.setNewVels();
+			return m;
 		}
 		else return null;
 	}
@@ -315,7 +316,7 @@ public class LivingObject extends MovingObject{
 
 		
 
-	/*	
+	/*
 
 		g.setColor(Color.red);
 		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
@@ -329,14 +330,9 @@ public class LivingObject extends MovingObject{
 		g.fillRect((int) Math.round(shootPoint.getX()),(int) Math.round(shootPoint.getY()), 9,9);
 		g.setColor(Color.BLACK);
 
-		/*
+		
 		g.fillRect((int) Math.round(attachments[0].getAttachmentRP().getX()),(int) Math.round(attachments[0].getAttachmentRP().getY()), 8, 8);
 		 */
-
-		
-		
-
-
 		
 		
 	}

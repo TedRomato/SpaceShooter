@@ -125,7 +125,6 @@ public class Game extends JPanel{
 	private void handleShooting(){
 		if(WasCalled == false && p.shoot() !=  null) {
 			addObToGame(p.shoot(), new int[] {1,2,3,4,6,7});
-			System.out.println("shoot");
 			WasCalled = true;
 		}
 		if(WasCalled == true&& Count<180) { 
