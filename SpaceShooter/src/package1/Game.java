@@ -97,6 +97,7 @@ public class Game extends JPanel{
                 if(System.currentTimeMillis() - timer > 1000)
                 { 
                 	timer += 1000;
+
                     System.out.println("FPS: "+ frames);
                     frames = 0;
                     }
@@ -127,7 +128,7 @@ public class Game extends JPanel{
 			addObToGame(p.shoot(), new int[] {1,2,3,4,6,7});
 			WasCalled = true;
 		}
-		if(WasCalled == true&& Count<180) { 
+		if(WasCalled == true&& Count<90) { 
 			Count++;
 		}
 		if(Count==90) {

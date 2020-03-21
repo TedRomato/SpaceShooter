@@ -13,8 +13,8 @@ public class LivingObject extends MovingObject{
 	//does have acceleration and max Speed
 	//can have attachments 
 	//other than that same methods, but work for attachment as well
-	private boolean forward = false, turnRight = false, turnLeft = false,shoot = false;;
-	private Corner movePoint, shootDirection, shootPoint;;
+	private boolean forward = false, turnRight = false, turnLeft = false,shoot = false;
+	private Corner movePoint, shootDirection, shootPoint;
 	private double maxSpeed = 7;
 	private double acceleration = maxSpeed/200;
 	private ObjectAttachment[] attachments;
@@ -223,6 +223,19 @@ public class LivingObject extends MovingObject{
 		}
 	}
 
+	
+	public void makeSquare() {
+		double biggest = 0;
+		biggest = this.getFurthestDistance();
+		if(attachments!=null) {
+			for(ObjectAttachment at : attachments) {
+				if(at.getFurthestDistance() > biggest) {
+					biggest = at.getFurthestDistance();
+				}
+			}
+		}
+		super.makeSquare(biggest);
+	}
 	protected Corner getSD() {
 		return shootDirection;
 	}
@@ -241,19 +254,6 @@ public class LivingObject extends MovingObject{
 		}
 		else return null;
 	}
-	public void makeSquare() {
-		double biggest = 0;
-		biggest = this.getFurthestDistance();
-		if(attachments!=null) {
-			for(ObjectAttachment at : attachments) {
-				if(at.getFurthestDistance() > biggest) {
-					biggest = at.getFurthestDistance();
-				}
-			}
-		}
-		super.makeSquare(biggest);
-	}
-	
 
 	protected Corner getMP() {
 		return movePoint;
