@@ -99,6 +99,13 @@ public class LivingObject extends MovingObject{
 		shootPoint.rotateCorner(getRotationPoint(), getRotationAngle());
 		}
 	
+	//rotates only mp, sp,sd
+	public void rotateWithoutObject() {
+		movePoint.rotateCorner(getRotationPoint(), getRotationAngle());	
+		shootDirection.rotateCorner(getRotationPoint(), getRotationAngle());
+		shootPoint.rotateCorner(getRotationPoint(), getRotationAngle());
+	}
+	
 	public void moveOb() {
 		super.moveOb();
 		
@@ -335,6 +342,7 @@ public class LivingObject extends MovingObject{
 		
 		
 	}
+	
 
 
 	public ObjectAttachment[] getAttachments() {

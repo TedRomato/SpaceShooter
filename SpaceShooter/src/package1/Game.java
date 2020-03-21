@@ -222,10 +222,7 @@ public class Game extends JPanel{
 						((Meteor) go).reflectMeteorFromSide(i,go.getRotationPoint());
 					}
 				}else {
-					System.out.println("---------------");
-					p.getMD().printCoords();
 					go.checkAndHandleReflect(borders[i]);
-					p.getMD().printCoords();
 
 				}
 			}
@@ -282,8 +279,7 @@ public class Game extends JPanel{
 	    borderSensitive = makeGameObArMovingArr(arrayList[4]);
 	    aiVisible = arrayList[5];
 	    ais = makeGameObArAIArr(arrayList[6]);
-	    meteors = makeMeteorArr(arrayList[7]);
-	
+	    meteors = makeMeteorArr(arrayList[7]);	
 	}
 	
 	private Meteor[] makeMeteorArr(GameObject[] arr) {

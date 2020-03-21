@@ -65,7 +65,7 @@ public class AI extends LivingObject{
 		
 		checkAndHandleTrack(gos);
 		if(collisionDanger == false) {
-			setGoalToPlayer(p);
+			setGoalToGameObject(p);
 		}
 		
 		updateRotationToGoal();
@@ -162,7 +162,7 @@ public class AI extends LivingObject{
 		makeNegativeRotation();
 	}
 	
-	private void setGoalToPlayer(Player p) {
+	private void setGoalToGameObject(GameObject p) {
 		goalDestination.setX(p.getRotationPoint().getX());
 		goalDestination.setY(p.getRotationPoint().getY());
 	}
@@ -215,6 +215,11 @@ public class AI extends LivingObject{
 		
 	}
 	
+	public void rotateWithoutObject() {
+		super.rotateWithoutObject();
+		rotateDls();
+	}
+		
 	public void moveOb() {
 		super.moveOb();
 		moveDls();
@@ -268,6 +273,32 @@ public class AI extends LivingObject{
 		mainDetectionLine.rotateOb();
 	}
 	
+	
+	//Behavioral methods
+	
+	public GameObject getClosestEnemy(GameObject[] enemys) {
+		if(enemys.length <= 0 ) {
+			return null;
+		}
+		int closestEnemy = 0;
+		double closest = this.getRotationPoint().getPointDistance(enemys[0].getRotationPoint());
+		for(int i = 1; i < enemys.length; i++) {
+			double newDistance = this.getRotationPoint().getPointDistance(enemys[i].getRotationPoint());
+			if(newDistance < closest) {
+				closestEnemy = i;
+				closest = newDistance;
+			}
+		}
+		return enemys[closestEnemy];	
+	}
+	
+	
+	public void setGoalToClosestEnemy(GameObject[] enemys) {
+		setGoalToCorner((getClosestEnemy(enemys)).getRotationPoint());
+	}
+	
+	
+	
 	public void render(Graphics g) {
 		super.render(g);
 		/*
@@ -290,5 +321,8 @@ public class AI extends LivingObject{
 		mainDetectionLine.renderDL(g); 
 		 */
 	}
+	
+	
+	
 
 }
