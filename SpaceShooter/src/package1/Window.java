@@ -31,7 +31,7 @@ public class Window extends JFrame implements KeyListener{
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setResizable(false);
-		setSize(1540,865);
+		setSize(1540,865); 
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -89,6 +89,7 @@ public class Window extends JFrame implements KeyListener{
 		setVisible(true);
 		addKeyListener(this);
         while(running) {
+
 		game.start();
 		System.out.print("");
         }	
