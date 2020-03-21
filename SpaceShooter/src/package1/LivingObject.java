@@ -109,7 +109,6 @@ public class LivingObject extends MovingObject{
 		}
 		
 		movePoint.moveCorner(getVelX(),getVelY());
-		moveDirection.moveCorner(getVelX(),getVelY());
 		shootDirection.moveCorner(getVelX(), getVelY());
 		shootPoint.moveCorner(getVelX(), getVelY());
 

@@ -91,6 +91,7 @@ public class Corner {
 			}	
 		}
 	}
+
 	
 	public int getQadrant(double[] rotationPoint) {
 		if(x == rotationPoint[0] || y == rotationPoint[1]) {
@@ -422,6 +423,10 @@ public class Corner {
 			return true;
 		}
 		return false;
+	}
+	
+	public void printCoords() {
+		System.out.println("X : " + this.getX() + "   Y : " + this.getY());
 	}
 	
 }

@@ -20,7 +20,7 @@ public class GameModeClassic extends Game{
 	public void tick() { 
 		handleCoin();
 		super.tick();
-		respawnMeteorsToAmount(0);
+		respawnMeteorsToAmount(8);
 		
 	}
 	
