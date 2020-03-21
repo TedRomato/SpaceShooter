@@ -13,28 +13,32 @@ public class LivingObject extends MovingObject{
 	//does have acceleration and max Speed
 	//can have attachments 
 	//other than that same methods, but work for attachment as well
-	private boolean forward = false, turnRight = false, turnLeft = false,shoot = false;;
-	private Corner movePoint, shootDirection, shootPoint;;
+	protected int reloadLenght;
+	protected int reloadTimer;
+	private boolean forward = false, turnRight = false, turnLeft = false,shoot = false;
+	private Corner movePoint, shootDirection, shootPoint;
 	private double maxSpeed = 7;
 	private double acceleration = maxSpeed/200;
 	private ObjectAttachment[] attachments;
 	
-	public LivingObject(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md) {
+	public LivingObject(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,int reloadTimer) {
 		super(corners, rotationPoint, rotationAngle, md);
 		movePoint = new Corner(md, rotationPoint);
 		setReflectedSpeed(maxSpeed*2);
 		shootPoint = new Corner(new double[] {movePoint.getX(),movePoint.getY()+20}, rotationPoint);
 		shootDirection = new Corner(new double[] {movePoint.getX(),movePoint.getY()+40}, rotationPoint);
+		this.reloadTimer= reloadTimer;
 		setHP(10);
 		makeSquare();
 	}
 	
-	public LivingObject(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md) {
+	public LivingObject(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md,int reloadTimer) {
 		super(corners, rotationPoint, rotationAngle, md);
 		movePoint = new Corner(md, rotationPoint);
 		setReflectedSpeed(maxSpeed*2);
 		shootPoint = new Corner(new double[] {movePoint.getX(),movePoint.getY()+20}, rotationPoint);
 		shootDirection = new Corner(new double[] {movePoint.getX(),movePoint.getY()+40}, rotationPoint);
+		this.reloadTimer= reloadTimer;
 		setHP(10);
 		makeSquare();	}
 
@@ -230,6 +234,19 @@ public class LivingObject extends MovingObject{
 		}
 	}
 
+	
+	public void makeSquare() {
+		double biggest = 0;
+		biggest = this.getFurthestDistance();
+		if(attachments!=null) {
+			for(ObjectAttachment at : attachments) {
+				if(at.getFurthestDistance() > biggest) {
+					biggest = at.getFurthestDistance();
+				}
+			}
+		}
+		super.makeSquare(biggest);
+	}
 	protected Corner getSD() {
 		return shootDirection;
 	}
@@ -248,19 +265,22 @@ public class LivingObject extends MovingObject{
 		}
 		else return null;
 	}
-	public void makeSquare() {
-		double biggest = 0;
-		biggest = this.getFurthestDistance();
-		if(attachments!=null) {
-			for(ObjectAttachment at : attachments) {
-				if(at.getFurthestDistance() > biggest) {
-					biggest = at.getFurthestDistance();
-				}
-			}
-		}
-		super.makeSquare(biggest);
-	}
 	
+	public int getReloadLenght() {
+		return reloadLenght;
+	}
+
+	public void setReloadLenght(int reloadLenght) {
+		this.reloadLenght = reloadLenght;
+	}
+
+	public int getReloadTimer() {
+		return reloadTimer;
+	}
+
+	public void setReloadTimer(int reloadTimer) {
+		this.reloadTimer = reloadTimer;
+	}
 
 	protected Corner getMP() {
 		return movePoint;

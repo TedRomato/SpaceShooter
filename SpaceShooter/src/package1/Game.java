@@ -21,6 +21,7 @@ public class Game extends JPanel{
 	private MovingObject[] reflectableObs;
 	private MovingObject[] reflectingObs;
 	private LivingObject[] livingObsReflectUpdate;
+	private LivingObject[] shootingObs; 
 	private MovingObject[] borderSensitive;
 	private AI[] ais;
 	private GameObject[][] arrayList;
@@ -42,9 +43,10 @@ public class Game extends JPanel{
 	    livingObsReflectUpdate = new LivingObject[] {};
 	    borderSensitive = new MovingObject[] {};
 	    aiVisible = new GameObject[] {};
+	    shootingObs = new LivingObject[] {};
 	    ais = new AI[] {};
 	    meteors = new Meteor[] {};
-		arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais, meteors};
+		arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais, meteors, shootingObs};
 
 	    
 	    Corner rightBotC = new Corner(new double[] {screenWidth,screenHeight}, new double[] {500,400});
@@ -61,7 +63,8 @@ public class Game extends JPanel{
 	    
 	    p = Player.makeNewPlayer(new double[] {100,100});
 		addObToGame(p, new int[] {5,6,7}); 
-	    
+		AI ai = AI.makeNewAI(400,400);
+		addObToGame(ai, new int[] {4,7}); 
 	    
 	}
 	public void keyTyped(KeyEvent e) {
@@ -97,6 +100,7 @@ public class Game extends JPanel{
                 if(System.currentTimeMillis() - timer > 1000)
                 { 
                 	timer += 1000;
+
                     System.out.println("FPS: "+ frames);
                     frames = 0;
                     }
@@ -118,25 +122,29 @@ public class Game extends JPanel{
         reflectFromSides();
         removeObsOut();
 		updateAllObs();
+		handleAis();
+		
+		
 
 	}
 	
+	
+	private void handleAis() {
+		for(AI ai : ais) {
+			ai.updateAI(p, aiVisible);
+		}
+	}
 
 	private void handleShooting(){
-		if(WasCalled == false && p.shoot() !=  null) {
-			addObToGame(p.shoot(), new int[] {1,2,3,4,6,7});
-			WasCalled = true;
+		for(LivingObject sob : shootingObs ) {	
+			if(sob.reloadLenght == sob.reloadTimer && sob.shoot() !=  null) {
+				addObToGame(sob.shoot(), new int[] {1,2,3,4,6,7,8});
+				sob.setReloadLenght(0);
+			}
+			if(sob.reloadLenght != sob.reloadTimer) { 
+			sob.reloadLenght++;
+			}
 		}
-		if(WasCalled == true&& Count<180) { 
-			Count++;
-		}
-		if(Count==90) {
-			WasCalled = false; Count = 0;
-		}/*
-		if(objects.length>=3) {
-			System.out.println("x: " + objects[2].getRotationPoint().getX()+ "y: "+  objects[2].getRotationPoint().getY());
-		}*/
-		//System.out.println(Count);
 	}
 
 	protected void removeObsOut() {
@@ -231,7 +239,7 @@ public class Game extends JPanel{
 	
 	protected void respawnMeteorsToAmount(int amount) {
 		if(meteors.length < amount) {
-			addObToGame(randomMeteorGenerator.generateRandomMeteorOutside(screenWidth, screenHeight), new int[] {3,6,4});
+			addObToGame(randomMeteorGenerator.generateRandomMeteorOutside(screenWidth, screenHeight), new int[] {3,6,4,8});
 		}
 	}
 	
@@ -279,7 +287,8 @@ public class Game extends JPanel{
 	    borderSensitive = makeGameObArMovingArr(arrayList[4]);
 	    aiVisible = arrayList[5];
 	    ais = makeGameObArAIArr(arrayList[6]);
-	    meteors = makeMeteorArr(arrayList[7]);	
+	    meteors = makeMeteorArr(arrayList[7]);
+	    shootingObs = makeGameObArLivingArr(arrayList[8]);
 	}
 	
 	private Meteor[] makeMeteorArr(GameObject[] arr) {
