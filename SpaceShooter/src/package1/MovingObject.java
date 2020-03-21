@@ -262,7 +262,8 @@ public class MovingObject extends GameObject{
 		g.setColor(Color.darkGray);
 		g.fillRect((int) Math.round(getRotationPoint().getX()),(int) Math.round(getRotationPoint().getY()), 9, 9);
 		g.setColor(Color.BLUE);
-		g.setColor(Color.BLACK); */
+		g.setColor(Color.BLACK); 
+		*/
 	}
 	
 	

@@ -90,7 +90,7 @@ public class Window extends JFrame implements KeyListener{
 		addKeyListener(this);
         while(running) {
 		game.start();
-		System.out.println(" ");
+		System.out.print("");
         }	
 	}
 	

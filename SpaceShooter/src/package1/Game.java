@@ -97,7 +97,7 @@ public class Game extends JPanel{
                 if(System.currentTimeMillis() - timer > 1000)
                 { 
                 	timer += 1000;
-                  //  System.out.println("FPS: "+ frames);
+                    System.out.println("FPS: "+ frames);
                     frames = 0;
                     }
         }
@@ -222,7 +222,11 @@ public class Game extends JPanel{
 						((Meteor) go).reflectMeteorFromSide(i,go.getRotationPoint());
 					}
 				}else {
+					System.out.println("---------------");
+					p.getMD().printCoords();
 					go.checkAndHandleReflect(borders[i]);
+					p.getMD().printCoords();
+
 				}
 			}
 		}
