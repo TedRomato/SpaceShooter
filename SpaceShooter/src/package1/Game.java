@@ -63,8 +63,7 @@ public class Game extends JPanel{
 	    
 	    p = Player.makeNewPlayer(new double[] {100,100});
 		addObToGame(p, new int[] {5,6,7}); 
-		AI ai = AI.makeNewAI(400,400);
-		addObToGame(ai, new int[] {4,7}); 
+		
 	    
 	}
 	public void keyTyped(KeyEvent e) {

@@ -74,9 +74,6 @@ public class AI extends LivingObject{
 		
 		updateRotationToGoal();
 		updateForward();
-		
-		
-		
 	}
 	
 	//New and better checkNHandelTrack
@@ -305,7 +302,7 @@ public class AI extends LivingObject{
 	
 	public void render(Graphics g) {
 		super.render(g);
-		/*
+	/*	
 		g.setColor(Color.red);
 		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
 		g.setColor(Color.darkGray);
@@ -315,7 +312,7 @@ public class AI extends LivingObject{
 		g.setColor(Color.GREEN);
 		g.fillRect((int) Math.round(goalDestination.getX()),(int) Math.round(goalDestination.getY()), 15, 15);
 		g.setColor(Color.black);
-
+	 	*/
 		for(DetectionLine dl : rightDetectionLines) {
 			dl.renderDL(g);
 		}
@@ -323,7 +320,7 @@ public class AI extends LivingObject{
 			dl.renderDL(g);
 		}
 		mainDetectionLine.renderDL(g); 
-		 */
+		 
 	}
 	
 	

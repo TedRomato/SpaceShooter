@@ -8,12 +8,15 @@ public class GameModeTesting extends Game{
 
 	public GameModeTesting(int sw, int sh) {
 		super(sw, sh);
+		SpaceCanon ai = SpaceCanon.makeNewSpaceCanon(400,400);
+		addObToGame(ai, new int[] {4,7}); 
 			
 	}
 	
 	
 	public void tick() { 
 		super.tick();
+		respawnMeteorsToAmount(0);
 	}
 	
 	

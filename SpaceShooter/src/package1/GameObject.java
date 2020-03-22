@@ -62,7 +62,7 @@ public class GameObject {
 	//Check collision  between this object and go
 		public boolean checkCollision(GameObject go) {
 			if(this.getCollisionSquare().squareCollision(go.getCollisionSquare())) {
-				if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2) {
+				if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2 ) {
 					return true;
 				}
 				else {
