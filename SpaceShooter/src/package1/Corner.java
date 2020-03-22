@@ -296,7 +296,7 @@ public class Corner {
 	
 	
 	//returns two values --> difference of mainAngle and Secondary angle Clockwise and main and secondary angle counterClockwise 
-	public double[] getAngleDifferencRL(double mainAngle, double secondaryAngle) {
+	public static double[] getAngleDifferencRL(double mainAngle, double secondaryAngle) {
 		double right;
 		if(mainAngle <= secondaryAngle) {
 			right = secondaryAngle - mainAngle;

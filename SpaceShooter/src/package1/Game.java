@@ -63,7 +63,7 @@ public class Game extends JPanel{
 	    
 	    p = Player.makeNewPlayer(new double[] {100,100});
 		addObToGame(p, new int[] {5,6,7}); 
-	    
+		
 	    
 	}
 	public void keyTyped(KeyEvent e) {
@@ -121,9 +121,18 @@ public class Game extends JPanel{
         reflectFromSides();
         removeObsOut();
 		updateAllObs();
+		handleAis();
+		
+		
 
 	}
 	
+	
+	private void handleAis() {
+		for(AI ai : ais) {
+			ai.updateAI(p, aiVisible);
+		}
+	}
 
 	private void handleShooting(){
 		for(LivingObject sob : shootingObs ) {	
@@ -221,6 +230,7 @@ public class Game extends JPanel{
 					}
 				}else {
 					go.checkAndHandleReflect(borders[i]);
+
 				}
 			}
 		}

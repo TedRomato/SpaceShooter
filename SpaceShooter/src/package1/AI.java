@@ -13,15 +13,16 @@ public class AI extends LivingObject{
 	DetectionLine[] leftDetectionLines;
 	DetectionLine[] rightDetectionLines;
 	boolean collisionDanger = false;
+	double stoppingDistance = 0;
 
 	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
-		super(corners, rotationPoint, rotationAngle, md);
+		super(corners, rotationPoint, rotationAngle, md, 60);
 		this.goalDestination = goalDestination;
 		this.goalDestination.setToNewRP(rotationPoint);
 		setForward(true);
 		setHP(100);
 		setReflectedLenght(80);
-		setAcceleration(getMaxSpeed() / 220);
+		setAcceleration(getMaxSpeed() / 50);
 
 
 		
@@ -55,7 +56,11 @@ public class AI extends LivingObject{
 	    DetectionLine rdl2 = new DetectionLine(base5, rightP2, new double[] {x ,y}, 0.5);
 	    AI ai = new AI(new Corner[] {peakAI, rightCornerAI, leftCornerAI}, new double[] {x,y}, 0.5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner);
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
-	    ai.setMaxSpeed(1.2);
+	    ai.setMaxSpeed(0);
+	    ai.setRotationAngle(10);
+	    ai.setShoot(true);
+	    ai.setHP(5);
+	    ai.setReloadTimer(5);
 	    return ai;
 	}
 	
@@ -65,14 +70,11 @@ public class AI extends LivingObject{
 		
 		checkAndHandleTrack(gos);
 		if(collisionDanger == false) {
-			setGoalToPlayer(p);
+			setGoalToGameObject(p);
 		}
 		
 		updateRotationToGoal();
 		updateForward();
-		
-		
-		
 	}
 	
 	//New and better checkNHandelTrack
@@ -162,7 +164,7 @@ public class AI extends LivingObject{
 		makeNegativeRotation();
 	}
 	
-	private void setGoalToPlayer(Player p) {
+	private void setGoalToGameObject(GameObject p) {
 		goalDestination.setX(p.getRotationPoint().getX());
 		goalDestination.setY(p.getRotationPoint().getY());
 	}
@@ -215,6 +217,11 @@ public class AI extends LivingObject{
 		
 	}
 	
+	public void rotateWithoutObject() {
+		super.rotateWithoutObject();
+		rotateDls();
+	}
+		
 	public void moveOb() {
 		super.moveOb();
 		moveDls();
@@ -268,9 +275,43 @@ public class AI extends LivingObject{
 		mainDetectionLine.rotateOb();
 	}
 	
+	
+	//Behavioral methods
+	
+	public GameObject getClosestEnemy(GameObject[] enemys) {
+		if(enemys.length <= 0 ) {
+			return null;
+		}
+		int closestEnemy = 0;
+		double closest = this.getRotationPoint().getPointDistance(enemys[0].getRotationPoint());
+		for(int i = 1; i < enemys.length; i++) {
+			double newDistance = this.getRotationPoint().getPointDistance(enemys[i].getRotationPoint());
+			if(newDistance < closest) {
+				closestEnemy = i;
+				closest = newDistance;
+			}
+		}
+		return enemys[closestEnemy];	
+	}
+	
+	
+	public void setGoalToClosestEnemy(GameObject[] enemys) {
+		setGoalToCorner((getClosestEnemy(enemys)).getRotationPoint());
+	}
+	
+	public void stopIfTooClose(GameObject enemy) {
+		if(this.getRotationPoint().getPointDistance(enemy.getRotationPoint()) < stoppingDistance) {
+			setForward(false);
+		}else {
+			setForward(true);
+		}
+	}
+	
+	
+	
 	public void render(Graphics g) {
 		super.render(g);
-		/*
+	/*	
 		g.setColor(Color.red);
 		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
 		g.setColor(Color.darkGray);
@@ -280,7 +321,7 @@ public class AI extends LivingObject{
 		g.setColor(Color.GREEN);
 		g.fillRect((int) Math.round(goalDestination.getX()),(int) Math.round(goalDestination.getY()), 15, 15);
 		g.setColor(Color.black);
-
+	 	
 		for(DetectionLine dl : rightDetectionLines) {
 			dl.renderDL(g);
 		}
@@ -290,5 +331,18 @@ public class AI extends LivingObject{
 		mainDetectionLine.renderDL(g); 
 		 */
 	}
+	
+	public void setStoppingDistance(double d) {
+		stoppingDistance = d;
+	}
+	
+	public double getStoppingDistance() {
+		return stoppingDistance;
+	}
+	
+	
+	
+	
+	
 
 }

@@ -49,13 +49,10 @@ public class LivingObject extends MovingObject{
 	
 	
 	public void updateOb() {
-				
-
+			
 		updateSpeed();
 
 		moveOb();
-
-	
 
 		if(turnRight || turnLeft) {
 			rotateOb();
@@ -89,10 +86,12 @@ public class LivingObject extends MovingObject{
 		super.rotateOb();
 		if(attachments != null) {
 			for(ObjectAttachment att : attachments) {
-				for(Corner c : att.getCorners()) {
-					c.rotateCorner(getRotationPoint(), getRotationAngle());
+				if(att.getRotateWithParentOb()) {
+					for(Corner c : att.getCorners()) {
+						c.rotateCorner(getRotationPoint(), getRotationAngle());
+					}
+					att.attachmentRP.rotateCorner(getRotationPoint(), getRotationAngle());
 				}
-				att.attachmentRP.rotateCorner(getRotationPoint(), getRotationAngle());
 
 			}
 
@@ -102,6 +101,13 @@ public class LivingObject extends MovingObject{
 		shootDirection.rotateCorner(getRotationPoint(), getRotationAngle());
 		shootPoint.rotateCorner(getRotationPoint(), getRotationAngle());
 		}
+	
+	//rotates only mp, sp,sd
+	public void rotateWithoutObject() {
+		movePoint.rotateCorner(getRotationPoint(), getRotationAngle());	
+		shootDirection.rotateCorner(getRotationPoint(), getRotationAngle());
+		shootPoint.rotateCorner(getRotationPoint(), getRotationAngle());
+	}
 	
 	public void moveOb() {
 		super.moveOb();
@@ -122,15 +128,8 @@ public class LivingObject extends MovingObject{
 	}
 	
 	public  void rotateAttachments() {
-		if(turnRight || turnLeft) {
-			for(ObjectAttachment att : attachments) {
-				att.rotateAttachment(att.getAngleToRotateConstantly(getRotationAngle()));
-			}
-		}
-		else {
-			for(ObjectAttachment att : attachments) {
-				att.rotateAttachment(att.getRotationAngle());
-			}
+		for(ObjectAttachment att : attachments) {
+			att.rotateAttachment(att.getRotationAngle());
 		}
 	}
 	
@@ -147,7 +146,7 @@ public class LivingObject extends MovingObject{
 		if(forward && getCurrentSpeed() < maxSpeed) {
 			setCurrentSpeed(getCurrentSpeed() + acceleration);
 		}
-		if(getCurrentSpeed() > maxSpeed) {
+		if(getCurrentSpeed() > maxSpeed && getReflected() == false) {
 			setCurrentSpeed(maxSpeed);
 		}if(forward != true && getCurrentSpeed() > 0 - acceleration) {
 			setCurrentSpeed(getCurrentSpeed() - acceleration);
@@ -163,6 +162,7 @@ public class LivingObject extends MovingObject{
 
 	public void updateReflection() {
 		if(isReflected()) {
+			setForward(false);
 			setReflectedTimer(getReflectedTimer() + 1);
 			if(getReflectedTimer() >= getReflectedLenght()) {
 				setReflected(false);
@@ -198,31 +198,62 @@ public class LivingObject extends MovingObject{
 				}
 			}
 		}
+		
+		if(go instanceof LivingObject){
+		    if(((LivingObject) go).getAttachments() != null) {
+		    	for(ObjectAttachment att : ((LivingObject) go).getAttachments()) {
+					if(att.checkCollisionInside(this) || att.getCrossedLineCorners(this).length == 2) {
+						return true;
+					}
+				}
+		    }
+		}
 	
 		return false;
 		
 	}
 	
 	public void checkAndHandleReflect(GameObject otherOb) {
-		if(otherOb != this) {
-			Corner[] corners = null;
-			
-			
-			corners = getCrossedLineCorners(otherOb);
-			
-			if(attachments != null) {
-				for(ObjectAttachment att : attachments) {
-					if(corners.length != 2) {
-					corners = att.getCrossedLineCorners(otherOb);
+		if(getCollisionSquare().squareCollision(otherOb.getCollisionSquare())) {
+			if(otherOb != this) {
+				Corner[] corners = null;
+				
+				
+				corners = getCrossedLineCorners(otherOb);
+				
+				if(attachments != null) {
+					for(ObjectAttachment att : attachments) {
+						if(corners.length != 2) {
+						corners = att.getCrossedLineCorners(otherOb);
+						}
 					}
 				}
-			}
-			
-			
-			
-			
-			if(corners != null && corners.length == 2) {
-				reflect(corners[0], corners[1]);
+				
+				if(otherOb instanceof LivingObject) {
+					if(((LivingObject) otherOb).getAttachments() != null) {
+						if(((LivingObject) otherOb).getAttachments().length > 0) {
+							for(ObjectAttachment att : ((LivingObject) otherOb).getAttachments()) {
+								if(corners.length != 2) {
+									corners = this.getCrossedLineCorners(att);
+								}
+								
+								if(attachments != null) {
+									for(ObjectAttachment thisatt : attachments) {
+										if(corners.length != 2) {
+										corners = thisatt.getCrossedLineCorners(att);
+										}
+									}
+								}
+								
+								
+							}
+						}
+					}
+				}
+				
+				if(corners != null && corners.length == 2) {
+					reflect(corners[0], corners[1]);
+				}
 			}
 		}
 	}
@@ -322,14 +353,7 @@ public class LivingObject extends MovingObject{
 		
 		if(attachments != null && attachments.length > 0) {
 			for(int x = 0; x < attachments.length; x++) {
-				for(int i = 0; i < attachments[x].getCorners().length;i++) {
-					if(i < attachments[x].getCorners().length-1) {
-						g.drawLine((int) Math.round(attachments[x].getCorners()[i].getX()),(int) Math.round(attachments[x].getCorners()[i].getY()),(int) Math.round(attachments[x].getCorners()[i+1].getX()),(int) Math.round(attachments[x].getCorners()[i+1].getY()));
-					}
-					else {
-						g.drawLine((int) Math.round(attachments[x].getCorners()[i].getX()),(int) Math.round(attachments[x].getCorners()[i].getY()),(int) Math.round(attachments[x].getCorners()[0].getX()),(int) Math.round(attachments[x].getCorners()[0].getY()));
-					}
-				}
+				attachments[x].render(g);
 			}
 		}
 
@@ -353,8 +377,11 @@ public class LivingObject extends MovingObject{
 		g.fillRect((int) Math.round(attachments[0].getAttachmentRP().getX()),(int) Math.round(attachments[0].getAttachmentRP().getY()), 8, 8);
 		 */
 		
+		getCollisionSquare().render(g);
+		
 		
 	}
+	
 
 
 	public ObjectAttachment[] getAttachments() {
