@@ -162,6 +162,7 @@ public class LivingObject extends MovingObject{
 
 	public void updateReflection() {
 		if(isReflected()) {
+			setForward(false);
 			setReflectedTimer(getReflectedTimer() + 1);
 			if(getReflectedTimer() >= getReflectedLenght()) {
 				setReflected(false);

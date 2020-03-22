@@ -16,7 +16,7 @@ public class GameModeTesting extends Game{
 	
 	public void tick() { 
 		super.tick();
-		respawnMeteorsToAmount(0);
+		respawnMeteorsToAmount(6);
 	}
 	
 	

@@ -29,7 +29,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 		double[] differences = Corner.getAngleDifferencRL(wAngle,cAngle);
 		rightDifference = differences[0];
 		leftDifference = differences[1];
-		if(rightDifference > 3 || leftDifference > 3) {
+		if(rightDifference > getAttachmentRotationAngle() + 1 && leftDifference > getAttachmentRotationAngle() + 1) {
 			if(rightDifference < leftDifference) {
 				rotateAttachment(getAttachmentRotationAngle());
 			}
@@ -71,6 +71,10 @@ public class InteractiveAttachment extends ObjectAttachment{
 	
 	private double getAttachmentRotationAngle() {
 		return attRotationAngle;
+	}
+	
+	public void setAttRangle(double d) {
+		attRotationAngle = d;
 	}
 	
 	public void render(Graphics g) {

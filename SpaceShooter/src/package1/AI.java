@@ -13,6 +13,7 @@ public class AI extends LivingObject{
 	DetectionLine[] leftDetectionLines;
 	DetectionLine[] rightDetectionLines;
 	boolean collisionDanger = false;
+	double stoppingDistance = 0;
 
 	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
 		super(corners, rotationPoint, rotationAngle, md, 60);
@@ -298,6 +299,14 @@ public class AI extends LivingObject{
 		setGoalToCorner((getClosestEnemy(enemys)).getRotationPoint());
 	}
 	
+	public void stopIfTooClose(GameObject enemy) {
+		if(this.getRotationPoint().getPointDistance(enemy.getRotationPoint()) < stoppingDistance) {
+			setForward(false);
+		}else {
+			setForward(true);
+		}
+	}
+	
 	
 	
 	public void render(Graphics g) {
@@ -312,7 +321,7 @@ public class AI extends LivingObject{
 		g.setColor(Color.GREEN);
 		g.fillRect((int) Math.round(goalDestination.getX()),(int) Math.round(goalDestination.getY()), 15, 15);
 		g.setColor(Color.black);
-	 	*/
+	 	
 		for(DetectionLine dl : rightDetectionLines) {
 			dl.renderDL(g);
 		}
@@ -320,8 +329,18 @@ public class AI extends LivingObject{
 			dl.renderDL(g);
 		}
 		mainDetectionLine.renderDL(g); 
-		 
+		 */
 	}
+	
+	public void setStoppingDistance(double d) {
+		stoppingDistance = d;
+	}
+	
+	public double getStoppingDistance() {
+		return stoppingDistance;
+	}
+	
+	
 	
 	
 	
