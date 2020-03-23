@@ -1,20 +1,28 @@
 
 package package1;
 
+import java.awt.Component;
 import java.awt.Dimension;
-
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.LayoutManager;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
 
 public class Game extends JPanel{
 	protected Player p;
+	public static JLabel DisplayScore;
+	protected int score = 0;
 	protected int screenWidth;
 	protected int screenHeight;
+	private boolean ShowScore;
 	private RandomMeteorGenerator randomMeteorGenerator = new RandomMeteorGenerator();
 	private GameObject[] borders;
 	private GameObject[] objects;
@@ -61,10 +69,25 @@ public class Game extends JPanel{
 	    
 	    borders = new GameObject[] {botBorder,leftBorder,topBorder,rightBorder};
 	    
+	    ShowScore = false;
+	    if(ShowScore) {
+	    	DisplayScore = new JLabel(Integer.toString(getScore()),SwingConstants.CENTER);
+	    	DisplayScore.setBounds(50, 50, 100, 100);
+	    }
+	    else {
+	    	DisplayScore = new JLabel("");
+	    }
+	    
 	    p = Player.makeNewPlayer(new double[] {100,100});
 		addObToGame(p, new int[] {5,6,7}); 
 	    
 	    
+	}
+	public int getScore() {
+		return score;
+	}
+	public void setScore(int score) {
+		this.score = score;
 	}
 	public void keyTyped(KeyEvent e) {
 		
@@ -121,7 +144,10 @@ public class Game extends JPanel{
         reflectFromSides();
         removeObsOut();
 		updateAllObs();
-
+		if(ShowScore) {
+			DisplayScore.setText(Integer.toString(getScore()));
+		}
+		
 	}
 	
 
@@ -132,7 +158,7 @@ public class Game extends JPanel{
 				sob.setReloadLenght(0);
 			}
 			if(sob.reloadLenght != sob.reloadTimer) { 
-			sob.reloadLenght++;
+				sob.reloadLenght++;
 			}
 		}
 	}
@@ -373,6 +399,5 @@ public class Game extends JPanel{
 		renderAll(g2);
 
 	}
-
 	
 }

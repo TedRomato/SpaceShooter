@@ -14,8 +14,8 @@ public class AI extends LivingObject{
 	DetectionLine[] rightDetectionLines;
 	boolean collisionDanger = false;
 
-	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
-		super(corners, rotationPoint, rotationAngle, md);
+	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination, int ReloadTimer) {
+		super(corners, rotationPoint, rotationAngle, md, ReloadTimer);
 		this.goalDestination = goalDestination;
 		this.goalDestination.setToNewRP(rotationPoint);
 		setForward(true);
@@ -53,9 +53,10 @@ public class AI extends LivingObject{
 	    DetectionLine rdl = new DetectionLine(base3, rightP, new double[] {x ,y}, 0.5);
 	    DetectionLine ldl2 = new DetectionLine(base4, leftP2, new double[] {x ,y}, 0.5);
 	    DetectionLine rdl2 = new DetectionLine(base5, rightP2, new double[] {x ,y}, 0.5);
-	    AI ai = new AI(new Corner[] {peakAI, rightCornerAI, leftCornerAI}, new double[] {x,y}, 0.5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner);
+	    AI ai = new AI(new Corner[] {peakAI, rightCornerAI, leftCornerAI}, new double[] {x,y}, 0.5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner, 3);
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
 	    ai.setMaxSpeed(1.2);
+	    ai.setShoot(true);
 	    return ai;
 	}
 	

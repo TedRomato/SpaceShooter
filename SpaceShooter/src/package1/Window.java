@@ -13,11 +13,14 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class Window extends JFrame implements KeyListener{
 	private JButton exit, start;
 	private JPanel menu;
+	
 	private boolean running = true;
 	private Graphics g;
 	private BufferStrategy bs;
@@ -35,7 +38,6 @@ public class Window extends JFrame implements KeyListener{
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-
 
 		
 		
@@ -81,9 +83,9 @@ public class Window extends JFrame implements KeyListener{
 		add(menu);
 
 		//game = new Game(getWidth(), getHeight());
-
+		
 		game = new GameModeClassic(getWidth(), getHeight());
-
+		//game.add(game.DisplayScore);
 		add(game);
 
 		setVisible(true);
