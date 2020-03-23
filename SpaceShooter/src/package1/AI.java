@@ -13,10 +13,10 @@ public class AI extends LivingObject{
 	DetectionLine[] leftDetectionLines;
 	DetectionLine[] rightDetectionLines;
 	boolean collisionDanger = false;
-	double stoppingDistance = 0;
+	double stoppingDistance = 300;
 
 	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
-		super(corners, rotationPoint, rotationAngle, md, 60);
+		super(corners, rotationPoint, rotationAngle, md);
 		this.goalDestination = goalDestination;
 		this.goalDestination.setToNewRP(rotationPoint);
 		setForward(true);
@@ -58,9 +58,7 @@ public class AI extends LivingObject{
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
 	    ai.setMaxSpeed(0);
 	    ai.setRotationAngle(10);
-	    ai.setShoot(true);
 	    ai.setHP(5);
-	    ai.setReloadTimer(5);
 	    return ai;
 	}
 	

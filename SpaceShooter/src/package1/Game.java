@@ -136,12 +136,18 @@ public class Game extends JPanel{
 
 	private void handleShooting(){
 		for(LivingObject sob : shootingObs ) {	
-			if(sob.reloadLenght == sob.reloadTimer && sob.shoot() !=  null) {
-				addObToGame(sob.shoot(), new int[] {1,2,3,4,6,7,8});
-				sob.setReloadLenght(0);
-			}
-			if(sob.reloadLenght != sob.reloadTimer) { 
-			sob.reloadLenght++;
+			if(sob.getAttachments() != null && sob.getAttachments().length > 0) {
+				for(ObjectAttachment att : sob.getAttachments()) {
+					if(att instanceof InteractiveAttachment) {
+						if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot() !=  null) {
+							addObToGame(((InteractiveAttachment)att).shoot(), new int[] {1,2,3,4,6,7,8});
+							((InteractiveAttachment)att).setReloadLenght(0);
+						}
+						if(((InteractiveAttachment)att).reloadLenght != ((InteractiveAttachment)att).reloadTimer) { 
+							((InteractiveAttachment)att).reloadLenght++;
+						}
+					}
+				}
 			}
 		}
 	}

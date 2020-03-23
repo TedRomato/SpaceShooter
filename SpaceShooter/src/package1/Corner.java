@@ -1,5 +1,7 @@
 package package1;
 
+import java.awt.Graphics;
+
 public class Corner {
 	
 	private double x,y; //X and Y coordinate
@@ -427,6 +429,11 @@ public class Corner {
 	
 	public void printCoords() {
 		System.out.println("X : " + this.getX() + "   Y : " + this.getY());
+	}
+	
+	public void renderCorner(Graphics g, int side) {
+		g.fillRect(((int)this.getX()),((int)this.getY()), side, side);
+
 	}
 	
 }
