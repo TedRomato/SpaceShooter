@@ -9,8 +9,8 @@ import java.awt.event.KeyListener;
 public class Player extends LivingObject implements KeyListener{
 	
 	char moveChar = 'w', turnLeftChar = 'a', turnRightChar = 'd', shootChar = ' ';
-	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md,int reloadTimer) {
-		super(corners, rotationPoint, d, md,reloadTimer);
+	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
+		super(corners, rotationPoint, d, md);
 		setReflectedLenght(35);
 		setRotationAngle(3.9);
 		setAcceleration(getMaxSpeed() / 45);
@@ -20,8 +20,8 @@ public class Player extends LivingObject implements KeyListener{
 
 
 	
-	public Player(Corner[] corners, Corner rotationPoint, double d, Corner md,int reloadTimer) {
-		super(corners, rotationPoint, d, md,reloadTimer);
+	public Player(Corner[] corners, Corner rotationPoint, double d, Corner md) {
+		super(corners, rotationPoint, d, md);
 		setReflectedLenght(35);
 		setRotationAngle(3.9);
 		setAcceleration(getMaxSpeed() / 45);
@@ -49,7 +49,7 @@ public class Player extends LivingObject implements KeyListener{
 			
 		}
 		if(e.getKeyChar() == shootChar) {
-			setShoot(true);
+			setShootForInteractiveAtts(true);
 		}
 	}
 
@@ -78,7 +78,7 @@ public class Player extends LivingObject implements KeyListener{
 			
 		}
 		if(e.getKeyChar() == shootChar) {
-			setShoot(false);
+			setShootForInteractiveAtts(false);
 		}
 
 	}
@@ -92,15 +92,14 @@ public class Player extends LivingObject implements KeyListener{
 	    Corner rightCornerA = new Corner(new double[] { - 10, rp.getY()-25}, rp);
 	    Corner leftCornerA = new Corner(new double[] {rp.getX() + 10,  rp.getY()-25}, rp);
 	    
-	    attachment = new ObjectAttachment(new Corner[] {peakA, rightCornerA, leftCornerA}, rp,new double[] {rp.getX(),rp.getY()-25},-5);
-	    
+	    attachment = new ObjectAttachment(new Corner[] {peakA, rightCornerA, leftCornerA}, rp,new double[] {rp.getX(),rp.getY()-25},0);
 	//    straightLine = new ObjectAttachment(new Corner[] {new Corner(new double[] {rp.getX() ,rp.getY() + 25}, rp), new Corner(new double[] {rp.getX() ,rp.getY() + 350}, rp),}, rp,new double[] {rp.getX(),rp.getY()-25},-5);
 		
 	    Corner peak = new Corner(new double[] {rp.getX() ,rp.getY() + 25}, rp);
 	    Corner rightCorner = new Corner(new double[] {rp.getX() - 25, rp.getY() - 25}, rp);
 	    Corner leftCorner = new Corner(new double[] {rp.getX() + 25, rp.getY() - 25}, rp);
 	    
-	    p = new Player(new Corner[] {peak, rightCorner, leftCorner},rp,6, new Corner(new double[] {rp.getX(),rp.getY()+25}, rp),2);
+	    p = new Player(new Corner[] {peak, rightCorner, leftCorner},rp,6, new Corner(new double[] {rp.getX(),rp.getY()+25}, rp));
 	    p.addAttachment(attachment);
 	    p.setHP(5);
 	    p.setReflectedSpeed(6);
@@ -114,25 +113,34 @@ public class Player extends LivingObject implements KeyListener{
 	public static Player makeNewPlayer(double[] rp) {
 		Player p;
 		ObjectAttachment attachment;
+		InteractiveAttachment canon;
 //		ObjectAttachment straightLine;
 		
 		Corner peakA = new Corner(new double[] {rp[0],rp[1]-75}, rp);
 	    Corner rightCornerA = new Corner(new double[] {rp[0] - 10, rp[1]-25}, rp);
 	    Corner leftCornerA = new Corner(new double[] {rp[0] + 10,  rp[1]-25}, rp);
 	    
-	    attachment = new ObjectAttachment(new Corner[] {peakA, rightCornerA, leftCornerA}, rp,new double[] {rp[0],rp[1]-25},-5);
+	    attachment = new ObjectAttachment(new Corner[] {peakA, rightCornerA, leftCornerA}, rp,new double[] {rp[0],rp[1]},-5);
 
 //	    straightLine = new ObjectAttachment(new Corner[] {new Corner(new double[] {rp[0] ,rp[1] + 25}, rp), new Corner(new double[] {rp[0] ,rp[1] + 350}, rp),}, rp,new double[] {rp[0],rp[1]-25},-5);
-
-		
+	    Corner tl = new Corner(new double[] {rp[0] - 3 ,rp[1] + 23}, rp);
+	    Corner tr =	new Corner(new double[] {rp[0] + 3,rp[1] + 23}, rp);
+	    Corner br = new Corner(new double[] {rp[0] + 3,rp[1] + 40}, rp);
+	    Corner bl = new Corner(new double[] {rp[0] - 3,rp[1] + 40}, rp);
+		Corner wp = new Corner(new double[] {rp[0] ,rp[1] + 40}, rp);
+	    
+	    canon = new InteractiveAttachment(new Corner[] {tl,tr,br,bl}, new Corner(rp) , new double[] {rp[0], rp[1]}, 0, wp);
+	    
 	    Corner peak = new Corner(new double[] {rp[0] ,rp[1] + 25}, rp);
 	    Corner rightCorner = new Corner(new double[] {rp[0] - 25, rp[1] - 25}, rp);
 	    Corner leftCorner = new Corner(new double[] {rp[0] + 25, rp[1] - 25}, rp);
 	    
-	    p = new Player(new Corner[] {peak, rightCorner, leftCorner},rp, 1, new Corner(new double[] {rp[0],rp[1]+25}, rp),3);
+	   
+	    p = new Player(new Corner[] {peak, rightCorner, leftCorner},rp, 1, new Corner(new double[] {rp[0],rp[1]+25}, rp));
 	    p.addAttachment(attachment);	    
 	    p.setHP(5);
 	    p.setReflectedSpeed(6);
+	    p.addAttachment(canon);
 //	    p.addAttachment(straightLine);
 
 	    
