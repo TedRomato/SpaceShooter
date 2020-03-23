@@ -25,7 +25,7 @@ public class Window extends JFrame implements KeyListener{
 	private Graphics g;
 	private BufferStrategy bs;
 
-	private GameModeClassic game;
+	private GameModeTesting game;
 
 	public Window() {
 		super("EPIC TITLE");
@@ -83,9 +83,9 @@ public class Window extends JFrame implements KeyListener{
 		add(menu);
 
 		//game = new Game(getWidth(), getHeight());
-		
-		game = new GameModeClassic(getWidth(), getHeight());
-		//game.add(game.DisplayScore);
+
+		game = new GameModeTesting(getWidth(), getHeight());
+
 		add(game);
 
 		setVisible(true);

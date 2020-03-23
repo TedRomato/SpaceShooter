@@ -60,9 +60,21 @@ public class GameObject {
 	}
 	
 	//Check collision  between this object and go
+	
 		public boolean checkCollision(GameObject go) {
 			if(this.getCollisionSquare().squareCollision(go.getCollisionSquare())) {
-				if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2) {
+				if(go instanceof LivingObject) {
+					if(((LivingObject) go).getAttachments() != null) {
+						if(((LivingObject) go).getAttachments().length > 0) {
+							for(ObjectAttachment att : ((LivingObject) go).getAttachments()) {
+								if(checkCollisionInside(att) || getCrossedLineCorners(att).length == 2 ) {
+									return true;
+								}
+							}
+						}
+					}
+				}
+				if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2 ) {
 					return true;
 				}
 				else {

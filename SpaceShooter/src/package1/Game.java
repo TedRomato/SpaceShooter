@@ -69,18 +69,10 @@ public class Game extends JPanel{
 	    
 	    borders = new GameObject[] {botBorder,leftBorder,topBorder,rightBorder};
 	    
-	    ShowScore = false;
-	    if(ShowScore) {
-	    	DisplayScore = new JLabel(Integer.toString(getScore()),SwingConstants.CENTER);
-	    	DisplayScore.setBounds(50, 50, 100, 100);
-	    }
-	    else {
-	    	DisplayScore = new JLabel("");
-	    }
 	    
 	    p = Player.makeNewPlayer(new double[] {100,100});
 		addObToGame(p, new int[] {5,6,7}); 
-	    
+		
 	    
 	}
 	public int getScore() {
@@ -144,21 +136,30 @@ public class Game extends JPanel{
         reflectFromSides();
         removeObsOut();
 		updateAllObs();
-		if(ShowScore) {
-			DisplayScore.setText(Integer.toString(getScore()));
-		}
-		
+		handleAis();
 	}
 	
+	
+	private void handleAis() {
+		for(AI ai : ais) {
+			ai.updateAI(p, aiVisible);
+		}
+	}
 
 	private void handleShooting(){
 		for(LivingObject sob : shootingObs ) {	
-			if(sob.reloadLenght == sob.reloadTimer && sob.shoot() !=  null) {
-				addObToGame(sob.shoot(), new int[] {1,2,3,4,6,7,8});
-				sob.setReloadLenght(0);
-			}
-			if(sob.reloadLenght != sob.reloadTimer) { 
-				sob.reloadLenght++;
+			if(sob.getAttachments() != null && sob.getAttachments().length > 0) {
+				for(ObjectAttachment att : sob.getAttachments()) {
+					if(att instanceof InteractiveAttachment) {
+						if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot() !=  null) {
+							addObToGame(((InteractiveAttachment)att).shoot(), new int[] {1,2,3,4,6,7,8});
+							((InteractiveAttachment)att).setReloadLenght(0);
+						}
+						if(((InteractiveAttachment)att).reloadLenght != ((InteractiveAttachment)att).reloadTimer) { 
+							((InteractiveAttachment)att).reloadLenght++;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -247,6 +248,7 @@ public class Game extends JPanel{
 					}
 				}else {
 					go.checkAndHandleReflect(borders[i]);
+
 				}
 			}
 		}

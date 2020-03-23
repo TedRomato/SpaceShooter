@@ -1,5 +1,7 @@
 package package1;
 
+import java.awt.Graphics;
+
 public class Corner {
 	
 	private double x,y; //X and Y coordinate
@@ -296,7 +298,7 @@ public class Corner {
 	
 	
 	//returns two values --> difference of mainAngle and Secondary angle Clockwise and main and secondary angle counterClockwise 
-	public double[] getAngleDifferencRL(double mainAngle, double secondaryAngle) {
+	public static double[] getAngleDifferencRL(double mainAngle, double secondaryAngle) {
 		double right;
 		if(mainAngle <= secondaryAngle) {
 			right = secondaryAngle - mainAngle;
@@ -427,6 +429,11 @@ public class Corner {
 	
 	public void printCoords() {
 		System.out.println("X : " + this.getX() + "   Y : " + this.getY());
+	}
+	
+	public void renderCorner(Graphics g, int side) {
+		g.fillRect(((int)this.getX()),((int)this.getY()), side, side);
+
 	}
 	
 }

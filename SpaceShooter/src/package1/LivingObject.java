@@ -13,32 +13,25 @@ public class LivingObject extends MovingObject{
 	//does have acceleration and max Speed
 	//can have attachments 
 	//other than that same methods, but work for attachment as well
-	protected int reloadLenght;
-	protected int reloadTimer;
-	private boolean forward = false, turnRight = false, turnLeft = false,shoot = false;
-	private Corner movePoint, shootDirection, shootPoint;
+	
+	private boolean forward = false, turnRight = false, turnLeft = false;
+	private Corner movePoint;
 	private double maxSpeed = 7;
 	private double acceleration = maxSpeed/200;
 	private ObjectAttachment[] attachments;
 	
-	public LivingObject(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,int reloadTimer) {
+	public LivingObject(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md) {
 		super(corners, rotationPoint, rotationAngle, md);
 		movePoint = new Corner(md, rotationPoint);
 		setReflectedSpeed(maxSpeed*2);
-		shootPoint = new Corner(new double[] {movePoint.getX(),movePoint.getY()+20}, rotationPoint);
-		shootDirection = new Corner(new double[] {movePoint.getX(),movePoint.getY()+40}, rotationPoint);
-		this.reloadTimer= reloadTimer;
 		setHP(10);
 		makeSquare();
 	}
 	
-	public LivingObject(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md,int reloadTimer) {
+	public LivingObject(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md) {
 		super(corners, rotationPoint, rotationAngle, md);
 		movePoint = new Corner(md, rotationPoint);
 		setReflectedSpeed(maxSpeed*2);
-		shootPoint = new Corner(new double[] {movePoint.getX(),movePoint.getY()+20}, rotationPoint);
-		shootDirection = new Corner(new double[] {movePoint.getX(),movePoint.getY()+40}, rotationPoint);
-		this.reloadTimer= reloadTimer;
 		setHP(10);
 		makeSquare();	}
 
@@ -49,13 +42,10 @@ public class LivingObject extends MovingObject{
 	
 	
 	public void updateOb() {
-				
-
+			
 		updateSpeed();
 
 		moveOb();
-
-	
 
 		if(turnRight || turnLeft) {
 			rotateOb();
@@ -89,19 +79,22 @@ public class LivingObject extends MovingObject{
 		super.rotateOb();
 		if(attachments != null) {
 			for(ObjectAttachment att : attachments) {
-				for(Corner c : att.getCorners()) {
-					c.rotateCorner(getRotationPoint(), getRotationAngle());
+				if(att.getRotateWithParentOb()) {
+					att.rotateAttachment(this.getRotationAngle());
 				}
-				att.attachmentRP.rotateCorner(getRotationPoint(), getRotationAngle());
 
 			}
 
 		}
 		
 		movePoint.rotateCorner(getRotationPoint(), getRotationAngle());	
-		shootDirection.rotateCorner(getRotationPoint(), getRotationAngle());
-		shootPoint.rotateCorner(getRotationPoint(), getRotationAngle());
 		}
+	
+	//rotates only mp, sp,sd
+	public void rotateWithoutObject() {
+		movePoint.rotateCorner(getRotationPoint(), getRotationAngle());	
+		
+	}
 	
 	public void moveOb() {
 		super.moveOb();
@@ -113,8 +106,7 @@ public class LivingObject extends MovingObject{
 		}
 		
 		movePoint.moveCorner(getVelX(),getVelY());
-		shootDirection.moveCorner(getVelX(), getVelY());
-		shootPoint.moveCorner(getVelX(), getVelY());
+		
 
 
 
@@ -122,15 +114,8 @@ public class LivingObject extends MovingObject{
 	}
 	
 	public  void rotateAttachments() {
-		if(turnRight || turnLeft) {
-			for(ObjectAttachment att : attachments) {
-				att.rotateAttachment(att.getAngleToRotateConstantly(getRotationAngle()));
-			}
-		}
-		else {
-			for(ObjectAttachment att : attachments) {
-				att.rotateAttachment(att.getRotationAngle());
-			}
+		for(ObjectAttachment att : attachments) {
+			att.rotateAttachment(att.getRotationAngle());
 		}
 	}
 	
@@ -147,7 +132,7 @@ public class LivingObject extends MovingObject{
 		if(forward && getCurrentSpeed() < maxSpeed) {
 			setCurrentSpeed(getCurrentSpeed() + acceleration);
 		}
-		if(getCurrentSpeed() > maxSpeed) {
+		if(getCurrentSpeed() > maxSpeed && getReflected() == false) {
 			setCurrentSpeed(maxSpeed);
 		}if(forward != true && getCurrentSpeed() > 0 - acceleration) {
 			setCurrentSpeed(getCurrentSpeed() - acceleration);
@@ -163,6 +148,7 @@ public class LivingObject extends MovingObject{
 
 	public void updateReflection() {
 		if(isReflected()) {
+			setForward(false);
 			setReflectedTimer(getReflectedTimer() + 1);
 			if(getReflectedTimer() >= getReflectedLenght()) {
 				setReflected(false);
@@ -198,31 +184,62 @@ public class LivingObject extends MovingObject{
 				}
 			}
 		}
+		
+		if(go instanceof LivingObject){
+		    if(((LivingObject) go).getAttachments() != null) {
+		    	for(ObjectAttachment att : ((LivingObject) go).getAttachments()) {
+					if(att.checkCollisionInside(this) || att.getCrossedLineCorners(this).length == 2) {
+						return true;
+					}
+				}
+		    }
+		}
 	
 		return false;
 		
 	}
 	
 	public void checkAndHandleReflect(GameObject otherOb) {
-		if(otherOb != this) {
-			Corner[] corners = null;
-			
-			
-			corners = getCrossedLineCorners(otherOb);
-			
-			if(attachments != null) {
-				for(ObjectAttachment att : attachments) {
-					if(corners.length != 2) {
-					corners = att.getCrossedLineCorners(otherOb);
+		if(getCollisionSquare().squareCollision(otherOb.getCollisionSquare())) {
+			if(otherOb != this) {
+				Corner[] corners = null;
+				
+				
+				corners = getCrossedLineCorners(otherOb);
+				
+				if(attachments != null) {
+					for(ObjectAttachment att : attachments) {
+						if(corners.length != 2) {
+						corners = att.getCrossedLineCorners(otherOb);
+						}
 					}
 				}
-			}
-			
-			
-			
-			
-			if(corners != null && corners.length == 2) {
-				reflect(corners[0], corners[1]);
+				
+				if(otherOb instanceof LivingObject) {
+					if(((LivingObject) otherOb).getAttachments() != null) {
+						if(((LivingObject) otherOb).getAttachments().length > 0) {
+							for(ObjectAttachment att : ((LivingObject) otherOb).getAttachments()) {
+								if(corners.length != 2) {
+									corners = this.getCrossedLineCorners(att);
+								}
+								
+								if(attachments != null) {
+									for(ObjectAttachment thisatt : attachments) {
+										if(corners.length != 2) {
+										corners = thisatt.getCrossedLineCorners(att);
+										}
+									}
+								}
+								
+								
+							}
+						}
+					}
+				}
+				
+				if(corners != null && corners.length == 2) {
+					reflect(corners[0], corners[1]);
+				}
 			}
 		}
 	}
@@ -240,47 +257,25 @@ public class LivingObject extends MovingObject{
 		}
 		super.makeSquare(biggest);
 	}
-	protected Corner getSD() {
-		return shootDirection;
-	}
-	public Missile shoot() {
-		Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
-		Corner TopLeft = new Corner(new double[] {getSP().getX()-5,getSP().getY()-5}, rp);
-		Corner BotLeft = new Corner(new double[] {getSP().getX()-5,getSP().getY()+5}, rp);
-		Corner BotRight = new Corner(new double[] {getSP().getX()+5,getSP().getY()+5}, rp);
-		Corner TopRight = new Corner(new double[] {getSP().getX()+5,getSP().getY()-5}, rp);
-		Corner md = new Corner(new double[] {getSD().getX(), getSD().getY()}, rp);
-		if(getShoot()) {
-			Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, rp, 0,md,12);
-			m.getNewRatios();
-			m.setNewVels();
-			return m;
+	
+	
+	public void setShootForInteractiveAtts(boolean shoot) {
+		if(this.getAttachments() != null && this.getAttachments().length > 0) {
+			for(ObjectAttachment att : this.getAttachments()) {
+				if(att instanceof InteractiveAttachment) {
+					((InteractiveAttachment) att).setShoot(shoot);
+				}
+			}
 		}
-		else return null;
 	}
 	
-	public int getReloadLenght() {
-		return reloadLenght;
-	}
-
-	public void setReloadLenght(int reloadLenght) {
-		this.reloadLenght = reloadLenght;
-	}
-
-	public int getReloadTimer() {
-		return reloadTimer;
-	}
-
-	public void setReloadTimer(int reloadTimer) {
-		this.reloadTimer = reloadTimer;
-	}
+	
+	
 
 	protected Corner getMP() {
 		return movePoint;
 	}
-	protected Corner getSP() {
-		return shootPoint;
-	}
+	
 	protected Corner getMD() {
 		return moveDirection;
 	}
@@ -293,12 +288,7 @@ public class LivingObject extends MovingObject{
 	protected void setLeft(boolean b) {
 		turnLeft = b;
 	}
-	protected void setShoot(boolean b) {
-		shoot = b;
-	}
-	protected boolean getShoot() {
-		return shoot;
-	}
+	
 	protected boolean getForward() {
 		return forward;
 	}
@@ -322,14 +312,7 @@ public class LivingObject extends MovingObject{
 		
 		if(attachments != null && attachments.length > 0) {
 			for(int x = 0; x < attachments.length; x++) {
-				for(int i = 0; i < attachments[x].getCorners().length;i++) {
-					if(i < attachments[x].getCorners().length-1) {
-						g.drawLine((int) Math.round(attachments[x].getCorners()[i].getX()),(int) Math.round(attachments[x].getCorners()[i].getY()),(int) Math.round(attachments[x].getCorners()[i+1].getX()),(int) Math.round(attachments[x].getCorners()[i+1].getY()));
-					}
-					else {
-						g.drawLine((int) Math.round(attachments[x].getCorners()[i].getX()),(int) Math.round(attachments[x].getCorners()[i].getY()),(int) Math.round(attachments[x].getCorners()[0].getX()),(int) Math.round(attachments[x].getCorners()[0].getY()));
-					}
-				}
+				attachments[x].render(g);
 			}
 		}
 
@@ -353,8 +336,11 @@ public class LivingObject extends MovingObject{
 		g.fillRect((int) Math.round(attachments[0].getAttachmentRP().getX()),(int) Math.round(attachments[0].getAttachmentRP().getY()), 8, 8);
 		 */
 		
+		getCollisionSquare().render(g);
+		
 		
 	}
+	
 
 
 	public ObjectAttachment[] getAttachments() {

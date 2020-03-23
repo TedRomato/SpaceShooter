@@ -48,10 +48,11 @@ public class MovingObject extends GameObject{
 	//updates object after reflect
 	
 	public void updateAfterReflect() {
-		getNewRatios();
 		setCurrentSpeed(reflectedSpeed);
+		getNewRatios();
 		setNewVels();
 		setReflected(true);
+
 	}
 	
 	
@@ -93,7 +94,7 @@ public class MovingObject extends GameObject{
 			}
 		
 		}
-		updateAfterReflect();		
+		updateAfterReflect();	
 	}
 	
 	private double getTempRpX(Corner c1, Corner c2) {
