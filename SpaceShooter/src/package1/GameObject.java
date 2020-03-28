@@ -411,6 +411,12 @@ public class GameObject {
 		}
 	}
 	
+	public void rotateOb(double angle) {
+		for(Corner corner : corners) {
+			corner.rotateCorner(getRotationPoint(), angle);
+		}
+	}
+	
 	public void moveOb() {
 		
 		for(Corner corner : corners) {

@@ -10,6 +10,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 	Corner shootDirection, shootPoint;
 	double attRotationAngle;
 	boolean shoot;
+	double[] rotationSegment = new double[] {};
 	
 	
 	//Always make inter. attachments facing down, or count custom shootDir 
@@ -28,10 +29,10 @@ public class InteractiveAttachment extends ObjectAttachment{
 	
 
 	public void rotateToCorner(Corner c) {
-		Corner newC = new Corner(c , this.getRotationPoint());
-		Corner newC2 = new Corner(getWayPoint(),this.getRotationPoint());
-		double cAngle = newC.getAngle(this.getRotationPoint());
-		double wAngle = newC2.getAngle(this.getRotationPoint());
+		Corner newC = new Corner(c , getAttachmentRP());
+		Corner newC2 = new Corner(getWayPoint(),getAttachmentRP());
+		double cAngle = newC.getAngle(getAttachmentRP());
+		double wAngle = newC2.getAngle(getAttachmentRP());
 
 		//From wangle
 		double rightDifference;
@@ -51,19 +52,22 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	
 	public void rotateAttachment(double angle) {
-		super.rotateAttachment(angle);
-		wayPoint.rotateCorner(getRotationPoint(), angle);
-		shootDirection.rotateCorner(getRotationPoint(), angle);
-		shootPoint.rotateCorner(getRotationPoint(), angle);
+			super.rotateAttachment(angle);
+			wayPoint.rotateCorner(getRotationPoint(), angle);
+			shootDirection.rotateCorner(getRotationPoint(), angle);
+			shootPoint.rotateCorner(getRotationPoint(), angle);
+			
 		
 	}
 	
 	public void rotateAttachmentAroundItsCorner(double angle) {
-		super.rotateAttchmentAroundItsCorner(angle);
-		wayPoint.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
-		shootDirection.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
-		shootPoint.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
-	}
+		if(checkIfInRotationSegment(getAttachmentAngle()+angle)) {
+			super.rotateAttchmentAroundItsCorner(angle);
+			wayPoint.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
+			shootDirection.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
+			shootPoint.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
+			}
+		}	
 	
 	
 	public void moveAttachment(double velX, double velY) {
@@ -92,6 +96,15 @@ public class InteractiveAttachment extends ObjectAttachment{
 			return m;
 		}
 		else return null;
+	}
+	
+	public boolean checkIfInRotationSegment(double d) {
+		if(rotationSegment.length != 2) {
+			return true;
+		}
+		if(d > rotationSegment[0] && d < rotationSegment[1]) {
+			return true;
+		} else return false;
 	}
 	
 	public int getReloadLenght() {
@@ -140,6 +153,10 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	protected boolean getShoot() {
 		return shoot;
+	}
+	
+	public void setRotationSegment(double[] s) {
+		rotationSegment = s;
 	}
 	
 	public void render(Graphics g) {
