@@ -25,7 +25,7 @@ public class Window extends JFrame implements KeyListener{
 	private Graphics g;
 	private BufferStrategy bs;
 
-	private GameModeTesting game;
+	private GameModeTower game;
 
 	public Window() {
 		super("EPIC TITLE");
@@ -84,7 +84,7 @@ public class Window extends JFrame implements KeyListener{
 
 		//game = new Game(getWidth(), getHeight());
 
-		game = new GameModeTesting(getWidth(), getHeight());
+		game = new GameModeTower(getWidth(), getHeight());
 
 		add(game);
 
