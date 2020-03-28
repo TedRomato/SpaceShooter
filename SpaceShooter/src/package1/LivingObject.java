@@ -316,29 +316,18 @@ public class LivingObject extends MovingObject{
 			}
 		}
 
-		
-
-	/*
-
+/*
 		g.setColor(Color.red);
 		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
 		g.setColor(Color.darkGray);
 		g.fillRect((int) Math.round(getRotationPoint().getX()),(int) Math.round(getRotationPoint().getY()), 9, 9);
 		g.setColor(Color.BLUE);
 		g.fillRect((int) Math.round(movePoint.getX()),(int) Math.round(movePoint.getY()), 8, 8);
-		g.setColor(Color.GREEN);
-		g.fillRect((int) Math.round(shootDirection.getX()),(int) Math.round(shootDirection.getY()), 9,9);
-		g.setColor(Color.YELLOW);
-		g.fillRect((int) Math.round(shootPoint.getX()),(int) Math.round(shootPoint.getY()), 9,9);
-		g.setColor(Color.BLACK);
-
-		
-		g.fillRect((int) Math.round(attachments[0].getAttachmentRP().getX()),(int) Math.round(attachments[0].getAttachmentRP().getY()), 8, 8);
-		 */
-		
-		getCollisionSquare().render(g);
-		
-		
+		g.setColor(Color.black);	
+*/
+	//	g.fillRect((int) Math.round(attachments[0].getAttachmentRP().getX()),(int) Math.round(attachments[0].getAttachmentRP().getY()), 8, 8);
+	//	getCollisionSquare().render(g);
+				
 	}
 	
 

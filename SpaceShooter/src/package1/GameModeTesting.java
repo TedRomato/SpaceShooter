@@ -8,15 +8,22 @@ public class GameModeTesting extends Game{
 
 	public GameModeTesting(int sw, int sh) {
 		super(sw, sh);
-		SpaceCanon ai = SpaceCanon.makeNewSpaceCanon(400,400);
+		SpaceCruiser ai = SpaceCruiser.makeNewSpaceCruiser(500,200);
+		SpaceCanon ai1 = SpaceCanon.makeNewSpaceCanon(1000,600);
+		HuntingMine ai2 = HuntingMine.makeNewHuntingMine(1000,200);
 		addObToGame(ai, new int[] {4,7}); 
+		addObToGame(ai1, new int[] {4,7}); 
+		addObToGame(ai2, new int[] {4,7}); 
+
+
+
 			
 	}
 	
 	
 	public void tick() { 
 		super.tick();
-		respawnMeteorsToAmount(6);
+		respawnMeteorsToAmount(3);
 	}
 	
 	

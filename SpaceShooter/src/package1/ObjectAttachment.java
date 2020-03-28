@@ -32,6 +32,7 @@ public class ObjectAttachment extends GameObject{
 			c.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
 		}
 		attachmentRP.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
+		atachmentCurrentAngle += angle;
 	}
 	
 	
@@ -74,6 +75,14 @@ public class ObjectAttachment extends GameObject{
 	
 	public void render(Graphics g) {
 		super.render(g);
+	}
+	
+	public double  getAttachmentAngle() {
+		return atachmentCurrentAngle;
+	}
+	
+	public Corner getAttRP() {
+		return attachmentRP;
 	}
 	
 	
