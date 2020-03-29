@@ -119,6 +119,12 @@ public class LivingObject extends MovingObject{
 		}
 	}
 	
+	public void rotateAtachmentsAroundItsCorner() {
+		for(ObjectAttachment att : attachments) {
+			att.rotateAttchmentAroundItsCorner(att.getRotationAngle());
+		}
+	}
+	
 	private void updateMDtoMP() {
 		
 		moveDirection = new Corner(movePoint, getRotationPoint());

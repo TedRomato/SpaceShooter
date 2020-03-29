@@ -65,12 +65,12 @@ public class AI extends LivingObject{
 	public void updateAI(Player p, GameObject[] gos) {
 		
 		checkAndHandleTrack(gos);
-		if(collisionDanger == false) {
-			setGoalToGameObject(p);
-		}
 		updateIsInStoppingDistance(p);
 		updateRotationToGoal();
 		updateForward();
+		if(collisionDanger == false) {
+			setGoalToGameObject(p);
+		}
 	}
 	
 	protected void checkAndHandleTrack(GameObject[] gos) {

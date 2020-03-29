@@ -399,7 +399,11 @@ public class Corner {
 		case 'x':
 			this.setX(moveToOtherSide(this.getX(), corner.getX()));
 			break;
-			
+		
+		case 'b':
+			this.setY(moveToOtherSide(this.getY(), corner.getY()));
+			this.setX(moveToOtherSide(this.getX(), corner.getX()));
+			break;
 			}
 		}
 	
@@ -426,6 +430,9 @@ public class Corner {
 		}
 		return false;
 	}
+	
+	
+	
 	
 	public void printCoords() {
 		System.out.println("X : " + this.getX() + "   Y : " + this.getY());

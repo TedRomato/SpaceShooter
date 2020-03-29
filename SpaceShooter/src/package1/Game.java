@@ -28,6 +28,7 @@ public class Game extends JPanel{
 	private GameObject[] aiVisible;
 	private boolean WasCalled = false;
 	private Meteor[] meteors;
+	private Summoner[] summoners;
 	
 	private boolean wasCalled = false;
 	//public static JPanel gp = new GamePanel();
@@ -46,7 +47,8 @@ public class Game extends JPanel{
 	    shootingObs = new LivingObject[] {};
 	    ais = new AI[] {};
 	    meteors = new Meteor[] {};
-		arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais, meteors, shootingObs};
+	    summoners = new Summoner[] {};
+		arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais, meteors, shootingObs,summoners};
 
 	    
 	    Corner rightBotC = new Corner(new double[] {screenWidth,screenHeight}, new double[] {500,400});
@@ -62,7 +64,7 @@ public class Game extends JPanel{
 	    borders = new GameObject[] {botBorder,leftBorder,topBorder,rightBorder};
 	    
 	    p = Player.makeNewPlayer(new double[] {100,100});
-		addObToGame(p, new int[] {5,6,7}); 
+		addObToGame(p, new int[] {5,6,7,9}); 
 		
 	    
 	}
@@ -122,11 +124,10 @@ public class Game extends JPanel{
         removeObsOut();
 		updateAllObs();
 		handleAis();
-		
-		
-
 	}
 	
+	
+
 	
 	private void handleAis() {
 		for(AI ai : ais) {
@@ -140,7 +141,7 @@ public class Game extends JPanel{
 				for(ObjectAttachment att : sob.getAttachments()) {
 					if(att instanceof InteractiveAttachment) {
 						if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot() !=  null) {
-							addObToGame(((InteractiveAttachment)att).shoot(), new int[] {1,2,3,4,6,7,8});
+							addObToGame(((InteractiveAttachment)att).shoot(), new int[] {1,2,3,4,6,7,8,9});
 							((InteractiveAttachment)att).setReloadLenght(0);
 						}
 						if(((InteractiveAttachment)att).reloadLenght != ((InteractiveAttachment)att).reloadTimer) { 
@@ -242,9 +243,19 @@ public class Game extends JPanel{
 		}
 	}
 	
+	protected void handleSummoners() {
+		for(Summoner s : summoners) {
+			AI ai = s.handleSummoner();
+			if(ai != null) {
+				addObToGame(ai, new int[] {7,4,9});
+			}
+		}
+	}
+	
+	
 	protected void respawnMeteorsToAmount(int amount) {
 		if(meteors.length < amount) {
-			addObToGame(randomMeteorGenerator.generateRandomMeteorOutside(screenWidth, screenHeight), new int[] {3,6,4,8});
+			addObToGame(randomMeteorGenerator.generateRandomMeteorOutside(screenWidth, screenHeight), new int[] {3,6,4,8,9});
 		}
 	}
 	
@@ -294,6 +305,15 @@ public class Game extends JPanel{
 	    ais = makeGameObArAIArr(arrayList[6]);
 	    meteors = makeMeteorArr(arrayList[7]);
 	    shootingObs = makeGameObArLivingArr(arrayList[8]);
+	    summoners = makeSummonersObAr(arrayList[9]);
+	}
+	
+	private Summoner[] makeSummonersObAr(GameObject[] arr) {
+		Summoner[] newArr = new Summoner[arr.length];
+		for(int i = 0; i < arr.length; i++) {
+			newArr[i] = (Summoner) arr[i];
+		}
+		return newArr;
 	}
 	
 	private Meteor[] makeMeteorArr(GameObject[] arr) {
