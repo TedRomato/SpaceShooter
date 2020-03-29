@@ -5,7 +5,8 @@ import java.awt.event.KeyEvent;
 public class GameModeTower extends Game {
 	private LivingObject Tower;
 	private AI ai;
-	private SpaceCanon sc;
+	private SpaceCanon sca;
+	private SpaceCruiser scr;
 	private int wave = 20;
 	private int PowerLevel = 0;
 	private int rnd;
@@ -46,9 +47,9 @@ public class GameModeTower extends Game {
 		switch(PL){
 			case 1 : ai = ai.makeNewAI((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1); addObToGame(ai, new int[] {7});
 			break; 
-			case 2 : sc = sc.makeNewSpaceCanon((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1); addObToGame(sc, new int[] {7});
+			case 2 : sca = sca.makeNewSpaceCanon((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1); addObToGame(sca, new int[] {7});
 			break;
-			case 3 : System.out.println(3);
+			case 3 : scr = scr.makeNewSpaceCruiser((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1); addObToGame(scr, new int[] {7});
 			break;
 			default : 
 		}
