@@ -193,9 +193,11 @@ public class Game extends JPanel{
 				if(mob != ob) {
 					mob.checkAndHandleReflect(ob);
 					if(ob.getClass().getSimpleName().equals("LivingObject") || ob.getClass().getSimpleName().equals("Player")) {
-						if(((LivingObject) ob).getAttachments().length > 0) {
-							for(ObjectAttachment att : ((LivingObject) ob).getAttachments()) {
-								mob.checkAndHandleReflect(att);
+						if(((LivingObject) ob).getAttachments()!= null) {
+							if(((LivingObject) ob).getAttachments().length > 0) {
+								for(ObjectAttachment att : ((LivingObject) ob).getAttachments()) {
+									mob.checkAndHandleReflect(att);
+								}
 							}
 						}
 					}
