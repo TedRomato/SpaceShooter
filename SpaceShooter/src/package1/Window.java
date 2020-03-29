@@ -108,6 +108,13 @@ public class Window extends JFrame implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+		if(e.getKeyCode() == 10	) {
+			getContentPane().removeAll();
+			getContentPane().invalidate();
+			getContentPane().add(game);
+			getContentPane().revalidate();
+			game.running = true;
+		}
 		if(e.getKeyCode() == e.VK_ESCAPE) {
 			game.stop();
 			running = false;

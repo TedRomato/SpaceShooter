@@ -13,7 +13,8 @@ public class AI extends LivingObject{
 	DetectionLine[] leftDetectionLines;
 	DetectionLine[] rightDetectionLines;
 	boolean collisionDanger = false;
-	double stoppingDistance = 300;
+	double stoppingDistance = 0;
+	boolean isInStoppingDistance = false;
 
 	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
 		super(corners, rotationPoint, rotationAngle, md);
@@ -23,9 +24,6 @@ public class AI extends LivingObject{
 		setHP(100);
 		setReflectedLenght(80);
 		setAcceleration(getMaxSpeed() / 50);
-
-
-		
 	}
 	
 	//inRange = minimum distance of rp - maximum distance of rp (from sides); sides = bot - y,right - x,top - y,left - x 
@@ -71,13 +69,12 @@ public class AI extends LivingObject{
 		if(collisionDanger == false) {
 			setGoalToGameObject(p);
 		}
-		
+		updateIsInStoppingDistance(p);
 		updateRotationToGoal();
 		updateForward();
 	}
 	
-	//New and better checkNHandelTrack
-	private void checkAndHandleTrack(GameObject[] gos) {
+	protected void checkAndHandleTrack(GameObject[] gos) {
 		setAllIsTriggered(false);
 		setAllDLTriggeresToCurrentObs(gos);
 		handleTrack();
@@ -124,7 +121,7 @@ public class AI extends LivingObject{
 	//Loops through all gos and set triggered lines to isTriggered 
 	private void setAllDLTriggeresToCurrentObs(GameObject[] gos) {
 		for(GameObject go : gos) {
-			if(go != this) {
+			if(go != this && go instanceof Missile == false) {
 				for(int i = 0; i < leftDetectionLines.length && i < rightDetectionLines.length; i++) {
 					if(leftDetectionLines[i].getTriggered() == false) {
 						leftDetectionLines[i].setTriggered(go.checkCollision(leftDetectionLines[i]));
@@ -163,7 +160,7 @@ public class AI extends LivingObject{
 		makeNegativeRotation();
 	}
 	
-	private void setGoalToGameObject(GameObject p) {
+	protected void setGoalToGameObject(GameObject p) {
 		goalDestination.setX(p.getRotationPoint().getX());
 		goalDestination.setY(p.getRotationPoint().getY());
 	}
@@ -174,17 +171,17 @@ public class AI extends LivingObject{
 	}
 	
 	
-	private void updateForward() {
+	protected void updateForward() {
 		if(getReflected() == false) {
 			setForward(true);
 		}
 	}
 	
-	private void updateRotationToGoal() {
+	protected void updateRotationToGoal() {
 		this.goalDestination.setToNewRP(getRotationPoint());
 		double movePointAngle = getMP().getAngle(getRotationPoint());
 		double goalDestinationAngle = goalDestination.getAngle(getRotationPoint());
-		double[] angleDifference = getMP().getAngleDifferencRL(movePointAngle, goalDestinationAngle);
+		double[] angleDifference = Corner.getAngleDifferencRL(movePointAngle, goalDestinationAngle);
 		if(angleDifference[0] < 2 || angleDifference[1] < 2) {
 			setRight(false);
 			setLeft(false);
@@ -249,7 +246,7 @@ public class AI extends LivingObject{
 		mainDetectionLine.moveOb();
 	}
 	
-	private void rotateDls() {
+	protected void rotateDls() {
 		for(DetectionLine dl : rightDetectionLines) {
 			if(getTurnRight()) {
 				dl.makePositiveRotation();
@@ -272,6 +269,16 @@ public class AI extends LivingObject{
 			mainDetectionLine.makeNegativeRotation();
 		}
 		mainDetectionLine.rotateOb();
+	}
+	
+	protected void rotateDls(double angle) {
+		for(DetectionLine dl : rightDetectionLines) {
+			dl.rotateOb(angle);
+		}
+		for(DetectionLine dl : leftDetectionLines) {
+			dl.rotateOb(angle);
+		}
+		mainDetectionLine.rotateOb(angle);
 	}
 	
 	
@@ -306,7 +313,13 @@ public class AI extends LivingObject{
 		}
 	}
 	
-	
+	public void updateIsInStoppingDistance(GameObject enemy) {
+		if(this.getRotationPoint().getPointDistance(enemy.getRotationPoint()) < stoppingDistance) {
+			setInStoppingDistance(true);
+		}else {
+			setInStoppingDistance(false);
+		}
+	}
 	
 	public void render(Graphics g) {
 		super.render(g);
@@ -331,6 +344,73 @@ public class AI extends LivingObject{
 		 */
 	}
 	
+	public void setRotationAngle(double d) {
+		for(DetectionLine dl : rightDetectionLines) {
+			dl.setRotationAngle(d);
+		}
+		for(DetectionLine dl : leftDetectionLines) {
+			dl.setRotationAngle(d);
+		}
+		mainDetectionLine.setRotationAngle(d);
+		super.setRotationAngle(d);
+	}
+	
+	public Random getRandom() {
+		return random;
+	}
+
+	public void setRandom(Random random) {
+		this.random = random;
+	}
+
+	public Corner getGoalDestination() {
+		return goalDestination;
+	}
+
+	public void setGoalDestination(Corner goalDestination) {
+		this.goalDestination = goalDestination;
+	}
+
+	public DetectionLine getMainDetectionLine() {
+		return mainDetectionLine;
+	}
+
+	public void setMainDetectionLine(DetectionLine mainDetectionLine) {
+		this.mainDetectionLine = mainDetectionLine;
+	}
+
+	public DetectionLine[] getLeftDetectionLines() {
+		return leftDetectionLines;
+	}
+
+	public void setLeftDetectionLines(DetectionLine[] leftDetectionLines) {
+		this.leftDetectionLines = leftDetectionLines;
+	}
+
+	public DetectionLine[] getRightDetectionLines() {
+		return rightDetectionLines;
+	}
+
+	public void setRightDetectionLines(DetectionLine[] rightDetectionLines) {
+		this.rightDetectionLines = rightDetectionLines;
+	}
+
+	public boolean isCollisionDanger() {
+		return collisionDanger;
+	}
+
+	public void setCollisionDanger(boolean collisionDanger) {
+		this.collisionDanger = collisionDanger;
+	}
+
+	public boolean isInStoppingDistance() {
+		return isInStoppingDistance;
+	}
+
+	public void setInStoppingDistance(boolean isInStoppingDistance) {
+		this.isInStoppingDistance = isInStoppingDistance;
+	}
+
 	public void setStoppingDistance(double d) {
 		stoppingDistance = d;
 	}
