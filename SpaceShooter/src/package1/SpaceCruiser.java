@@ -144,4 +144,6 @@ public class SpaceCruiser extends LongRangeAI{
 	   
 	    return ai;
 	}
+	
+	
 }

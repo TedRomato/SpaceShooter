@@ -9,16 +9,16 @@ public class HuntingMine extends AI{
 	
 	public static HuntingMine makeNewHuntingMine(double x, double y) {
 		//ai
-		Corner peakAI = new Corner(new double[] {x,y - 30}, new double[] {x ,y});
-		Corner botAI = new Corner(new double[] {x,y + 30}, new double[] {x ,y});
-	    Corner rightCornerAI = new Corner(new double[] {x-30,y}, new double[] {x ,y});
-	    Corner leftCornerAI = new Corner(new double[] {x+30,y}, new double[] {x ,y});
+		Corner peakAI = new Corner(new double[] {x,y - 22}, new double[] {x ,y});
+		Corner botAI = new Corner(new double[] {x,y + 22}, new double[] {x ,y});
+	    Corner rightCornerAI = new Corner(new double[] {x-22,y}, new double[] {x ,y});
+	    Corner leftCornerAI = new Corner(new double[] {x+22,y}, new double[] {x ,y});
 	    
 	    //att
-	    Corner peakAIAt = new Corner(new double[] {x,y - 15}, new double[] {x ,y});
-		Corner botAIAt = new Corner(new double[] {x,y + 15}, new double[] {x ,y});
-	    Corner rightCornerAIAt = new Corner(new double[] {x-15,y}, new double[] {x ,y});
-	    Corner leftCornerAIAt = new Corner(new double[] {x+15,y}, new double[] {x ,y});
+	    Corner peakAIAt = new Corner(new double[] {x,y - 12}, new double[] {x ,y});
+		Corner botAIAt = new Corner(new double[] {x,y + 12}, new double[] {x ,y});
+	    Corner rightCornerAIAt = new Corner(new double[] {x-12,y}, new double[] {x ,y});
+	    Corner leftCornerAIAt = new Corner(new double[] {x+12,y}, new double[] {x ,y});
 	    ObjectAttachment att = new ObjectAttachment(new Corner[] {peakAIAt,rightCornerAIAt,botAIAt,leftCornerAIAt}, new double[] {x ,y}, new double[] {x ,y}, 4);
 	    att.setRotateWithParentOb(true);
 	    //Hmatove vousky
@@ -55,8 +55,6 @@ public class HuntingMine extends AI{
 	public void moveOb() {
 		super.moveOb();
 		rotateAttachments();		
-
-
 	}
 	
 }

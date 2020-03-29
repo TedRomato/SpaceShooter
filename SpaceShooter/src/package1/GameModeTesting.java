@@ -11,9 +11,11 @@ public class GameModeTesting extends Game{
 		SpaceCruiser ai = SpaceCruiser.makeNewSpaceCruiser(500,200);
 		SpaceCanon ai1 = SpaceCanon.makeNewSpaceCanon(1000,600);
 		HuntingMine ai2 = HuntingMine.makeNewHuntingMine(1000,200);
-		addObToGame(ai, new int[] {4,7}); 
-		addObToGame(ai1, new int[] {4,7}); 
-		addObToGame(ai2, new int[] {4,7}); 
+		Mothership ai3 = Mothership.makeNewMothership(200,600);
+		addObToGame(ai, new int[] {4,7,9}); 
+		addObToGame(ai1, new int[] {4,7,9}); 
+		addObToGame(ai2, new int[] {4,7,9}); 
+		addObToGame(ai3, new int[] {4,7});
 
 
 
@@ -24,6 +26,7 @@ public class GameModeTesting extends Game{
 	public void tick() { 
 		super.tick();
 		respawnMeteorsToAmount(3);
+		handleSummoners();
 	}
 	
 	
