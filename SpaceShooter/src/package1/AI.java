@@ -25,7 +25,6 @@ public class AI extends LivingObject{
 		setReflectedLenght(80);
 		setAcceleration(getMaxSpeed() / 50);
 	}
-	
 	//inRange = minimum distance of rp - maximum distance of rp (from sides); sides = bot - y,right - x,top - y,left - x 
 	
 	
@@ -66,12 +65,12 @@ public class AI extends LivingObject{
 	public void updateAI(Player p, GameObject[] gos) {
 		
 		checkAndHandleTrack(gos);
-		if(collisionDanger == false) {
-			setGoalToGameObject(p);
-		}
 		updateIsInStoppingDistance(p);
 		updateRotationToGoal();
 		updateForward();
+		if(collisionDanger == false) {
+			setGoalToGameObject(p);
+		}
 	}
 	
 	protected void checkAndHandleTrack(GameObject[] gos) {

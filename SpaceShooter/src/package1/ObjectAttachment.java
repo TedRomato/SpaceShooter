@@ -15,7 +15,7 @@ public class ObjectAttachment extends GameObject{
 	
 	//rotates attachment based on its rp 
 	
-	public ObjectAttachment(Corner[] corners, Corner rp, double[] attachmentRP2, int rotationAngle) {
+	public ObjectAttachment(Corner[] corners, Corner rp, double[] attachmentRP2, double rotationAngle) {
 		super(corners, rp, rotationAngle) ;
 		this.attachmentRP = new Corner(attachmentRP2,rp);
 		}
