@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -81,15 +82,16 @@ public class Window extends JFrame implements KeyListener{
 		add(menu);
 
 		//game = new Game(getWidth(), getHeight());
-
-		game = new GameModeTesting(getWidth(), getHeight());
-
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int screenHeight = screenSize.height;
+		int screenWidth = screenSize.width;
+		game = new GameModeTesting(screenWidth, screenHeight);
 		add(game);
 
 		setVisible(true);
 		addKeyListener(this);
+		
         while(running) {
-
 		game.start();
 		System.out.print("");
         }	
