@@ -439,7 +439,7 @@ public class Corner {
 	}
 	
 	public void renderCorner(Graphics g, int side) {
-		g.fillRect(((int)this.getX()),((int)this.getY()), side, side);
+		g.fillRect((int)Math.round(this.getX()*Game.screenRatio),(int)Math.round(this.getY()*Game.screenRatio), side, side);
 
 	}
 	

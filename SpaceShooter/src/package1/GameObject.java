@@ -512,10 +512,10 @@ public class GameObject {
 	//	getCollisionSquare().render(g);
 		for(int i = 0;i<corners.length;i++) {
 			if(i<corners.length-1) {
-				g.drawLine((int) Math.round(corners[i].getX()),(int) Math.round(corners[i].getY()),(int) Math.round(corners[i+1].getX()),(int) Math.round(corners[i+1].getY()));
+				g.drawLine((int) Math.round(corners[i].getX()*Game.screenRatio),(int) Math.round(corners[i].getY()*Game.screenRatio),(int) Math.round(corners[i+1].getX()*Game.screenRatio),(int) Math.round(corners[i+1].getY()*Game.screenRatio));
 			}
 			else {
-				g.drawLine((int) Math.round(corners[i].getX()),(int) Math.round(corners[i].getY()),(int) Math.round(corners[0].getX()),(int) Math.round(corners[0].getY()));
+				g.drawLine((int) Math.round(corners[i].getX()*Game.screenRatio),(int) Math.round(corners[i].getY()*Game.screenRatio),(int) Math.round(corners[0].getX()*Game.screenRatio),(int) Math.round(corners[0].getY()*Game.screenRatio));
 			}
 		}
 
