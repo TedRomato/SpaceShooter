@@ -12,7 +12,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 
 public class Game extends JPanel{
-	int mainHeight = 865,mainWidth = 1540;
+	int mainHeight = 1080,mainWidth = 1920;
 	protected Player p;
 	protected int currentScreenWidth;
 	protected int currentScreenHeight;
@@ -156,7 +156,7 @@ public class Game extends JPanel{
 
 	protected void removeObsOut() {
 		for(GameObject ob : objects) {
-			if(ob.checkIfOutsideRect(-300, -300,mainWidth + 800, mainHeight + 800)) {
+			if(ob.checkIfOutsideRect(-300, -300,mainWidth + 300, mainHeight + 300)) {
 				removeObFromGame(ob);
 			}
 		}
@@ -256,7 +256,7 @@ public class Game extends JPanel{
 	
 	protected void respawnMeteorsToAmount(int amount) {
 		if(meteors.length < amount) {
-			addObToGame(randomMeteorGenerator.generateRandomMeteorOutside(mainHeight, mainWidth), new int[] {3,6,4,8,9});
+			addObToGame(randomMeteorGenerator.generateRandomMeteorOutside(mainWidth, mainHeight), new int[] {3,6,4,8,9});
 		}
 	}
 	
