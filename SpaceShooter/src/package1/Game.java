@@ -17,12 +17,14 @@ import javax.swing.SwingConstants;
 
 
 public class Game extends JPanel{
+	int mainHeight = 1080,mainWidth = 1920;
 	protected Player p;
 	public static JLabel DisplayScore;
 	protected int score = 0;
-	protected int screenWidth;
-	protected int screenHeight;
 	private boolean ShowScore;
+	protected int currentScreenWidth;
+	protected int currentScreenHeight;
+	public static double screenRatio;
 	private RandomMeteorGenerator randomMeteorGenerator = new RandomMeteorGenerator();
 	private GameObject[] borders;
 	private GameObject[] objects;
@@ -44,8 +46,8 @@ public class Game extends JPanel{
 	private int Count = 0;
 	
 	public Game(int sw,int sh) {
-		this.screenHeight = sh;
-		this.screenWidth = sw;
+		this.currentScreenHeight = sh;
+		this.currentScreenWidth = sw;
 		objects = new GameObject[] {};
 	    reflectableObs = new MovingObject[] {};
 	    reflectingObs = new MovingObject[] {};
@@ -58,10 +60,9 @@ public class Game extends JPanel{
 	    summoners = new Summoner[] {};
 		arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais, meteors, shootingObs,summoners};
 
-	    
-	    Corner rightBotC = new Corner(new double[] {screenWidth,screenHeight}, new double[] {500,400});
-	    Corner leftBotC = new Corner(new double[] {0,screenHeight}, new double[] {500,400});
-	    Corner rightTopC = new Corner(new double[] {screenWidth,0}, new double[] {500,400});
+	    Corner rightBotC = new Corner(new double[] {mainWidth,mainHeight}, new double[] {500,400});
+	    Corner leftBotC = new Corner(new double[] {0,mainHeight}, new double[] {500,400});
+	    Corner rightTopC = new Corner(new double[] {mainWidth,0}, new double[] {500,400});
 	    Corner leftTopC = new Corner(new double[] {0,0}, new double[] {500,400});
 	    
 	    GameObject rightBorder = new GameObject(new Corner[] {rightTopC, rightBotC}, new double[] {500,400}, 0);
@@ -74,8 +75,8 @@ public class Game extends JPanel{
 	    
 	    p = Player.makeNewPlayer(new double[] {100,100});
 		addObToGame(p, new int[] {5,6,7,9}); 
-		
-	    
+
+		screenRatio = (double)currentScreenWidth/(double)mainWidth;
 	}
 	public int getScore() {
 		return score;
@@ -170,7 +171,7 @@ public class Game extends JPanel{
 
 	protected void removeObsOut() {
 		for(GameObject ob : objects) {
-			if(ob.checkIfOutsideRect(-300, -300,screenWidth + 800, screenHeight + 800)) {
+			if(ob.checkIfOutsideRect(-600, -600,mainWidth + 800, mainHeight + 800)) {
 				removeObFromGame(ob);
 			}
 		}
@@ -272,7 +273,7 @@ public class Game extends JPanel{
 	
 	protected void respawnMeteorsToAmount(int amount) {
 		if(meteors.length < amount) {
-			addObToGame(randomMeteorGenerator.generateRandomMeteorOutside(screenWidth, screenHeight), new int[] {3,6,4,8,9});
+			addObToGame(randomMeteorGenerator.generateRandomMeteorOutside(mainWidth, mainHeight), new int[] {3,6,4,8,9});
 		}
 	}
 	

@@ -17,6 +17,7 @@ public class GameModeTesting extends Game{
 		addObToGame(ai2, new int[] {4,7,9}); 
 		addObToGame(ai3, new int[] {4,7});
 
+		
 
 
 			

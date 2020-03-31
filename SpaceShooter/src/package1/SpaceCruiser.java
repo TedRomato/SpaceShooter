@@ -141,6 +141,7 @@ public class SpaceCruiser extends LongRangeAI{
 	    ai.addAttachment(mc);
 	    ai.addAttachment(canon1);
 	    ai.addAttachment(canon2);
+	    ai.setHP(20);
 	   
 	    return ai;
 	}
