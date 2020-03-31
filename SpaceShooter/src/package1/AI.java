@@ -322,15 +322,15 @@ public class AI extends LivingObject{
 	
 	public void render(Graphics g) {
 		super.render(g);
-	/*	
+		
 		g.setColor(Color.red);
-		g.fillRect((int) Math.round(moveDirection.getX()),(int) Math.round(moveDirection.getY()), 10, 10);
+		g.fillRect((int) Math.round(moveDirection.getX()*Game.screenRatio),(int) Math.round(moveDirection.getY()*Game.screenRatio), 10, 10);
 		g.setColor(Color.darkGray);
-		g.fillRect((int) Math.round(getRotationPoint().getX()),(int) Math.round(getRotationPoint().getY()), 9, 9);
+		g.fillRect((int) Math.round(getRotationPoint().getX()*Game.screenRatio),(int) Math.round(getRotationPoint().getY()*Game.screenRatio), 9, 9);
 		g.setColor(Color.BLUE);
-		g.fillRect((int) Math.round(getMP().getX()),(int) Math.round(getMP().getY()), 8, 8);
+		g.fillRect((int) Math.round(getMP().getX()*Game.screenRatio),(int) Math.round(getMP().getY()*Game.screenRatio), 8, 8);
 		g.setColor(Color.GREEN);
-		g.fillRect((int) Math.round(goalDestination.getX()),(int) Math.round(goalDestination.getY()), 15, 15);
+		g.fillRect((int) Math.round(goalDestination.getX()*Game.screenRatio),(int) Math.round(goalDestination.getY()*Game.screenRatio), 15, 15);
 		g.setColor(Color.black);
 	 	
 		for(DetectionLine dl : rightDetectionLines) {
@@ -340,7 +340,7 @@ public class AI extends LivingObject{
 			dl.renderDL(g);
 		}
 		mainDetectionLine.renderDL(g); 
-		 */
+		 
 	}
 	
 	public void setRotationAngle(double d) {

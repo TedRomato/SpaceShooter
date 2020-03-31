@@ -156,7 +156,7 @@ public class Game extends JPanel{
 
 	protected void removeObsOut() {
 		for(GameObject ob : objects) {
-			if(ob.checkIfOutsideRect(-300, -300,mainWidth + 300, mainHeight + 300)) {
+			if(ob.checkIfOutsideRect(-600, -600,mainWidth + 800, mainHeight + 800)) {
 				removeObFromGame(ob);
 			}
 		}
