@@ -85,7 +85,7 @@ public class Window extends JFrame implements KeyListener{
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height;
 		int screenWidth = screenSize.width;
-		game = new GameModeTesting(screenWidth, screenHeight);
+		game = new GameModeTesting(screenWidth,screenHeight);
 		add(game);
 
 		setVisible(true);
