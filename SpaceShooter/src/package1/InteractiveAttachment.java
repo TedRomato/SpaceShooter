@@ -11,7 +11,8 @@ public class InteractiveAttachment extends ObjectAttachment{
 	double attRotationAngle;
 	boolean shoot;
 	double[] rotationSegment = new double[] {};
-	
+	GameObject shotTrajectory;
+
 	
 	//Always make inter. attachments facing down, or count custom shootDir 
 
@@ -24,6 +25,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 		shootPoint = new Corner(new double[] {wayPoint.getX(),wayPoint.getY()+20}, getRotationPoint());
 		shootDirection = new Corner(new double[] {wayPoint.getX(),wayPoint.getY()+40}, getRotationPoint());
 		this.reloadTimer = 10;
+		makeShotTrajectory();
 		
 	}
 	
@@ -55,8 +57,8 @@ public class InteractiveAttachment extends ObjectAttachment{
 			super.rotateAttachment(angle);
 			wayPoint.rotateCorner(getRotationPoint(), angle);
 			shootDirection.rotateCorner(getRotationPoint(), angle);
-			shootPoint.rotateCorner(getRotationPoint(), angle);
-			
+			shootPoint.rotateCorner(getRotationPoint(), angle);		
+			shotTrajectory.rotateOb(angle);
 		
 	}
 	
@@ -66,6 +68,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 			wayPoint.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
 			shootDirection.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
 			shootPoint.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
+			shotTrajectory.rotateObAroundDifferentCorner(attachmentRP, angle, getRotationPoint());
 			}
 		}	
 	
@@ -79,6 +82,8 @@ public class InteractiveAttachment extends ObjectAttachment{
 		wayPoint.moveCorner(velX, velY);
 		shootDirection.moveCorner(velX, velY);
 		shootPoint.moveCorner(velX, velY);
+		shotTrajectory.setVels(velX, velY);
+		shotTrajectory.moveObWithoutRP();
 
 		}
 	
@@ -96,6 +101,13 @@ public class InteractiveAttachment extends ObjectAttachment{
 			return m;
 		}
 		else return null;
+	}
+	public void handleFriendlyFire(AI[] ais) {
+		for(AI ai : ais) {
+			if(ai.checkCollision(shotTrajectory)) {
+				setShoot(false);
+			}
+		}
 	}
 	
 	public boolean checkIfInRotationSegment(double d) {
@@ -159,9 +171,18 @@ public class InteractiveAttachment extends ObjectAttachment{
 		rotationSegment = s;
 	}
 	
+	private void makeShotTrajectory() {
+		Corner rp = new Corner(getRotationPoint(), getRotationPoint());
+		Corner c1 = new Corner(getSD(), getRotationPoint());
+		Corner c2 = new Corner(new double[] {getSD().getX(), getSD().getY()+600}, getRotationPoint());
+		shotTrajectory =new GameObject(new Corner[] {c1,c2}, getRotationPoint(),getRotationAngle());
+
+	}
+	
 	public void render(Graphics g) {
 		shootDirection.renderCorner(g, 4);
 		shootPoint.renderCorner(g, 4);
+		shotTrajectory.render(g);
 		super.render(g);
 		
 	}

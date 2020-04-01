@@ -132,7 +132,7 @@ public class Game extends JPanel{
 	
 	private void handleAis() {
 		for(AI ai : ais) {
-			ai.updateAI(p, aiVisible);
+			ai.updateAI(p, aiVisible, ais);
 		}
 	}
 

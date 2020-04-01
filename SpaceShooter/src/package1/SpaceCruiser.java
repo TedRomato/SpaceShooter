@@ -8,10 +8,11 @@ public class SpaceCruiser extends LongRangeAI{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateInSD(Player p, GameObject[] gos) {
-		super.updateInSD(p, gos);
+	public void updateInSD(Player p, GameObject[] gos, AI[] ais) {
 		handleSmallTurrets(p);
 		handleTurretFire(p.getRotationPoint().getPointDistance(this.getRotationPoint()));
+		super.updateInSD(p, gos, ais);
+
 		
 	}
 	

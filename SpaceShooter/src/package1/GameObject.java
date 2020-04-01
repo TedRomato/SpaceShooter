@@ -426,6 +426,13 @@ public class GameObject {
 		collisionSquare.moveSquare(velX, velY);
 	}
 	
+	public void moveObWithoutRP() {
+		for(Corner corner : corners) {
+			corner.moveCorner(getVelX(),getVelY());
+		}
+		collisionSquare.moveSquare(velX, velY);
+	}
+	
 	public void setVels(double velX, double velY) {
 		this.setVelX(velX);
 		this.setVelY(velY);
@@ -446,6 +453,12 @@ public class GameObject {
 	public void makeSquare(double longestDirection) {
 		longestDirection++;
 		collisionSquare = new Square(new Corner(new double[] {this.getRotationPoint().getX()-longestDirection,this.getRotationPoint().getY()-longestDirection}),longestDirection*2);
+	}
+	
+	public void rotateObAroundDifferentCorner(Corner attachmentRP, double angle, Corner getRotationPoint) {
+		for(Corner c : getCorners()) {
+			c.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
+		}
 	}
 	
 	
@@ -518,6 +531,7 @@ public class GameObject {
 				g.drawLine((int) Math.round(corners[i].getX()*Game.screenRatio),(int) Math.round(corners[i].getY()*Game.screenRatio),(int) Math.round(corners[0].getX()*Game.screenRatio),(int) Math.round(corners[0].getY()*Game.screenRatio));
 			}
 		}
+		
 
 	
 	}

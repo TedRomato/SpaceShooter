@@ -14,9 +14,9 @@ public class Summoner extends AI{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateAI(Player p, GameObject[] gos) {
+	public void updateAI(Player p, GameObject[] gos, AI[] ais) {
 		runIfTooClose(p);
-		super.updateAI(p, gos);
+		super.updateAI(p, gos, ais);
 		stopIfTooClose(p);
 	}
 	

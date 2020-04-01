@@ -62,14 +62,22 @@ public class AI extends LivingObject{
 	
 	//Guides AI to goal destination, if about to crash gives priority to avoiding collision 
 	
-	public void updateAI(Player p, GameObject[] gos) {
-		
+	public void updateAI(Player p, GameObject[] gos, AI[] ais) {
 		checkAndHandleTrack(gos);
 		updateIsInStoppingDistance(p);
 		updateRotationToGoal();
 		updateForward();
 		if(collisionDanger == false) {
 			setGoalToGameObject(p);
+		}
+		handleAllFriendlyFire(ais);
+	}
+	
+	public void handleAllFriendlyFire(AI[] ais) {
+		for(ObjectAttachment att : getAttachments()) {
+			if(att instanceof InteractiveAttachment) {
+				((InteractiveAttachment) att).handleFriendlyFire(ais);
+			}
 		}
 	}
 	

@@ -14,7 +14,7 @@ public class LongRangeAI extends AI{
 		this.wayPoint = wP;
 	}
 	
-	public void updateAI(Player p, GameObject[] gos) {
+	public void updateAI(Player p, GameObject[] gos, AI[] ais) {
 		if(isInStoppingDistance()) {
 			if(wasInStoppingDistance == false) {
 				wasInStoppingDistance = true;
@@ -22,7 +22,7 @@ public class LongRangeAI extends AI{
 				setRotationAngle(0.6);
 			}
 			
-			updateInSD(p, gos);
+			updateInSD(p, gos, ais);
 			
 		}else {
 			if(wasInStoppingDistance == true) {
@@ -31,7 +31,7 @@ public class LongRangeAI extends AI{
 				setRotationAngle(1);
 				setShootForInteractiveAtts(false);
 			}
-			super.updateAI(p, gos);
+			super.updateAI(p, gos, ais);
 			stopIfCollisionDanger();
 
 		}
@@ -39,7 +39,7 @@ public class LongRangeAI extends AI{
 	
 	
 	
-	public void updateInSD(Player p, GameObject[] gos) {
+	public void updateInSD(Player p, GameObject[] gos, AI[] ais) {
 		checkAndHandleTrack(gos);
 		if(collisionDanger == false) {
 			setGoalToGameObject(p);
@@ -48,6 +48,7 @@ public class LongRangeAI extends AI{
 		updateForward();
 		rotateToCorner(p.getRotationPoint());
 		stopIfCollisionDanger();
+		handleAllFriendlyFire(ais);
 
 	}
 	

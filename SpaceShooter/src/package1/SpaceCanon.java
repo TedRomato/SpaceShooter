@@ -55,10 +55,14 @@ public class SpaceCanon extends AI{
 	    return ai;
 	}
 	
-	public void updateAI(Player p, GameObject[] gos) {
-		super.updateAI(p, gos);
+	public void updateAI(Player p, GameObject[] gos, AI[] ais) {
 		((InteractiveAttachment)this.getAttachments()[0]).rotateToCorner(p.getRotationPoint());
+		if(isInStoppingDistance()) {
+		    setShootForInteractiveAtts(true);
+		}
+		super.updateAI(p, gos, ais);
 		stopIfTooClose(p);
+
 	}
 	
 	public void rotateOb() {
