@@ -101,7 +101,7 @@ public class Player extends LivingObject implements KeyListener{
 	    
 	    p = new Player(new Corner[] {peak, rightCorner, leftCorner},rp,6, new Corner(new double[] {rp.getX(),rp.getY()+25}, rp));
 	    p.addAttachment(attachment);
-	    p.setHP(5);
+	    p.setHP(50);
 	    p.setReflectedSpeed(6);
 
 
@@ -138,7 +138,7 @@ public class Player extends LivingObject implements KeyListener{
 	   
 	    p = new Player(new Corner[] {peak, rightCorner, leftCorner},rp, 1, new Corner(new double[] {rp[0],rp[1]+25}, rp));
 	    p.addAttachment(attachment);	    
-	    p.setHP(5);
+	    p.setHP(50);
 	    p.setReflectedSpeed(6);
 	    p.addAttachment(canon);
 //	    p.addAttachment(straightLine);

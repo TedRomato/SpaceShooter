@@ -11,6 +11,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 	double attRotationAngle;
 	boolean shoot;
 	double[] rotationSegment = new double[] {};
+	int dmg = 1;
 	GameObject shotTrajectory;
 
 	
@@ -89,19 +90,22 @@ public class InteractiveAttachment extends ObjectAttachment{
 	
 	public Missile shoot() {
 		Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
-		Corner TopLeft = new Corner(new double[] {getSP().getX()-5,getSP().getY()-5}, rp);
-		Corner BotLeft = new Corner(new double[] {getSP().getX()-5,getSP().getY()+5}, rp);
-		Corner BotRight = new Corner(new double[] {getSP().getX()+5,getSP().getY()+5}, rp);
-		Corner TopRight = new Corner(new double[] {getSP().getX()+5,getSP().getY()-5}, rp);
+		Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
+		Corner BotLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()+4*dmg}, rp);
+		Corner BotRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()+4*dmg}, rp);
+		Corner TopRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()-4*dmg}, rp);
 		Corner md = new Corner(new double[] {getSD().getX(), getSD().getY()}, rp);
 		if(getShoot()) {
 			Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, rp, 0,md,12);
 			m.getNewRatios();
 			m.setNewVels();
+			m.setDmg(dmg);
 			return m;
 		}
 		else return null;
 	}
+	
+	
 	public void handleFriendlyFire(AI[] ais) {
 		for(AI ai : ais) {
 			if(ai.checkCollision(shotTrajectory)) {
@@ -180,10 +184,16 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	
 	public void render(Graphics g) {
-		shootDirection.renderCorner(g, 4);
+	/*	shootDirection.renderCorner(g, 4);
 		shootPoint.renderCorner(g, 4);
-		shotTrajectory.render(g);
+		shotTrajectory.render(g);*/
 		super.render(g);
 		
+	}
+
+
+	public void setDmg(int dmg) {
+		// TODO Auto-generated method stub
+		this.dmg = dmg;
 	}
 }

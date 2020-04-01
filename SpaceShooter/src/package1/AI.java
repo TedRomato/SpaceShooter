@@ -339,7 +339,7 @@ public class AI extends LivingObject{
 	
 	public void render(Graphics g) {
 		super.render(g);
-		
+		/*
 		g.setColor(Color.red);
 		g.fillRect((int) Math.round(moveDirection.getX()*Game.screenRatio),(int) Math.round(moveDirection.getY()*Game.screenRatio), 10, 10);
 		g.setColor(Color.darkGray);
@@ -357,7 +357,7 @@ public class AI extends LivingObject{
 			dl.renderDL(g);
 		}
 		mainDetectionLine.renderDL(g); 
-		 
+		 */
 	}
 	
 	public void setRotationAngle(double d) {

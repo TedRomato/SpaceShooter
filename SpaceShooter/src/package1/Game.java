@@ -203,7 +203,16 @@ public class Game extends JPanel{
 					
 					if(objects[i].checkCollision(compareArray[x])) {
 						if(objects[i].getInvulnurability() == false) {
-							objects[i].setHP(objects[i].getHP()-1);
+							if(compareArray[x] instanceof Missile) {
+								if(objects[i] instanceof Missile) {
+									((Missile)objects[i]).handleMissileCollision((Missile)compareArray[x]);
+								}else {
+									objects[i].setHP(objects[i].getHP()-((Missile) compareArray[x]).getDmg());
+
+								}
+							}else {
+								objects[i].setHP(objects[i].getHP()-1);
+							}
 							objects[i].startInvulnurability();
 						}
 					}

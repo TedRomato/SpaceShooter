@@ -24,6 +24,7 @@ public class SpaceCanon extends AI{
 	    att.setRotateWithParentOb(false);
 	    att.setAttRangle(3);
 	    att.setReloadTimer(120);
+	    att.setDmg(2);
 	    //Hmatove vousky
 	    Corner base1 = new Corner(new double[] {x,y + 40}, new double[] {x ,y});
 	    Corner base2 = new Corner(new double[] {x-25,y+30}, new double[] {x ,y});

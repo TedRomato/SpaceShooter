@@ -545,6 +545,9 @@ public class GameObject {
 	public void setCollision(boolean collision) {
 		this.collision = collision;
 	}
+
+
+	
 	
 	
 	
