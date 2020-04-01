@@ -32,8 +32,11 @@ public class LongRangeAI extends AI{
 				setShootForInteractiveAtts(false);
 			}
 			super.updateAI(p, gos);
+			stopIfCollisionDanger();
+
 		}
 	}
+	
 	
 	
 	public void updateInSD(Player p, GameObject[] gos) {
@@ -44,6 +47,8 @@ public class LongRangeAI extends AI{
 		updateIsInStoppingDistance(p);
 		updateForward();
 		rotateToCorner(p.getRotationPoint());
+		stopIfCollisionDanger();
+
 	}
 	
 	public void movePointAndDlsTransition(double angle) {

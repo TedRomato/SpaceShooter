@@ -147,6 +147,15 @@ public class AI extends LivingObject{
 		
 	}
 	
+	public void stopIfCollisionDanger() {
+		if(collisionDanger == true) {
+			setForward(false);
+		}else {
+			setForward(true);
+		}
+	}
+
+	
 	private void setRotationRight() {
 		setRight(true);
 		setLeft(false);
