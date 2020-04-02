@@ -129,7 +129,7 @@ public class Player extends LivingObject implements KeyListener{
 	    Corner bl = new Corner(new double[] {rp[0] - 3,rp[1] + 40}, rp);
 		Corner wp = new Corner(new double[] {rp[0] ,rp[1] + 40}, rp);
 	    
-	    canon = new InteractiveAttachment(new Corner[] {tl,tr,br,bl}, new Corner(rp) , new double[] {rp[0], rp[1]}, 0, wp);
+	    canon = new InteractiveAttachment(new Corner[] {tl,tr,br,bl}, new Corner(rp) , new double[] {rp[0], rp[1]}, 0, wp, 0,0);
 	    
 	    Corner peak = new Corner(new double[] {rp[0] ,rp[1] + 25}, rp);
 	    Corner rightCorner = new Corner(new double[] {rp[0] - 25, rp[1] - 25}, rp);

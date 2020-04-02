@@ -99,7 +99,7 @@ public class SpaceCruiser extends LongRangeAI{
 	    Corner c3 = new Corner(new double[] {x+8, y+45},new double[] {x ,y});
 	    Corner c4 = new Corner(new double[] {x+15, y+10},new double[] {x ,y});
 	    Corner[] corners = new Corner[] {c1,c2,c3,c4}; 
-	    mc = new InteractiveAttachment(corners, new Corner(new double[] {x ,y}),new double[] {x ,y}, 0, new Corner(new double[] {x, y + 50},new double[] {x, y}));
+	    mc = new InteractiveAttachment(corners, new Corner(new double[] {x ,y}),new double[] {x ,y}, 0, new Corner(new double[] {x, y + 50},new double[] {x, y}),800,20);
 	    mc.setDmg(4);
 	    mc.setReloadTimer(90);
 	    //Side canons 
@@ -115,7 +115,7 @@ public class SpaceCruiser extends LongRangeAI{
 	    
 	    corners = new Corner[] {c1,c2,c3,c5,c6,c7,c8,c4};
 	    
-	    canon1 = new InteractiveAttachment(corners, new Corner(new double[] {x,y}), new double[] {x-80,y}, 4, new Corner(new double[] {x - 80, y+50}, new double[] {x,y}));
+	    canon1 = new InteractiveAttachment(corners, new Corner(new double[] {x,y}), new double[] {x-80,y}, 4, new Corner(new double[] {x - 80, y+50}, new double[] {x,y}), 400, 80);
 	    
 	    InteractiveAttachment canon2;
 	    c1 = new Corner(new double[] {x + 90, y -10}, new double[] {x,y});
@@ -129,7 +129,7 @@ public class SpaceCruiser extends LongRangeAI{
 	    
 	    corners = new Corner[] {c1,c2,c3,c5,c6,c7,c8,c4};
 	    
-	    canon2 = new InteractiveAttachment(corners, new Corner(new double[] {x,y}), new double[] {x+80,y}, 4, new Corner(new double[] {x + 80, y+50}, new double[] {x,y}));
+	    canon2 = new InteractiveAttachment(corners, new Corner(new double[] {x,y}), new double[] {x+80,y}, 4, new Corner(new double[] {x + 80, y+50}, new double[] {x,y}), 400,80);
 	    
 	    double[] segment1 = new double[] {-20,40};
 	    double[] segment2 = new double[] {-40,20};
