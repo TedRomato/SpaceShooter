@@ -348,8 +348,7 @@ public class AI extends LivingObject{
 	//	g.fillRect((int) Math.round(getMP().getX()*Game.screenRatio),(int) Math.round(getMP().getY()*Game.screenRatio), 8, 8);
 	//	g.setColor(Color.GREEN);
 	//	g.fillRect((int) Math.round(goalDestination.getX()*Game.screenRatio),(int) Math.round(goalDestination.getY()*Game.screenRatio), 10, 10);
-	//	g.setColor(Color.BLACK
-				);
+	//	g.setColor(Color.BLACK);
 
 		//	g.setColor(Color.black);
 	// 	
