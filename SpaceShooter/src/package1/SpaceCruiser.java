@@ -8,10 +8,11 @@ public class SpaceCruiser extends LongRangeAI{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateInSD(Player p, GameObject[] gos) {
-		super.updateInSD(p, gos);
+	public void updateInSD(Player p, GameObject[] gos, AI[] ais) {
 		handleSmallTurrets(p);
 		handleTurretFire(p.getRotationPoint().getPointDistance(this.getRotationPoint()));
+		super.updateInSD(p, gos, ais);
+
 		
 	}
 	
@@ -98,8 +99,9 @@ public class SpaceCruiser extends LongRangeAI{
 	    Corner c3 = new Corner(new double[] {x+8, y+45},new double[] {x ,y});
 	    Corner c4 = new Corner(new double[] {x+15, y+10},new double[] {x ,y});
 	    Corner[] corners = new Corner[] {c1,c2,c3,c4}; 
-	    mc = new InteractiveAttachment(corners, new Corner(new double[] {x ,y}),new double[] {x ,y}, 0, new Corner(new double[] {x, y + 50},new double[] {x, y}));
-	    
+	    mc = new InteractiveAttachment(corners, new Corner(new double[] {x ,y}),new double[] {x ,y}, 0, new Corner(new double[] {x, y + 50},new double[] {x, y}),800,20);
+	    mc.setDmg(4);
+	    mc.setReloadTimer(90);
 	    //Side canons 
 	    InteractiveAttachment canon1;
 	    c1 = new Corner(new double[] {x - 90, y -10}, new double[] {x,y});
@@ -113,7 +115,7 @@ public class SpaceCruiser extends LongRangeAI{
 	    
 	    corners = new Corner[] {c1,c2,c3,c5,c6,c7,c8,c4};
 	    
-	    canon1 = new InteractiveAttachment(corners, new Corner(new double[] {x,y}), new double[] {x-80,y}, 1, new Corner(new double[] {x - 80, y+50}, new double[] {x,y}));
+	    canon1 = new InteractiveAttachment(corners, new Corner(new double[] {x,y}), new double[] {x-80,y}, 4, new Corner(new double[] {x - 80, y+50}, new double[] {x,y}), 400, 80);
 	    
 	    InteractiveAttachment canon2;
 	    c1 = new Corner(new double[] {x + 90, y -10}, new double[] {x,y});
@@ -127,11 +129,14 @@ public class SpaceCruiser extends LongRangeAI{
 	    
 	    corners = new Corner[] {c1,c2,c3,c5,c6,c7,c8,c4};
 	    
-	    canon2 = new InteractiveAttachment(corners, new Corner(new double[] {x,y}), new double[] {x+80,y}, 1, new Corner(new double[] {x + 80, y+50}, new double[] {x,y}));
+	    canon2 = new InteractiveAttachment(corners, new Corner(new double[] {x,y}), new double[] {x+80,y}, 4, new Corner(new double[] {x + 80, y+50}, new double[] {x,y}), 400,80);
 	    
-	    double[] segment = new double[] {-30,30};
-	    canon1.setRotationSegment(segment);
-	    canon2.setRotationSegment(segment);
+	    double[] segment1 = new double[] {-20,40};
+	    double[] segment2 = new double[] {-40,20};
+	    canon1.setRotationSegment(segment1);
+	    canon2.setRotationSegment(segment2);
+	    canon1.setMaxShootAngleDifference(20);
+	    canon2.setMaxShootAngleDifference(20);
 	    
 		ai = new SpaceCruiser(body, new double[] {x,y}, 1, md, gd, wp);
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});

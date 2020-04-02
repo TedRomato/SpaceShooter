@@ -3,7 +3,7 @@ package package1;
 import java.awt.Graphics;
 
 public class Summoner extends AI{
-	double w8Length = 100;
+	double w8Length = 50;
 	double summonTimer = w8Length;
 	boolean onCooldown = false;
 	Corner[] summoningDestinations;
@@ -14,9 +14,9 @@ public class Summoner extends AI{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateAI(Player p, GameObject[] gos) {
+	public void updateAI(Player p, GameObject[] gos, AI[] ais) {
 		runIfTooClose(p);
-		super.updateAI(p, gos);
+		super.updateAI(p, gos, ais);
 		stopIfTooClose(p);
 	}
 	
