@@ -98,12 +98,12 @@ public class Game extends JPanel{
                 }
                 
                 frames++;
-                            
+
                 if(System.currentTimeMillis() - timer > 1000)
                 { 
                 	timer += 1000;
-
                     System.out.println("FPS: "+ frames);
+
                     frames = 0;
                     }
         }
@@ -141,7 +141,13 @@ public class Game extends JPanel{
 			if(sob.getAttachments() != null && sob.getAttachments().length > 0) {
 				for(ObjectAttachment att : sob.getAttachments()) {
 					if(att instanceof InteractiveAttachment) {
-						if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot() !=  null) {
+						if(sob instanceof AI) {
+							if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot(((AI)sob).getGoalDestination()) !=  null) {
+								addObToGame(((InteractiveAttachment)att).shoot(((AI)sob).getGoalDestination()), new int[] {1,2,3,4,6,7,8,9});
+								((InteractiveAttachment)att).setReloadLenght(0);
+							}
+						}
+						else if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot() !=  null) {
 							addObToGame(((InteractiveAttachment)att).shoot(), new int[] {1,2,3,4,6,7,8,9});
 							((InteractiveAttachment)att).setReloadLenght(0);
 						}

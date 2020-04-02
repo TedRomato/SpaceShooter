@@ -13,6 +13,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 	double[] rotationSegment = new double[] {};
 	int dmg = 1;
 	GameObject shotTrajectory;
+	double maxShotAngleDifference = 20;
 
 	
 	//Always make inter. attachments facing down, or count custom shootDir 
@@ -88,21 +89,61 @@ public class InteractiveAttachment extends ObjectAttachment{
 
 		}
 	
-	public Missile shoot() {
-		Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
-		Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
-		Corner BotLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()+4*dmg}, rp);
-		Corner BotRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()+4*dmg}, rp);
-		Corner TopRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()-4*dmg}, rp);
-		Corner md = new Corner(new double[] {getSD().getX(), getSD().getY()}, rp);
+	public Missile shoot(Corner goalCorner) {
 		if(getShoot()) {
-			Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, rp, 0,md,12);
-			m.getNewRatios();
-			m.setNewVels();
-			m.setDmg(dmg);
-			return m;
+			if(decideIfFire(goalCorner)){
+				Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
+				Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
+				Corner BotLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()+4*dmg}, rp);
+				Corner BotRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()+4*dmg}, rp);
+				Corner TopRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()-4*dmg}, rp);
+				Corner md = new Corner(new double[] {getSD().getX(), getSD().getY()}, rp);
+				Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, rp, 0,md,12);
+				m.getNewRatios();
+				m.setNewVels();
+				m.setDmg(dmg);
+				return m;
+			}else {
+				return null;
+			}
 		}
 		else return null;
+	}
+	
+	public Missile shoot() {
+		if(getShoot()) {
+				Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
+				Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
+				Corner BotLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()+4*dmg}, rp);
+				Corner BotRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()+4*dmg}, rp);
+				Corner TopRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()-4*dmg}, rp);
+				Corner md = new Corner(new double[] {getSD().getX(), getSD().getY()}, rp);
+				Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, rp, 0,md,12);
+				m.getNewRatios();
+				m.setNewVels();
+				m.setDmg(dmg);
+				return m;
+			}
+		else return null;
+		}
+	
+	public boolean decideIfFire(Corner goalCorner) {
+		Corner sd = new Corner(getSD(),getAttachmentRP());
+		Corner gd = new Corner(goalCorner, getAttachmentRP());
+		double goalAngle = gd.getAngle(getAttachmentRP());
+		double sAngle = sd.getAngle(getAttachmentRP());
+		System.out.println("-----------");
+		System.out.println("goal angle : " + goalAngle);
+		System.out.println("shoot angle : " + sAngle);
+		if(sAngle + maxShotAngleDifference > goalAngle && sAngle - maxShotAngleDifference < goalAngle) {
+			System.out.println("shoot");
+
+			return true;
+		}else {
+			System.out.println("dont shoot");
+
+			return false;
+		}
 	}
 	
 	
@@ -184,9 +225,9 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	
 	public void render(Graphics g) {
-	/*	shootDirection.renderCorner(g, 4);
+	//	shootDirection.renderCorner(g, 4);
 		shootPoint.renderCorner(g, 4);
-		shotTrajectory.render(g);*/
+	//	shotTrajectory.render(g);
 		super.render(g);
 		
 	}
@@ -195,5 +236,9 @@ public class InteractiveAttachment extends ObjectAttachment{
 	public void setDmg(int dmg) {
 		// TODO Auto-generated method stub
 		this.dmg = dmg;
+	}
+	
+	public void setMaxShootAngleDifference(double md) {
+		maxShotAngleDifference = md;
 	}
 }

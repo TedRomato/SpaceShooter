@@ -3,7 +3,7 @@ package package1;
 import java.awt.Graphics;
 
 public class Summoner extends AI{
-	double w8Length = 100;
+	double w8Length = 50;
 	double summonTimer = w8Length;
 	boolean onCooldown = false;
 	Corner[] summoningDestinations;
