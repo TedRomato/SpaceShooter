@@ -179,6 +179,7 @@ public class AI extends LivingObject{
 	protected void setGoalToGameObject(GameObject p) {
 		goalDestination.setX(p.getRotationPoint().getX());
 		goalDestination.setY(p.getRotationPoint().getY());
+		
 	}
 	
 	private void setGoalToCorner(Corner c) {
@@ -346,9 +347,9 @@ public class AI extends LivingObject{
 	//	g.fillRect((int) Math.round(getRotationPoint().getX()*Game.screenRatio),(int) Math.round(getRotationPoint().getY()*Game.screenRatio), 9, 9);
 	//	g.setColor(Color.BLUE);
 	//	g.fillRect((int) Math.round(getMP().getX()*Game.screenRatio),(int) Math.round(getMP().getY()*Game.screenRatio), 8, 8);
-	//	g.setColor(Color.GREEN);
-	//	g.fillRect((int) Math.round(goalDestination.getX()*Game.screenRatio),(int) Math.round(goalDestination.getY()*Game.screenRatio), 10, 10);
-	//	g.setColor(Color.BLACK);
+		g.setColor(Color.GREEN);
+		g.fillRect((int) Math.round(goalDestination.getX()*Game.screenRatio),(int) Math.round(goalDestination.getY()*Game.screenRatio), 10, 10);
+		g.setColor(Color.BLACK);
 
 		//	g.setColor(Color.black);
 	// 	

@@ -22,7 +22,7 @@ public class SpaceCanon extends AI{
 	    Corner wayPoint = new Corner(new double[] {x,y + 60}, new double[] {x ,y});
 	    InteractiveAttachment att = new InteractiveAttachment(new Corner[] {peakAIAt,botAIAt,canonAt1,canonAt2,canonAt3,canonAt4,rightCornerAIAt,leftCornerAIAt},new Corner(new double[] {x ,y}), new double[] {x ,y}, 1, wayPoint, 600, 45);
 	    att.setRotateWithParentOb(false);
-	    att.setAttRangle(3);
+	    att.setAttRangle(2);
 	    att.setReloadTimer(120);
 	    att.setDmg(2);
 	    //Hmatove vousky
@@ -43,14 +43,14 @@ public class SpaceCanon extends AI{
 	    DetectionLine ldl2 = new DetectionLine(base4, leftP2, new double[] {x ,y}, 4);
 	    DetectionLine rdl2 = new DetectionLine(base5, rightP2, new double[] {x ,y}, 4);
 	    Corner goalCorner = new Corner(new double[] {1000,600} );
-	    SpaceCanon ai = new SpaceCanon(corners, new double[] {x,y}, 4, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner);
+	    SpaceCanon ai = new SpaceCanon(corners, new double[] {x,y}, 5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner);
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
-	    ai.setMaxSpeed(2);
+	    ai.setMaxSpeed(3.5);
 	    ai.addAttachment(att);
 	    ai.setHP(4);
 	    ai.setAcceleration(0.1);
 	    ai.setReflectedSpeed(6);
-	    ai.setStoppingDistance(450);
+	    ai.setStoppingDistance(600);
 	    ai.setShootForInteractiveAtts(true);
 	    
 	    return ai;

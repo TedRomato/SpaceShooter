@@ -13,7 +13,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 	double[] rotationSegment = new double[] {};
 	int dmg = 1;
 	GameObject shotTrajectory;
-	double maxShotAngleDifference = 20;
+//	double maxShotAngleDifference = 20;
 
 	
 	//Always make inter. attachments facing down, or count custom shootDir 
@@ -238,7 +238,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 	public void render(Graphics g) {
 	//	shootDirection.renderCorner(g, 4);
 	//	shootPoint.renderCorner(g, 4);
-	//	shotTrajectory.render(g);
+		shotTrajectory.render(g);
 		super.render(g);
 		
 	}
@@ -249,7 +249,5 @@ public class InteractiveAttachment extends ObjectAttachment{
 		this.dmg = dmg;
 	}
 	
-	public void setMaxShootAngleDifference(double md) {
-		maxShotAngleDifference = md;
-	}
+
 }
