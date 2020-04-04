@@ -25,7 +25,6 @@ public class AI extends LivingObject{
 		setReflectedLenght(80);
 		setAcceleration(getMaxSpeed() / 50);
 	}
-	
 	//inRange = minimum distance of rp - maximum distance of rp (from sides); sides = bot - y,right - x,top - y,left - x 
 	
 	
@@ -54,6 +53,7 @@ public class AI extends LivingObject{
 	    DetectionLine rdl2 = new DetectionLine(base5, rightP2, new double[] {x ,y}, 0.5);
 	    AI ai = new AI(new Corner[] {peakAI, rightCornerAI, leftCornerAI}, new double[] {x,y}, 0.5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner);
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
+
 	    ai.setMaxSpeed(0);
 	    ai.setRotationAngle(10);
 	    ai.setHP(5);
@@ -75,7 +75,7 @@ public class AI extends LivingObject{
 	}
 	
 	public void handleAllFriendlyFire(AI[] ais) {
-		for(ObjectAttachment att : getAttachments()) {
+			for(ObjectAttachment att : getAttachments()) {
 			if(att instanceof InteractiveAttachment) {
 				((InteractiveAttachment) att).handleFriendlyFire(ais);
 			}
