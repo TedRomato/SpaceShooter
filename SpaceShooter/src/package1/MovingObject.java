@@ -333,6 +333,11 @@ public class MovingObject extends GameObject{
 	public void setMoveDirection(Corner c) {
 		this.moveDirection = c;
 	}
+
+	public Corner getMoveDirection() {
+		// TODO Auto-generated method stub
+		return moveDirection;
+	}
 	
 	
 	
