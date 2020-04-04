@@ -7,6 +7,7 @@ public class GameModeClassic extends Game{
 	private Player p = super.p;
 	private GameObject coin = GameObject.generatePeriodicObject(15, 20, GameObject.generateCornerInRect(100, 100, mainWidth-100, mainHeight-100));
 	private int score = 0;
+
 	
 
 
@@ -34,7 +35,7 @@ public class GameModeClassic extends Game{
 		}
 		
 		if(p.checkCollision(coin)) {
-			score++;
+			super.score++;
 			coin.setHP(0);
 			removeObFromGame(coin);
 		}
@@ -50,6 +51,7 @@ public class GameModeClassic extends Game{
 	public void keyReleased(KeyEvent e) {
 		p.keyReleased(e);
 	}
+
 	
 	
 	

@@ -1,22 +1,29 @@
 
 package package1;
 
+import java.awt.Component;
 import java.awt.Dimension;
-
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.LayoutManager;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
 
 public class Game extends JPanel{
-	int mainHeight = 1908,mainWidth = 3392;
+
+	int mainHeight = 1080,mainWidth = 1920;
 	protected Player p;
+	public static JLabel scoreDisplay;
+	protected int score = 0;
+	private boolean ShowScore;
 	protected int currentScreenWidth;
 	protected int currentScreenHeight;
-	
 	public static double screenRatio;
 	private RandomMeteorGenerator randomMeteorGenerator = new RandomMeteorGenerator();
 	private GameObject[] borders;
@@ -26,7 +33,7 @@ public class Game extends JPanel{
 	private LivingObject[] livingObsReflectUpdate;
 	private LivingObject[] shootingObs; 
 	private MovingObject[] borderSensitive;
-	private AI[] ais;
+	protected AI[] ais;
 	private GameObject[][] arrayList;
 	private GameObject[] aiVisible;
 	private boolean WasCalled = false;
@@ -65,10 +72,17 @@ public class Game extends JPanel{
 	    
 	    borders = new GameObject[] {botBorder,leftBorder,topBorder,rightBorder};
 	    
+	    
 	    p = Player.makeNewPlayer(new double[] {100,100});
 		addObToGame(p, new int[] {5,6,7,9}); 
 
 		screenRatio = (double)currentScreenWidth/(double)mainWidth;
+	}
+	public int getScore() {
+		return score;
+	}
+	public void setScore(int score) {
+		this.score = score;
 	}
 	public void keyTyped(KeyEvent e) {
 		
@@ -103,7 +117,7 @@ public class Game extends JPanel{
                 if(System.currentTimeMillis() - timer > 1000)
                 { 
                 	timer += 1000;
-                    System.out.println("FPS: "+ frames);
+                    //System.out.println("FPS: "+ frames);
 
                     frames = 0;
                     }
@@ -126,6 +140,7 @@ public class Game extends JPanel{
         removeObsOut();
 		updateAllObs();
 		handleAis();
+		handleSummoners();
 	}
 	
 	
@@ -190,9 +205,11 @@ public class Game extends JPanel{
 				if(mob != ob) {
 					mob.checkAndHandleReflect(ob);
 					if(ob.getClass().getSimpleName().equals("LivingObject") || ob.getClass().getSimpleName().equals("Player")) {
-						if(((LivingObject) ob).getAttachments().length > 0) {
-							for(ObjectAttachment att : ((LivingObject) ob).getAttachments()) {
-								mob.checkAndHandleReflect(att);
+						if(((LivingObject) ob).getAttachments()!= null) {
+							if(((LivingObject) ob).getAttachments().length > 0) {
+								for(ObjectAttachment att : ((LivingObject) ob).getAttachments()) {
+									mob.checkAndHandleReflect(att);
+								}
 							}
 						}
 					}
@@ -426,6 +443,5 @@ public class Game extends JPanel{
 		renderAll(g2);
 
 	}
-
 	
 }

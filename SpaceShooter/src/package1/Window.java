@@ -14,21 +14,21 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class Window extends JFrame implements KeyListener{
-	private JButton exit, start;
+	private JButton exit, startTower, startClassic;
 	private JPanel menu;
 	private boolean running = true;
-	private Graphics g;
-	private BufferStrategy bs;
-
-	private GameModeTesting game;
+	private Game game;
 
 	public Window() {
 		super("EPIC TITLE");
-
-		//setExtendedState(JFrame.MAXIMIZED_BOTH);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int screenHeight = screenSize.height;
+		int screenWidth = screenSize.width;
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setResizable(false);
@@ -36,22 +36,44 @@ public class Window extends JFrame implements KeyListener{
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-
+		setVisible(true);
+		addKeyListener(this);
+		
+		game = new Game(screenWidth,screenHeight);
+		game.setLayout(null);
 		
 		
 		menu = new JPanel();
 		menu.setSize(1920, 1080);
+		menu.setLayout(null);
 		
 		
-		start = new JButton("New Game");
-		start.setBounds(1920-50, 1080-25, 100, 50);
-		start.setFocusable(false);
-		start.addActionListener(new ActionListener() {
-			
+		startClassic = new JButton("Classic");
+		startClassic.setBounds(screenWidth/2-100, screenHeight/2-275, 200, 100);
+		startClassic.setFocusable(false);
+		startClassic.addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				game = new GameModeClassic(screenWidth,screenHeight);
+				getContentPane().removeAll();
+				getContentPane().invalidate();
+				getContentPane().add(game);
+				getContentPane().revalidate();
+				game.running = true;
+			}
+		});
+		menu.add(startClassic);
+		
+		
+		startTower = new JButton("Tower");
+		startTower.setBounds(screenWidth/2-100, screenHeight/2-175, 200, 100);
+		startTower.setFocusable(false);
+		startTower.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				game = new GameModeTower(screenWidth,screenHeight);
 				getContentPane().removeAll();
 				getContentPane().invalidate();
 				getContentPane().add(game);
@@ -60,20 +82,19 @@ public class Window extends JFrame implements KeyListener{
 				
 			}
 		});
-		menu.add(start);
+		menu.add(startTower);
+		
 		
 		exit = new JButton("Exit");
-		exit.setBounds(1920-50, 1080-75, 100, 50);
+		exit.setBounds(screenWidth/2-100, screenHeight/2-75, 200, 100);
 		exit.setFocusable(false);
-		exit.addActionListener(new ActionListener() {
-			
+		exit.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				game.stop();
 				running = false;
-				dispose();
-				
+				dispose();				
 			}
 		});
 		menu.add(exit);
@@ -81,15 +102,6 @@ public class Window extends JFrame implements KeyListener{
 		
 		add(menu);
 
-		//game = new Game(getWidth(), getHeight());
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int screenHeight = screenSize.height;
-		int screenWidth = screenSize.width;
-		game = new GameModeTesting(screenWidth,screenHeight);
-		add(game);
-
-		setVisible(true);
-		addKeyListener(this);
 		
         while(running) {
 		game.start();
