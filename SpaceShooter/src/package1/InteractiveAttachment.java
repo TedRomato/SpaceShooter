@@ -11,11 +11,14 @@ public class InteractiveAttachment extends ObjectAttachment{
 	double attRotationAngle;
 	boolean shoot;
 	double[] rotationSegment = new double[] {};
-	
+	int dmg = 1;
+	GameObject shotTrajectory;
+	double maxShotAngleDifference = 20;
+
 	
 	//Always make inter. attachments facing down, or count custom shootDir 
 
-	public InteractiveAttachment(Corner[] corners, Corner rp, double[] attachmentRP, int rotationAngle, Corner wayPoint) {
+	public InteractiveAttachment(Corner[] corners, Corner rp, double[] attachmentRP, int rotationAngle, Corner wayPoint, double lenght, double width) {
 		super(corners, rp, attachmentRP, rotationAngle);
 		// TODO Auto-generated constructor stub
 		this.wayPoint = wayPoint;
@@ -24,6 +27,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 		shootPoint = new Corner(new double[] {wayPoint.getX(),wayPoint.getY()+20}, getRotationPoint());
 		shootDirection = new Corner(new double[] {wayPoint.getX(),wayPoint.getY()+40}, getRotationPoint());
 		this.reloadTimer = 10;
+		makeShotTrajectory(lenght, width);
 		
 	}
 	
@@ -55,8 +59,8 @@ public class InteractiveAttachment extends ObjectAttachment{
 			super.rotateAttachment(angle);
 			wayPoint.rotateCorner(getRotationPoint(), angle);
 			shootDirection.rotateCorner(getRotationPoint(), angle);
-			shootPoint.rotateCorner(getRotationPoint(), angle);
-			
+			shootPoint.rotateCorner(getRotationPoint(), angle);		
+			shotTrajectory.rotateOb(angle);
 		
 	}
 	
@@ -66,6 +70,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 			wayPoint.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
 			shootDirection.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
 			shootPoint.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
+			shotTrajectory.rotateObAroundDifferentCorner(attachmentRP, angle, getRotationPoint());
 			}
 		}	
 	
@@ -79,23 +84,85 @@ public class InteractiveAttachment extends ObjectAttachment{
 		wayPoint.moveCorner(velX, velY);
 		shootDirection.moveCorner(velX, velY);
 		shootPoint.moveCorner(velX, velY);
+		shotTrajectory.setVels(velX, velY);
+		shotTrajectory.moveObWithoutRP();
 
 		}
 	
-	public Missile shoot() {
-		Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
-		Corner TopLeft = new Corner(new double[] {getSP().getX()-5,getSP().getY()-5}, rp);
-		Corner BotLeft = new Corner(new double[] {getSP().getX()-5,getSP().getY()+5}, rp);
-		Corner BotRight = new Corner(new double[] {getSP().getX()+5,getSP().getY()+5}, rp);
-		Corner TopRight = new Corner(new double[] {getSP().getX()+5,getSP().getY()-5}, rp);
-		Corner md = new Corner(new double[] {getSD().getX(), getSD().getY()}, rp);
+	public Missile shoot(Corner goalCorner) {
 		if(getShoot()) {
-			Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, rp, 0,md,12);
-			m.getNewRatios();
-			m.setNewVels();
-			return m;
+			if(decideIfFire(goalCorner)){
+				Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
+				Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
+				Corner BotLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()+4*dmg}, rp);
+				Corner BotRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()+4*dmg}, rp);
+				Corner TopRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()-4*dmg}, rp);
+				Corner md = new Corner(new double[] {getSD().getX(), getSD().getY()}, rp);
+				Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, rp, 0,md,12);
+				m.getNewRatios();
+				m.setNewVels();
+				m.setDmg(dmg);
+				return m;
+			}else {
+				return null;
+			}
 		}
 		else return null;
+	}
+	
+	public Missile shoot() {
+		if(getShoot()) {
+				Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
+				Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
+				Corner BotLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()+4*dmg}, rp);
+				Corner BotRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()+4*dmg}, rp);
+				Corner TopRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()-4*dmg}, rp);
+				Corner md = new Corner(new double[] {getSD().getX(), getSD().getY()}, rp);
+				Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, rp, 0,md,12);
+				m.getNewRatios();
+				m.setNewVels();
+				m.setDmg(dmg);
+				return m;
+			}
+		else return null;
+		}
+	
+/*	public boolean decideIfFire(Corner goalCorner) {
+		Corner sd = new Corner(getSD(),getAttachmentRP());
+		Corner gd = new Corner(goalCorner, getAttachmentRP());
+		double goalAngle = gd.getAngle(getAttachmentRP());
+		double sAngle = sd.getAngle(getAttachmentRP());
+		System.out.println("-----------");
+		System.out.println("goal angle : " + goalAngle);
+		System.out.println("shoot angle : " + sAngle);
+		if(sAngle + maxShotAngleDifference > goalAngle && sAngle - maxShotAngleDifference < goalAngle) {
+			System.out.println("shoot");
+
+			return true;
+		}else {
+			System.out.println("dont shoot");
+
+			return false;
+		}
+	}*/
+	public boolean decideIfFire(Corner goalCorner) {
+		
+		if(shotTrajectory.checkCollision(new GameObject(new Corner[] {goalCorner, goalCorner}, goalCorner, 0))) {
+
+			return true;
+		}else {
+
+			return false;
+		}
+	}
+	
+	
+	public void handleFriendlyFire(AI[] ais) {
+		for(AI ai : ais) {
+			if(ai.checkCollision(shotTrajectory)) {
+				setShoot(false);
+			}
+		}
 	}
 	
 	public boolean checkIfInRotationSegment(double d) {
@@ -159,10 +226,30 @@ public class InteractiveAttachment extends ObjectAttachment{
 		rotationSegment = s;
 	}
 	
+	private void makeShotTrajectory(double lenght, double width) {
+		Corner rp = new Corner(getRotationPoint(), getRotationPoint());
+		Corner c1 = new Corner(getSD(), getRotationPoint());
+		Corner c2 = new Corner(new double[] {getSD().getX()-width, getSD().getY()+lenght}, getRotationPoint());
+		Corner c3 = new Corner(new double[] {getSD().getX()+width, getSD().getY()+lenght}, getRotationPoint());
+		shotTrajectory =new GameObject(new Corner[] {c1,c2,c3}, getRotationPoint(),getRotationAngle());
+
+	}
+	
 	public void render(Graphics g) {
-		shootDirection.renderCorner(g, 4);
-		shootPoint.renderCorner(g, 4);
+	//	shootDirection.renderCorner(g, 4);
+	//	shootPoint.renderCorner(g, 4);
+	//	shotTrajectory.render(g);
 		super.render(g);
 		
+	}
+
+
+	public void setDmg(int dmg) {
+		// TODO Auto-generated method stub
+		this.dmg = dmg;
+	}
+	
+	public void setMaxShootAngleDifference(double md) {
+		maxShotAngleDifference = md;
 	}
 }

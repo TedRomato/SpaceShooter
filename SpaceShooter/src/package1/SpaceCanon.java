@@ -20,10 +20,11 @@ public class SpaceCanon extends AI{
 	    Corner rightCornerAIAt = new Corner(new double[] {x+14,y+14}, new double[] {x ,y});
 	    Corner leftCornerAIAt = new Corner(new double[] {x+14,y-14}, new double[] {x ,y});
 	    Corner wayPoint = new Corner(new double[] {x,y + 60}, new double[] {x ,y});
-	    InteractiveAttachment att = new InteractiveAttachment(new Corner[] {peakAIAt,botAIAt,canonAt1,canonAt2,canonAt3,canonAt4,rightCornerAIAt,leftCornerAIAt},new Corner(new double[] {x ,y}), new double[] {x ,y}, 4, wayPoint);
+	    InteractiveAttachment att = new InteractiveAttachment(new Corner[] {peakAIAt,botAIAt,canonAt1,canonAt2,canonAt3,canonAt4,rightCornerAIAt,leftCornerAIAt},new Corner(new double[] {x ,y}), new double[] {x ,y}, 1, wayPoint, 600, 45);
 	    att.setRotateWithParentOb(false);
 	    att.setAttRangle(3);
 	    att.setReloadTimer(120);
+	    att.setDmg(2);
 	    //Hmatove vousky
 	    Corner base1 = new Corner(new double[] {x,y + 40}, new double[] {x ,y});
 	    Corner base2 = new Corner(new double[] {x-25,y+30}, new double[] {x ,y});
@@ -55,10 +56,14 @@ public class SpaceCanon extends AI{
 	    return ai;
 	}
 	
-	public void updateAI(Player p, GameObject[] gos) {
-		super.updateAI(p, gos);
+	public void updateAI(Player p, GameObject[] gos, AI[] ais) {
 		((InteractiveAttachment)this.getAttachments()[0]).rotateToCorner(p.getRotationPoint());
+		if(isInStoppingDistance()) {
+		    setShootForInteractiveAtts(true);
+		}
+		super.updateAI(p, gos, ais);
 		stopIfTooClose(p);
+
 	}
 	
 	public void rotateOb() {

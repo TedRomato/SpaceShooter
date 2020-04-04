@@ -62,14 +62,22 @@ public class AI extends LivingObject{
 	
 	//Guides AI to goal destination, if about to crash gives priority to avoiding collision 
 	
-	public void updateAI(Player p, GameObject[] gos) {
-		
+	public void updateAI(Player p, GameObject[] gos, AI[] ais) {
 		checkAndHandleTrack(gos);
 		updateIsInStoppingDistance(p);
 		updateRotationToGoal();
 		updateForward();
 		if(collisionDanger == false) {
 			setGoalToGameObject(p);
+		}
+		handleAllFriendlyFire(ais);
+	}
+	
+	public void handleAllFriendlyFire(AI[] ais) {
+			for(ObjectAttachment att : getAttachments()) {
+			if(att instanceof InteractiveAttachment) {
+				((InteractiveAttachment) att).handleFriendlyFire(ais);
+			}
 		}
 	}
 	
@@ -146,6 +154,15 @@ public class AI extends LivingObject{
 		mainDetectionLine.setTriggered(bTo);
 		
 	}
+	
+	public void stopIfCollisionDanger() {
+		if(collisionDanger == true) {
+			setForward(false);
+		}else {
+			setForward(true);
+		}
+	}
+
 	
 	private void setRotationRight() {
 		setRight(true);
@@ -323,24 +340,26 @@ public class AI extends LivingObject{
 	public void render(Graphics g) {
 		super.render(g);
 		
-		g.setColor(Color.red);
-		g.fillRect((int) Math.round(moveDirection.getX()*Game.screenRatio),(int) Math.round(moveDirection.getY()*Game.screenRatio), 10, 10);
-		g.setColor(Color.darkGray);
-		g.fillRect((int) Math.round(getRotationPoint().getX()*Game.screenRatio),(int) Math.round(getRotationPoint().getY()*Game.screenRatio), 9, 9);
-		g.setColor(Color.BLUE);
-		g.fillRect((int) Math.round(getMP().getX()*Game.screenRatio),(int) Math.round(getMP().getY()*Game.screenRatio), 8, 8);
-		g.setColor(Color.GREEN);
-		g.fillRect((int) Math.round(goalDestination.getX()*Game.screenRatio),(int) Math.round(goalDestination.getY()*Game.screenRatio), 15, 15);
-		g.setColor(Color.black);
-	 	
-		for(DetectionLine dl : rightDetectionLines) {
-			dl.renderDL(g);
-		}
-		for(DetectionLine dl : leftDetectionLines) {
-			dl.renderDL(g);
-		}
-		mainDetectionLine.renderDL(g); 
-		 
+	//	g.setColor(Color.red);
+	//	g.fillRect((int) Math.round(moveDirection.getX()*Game.screenRatio),(int) Math.round(moveDirection.getY()*Game.screenRatio), 10, 10);
+	//	g.setColor(Color.darkGray);
+	//	g.fillRect((int) Math.round(getRotationPoint().getX()*Game.screenRatio),(int) Math.round(getRotationPoint().getY()*Game.screenRatio), 9, 9);
+	//	g.setColor(Color.BLUE);
+	//	g.fillRect((int) Math.round(getMP().getX()*Game.screenRatio),(int) Math.round(getMP().getY()*Game.screenRatio), 8, 8);
+	//	g.setColor(Color.GREEN);
+	//	g.fillRect((int) Math.round(goalDestination.getX()*Game.screenRatio),(int) Math.round(goalDestination.getY()*Game.screenRatio), 10, 10);
+	//	g.setColor(Color.BLACK);
+
+		//	g.setColor(Color.black);
+	// 	
+	//	for(DetectionLine dl : rightDetectionLines) {
+	//		dl.renderDL(g);
+	//	}
+	//	for(DetectionLine dl : leftDetectionLines) {
+	//		dl.renderDL(g);
+	//	}
+	//	mainDetectionLine.renderDL(g); 
+	//	 
 	}
 	
 	public void setRotationAngle(double d) {

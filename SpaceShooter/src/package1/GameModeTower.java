@@ -2,54 +2,85 @@ package package1;
 
 import java.awt.event.KeyEvent;
 
+import javax.swing.JLabel;
+
 public class GameModeTower extends Game {
 	private LivingObject Tower;
-	private AI ai;
+	private HuntingMine hm;
+	private Mothership mp;
 	private SpaceCanon sca;
 	private SpaceCruiser scr;
-	private int wave = 20;
+	private JLabel waveDisplay;
+	private int AIcount = 90;
+	private int wave = 1;
+	private int waveCount = 0;
 	private int PowerLevel = 0;
+	private int[] PowerLevelAr = new int[] {1,2,4,6};
 	private int rnd;
 	private boolean AIneeded = true;
+	
 	public GameModeTower(int sw, int sh) {
 		super(sw, sh);
-		/*Corner LeftTop = new Corner(new double[] {screenWidth/2-50,screenHeight/2-50}, new double[] {screenWidth/2,screenHeight/2});
-		Corner LeftBot = new Corner(new double[] {screenWidth/2-50,screenHeight/2+50}, new double[] {screenWidth/2,screenHeight/2});
-		Corner RightBot = new Corner(new double[] {screenWidth/2+50,screenHeight/2+50}, new double[] {screenWidth/2,screenHeight/2});
-		Corner RightTop = new Corner(new double[] {screenWidth/2+50,screenHeight/2-50}, new double[] {screenWidth/2,screenHeight/2});
-		Tower = new LivingObject(new Corner[] {LeftTop,LeftBot,RightBot,RightTop},new double[] {screenWidth/2,screenHeight/2},0,new Corner(new double[] {screenWidth/2,screenHeight/2}, new double[] {screenWidth/2,screenHeight/2}));
-		Tower.setHP(50);*/
-		addObToGame(Tower, new int[] {1,3,4,5,6,7,8});
+		Corner LeftTop = new Corner(new double[] {currentScreenWidth/2-50,currentScreenHeight/2-50}, new double[] {currentScreenWidth/2,currentScreenHeight/2});
+		Corner LeftBot = new Corner(new double[] {currentScreenWidth/2-50,currentScreenHeight/2+50}, new double[] {currentScreenWidth/2,currentScreenHeight/2});
+		Corner RightBot = new Corner(new double[] {currentScreenWidth/2+50,currentScreenHeight/2+50}, new double[] {currentScreenWidth/2,currentScreenHeight/2});
+		Corner RightTop = new Corner(new double[] {currentScreenWidth/2+50,currentScreenHeight/2-50}, new double[] {currentScreenWidth/2,currentScreenHeight/2});
+		Tower = new LivingObject(new Corner[] {LeftTop,LeftBot,RightBot,RightTop},new double[] {currentScreenWidth/2,currentScreenHeight/2},0,new Corner(new double[] {currentScreenWidth/2,currentScreenHeight/2}, new double[] {currentScreenWidth/2,currentScreenHeight/2}));
+		Tower.setHP(50);
+		addObToGame(Tower, new int[] {1,3,4,5,6,7,8,9});
+		waveDisplay = new JLabel("Wave: " + wave);
+		waveDisplay.setBounds(0+50, currentScreenWidth/2-150, 150, 50);
+		add(waveDisplay);
 	}
 	public void tick() {
 		super.tick();
 		handleWaves();
+		nextWave();
+		updateDisplay();
 	}
 	public void handleWaves() {
-		if(AIneeded) {	
-			rnd = (int) (Math.random() * ((3-1)+1)) + 1;
-			if(PowerLevel + rnd > wave) {
-				spawnAI(wave - PowerLevel);
-				PowerLevel = wave;
+		if(AIneeded && AIcount == 90) {	
+			rnd = (int) (Math.random() * ((3-0)+1)) + 0;
+			if(PowerLevelAr[rnd] + PowerLevel> wave) {	
+				return;
 			}
-			if(PowerLevel + rnd < wave) {
+			if(PowerLevel + PowerLevelAr[rnd] < wave) {
 				spawnAI(rnd);
-				PowerLevel += rnd;
+				PowerLevel += PowerLevelAr[rnd];
 			}
-			if(PowerLevel + rnd == wave || PowerLevel == wave) {
+			if(PowerLevel + PowerLevelAr[rnd] == wave && AIneeded|| PowerLevel == wave && AIneeded) {
 				spawnAI(rnd);
 				PowerLevel = wave;
 				AIneeded = false;
 			}
+			waveCount = wave;
+			AIcount= 0;
+		}
+		else {
+			AIcount++;
+		}
+	}
+	public void updateDisplay() { 
+		waveDisplay.setText("Wave: " + wave);
+	}
+	public void nextWave() {
+		if(ais.length == 0 && wave != waveCount+1) {
+			wave++;
+			AIneeded = true;
+			System.out.println("W: " + wave);
+			PowerLevel=0;
+			AIcount=90;
 		}
 	}
 	public void spawnAI(int PL) {
 		switch(PL){
-			case 1 : ai = ai.makeNewAI((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1); addObToGame(ai, new int[] {7});
-			break; 
-			case 2 : sca = sca.makeNewSpaceCanon((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1); addObToGame(sca, new int[] {7});
+			case 0 : hm = hm.makeNewHuntingMine((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1); addObToGame(hm, new int[] {7,9}); 
 			break;
-			case 3 : scr = scr.makeNewSpaceCruiser((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1); addObToGame(scr, new int[] {7});
+			case 1 : sca = sca.makeNewSpaceCanon((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1); addObToGame(sca, new int[] {7,9}); 
+			break;
+			case 2 : mp = mp.makeNewMothership((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1); addObToGame(mp, new int[] {7}); 
+			break;
+			case 3 : scr = scr.makeNewSpaceCruiser((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1); addObToGame(scr, new int[] {7,9}); 
 			break;
 			default : 
 		}

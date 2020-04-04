@@ -19,7 +19,7 @@ import javax.swing.SwingConstants;
 public class Game extends JPanel{
 	int mainHeight = 1080,mainWidth = 1920;
 	protected Player p;
-	public static JLabel DisplayScore;
+	public static JLabel scoreDisplay;
 	protected int score = 0;
 	private boolean ShowScore;
 	protected int currentScreenWidth;
@@ -33,7 +33,7 @@ public class Game extends JPanel{
 	private LivingObject[] livingObsReflectUpdate;
 	private LivingObject[] shootingObs; 
 	private MovingObject[] borderSensitive;
-	private AI[] ais;
+	protected AI[] ais;
 	private GameObject[][] arrayList;
 	private GameObject[] aiVisible;
 	private boolean WasCalled = false;
@@ -113,12 +113,12 @@ public class Game extends JPanel{
                 }
                 
                 frames++;
-                            
+
                 if(System.currentTimeMillis() - timer > 1000)
                 { 
                 	timer += 1000;
+                    //System.out.println("FPS: "+ frames);
 
-                    System.out.println("FPS: "+ frames);
                     frames = 0;
                     }
         }
@@ -140,6 +140,7 @@ public class Game extends JPanel{
         removeObsOut();
 		updateAllObs();
 		handleAis();
+		handleSummoners();
 	}
 	
 	
@@ -147,7 +148,7 @@ public class Game extends JPanel{
 	
 	private void handleAis() {
 		for(AI ai : ais) {
-			ai.updateAI(p, aiVisible);
+			ai.updateAI(p, aiVisible, ais);
 		}
 	}
 
@@ -156,7 +157,13 @@ public class Game extends JPanel{
 			if(sob.getAttachments() != null && sob.getAttachments().length > 0) {
 				for(ObjectAttachment att : sob.getAttachments()) {
 					if(att instanceof InteractiveAttachment) {
-						if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot() !=  null) {
+						if(sob instanceof AI) {
+							if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot(((AI)sob).getGoalDestination()) !=  null) {
+								addObToGame(((InteractiveAttachment)att).shoot(((AI)sob).getGoalDestination()), new int[] {1,2,3,4,6,7,8,9});
+								((InteractiveAttachment)att).setReloadLenght(0);
+							}
+						}
+						else if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot() !=  null) {
 							addObToGame(((InteractiveAttachment)att).shoot(), new int[] {1,2,3,4,6,7,8,9});
 							((InteractiveAttachment)att).setReloadLenght(0);
 						}
@@ -220,7 +227,16 @@ public class Game extends JPanel{
 					
 					if(objects[i].checkCollision(compareArray[x])) {
 						if(objects[i].getInvulnurability() == false) {
-							objects[i].setHP(objects[i].getHP()-1);
+							if(compareArray[x] instanceof Missile) {
+								if(objects[i] instanceof Missile) {
+									((Missile)objects[i]).handleMissileCollision((Missile)compareArray[x]);
+								}else {
+									objects[i].setHP(objects[i].getHP()-((Missile) compareArray[x]).getDmg());
+
+								}
+							}else {
+								objects[i].setHP(objects[i].getHP()-1);
+							}
 							objects[i].startInvulnurability();
 						}
 					}
