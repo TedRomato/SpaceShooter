@@ -17,7 +17,7 @@ public class GameModeTower extends Game {
 	private int PowerLevel = 0;
 	private int[] PowerLevelAr = new int[] {1,2,4,6};
 	private int rnd;
-	private boolean AIneeded = true;
+	private boolean AIneeded = true, waveEnd = false;
 	
 	public GameModeTower(int sw, int sh) {
 		super(sw, sh);
@@ -52,6 +52,7 @@ public class GameModeTower extends Game {
 				spawnAI(rnd);
 				PowerLevel = wave;
 				AIneeded = false;
+				waveEnd = true;
 			}
 			waveCount = wave;
 			AIcount= 0;
@@ -64,12 +65,13 @@ public class GameModeTower extends Game {
 		waveDisplay.setText("Wave: " + wave);
 	}
 	public void nextWave() {
-		if(ais.length == 0 && wave != waveCount+1) {
+		if(ais.length == 0 && wave != waveCount+1 && waveEnd) {
 			wave++;
 			AIneeded = true;
 			System.out.println("W: " + wave);
 			PowerLevel=0;
 			AIcount=90;
+			waveEnd = false;
 		}
 	}
 	public void spawnAI(int PL) {
