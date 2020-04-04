@@ -143,8 +143,8 @@ public class Game extends JPanel{
 				for(ObjectAttachment att : sob.getAttachments()) {
 					if(att instanceof InteractiveAttachment) {
 						if(sob instanceof AI) {
-							if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot(((AI)sob).getGoalDestination()) !=  null) {
-								addObToGame(((InteractiveAttachment)att).shoot(((AI)sob).getGoalDestination()), new int[] {1,2,3,4,6,7,8,9});
+							if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot(((InteractiveAttachment)att).getAimCorner()) !=  null) {
+								addObToGame(((InteractiveAttachment)att).shoot(((InteractiveAttachment)att).getAimCorner()), new int[] {1,2,3,4,6,7,8,9});
 								((InteractiveAttachment)att).setReloadLenght(0);
 							}
 						}

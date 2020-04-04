@@ -40,6 +40,7 @@ public class LongRangeAI extends AI{
 	
 	
 	public void updateInSD(Player p, GameObject[] gos, AI[] ais) {
+		updateAllAimCorners(p);
 		checkAndHandleTrack(gos);
 		if(collisionDanger == false) {
 			setGoalToGameObject(p);

@@ -63,6 +63,7 @@ public class AI extends LivingObject{
 	//Guides AI to goal destination, if about to crash gives priority to avoiding collision 
 	
 	public void updateAI(Player p, GameObject[] gos, AI[] ais) {
+		updateAllAimCorners(p);
 		checkAndHandleTrack(gos);
 		updateIsInStoppingDistance(p);
 		updateRotationToGoal();
@@ -338,6 +339,16 @@ public class AI extends LivingObject{
 		}
 	}
 	
+	
+	protected void updateAllAimCorners(GameObject go) {
+		for(ObjectAttachment att : getAttachments()) {
+			if(att instanceof InteractiveAttachment) {
+				((InteractiveAttachment) att).setAimCorner(((InteractiveAttachment) att).getNewAimCorner(go));
+			}
+		}
+	}
+
+	
 	public void render(Graphics g) {
 		super.render(g);
 		
@@ -347,9 +358,9 @@ public class AI extends LivingObject{
 	//	g.fillRect((int) Math.round(getRotationPoint().getX()*Game.screenRatio),(int) Math.round(getRotationPoint().getY()*Game.screenRatio), 9, 9);
 	//	g.setColor(Color.BLUE);
 	//	g.fillRect((int) Math.round(getMP().getX()*Game.screenRatio),(int) Math.round(getMP().getY()*Game.screenRatio), 8, 8);
-		g.setColor(Color.GREEN);
-		g.fillRect((int) Math.round(goalDestination.getX()*Game.screenRatio),(int) Math.round(goalDestination.getY()*Game.screenRatio), 10, 10);
-		g.setColor(Color.BLACK);
+	//	g.setColor(Color.GREEN);
+	//	g.fillRect((int) Math.round(goalDestination.getX()*Game.screenRatio),(int) Math.round(goalDestination.getY()*Game.screenRatio), 10, 10);
+	//	g.setColor(Color.BLACK);
 
 		//	g.setColor(Color.black);
 	// 	
@@ -363,6 +374,7 @@ public class AI extends LivingObject{
 	//	 
 	}
 	
+
 	public void setRotationAngle(double d) {
 		for(DetectionLine dl : rightDetectionLines) {
 			dl.setRotationAngle(d);

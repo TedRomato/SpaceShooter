@@ -11,10 +11,19 @@ public class SpaceCruiser extends LongRangeAI{
 	public void updateInSD(Player p, GameObject[] gos, AI[] ais) {
 		handleSmallTurrets(p);
 		handleTurretFire(p.getRotationPoint().getPointDistance(this.getRotationPoint()));
-		super.updateInSD(p, gos, ais);
-
+		updateAllAimCorners(p);
+		checkAndHandleTrack(gos);
+		if(collisionDanger == false) {
+			setGoalDestination(((InteractiveAttachment) getAttachments()[0]).getAimCorner());
+		}
+		updateIsInStoppingDistance(p);
+		updateForward();
+		rotateToCorner(p.getRotationPoint());
+		stopIfCollisionDanger();
+		handleAllFriendlyFire(ais);
 		
 	}
+	
 	
 	
 	public void handleTurretFire(double d){
@@ -29,10 +38,11 @@ public class SpaceCruiser extends LongRangeAI{
 		}
 	}
 	
+	
+	
 	public void handleSmallTurrets(Player p) {
 		for(int i = 1; i < 3; i++) {
-			((InteractiveAttachment) getAttachments()[i]).rotateToCorner(p.getRotationPoint());
-			
+			((InteractiveAttachment) getAttachments()[i]).rotateToCorner(((InteractiveAttachment) getAttachments()[i]).getAimCorner());
 		}
 	}
 	
@@ -131,9 +141,10 @@ public class SpaceCruiser extends LongRangeAI{
 	    corners = new Corner[] {c1,c2,c3,c5,c6,c7,c8,c4};
 	    
 	    canon2 = new InteractiveAttachment(corners, new Corner(new double[] {x,y}), new double[] {x+80,y}, 5, new Corner(new double[] {x + 80, y+50}, new double[] {x,y}), 400,80);
-	    
-	    double[] segment1 = new double[] {-20,200};
-	    double[] segment2 = new double[] {-200,20};
+	    canon1.setInaccuracy(100);
+	    canon2.setInaccuracy(100);
+	    double[] segment1 = new double[] {-40,200};
+	    double[] segment2 = new double[] {-200,40};
 	    canon1.setRotationSegment(segment1);
 	    canon2.setRotationSegment(segment2);
 
