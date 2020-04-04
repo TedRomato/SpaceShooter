@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 
 
 public class Game extends JPanel{
+
 	int mainHeight = 1080,mainWidth = 1920;
 	protected Player p;
 	public static JLabel scoreDisplay;
@@ -158,8 +159,8 @@ public class Game extends JPanel{
 				for(ObjectAttachment att : sob.getAttachments()) {
 					if(att instanceof InteractiveAttachment) {
 						if(sob instanceof AI) {
-							if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot(((AI)sob).getGoalDestination()) !=  null) {
-								addObToGame(((InteractiveAttachment)att).shoot(((AI)sob).getGoalDestination()), new int[] {1,2,3,4,6,7,8,9});
+							if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot(((InteractiveAttachment)att).getAimCorner()) !=  null) {
+								addObToGame(((InteractiveAttachment)att).shoot(((InteractiveAttachment)att).getAimCorner()), new int[] {1,2,3,4,6,7,8,9});
 								((InteractiveAttachment)att).setReloadLenght(0);
 							}
 						}
@@ -178,7 +179,7 @@ public class Game extends JPanel{
 
 	protected void removeObsOut() {
 		for(GameObject ob : objects) {
-			if(ob.checkIfOutsideRect(-600, -600,mainWidth + 800, mainHeight + 800)) {
+			if(ob.checkIfOutsideRect(-2000, -2000,mainWidth + 3000, mainHeight + 3000)) {
 				removeObFromGame(ob);
 			}
 		}

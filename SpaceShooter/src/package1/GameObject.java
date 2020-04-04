@@ -461,6 +461,10 @@ public class GameObject {
 		}
 	}
 	
+	public double generateNumInRange(double[] range) {
+		return Math.random()*(range[1] - range[0])+range[0];
+	}
+	
 	
 	public boolean getInvulnurability() {
 		return invulnurable;

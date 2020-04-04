@@ -13,12 +13,17 @@ public class InteractiveAttachment extends ObjectAttachment{
 	double[] rotationSegment = new double[] {};
 	int dmg = 1;
 	GameObject shotTrajectory;
-	double maxShotAngleDifference = 20;
+	Corner aimCorner;
+	double inaccuracy = 0;
+	double inaccuracyX = 0;
+	double inaccuracyY = 0;
+	
+//	double maxShotAngleDifference = 20;
 
 	
 	//Always make inter. attachments facing down, or count custom shootDir 
 
-	public InteractiveAttachment(Corner[] corners, Corner rp, double[] attachmentRP, int rotationAngle, Corner wayPoint, double lenght, double width) {
+	public InteractiveAttachment(Corner[] corners, Corner rp, double[] attachmentRP, double rotationAngle, Corner wayPoint, double lenght, double width) {
 		super(corners, rp, attachmentRP, rotationAngle);
 		// TODO Auto-generated constructor stub
 		this.wayPoint = wayPoint;
@@ -26,6 +31,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 		//Posible error while moving and rotating (shooting transition update)
 		shootPoint = new Corner(new double[] {wayPoint.getX(),wayPoint.getY()+20}, getRotationPoint());
 		shootDirection = new Corner(new double[] {wayPoint.getX(),wayPoint.getY()+40}, getRotationPoint());
+		aimCorner = new Corner(rp,getRotationPoint());
 		this.reloadTimer = 10;
 		makeShotTrajectory(lenght, width);
 		
@@ -90,7 +96,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 		}
 	
 	public Missile shoot(Corner goalCorner) {
-		if(getShoot()) {
+		if(getShoot() && goalCorner != null) {
 			if(decideIfFire(goalCorner)){
 				Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
 				Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
@@ -102,6 +108,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 				m.getNewRatios();
 				m.setNewVels();
 				m.setDmg(dmg);
+				getNewInaccuracy();
 				return m;
 			}else {
 				return null;
@@ -126,6 +133,57 @@ public class InteractiveAttachment extends ObjectAttachment{
 			}
 		else return null;
 		}
+	
+	public void updateAimPoint(GameObject go) {
+		setAimCorner(getNewAimCorner(go));
+	}
+	
+
+	public Corner getNewAimCorner(GameObject go) {
+		if(go instanceof MovingObject) {
+			if(((MovingObject) go).getCurrentSpeed() > 0) {
+				return addInaccuracy(this.getAimCornerForMovingOb((MovingObject) go));
+			}
+		}		
+		return addInaccuracy(new Corner(go.getRotationPoint(), go.getRotationPoint()));
+	}
+	//TODO Improve missle speed (take it as argument)
+	public Corner getAimCornerForMovingOb(MovingObject moo) {
+		double mooSpeed = moo.getCurrentSpeed();
+		double missileSpeed = 12;
+		double ratio = missileSpeed/mooSpeed;
+		double mdAngle = moo.getMoveDirection().getAngle(moo.getRotationPoint());
+		Corner aiCorner = new Corner(this.getSP(), moo.getRotationPoint());
+		double aiAngle = aiCorner.getAngle(moo.getRotationPoint());
+		double aiMooMdangle = decideSmaller(Corner.getAngleDifferencRL(mdAngle, aiAngle));
+		double distance = aiCorner.getPointDistance(moo.getRotationPoint());
+		double prefirePointDistance = distance/Math.sqrt(((1+ratio*ratio)-2*(Math.sin(Math.toRadians(aiMooMdangle))*Math.sin(Math.toRadians(aiMooMdangle)))));
+		return Corner.makeCornerUsinAngle(prefirePointDistance, mdAngle, moo.getRotationPoint());
+	}
+	
+	private double decideSmaller(double[] ab) {
+		if(ab[0] <= ab[1]) {
+			return ab[0];
+		}else {
+			return ab[1];
+		}
+	}
+	
+	public Corner addInaccuracy(Corner c) {
+		if(getInaccuracy() > 0) {	
+			c.setX(c.getX() + inaccuracyX);
+			c.setY(c.getY() + inaccuracyY);
+			return c;
+		}else {
+			return c;
+		}
+	}
+	
+	private void getNewInaccuracy() {
+		inaccuracyX = generateNumInRange(new double[] {-getInaccuracy(), getInaccuracy()});
+		inaccuracyY = generateNumInRange(new double[] {-getInaccuracy(), getInaccuracy()});
+
+	}
 	
 /*	public boolean decideIfFire(Corner goalCorner) {
 		Corner sd = new Corner(getSD(),getAttachmentRP());
@@ -236,20 +294,33 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	
 	public void render(Graphics g) {
-	//	shootDirection.renderCorner(g, 4);
-	//	shootPoint.renderCorner(g, 4);
-	//	shotTrajectory.render(g);
+//		shootDirection.renderCorner(g, 4);
+//		shootPoint.renderCorner(g, 4);
+//		shotTrajectory.render(g);
+//		aimCorner.renderCorner(g, 10);
 		super.render(g);
 		
 	}
 
+	public void setAimCorner(Corner newAimCorner) {
+		aimCorner = newAimCorner;
+	}
+	public Corner getAimCorner() {
+		return aimCorner;
+	}
 
 	public void setDmg(int dmg) {
 		// TODO Auto-generated method stub
 		this.dmg = dmg;
 	}
 	
-	public void setMaxShootAngleDifference(double md) {
-		maxShotAngleDifference = md;
+	public void setInaccuracy(double ina) {
+		inaccuracy = ina;
 	}
+	
+	public double getInaccuracy() {
+		return inaccuracy;
+	}
+	
+
 }

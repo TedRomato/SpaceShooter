@@ -76,7 +76,7 @@ public class Mothership extends Summoner{
 		ai = new Mothership(body, new double[] {x,y}, 1, md, gd);
 		ai.setSummoningPoint(new Corner[] {summoningPoint1,summoningPoint2,summoningPoint3,summoningPoint4});
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
-	    ai.setMaxSpeed(1);
+	    ai.setMaxSpeed(1.5);
 	    ai.setReflectedSpeed(6);
 	    ai.setStoppingDistance(800);
 	    ai.addAttachment(att);

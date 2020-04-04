@@ -63,6 +63,7 @@ public class AI extends LivingObject{
 	//Guides AI to goal destination, if about to crash gives priority to avoiding collision 
 	
 	public void updateAI(Player p, GameObject[] gos, AI[] ais) {
+		updateAllAimCorners(p);
 		checkAndHandleTrack(gos);
 		updateIsInStoppingDistance(p);
 		updateRotationToGoal();
@@ -179,6 +180,7 @@ public class AI extends LivingObject{
 	protected void setGoalToGameObject(GameObject p) {
 		goalDestination.setX(p.getRotationPoint().getX());
 		goalDestination.setY(p.getRotationPoint().getY());
+		
 	}
 	
 	private void setGoalToCorner(Corner c) {
@@ -337,6 +339,16 @@ public class AI extends LivingObject{
 		}
 	}
 	
+	
+	protected void updateAllAimCorners(GameObject go) {
+		for(ObjectAttachment att : getAttachments()) {
+			if(att instanceof InteractiveAttachment) {
+				((InteractiveAttachment) att).setAimCorner(((InteractiveAttachment) att).getNewAimCorner(go));
+			}
+		}
+	}
+
+	
 	public void render(Graphics g) {
 		super.render(g);
 		
@@ -362,6 +374,7 @@ public class AI extends LivingObject{
 	//	 
 	}
 	
+
 	public void setRotationAngle(double d) {
 		for(DetectionLine dl : rightDetectionLines) {
 			dl.setRotationAngle(d);
