@@ -38,10 +38,6 @@ public class GameModeTower extends Game {
 		handleWaves();
 		nextWave();
 		updateDisplay();
-		if(ais.length >= 1) {
-			System.out.println("X: " + ais[0].getRotationPoint().getX() + "Y: " + ais[0].getRotationPoint().getY());
-		}
-		System.out.println("SX: " + spawnCorner.getX() + "SY: " + spawnCorner.getY());
 	}
 	public void handleWaves() {
 		if(AIneeded && AIcount == 90) {	
