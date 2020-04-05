@@ -68,7 +68,6 @@ public class GameModeTower extends Game {
 		if(ais.length == 0 && wave != waveCount+1 && waveEnd) {
 			wave++;
 			AIneeded = true;
-			System.out.println("W: " + wave);
 			PowerLevel=0;
 			AIcount=90;
 			waveEnd = false;
@@ -76,13 +75,13 @@ public class GameModeTower extends Game {
 	}
 	public void spawnAI(int PL) {
 		switch(PL){
-			case 0 : hm = hm.makeNewHuntingMine((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1); addObToGame(hm, new int[] {7,9}); 
+			case 0 : hm = HuntingMine.makeNewHuntingMine((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1, getAiEnemys()); addObToGame(hm, new int[] {7,9,10}); 
 			break;
-			case 1 : sca = sca.makeNewSpaceCanon((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1); addObToGame(sca, new int[] {7,9}); 
+			case 1 : sca = SpaceCanon.makeNewSpaceCanon((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1,getAiEnemys()); addObToGame(sca, new int[] {7,9,10}); 
 			break;
-			case 2 : mp = mp.makeNewMothership((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1); addObToGame(mp, new int[] {7}); 
+			case 2 : mp = Mothership.makeNewMothership((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1,getAiEnemys()); addObToGame(mp, new int[] {7,10}); 
 			break;
-			case 3 : scr = scr.makeNewSpaceCruiser((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1); addObToGame(scr, new int[] {7,9}); 
+			case 3 : scr = SpaceCruiser.makeNewSpaceCruiser((int) (Math.random() * ((1000-1)+1)) + 1,(int) (Math.random() * ((1000-1)+1)) + 1,getAiEnemys()); addObToGame(scr, new int[] {4,7,9,10}); 
 			break;
 			default : 
 		}

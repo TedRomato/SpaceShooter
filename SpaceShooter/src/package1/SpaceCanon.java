@@ -6,7 +6,7 @@ public class SpaceCanon extends AI{
 		
 	}
 	
-	public static SpaceCanon makeNewSpaceCanon(double x, double y) {
+	public static SpaceCanon makeNewSpaceCanon(double x, double y, GameObject[] enemys) {
 		//ai
 		Corner[] corners = GameObject.generatePeriodicObject(30, 8, new Corner(new double[] {x,y})).getCorners();
 	    
@@ -53,16 +53,17 @@ public class SpaceCanon extends AI{
 	    ai.setReflectedSpeed(6);
 	    ai.setStoppingDistance(900);
 	    ai.setShootForInteractiveAtts(true);
+	    ai.getClosestEnemy(enemys);
 	    return ai;
 	}
 	
-	public void updateAI(Player p, GameObject[] gos, AI[] ais) {
+	public void updateAI(GameObject[] enemys, GameObject[] gos, AI[] ais) {
 		if(isInStoppingDistance()) {
 		    setShootForInteractiveAtts(true);
 		}
 		rotateCanon();
-		super.updateAI(p, gos, ais);
-		stopIfTooClose(p);
+		super.updateAI(enemys, gos, ais);
+		stopIfTooClose(getTargetedEnemy());
 
 	}
 	

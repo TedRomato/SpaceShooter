@@ -14,15 +14,18 @@ public class LongRangeAI extends AI{
 		this.wayPoint = wP;
 	}
 	
-	public void updateAI(Player p, GameObject[] gos, AI[] ais) {
+	public void updateAI(GameObject[] enemys, GameObject[] gos, AI[] ais) {
 		if(isInStoppingDistance()) {
 			if(wasInStoppingDistance == false) {
+				setShootForInteractiveAtts(true);
 				wasInStoppingDistance = true;
 				movePointAndDlsTransition(90);
 				setRotationAngle(0.6);
 			}
 			
-			updateInSD(p, gos, ais);
+			updateInSD(enemys, gos, ais);
+			getClosestEnemy(enemys);
+
 			
 		}else {
 			if(wasInStoppingDistance == true) {
@@ -31,7 +34,7 @@ public class LongRangeAI extends AI{
 				setRotationAngle(1);
 				setShootForInteractiveAtts(false);
 			}
-			super.updateAI(p, gos, ais);
+			super.updateAI(enemys, gos, ais);
 			stopIfCollisionDanger();
 
 		}
@@ -39,15 +42,16 @@ public class LongRangeAI extends AI{
 	
 	
 	
-	public void updateInSD(Player p, GameObject[] gos, AI[] ais) {
-		updateAllAimCorners(p);
+	public void updateInSD(GameObject[] enemys, GameObject[] gos, AI[] ais) {
+		getClosestEnemy(enemys);
+		updateAllAimCorners(getTargetedEnemy());
 		checkAndHandleTrack(gos);
 		if(collisionDanger == false) {
-			setGoalToGameObject(p);
+			setGoalToGameObject(getTargetedEnemy());
 		}
-		updateIsInStoppingDistance(p);
+		updateIsInStoppingDistance(getTargetedEnemy());
 		updateForward();
-		rotateToCorner(p.getRotationPoint());
+		rotateToCorner(getTargetedEnemy().getRotationPoint());
 		stopIfCollisionDanger();
 		handleAllFriendlyFire(ais);
 

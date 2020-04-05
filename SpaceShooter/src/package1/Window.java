@@ -55,7 +55,7 @@ public class Window extends JFrame implements KeyListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				game = new GameModeClassic(screenWidth,screenHeight);
+				game = new GameModeTesting(screenWidth,screenHeight);
 				getContentPane().removeAll();
 				getContentPane().invalidate();
 				getContentPane().add(game);

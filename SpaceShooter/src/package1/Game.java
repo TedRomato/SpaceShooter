@@ -17,7 +17,7 @@ import javax.swing.SwingConstants;
 
 public class Game extends JPanel{
 
-	int mainHeight = 1080,mainWidth = 1920;
+	int mainHeight = 1908,mainWidth = 3392;
 	protected Player p;
 	public static JLabel scoreDisplay;
 	protected int score = 0;
@@ -36,6 +36,7 @@ public class Game extends JPanel{
 	protected AI[] ais;
 	private GameObject[][] arrayList;
 	private GameObject[] aiVisible;
+	private GameObject[] aiEnemys;
 	private boolean WasCalled = false;
 	private Meteor[] meteors;
 	private Summoner[] summoners;
@@ -58,7 +59,8 @@ public class Game extends JPanel{
 	    ais = new AI[] {};
 	    meteors = new Meteor[] {};
 	    summoners = new Summoner[] {};
-		arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais, meteors, shootingObs,summoners};
+		aiEnemys = new GameObject[] {};
+	    arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais, meteors, shootingObs,summoners, aiEnemys};
 
 	    Corner rightBotC = new Corner(new double[] {mainWidth,mainHeight}, new double[] {500,400});
 	    Corner leftBotC = new Corner(new double[] {0,mainHeight}, new double[] {500,400});
@@ -148,7 +150,7 @@ public class Game extends JPanel{
 	
 	private void handleAis() {
 		for(AI ai : ais) {
-			ai.updateAI(p, aiVisible, ais);
+			ai.updateAI(aiEnemys, aiVisible, ais);
 		}
 	}
 
@@ -159,12 +161,12 @@ public class Game extends JPanel{
 					if(att instanceof InteractiveAttachment) {
 						if(sob instanceof AI) {
 							if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot(((InteractiveAttachment)att).getAimCorner()) !=  null) {
-								addObToGame(((InteractiveAttachment)att).shoot(((InteractiveAttachment)att).getAimCorner()), new int[] {1,2,3,4,6,7,8,9});
+								addObToGame(((InteractiveAttachment)att).shoot(((InteractiveAttachment)att).getAimCorner()), new int[] {1,2,3,4,6,7,8,9,10});
 								((InteractiveAttachment)att).setReloadLenght(0);
 							}
 						}
 						else if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot() !=  null) {
-							addObToGame(((InteractiveAttachment)att).shoot(), new int[] {1,2,3,4,6,7,8,9});
+							addObToGame(((InteractiveAttachment)att).shoot(), new int[] {1,2,3,4,6,7,8,9,10});
 							((InteractiveAttachment)att).setReloadLenght(0);
 						}
 						if(((InteractiveAttachment)att).reloadLenght != ((InteractiveAttachment)att).reloadTimer) { 
@@ -279,9 +281,9 @@ public class Game extends JPanel{
 	
 	protected void handleSummoners() {
 		for(Summoner s : summoners) {
-			AI ai = s.handleSummoner();
+			AI ai = s.handleSummoner(getAiEnemys());
 			if(ai != null) {
-				addObToGame(ai, new int[] {7,4,9});
+				addObToGame(ai, new int[] {7,4,9,10});
 			}
 		}
 	}
@@ -340,6 +342,7 @@ public class Game extends JPanel{
 	    meteors = makeMeteorArr(arrayList[7]);
 	    shootingObs = makeGameObArLivingArr(arrayList[8]);
 	    summoners = makeSummonersObAr(arrayList[9]);
+	    aiEnemys = arrayList[10];
 	}
 	
 	private Summoner[] makeSummonersObAr(GameObject[] arr) {
@@ -428,7 +431,9 @@ public class Game extends JPanel{
 	}
 	
 	
-	
+	public GameObject[] getAiEnemys() {
+		return aiEnemys;
+	}
 	
 	
 	public Dimension getPreferredSize() {

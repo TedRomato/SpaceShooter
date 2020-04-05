@@ -96,8 +96,11 @@ public class InteractiveAttachment extends ObjectAttachment{
 		}
 	
 	public Missile shoot(Corner goalCorner) {
+
 		if(getShoot() && goalCorner != null) {
+
 			if(decideIfFire(goalCorner)){
+
 				Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
 				Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
 				Corner BotLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()+4*dmg}, rp);
