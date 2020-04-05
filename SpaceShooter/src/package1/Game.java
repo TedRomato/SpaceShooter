@@ -17,7 +17,7 @@ import javax.swing.SwingConstants;
 
 public class Game extends JPanel{
 
-	int mainHeight = 1080,mainWidth = 1920;
+	int mainHeight = 1908,mainWidth = 3392;
 	protected Player p;
 	public static JLabel scoreDisplay;
 	protected int score = 0;
