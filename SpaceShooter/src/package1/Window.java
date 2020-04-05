@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class Window extends JFrame implements KeyListener{
-	private JButton exit, startTower, startClassic;
+	private JButton exit, startTower, startClassic, startTest;
 	private JPanel menu;
 	private boolean running = true;
 	private Game game;
@@ -83,6 +83,24 @@ public class Window extends JFrame implements KeyListener{
 			}
 		});
 		menu.add(startTower);
+		
+		
+		startTest = new JButton("Test");
+		startTest.setBounds(screenWidth-200, screenHeight-100, 200, 100);
+		startTest.setFocusable(false);
+		startTest.addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				game = new GameModeTesting(screenWidth,screenHeight);
+				getContentPane().removeAll();
+				getContentPane().invalidate();
+				getContentPane().add(game);
+				getContentPane().revalidate();
+				game.running = true;
+			}
+		});
+		menu.add(startTest);
 		
 		
 		exit = new JButton("Exit");
