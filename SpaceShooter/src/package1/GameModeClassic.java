@@ -14,7 +14,7 @@ public class GameModeClassic extends Game{
 	public GameModeClassic(int sw, int sh) {
 		super(sw, sh); 
 		coin.setHP(1);
-		addObToGame(coin, new int[] {1,2,3,4,5,6,7,8,9});
+		addObToGame(coin, new int[] {1,2,3,4,5,6,7,8,9,10});
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -30,7 +30,7 @@ public class GameModeClassic extends Game{
 		if(coin.getHP() <=0) {
 			 coin = GameObject.generatePeriodicObject(15, 20, GameObject.generateCornerInRect(200, 200, mainWidth-300, mainHeight-300));
 			 coin.setHP(1);
-			 addObToGame(coin, new int[] {1,2,3,4,5,6,7,8,9});
+			 addObToGame(coin, new int[] {1,2,3,4,5,6,7,8,9,10});
 
 		}
 		

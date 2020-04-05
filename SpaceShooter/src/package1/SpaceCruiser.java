@@ -8,17 +8,17 @@ public class SpaceCruiser extends LongRangeAI{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateInSD(Player p, GameObject[] gos, AI[] ais) {
-		handleSmallTurrets(p);
-		handleTurretFire(p.getRotationPoint().getPointDistance(this.getRotationPoint()));
-		updateAllAimCorners(p);
+	public void updateInSD(GameObject[] enemys, GameObject[] gos, AI[] ais) {
+		handleSmallTurrets();
+		handleTurretFire(getTargetedEnemy().getRotationPoint().getPointDistance(this.getRotationPoint()));
+		updateAllAimCorners(getTargetedEnemy());
 		checkAndHandleTrack(gos);
 		if(collisionDanger == false) {
 			setGoalDestination(((InteractiveAttachment) getAttachments()[0]).getAimCorner());
 		}
-		updateIsInStoppingDistance(p);
+		updateIsInStoppingDistance(getTargetedEnemy());
 		updateForward();
-		rotateToCorner(p.getRotationPoint());
+		rotateToCorner(getTargetedEnemy().getRotationPoint());
 		stopIfCollisionDanger();
 		handleAllFriendlyFire(ais);
 		
@@ -40,13 +40,14 @@ public class SpaceCruiser extends LongRangeAI{
 	
 	
 	
-	public void handleSmallTurrets(Player p) {
+	public void handleSmallTurrets() {
 		for(int i = 1; i < 3; i++) {
+			System.out.println("Handlin small turrets");
 			((InteractiveAttachment) getAttachments()[i]).rotateToCorner(((InteractiveAttachment) getAttachments()[i]).getAimCorner());
 		}
 	}
 	
-	public static SpaceCruiser makeNewSpaceCruiser(double x, double y) {
+	public static SpaceCruiser makeNewSpaceCruiser(double x, double y, GameObject[] enemys) {
 		SpaceCruiser ai;
 		//H1
 		Corner h11 = new Corner(new double[] {x + -50, y + -10}, new double[] {x,y});
@@ -126,7 +127,7 @@ public class SpaceCruiser extends LongRangeAI{
 	    
 	    corners = new Corner[] {c1,c2,c3,c5,c6,c7,c8,c4};
 	    
-	    canon1 = new InteractiveAttachment(corners, new Corner(new double[] {x,y}), new double[] {x-80,y}, 5, new Corner(new double[] {x - 80, y+50}, new double[] {x,y}), 400, 80);
+	    canon1 = new InteractiveAttachment(corners, new Corner(new double[] {x,y}), new double[] {x-80,y}, 5, new Corner(new double[] {x - 80, y+50}, new double[] {x,y}), 600, 150);
 	    
 	    InteractiveAttachment canon2;
 	    c1 = new Corner(new double[] {x + 90, y -10}, new double[] {x,y});
@@ -140,7 +141,7 @@ public class SpaceCruiser extends LongRangeAI{
 	    
 	    corners = new Corner[] {c1,c2,c3,c5,c6,c7,c8,c4};
 	    
-	    canon2 = new InteractiveAttachment(corners, new Corner(new double[] {x,y}), new double[] {x+80,y}, 5, new Corner(new double[] {x + 80, y+50}, new double[] {x,y}), 400,80);
+	    canon2 = new InteractiveAttachment(corners, new Corner(new double[] {x,y}), new double[] {x+80,y}, 5, new Corner(new double[] {x + 80, y+50}, new double[] {x,y}), 600,150);
 	    canon1.setInaccuracy(100);
 	    canon2.setInaccuracy(100);
 	    double[] segment1 = new double[] {-40,200};
@@ -158,6 +159,8 @@ public class SpaceCruiser extends LongRangeAI{
 	    ai.addAttachment(canon1);
 	    ai.addAttachment(canon2);
 	    ai.setHP(20);
+	    ai.getClosestEnemy(enemys);
+
 	   
 	    return ai;
 	}

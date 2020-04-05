@@ -96,8 +96,11 @@ public class InteractiveAttachment extends ObjectAttachment{
 		}
 	
 	public Missile shoot(Corner goalCorner) {
+
 		if(getShoot() && goalCorner != null) {
+
 			if(decideIfFire(goalCorner)){
+
 				Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
 				Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
 				Corner BotLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()+4*dmg}, rp);
@@ -286,18 +289,19 @@ public class InteractiveAttachment extends ObjectAttachment{
 	
 	private void makeShotTrajectory(double lenght, double width) {
 		Corner rp = new Corner(getRotationPoint(), getRotationPoint());
-		Corner c1 = new Corner(getSD(), getRotationPoint());
+		Corner c1 = new Corner(new double[] {getSD().getX()-width/2, getSD().getY()}, getRotationPoint());
 		Corner c2 = new Corner(new double[] {getSD().getX()-width, getSD().getY()+lenght}, getRotationPoint());
 		Corner c3 = new Corner(new double[] {getSD().getX()+width, getSD().getY()+lenght}, getRotationPoint());
-		shotTrajectory =new GameObject(new Corner[] {c1,c2,c3}, getRotationPoint(),getRotationAngle());
+		Corner c4 = new Corner(new double[] {getSD().getX()+width/2, getSD().getY()}, getRotationPoint());
+		shotTrajectory =new GameObject(new Corner[] {c1,c2,c3,c4}, getRotationPoint(),getRotationAngle());
 
 	}
 	
 	public void render(Graphics g) {
 //		shootDirection.renderCorner(g, 4);
 //		shootPoint.renderCorner(g, 4);
-//		shotTrajectory.render(g);
-//		aimCorner.renderCorner(g, 10);
+		shotTrajectory.render(g);
+		aimCorner.renderCorner(g, 10);
 		super.render(g);
 		
 	}

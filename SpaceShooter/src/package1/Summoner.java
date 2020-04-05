@@ -14,10 +14,10 @@ public class Summoner extends AI{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateAI(Player p, GameObject[] gos, AI[] ais) {
-		runIfTooClose(p);
-		super.updateAI(p, gos, ais);
-		stopIfTooClose(p);
+	public void updateAI(GameObject[] enemys, GameObject[] gos, AI[] ais) {
+		runIfTooClose(getTargetedEnemy());
+		super.updateAI(enemys, gos, ais);
+		stopIfTooClose(getTargetedEnemy());
 	}
 	
 	public void stopIfTooClose(GameObject enemy) {
@@ -28,7 +28,7 @@ public class Summoner extends AI{
 		}
 	}
 	
-	public void runIfTooClose(Player p) {
+	public void runIfTooClose(GameObject p) {
 		if(p.getRotationPoint().getPointDistance(getRotationPoint()) < 500) {
 			Corner newGD = new Corner(p.getRotationPoint(), p.getRotationPoint());
 			newGD.turnAround('b', getRotationPoint());
@@ -36,19 +36,19 @@ public class Summoner extends AI{
 		}
 	}
 	
-	public AI handleSummoner() {
+	public AI handleSummoner(GameObject[] enemys) {
 		updateTimer();
 		if(onCooldown == false) {
 			onCooldown = true;
-			return summonAI();
+			return summonAI(enemys);
 		}else {
 			return null;
 		}
 	}
 	
-	public AI summonAI() {
+	public AI summonAI(GameObject[] enemys) {
 		int whichOne = (int) (Math.floor(Math.random()*4));
-		HuntingMine ai = HuntingMine.makeNewHuntingMine(summoningDestinations[whichOne].getX(), summoningDestinations[whichOne].getY());
+		HuntingMine ai = HuntingMine.makeNewHuntingMine(summoningDestinations[whichOne].getX(), summoningDestinations[whichOne].getY(), enemys);
 		return ai;
 	}
 	

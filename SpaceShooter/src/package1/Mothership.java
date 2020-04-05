@@ -9,7 +9,7 @@ public class Mothership extends Summoner{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public static Mothership  makeNewMothership(double x, double y) {
+	public static Mothership  makeNewMothership(double x, double y, GameObject[] enemys) {
 		Mothership ai;
 		
 		Corner summoningPoint1 = new Corner(new double[] {x-65,y+65}, new double[] {x,y});
@@ -85,6 +85,7 @@ public class Mothership extends Summoner{
 	    ai.addAttachment(att3);
 	    ai.setStoppingDistance(600);
 	    ai.setHP(20);
+	    ai.getClosestEnemy(enemys);
 	    return ai;
 	}
 	

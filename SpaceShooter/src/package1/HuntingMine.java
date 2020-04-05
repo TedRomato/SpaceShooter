@@ -7,7 +7,7 @@ public class HuntingMine extends AI{
 		
 	}
 	
-	public static HuntingMine makeNewHuntingMine(double x, double y) {
+	public static HuntingMine makeNewHuntingMine(double x, double y, GameObject[] enemys) {
 		//ai
 		Corner peakAI = new Corner(new double[] {x,y - 22}, new double[] {x ,y});
 		Corner botAI = new Corner(new double[] {x,y + 22}, new double[] {x ,y});
@@ -44,6 +44,7 @@ public class HuntingMine extends AI{
 	    ai.setMaxSpeed(6.5);
 	    ai.addAttachment(att);
 	    ai.setHP(1);
+	    ai.getClosestEnemy(enemys);
 	    return ai;
 	}
 	

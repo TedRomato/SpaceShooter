@@ -69,7 +69,6 @@ public class GameModeTower extends Game {
 		if(ais.length == 0 && wave != waveCount+1 && waveEnd) {
 			wave++;
 			AIneeded = true;
-			System.out.println("W: " + wave);
 			PowerLevel=0;
 			AIcount=90;
 			waveEnd = false;
@@ -78,13 +77,17 @@ public class GameModeTower extends Game {
 	public void spawnAI(int PL) {
 		spawnCorner = GameObject.generateCornerOutsideMapInRange(mainWidth, mainHeight, new int[] {70,100});
 		switch(PL){
-			case 0 : hm = hm.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY()); addObToGame(hm, new int[] {4,7,9}); 
+
+			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys()); addObToGame(hm, new int[] {4,7,9,10}); 
 			break;
-			case 1 : sca = sca.makeNewSpaceCanon(spawnCorner.getX(), spawnCorner.getY()); addObToGame(sca, new int[] {4,7,9}); 
+
+			case 1 : sca = SpaceCanon.makeNewSpaceCanon(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys()); addObToGame(sca, new int[] {4,7,9,10}); 
 			break;
-			case 2 : mp = mp.makeNewMothership(spawnCorner.getX(), spawnCorner.getY()); addObToGame(mp, new int[] {4,7}); 
+
+			case 2 : mp = Mothership.makeNewMothership(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys()); addObToGame(mp, new int[] {4,7,10}); 
 			break;
-			case 3 : scr = scr.makeNewSpaceCruiser(spawnCorner.getX(), spawnCorner.getY()); addObToGame(scr, new int[] {4,7,9}); 
+
+			case 3 : scr = SpaceCruiser.makeNewSpaceCruiser(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys()); addObToGame(scr, new int[] {4,7,9,10}); 
 			break;
 			default : 
 		}

@@ -15,6 +15,7 @@ public class AI extends LivingObject{
 	boolean collisionDanger = false;
 	double stoppingDistance = 0;
 	boolean isInStoppingDistance = false;
+	GameObject targetedEnemy;
 
 	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
 		super(corners, rotationPoint, rotationAngle, md);
@@ -62,14 +63,15 @@ public class AI extends LivingObject{
 	
 	//Guides AI to goal destination, if about to crash gives priority to avoiding collision 
 	
-	public void updateAI(Player p, GameObject[] gos, AI[] ais) {
-		updateAllAimCorners(p);
+	public void updateAI(GameObject[] aiEnemys, GameObject[] gos, AI[] ais) {
+		getClosestEnemy(aiEnemys);
+		updateAllAimCorners(getTargetedEnemy());
 		checkAndHandleTrack(gos);
-		updateIsInStoppingDistance(p);
+		updateIsInStoppingDistance(getTargetedEnemy());
 		updateRotationToGoal();
 		updateForward();
 		if(collisionDanger == false) {
-			setGoalToGameObject(p);
+			setGoalToGameObject(getTargetedEnemy());
 		}
 		handleAllFriendlyFire(ais);
 	}
@@ -302,9 +304,9 @@ public class AI extends LivingObject{
 	
 	//Behavioral methods
 	
-	public GameObject getClosestEnemy(GameObject[] enemys) {
+	public void getClosestEnemy(GameObject[] enemys) {
 		if(enemys.length <= 0 ) {
-			return null;
+			targetedEnemy = null;
 		}
 		int closestEnemy = 0;
 		double closest = this.getRotationPoint().getPointDistance(enemys[0].getRotationPoint());
@@ -315,13 +317,13 @@ public class AI extends LivingObject{
 				closest = newDistance;
 			}
 		}
-		return enemys[closestEnemy];	
+		targetedEnemy = enemys[closestEnemy];	
 	}
 	
-	
+	/*
 	public void setGoalToClosestEnemy(GameObject[] enemys) {
 		setGoalToCorner((getClosestEnemy(enemys)).getRotationPoint());
-	}
+	}*/
 	
 	public void stopIfTooClose(GameObject enemy) {
 		if(this.getRotationPoint().getPointDistance(enemy.getRotationPoint()) < stoppingDistance) {
@@ -450,7 +452,9 @@ public class AI extends LivingObject{
 		return stoppingDistance;
 	}
 	
-	
+	public GameObject getTargetedEnemy() {
+		return targetedEnemy;
+	}
 	
 	
 	
