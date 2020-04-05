@@ -154,6 +154,8 @@ public class Game extends JPanel{
 			ai.updateAI(aiEnemys, aiVisible, ais);
 		}
 	}
+	//TODO vyresit pro magazine reload 
+	
 	private void handleShooting(){
 		for(LivingObject sob : shootingObs ) {	
 			if(sob.getAttachments() != null && sob.getAttachments().length > 0) {
@@ -163,17 +165,17 @@ public class Game extends JPanel{
 					}
 					if(att instanceof InteractiveAttachment) {
 						if(sob instanceof AI) {
-							if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot(((InteractiveAttachment)att).getAimCorner()) !=  null) {
-								addObToGame(((InteractiveAttachment)att).shoot(((InteractiveAttachment)att).getAimCorner()), new int[] {1,2,3,4,6,7,8,9,10});
-								((InteractiveAttachment)att).setReloadLenght(0);
+							if(att.getReloadLenght() == att.getReloadTimer() && att.shouldShoot(att.getAimCorner())) {
+								addObToGame(att.shoot(), new int[] {1,2,3,4,6,7,8,9,10});
+								att.setReloadLenght(0);
 							}
 						}
-						else if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot() !=  null) {
-							addObToGame(((InteractiveAttachment)att).shoot(), new int[] {1,2,3,4,6,7,8,9,10});
-							((InteractiveAttachment)att).setReloadLenght(0);
+						else if(att.getReloadLenght() == att.getReloadTimer() && att.shouldShoot()) {
+							addObToGame(att.shoot(), new int[] {1,2,3,4,6,7,8,9,10});
+							att.setReloadLenght(0);
 						}
-						if(((InteractiveAttachment)att).reloadLenght != ((InteractiveAttachment)att).reloadTimer) { 
-							((InteractiveAttachment)att).reloadLenght++;
+						if(att.getReloadLenght() != att.getReloadTimer()) { 
+							att.setReloadLenght(att.getReloadLenght()+1);
 						}
 					}
 				}

@@ -104,7 +104,7 @@ public class Player extends LivingObject implements KeyListener{
 		Corner wp = new Corner(new double[] {rp[0] ,rp[1] + 40}, rp);
 	    
 	    canon = new MagazineAttachment(new Corner[] {tl,tr,br,bl}, new Corner(rp) , new double[] {rp[0], rp[1]}, 0, wp, 0,0);
-	    canon.setMagazineParameters(5, 200);
+	    canon.setMagazineParameters(5, 60);
 	    
 	    Corner peak = new Corner(new double[] {rp[0] ,rp[1] + 25}, rp);
 	    Corner rightCorner = new Corner(new double[] {rp[0] - 25, rp[1] - 25}, rp);

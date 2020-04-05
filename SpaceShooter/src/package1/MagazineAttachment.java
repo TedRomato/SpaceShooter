@@ -14,27 +14,30 @@ public class MagazineAttachment extends InteractiveAttachment{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Missile shoot(Corner goalCorner) {
 
+	
+	public boolean shouldShoot(Corner goalCorner) {
 		if(getShoot() && goalCorner != null) {
 			if(decideIfFire(goalCorner) && getReloadingMag() == false) {
-				return FIRE();
-			}else {
-				return null;
+				magazineSize--;
+				return true;
 			}
 		}
-		else return null;
+		return false;
 	}
 	
-	public Missile shoot() {
+
+	
+	public boolean shouldShoot() {
 		if(getShoot() && getReloadingMag() == false) {
-				return FIRE();
-			}
-		else return null;
+			magazineSize--;
+			return true;
 		}
+		else return false;
+	}
 	
 	public void handleMagazine() {
-		System.out.println(magazineMaxSize);
+		System.out.println(magazineSize);
 		if(magazineSize <= 0) {
 			magazineReloadTimer--;
 			reloadingMag = true;

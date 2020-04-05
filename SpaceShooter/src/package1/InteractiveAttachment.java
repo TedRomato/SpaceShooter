@@ -4,8 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class InteractiveAttachment extends ObjectAttachment{
-	protected int reloadLenght;
-	protected int reloadTimer;
+
 	Corner wayPoint;
 	Corner shootDirection, shootPoint;
 	double attRotationAngle;
@@ -95,32 +94,31 @@ public class InteractiveAttachment extends ObjectAttachment{
 
 		}
 	
-	public Missile shoot(Corner goalCorner) {
 
+	
+	public boolean shouldShoot(Corner goalCorner) {
 		if(getShoot() && goalCorner != null) {
-
 			if(decideIfFire(goalCorner)) {
-				return FIRE();
-			}else {
-				return null;
+				return true;
 			}
 		}
-		else return null;
+		return false;
 	}
 	
+
 	
-	public Missile shoot() {
+	public boolean shouldShoot() {
 		if(getShoot()) {
-				return FIRE();
-			}
-		else return null;
+			return true;
 		}
+		else return false;
+	}
 	
 	public void updateAimPoint(GameObject go) {
 		setAimCorner(getNewAimCorner(go));
 	}
 	
-	protected Missile FIRE() {
+	protected Missile shoot() {
 		Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
 		Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
 		Corner BotLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()+4*dmg}, rp);
@@ -294,8 +292,8 @@ public class InteractiveAttachment extends ObjectAttachment{
 	public void render(Graphics g) {
 //		shootDirection.renderCorner(g, 4);
 //		shootPoint.renderCorner(g, 4);
-		shotTrajectory.render(g);
-		aimCorner.renderCorner(g, 10);
+//		shotTrajectory.render(g);
+//		aimCorner.renderCorner(g, 10);
 		super.render(g);
 		
 	}
