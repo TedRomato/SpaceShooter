@@ -154,11 +154,13 @@ public class Game extends JPanel{
 			ai.updateAI(aiEnemys, aiVisible, ais);
 		}
 	}
-
 	private void handleShooting(){
 		for(LivingObject sob : shootingObs ) {	
 			if(sob.getAttachments() != null && sob.getAttachments().length > 0) {
 				for(ObjectAttachment att : sob.getAttachments()) {
+					if(att instanceof MagazineAttachment) {
+						((MagazineAttachment) att).handleMagazine();
+					}
 					if(att instanceof InteractiveAttachment) {
 						if(sob instanceof AI) {
 							if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot(((InteractiveAttachment)att).getAimCorner()) !=  null) {

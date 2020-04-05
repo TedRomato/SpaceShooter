@@ -20,7 +20,7 @@ public class SpaceCanon extends AI{
 	    Corner rightCornerAIAt = new Corner(new double[] {x+14,y+14}, new double[] {x ,y});
 	    Corner leftCornerAIAt = new Corner(new double[] {x+14,y-14}, new double[] {x ,y});
 	    Corner wayPoint = new Corner(new double[] {x,y + 60}, new double[] {x ,y});
-	    InteractiveAttachment att = new InteractiveAttachment(new Corner[] {peakAIAt,botAIAt,canonAt1,canonAt2,canonAt3,canonAt4,rightCornerAIAt,leftCornerAIAt},new Corner(new double[] {x ,y}), new double[] {x ,y}, 0.6, wayPoint, 900, 35);
+	    InteractiveAttachment att = new InteractiveAttachment(new Corner[] {peakAIAt,botAIAt,canonAt1,canonAt2,canonAt3,canonAt4,rightCornerAIAt,leftCornerAIAt},new Corner(new double[] {x ,y}), new double[] {x ,y}, 0.6, wayPoint, 900, 45);
 	    att.setRotateWithParentOb(false);
 	    att.setAttRangle(2);
 	    att.setReloadTimer(120);

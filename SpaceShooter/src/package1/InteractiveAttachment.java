@@ -99,20 +99,8 @@ public class InteractiveAttachment extends ObjectAttachment{
 
 		if(getShoot() && goalCorner != null) {
 
-			if(decideIfFire(goalCorner)){
-
-				Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
-				Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
-				Corner BotLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()+4*dmg}, rp);
-				Corner BotRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()+4*dmg}, rp);
-				Corner TopRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()-4*dmg}, rp);
-				Corner md = new Corner(new double[] {getSD().getX(), getSD().getY()}, rp);
-				Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, rp, 0,md,12);
-				m.getNewRatios();
-				m.setNewVels();
-				m.setDmg(dmg);
-				getNewInaccuracy();
-				return m;
+			if(decideIfFire(goalCorner)) {
+				return FIRE();
 			}else {
 				return null;
 			}
@@ -120,25 +108,31 @@ public class InteractiveAttachment extends ObjectAttachment{
 		else return null;
 	}
 	
+	
 	public Missile shoot() {
 		if(getShoot()) {
-				Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
-				Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
-				Corner BotLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()+4*dmg}, rp);
-				Corner BotRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()+4*dmg}, rp);
-				Corner TopRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()-4*dmg}, rp);
-				Corner md = new Corner(new double[] {getSD().getX(), getSD().getY()}, rp);
-				Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, rp, 0,md,12);
-				m.getNewRatios();
-				m.setNewVels();
-				m.setDmg(dmg);
-				return m;
+				return FIRE();
 			}
 		else return null;
 		}
 	
 	public void updateAimPoint(GameObject go) {
 		setAimCorner(getNewAimCorner(go));
+	}
+	
+	protected Missile FIRE() {
+		Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
+		Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
+		Corner BotLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()+4*dmg}, rp);
+		Corner BotRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()+4*dmg}, rp);
+		Corner TopRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()-4*dmg}, rp);
+		Corner md = new Corner(new double[] {getSD().getX(), getSD().getY()}, rp);
+		Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, rp, 0,md,12);
+		m.getNewRatios();
+		m.setNewVels();
+		m.setDmg(dmg);
+		getNewInaccuracy();
+		return m;
 	}
 	
 

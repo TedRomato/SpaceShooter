@@ -82,38 +82,12 @@ public class Player extends LivingObject implements KeyListener{
 		}
 
 	}
-	
-	public static Player makeNewPlayer(Corner rp) {
-		Player p;
-		ObjectAttachment attachment;
-	//	ObjectAttachment straightLine;
-		
-		Corner peakA = new Corner(new double[] {rp.getX(),rp.getY()-75}, rp);
-	    Corner rightCornerA = new Corner(new double[] { - 10, rp.getY()-25}, rp);
-	    Corner leftCornerA = new Corner(new double[] {rp.getX() + 10,  rp.getY()-25}, rp);
-	    
-	    attachment = new ObjectAttachment(new Corner[] {peakA, rightCornerA, leftCornerA}, rp,new double[] {rp.getX(),rp.getY()-25},0);
-	//    straightLine = new ObjectAttachment(new Corner[] {new Corner(new double[] {rp.getX() ,rp.getY() + 25}, rp), new Corner(new double[] {rp.getX() ,rp.getY() + 350}, rp),}, rp,new double[] {rp.getX(),rp.getY()-25},-5);
-		
-	    Corner peak = new Corner(new double[] {rp.getX() ,rp.getY() + 25}, rp);
-	    Corner rightCorner = new Corner(new double[] {rp.getX() - 25, rp.getY() - 25}, rp);
-	    Corner leftCorner = new Corner(new double[] {rp.getX() + 25, rp.getY() - 25}, rp);
-	    
-	    p = new Player(new Corner[] {peak, rightCorner, leftCorner},rp,6, new Corner(new double[] {rp.getX(),rp.getY()+25}, rp));
-	    p.addAttachment(attachment);
-	    p.setHP(50);
-	    p.setReflectedSpeed(6);
 
-
-	 //   p.addAttachment(straightLine);
-	    
-	    return p;
-	}
 	
 	public static Player makeNewPlayer(double[] rp) {
 		Player p;
 		ObjectAttachment attachment;
-		InteractiveAttachment canon;
+		MagazineAttachment canon;
 //		ObjectAttachment straightLine;
 		
 		Corner peakA = new Corner(new double[] {rp[0],rp[1]-75}, rp);
@@ -129,7 +103,8 @@ public class Player extends LivingObject implements KeyListener{
 	    Corner bl = new Corner(new double[] {rp[0] - 3,rp[1] + 40}, rp);
 		Corner wp = new Corner(new double[] {rp[0] ,rp[1] + 40}, rp);
 	    
-	    canon = new InteractiveAttachment(new Corner[] {tl,tr,br,bl}, new Corner(rp) , new double[] {rp[0], rp[1]}, 0, wp, 0,0);
+	    canon = new MagazineAttachment(new Corner[] {tl,tr,br,bl}, new Corner(rp) , new double[] {rp[0], rp[1]}, 0, wp, 0,0);
+	    canon.setMagazineParameters(5, 200);
 	    
 	    Corner peak = new Corner(new double[] {rp[0] ,rp[1] + 25}, rp);
 	    Corner rightCorner = new Corner(new double[] {rp[0] - 25, rp[1] - 25}, rp);
