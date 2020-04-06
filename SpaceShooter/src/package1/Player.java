@@ -31,9 +31,10 @@ public class Player extends LivingObject implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
-	
+		System.out.println(e.getKeyChar());
 		if(e.getKeyChar() == moveChar) {
 			if(getReflected() == false) {
+
 				setForward(true);
 			}
 			
@@ -82,7 +83,16 @@ public class Player extends LivingObject implements KeyListener{
 		}
 
 	}
-
+	
+	
+	public void updatePlayer() {
+		((MagazineAttachment)getAttachments()[3]).rotateToCorner(((MagazineAttachment)getAttachments()[3]).getAimCorner());
+	}
+	
+	public void setPlayerAimCorner(double x, double y) {
+		((MagazineAttachment)getAttachments()[3]).setAimCorner(x,y);
+	}
+	
 	
 	public static Player makeNewPlayer(double[] rp) {
 		Player p;
@@ -124,7 +134,8 @@ public class Player extends LivingObject implements KeyListener{
 		
 	    canon = new MagazineAttachment(new Corner[] {b1,b2,b3,b4}, new Corner(rp) , new double[] {rp[0], rp[1] + 5}, 0, wp, 0,0);
 	    canon.setMagazineParameters(5, 60);
-	    canon.setRotationSegment(new double[] {-220,220});
+	    canon.setAttRangle(5);
+	//    canon.setRotationSegment(new double[] {-220,220});
 	    
 	    
 	    Corner rightTCorner = new Corner(new double[] {rp[0] - 20, rp[1] - 50}, rp);
@@ -139,6 +150,7 @@ public class Player extends LivingObject implements KeyListener{
 	    p.setHP(50);
 	    p.setReflectedSpeed(6);
 	    p.addAttachment(canon);
+	    p.setReflectedLenght(20);
 //	    p.addAttachment(straightLine);
 
 	    

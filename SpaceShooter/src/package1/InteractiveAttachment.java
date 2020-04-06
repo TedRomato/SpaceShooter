@@ -302,7 +302,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 		aimCorner = newAimCorner;
 	}
 	
-	public void setAimCorner(int x, int y) {
+	public void setAimCorner(double x, double y) {
 		aimCorner.setX(x);
 		aimCorner.setY(y);
 	}

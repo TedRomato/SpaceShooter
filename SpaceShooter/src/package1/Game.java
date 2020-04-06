@@ -7,15 +7,21 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.LayoutManager;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 
-public class Game extends JPanel{
+public class Game extends JPanel implements MouseListener{
 
 	int mainHeight = 1908,mainWidth = 3392;
 	protected Player p;
@@ -62,7 +68,9 @@ public class Game extends JPanel{
 	    summoners = new Summoner[] {};
 		aiEnemys = new GameObject[] {};
 	    arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais, meteors, shootingObs,summoners, aiEnemys};
-
+	    
+	    addMouseListener(this);
+	    
 	    Corner rightBotC = new Corner(new double[] {mainWidth,mainHeight}, new double[] {500,400});
 	    Corner leftBotC = new Corner(new double[] {0,mainHeight}, new double[] {500,400});
 	    Corner rightTopC = new Corner(new double[] {mainWidth,0}, new double[] {500,400});
@@ -132,7 +140,9 @@ public class Game extends JPanel{
 		}
 	}
 	
-	public void tick() {	
+	public void tick() {
+		updatePlayerAimPoint();
+		p.updatePlayer();
 		handleShooting();	
 		checkAndHandleCollision();
     	updateLivingObsReflect();
@@ -147,7 +157,13 @@ public class Game extends JPanel{
 	}
 	
 	
-
+	public void updatePlayerAimPoint() {
+		PointerInfo a = MouseInfo.getPointerInfo();
+		Point b = a.getLocation();
+		int x = (int) b.getX();
+		int y = (int) b.getY();
+		p.setPlayerAimCorner(x*(double)mainWidth/(double)currentScreenWidth, y*(double)mainWidth/(double)currentScreenWidth);
+	}
 	
 	private void handleAis() {
 		for(AI ai : ais) {
@@ -457,6 +473,31 @@ public class Game extends JPanel{
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		renderAll(g2);
 
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
