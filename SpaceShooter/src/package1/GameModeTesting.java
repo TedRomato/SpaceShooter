@@ -45,15 +45,7 @@ public class GameModeTesting extends Game{
 	}
 	
 	
-	public void keyTyped(KeyEvent e) {
-		
-	}
-	public void keyPressed(KeyEvent e) {
-		p.keyPressed(e);
-	}
-	public void keyReleased(KeyEvent e) {
-		p.keyReleased(e);
-	}
+	
 	
 	
 

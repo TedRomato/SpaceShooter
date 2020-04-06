@@ -1,12 +1,9 @@
 package package1;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 
-public class Player extends LivingObject implements KeyListener{
+
+public class Player extends LivingObject{
 	
 	char moveChar = 'w', turnLeftChar = 'a', turnRightChar = 'd', shootChar = ' ';
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
@@ -28,11 +25,10 @@ public class Player extends LivingObject implements KeyListener{
 		
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
+	
+	public void handlePlayerKeys() {
 		
-		System.out.println(e.getKeyChar());
-		if(e.getKeyChar() == moveChar) {
+		if(Game.keyChecker.checkIfCharIsPressed(moveChar)) {
 			if(getReflected() == false) {
 
 				setForward(true);
@@ -40,49 +36,38 @@ public class Player extends LivingObject implements KeyListener{
 			
 			
 		}
-		if(e.getKeyChar() == turnLeftChar) {
+		if(Game.keyChecker.checkIfCharIsPressed(turnLeftChar)) {
 			setLeft(true);
 			makeNegativeRotation();
 		}
-		if(e.getKeyChar() == turnRightChar) {
+		if(Game.keyChecker.checkIfCharIsPressed(turnRightChar)) {
 			setRight(true);
 			makePositiveRotation();
 			
 		}
-		if(e.getKeyChar() == shootChar) {
+		if(Game.keyChecker.isLeftMousePressed()) {
 			setShootForInteractiveAtts(true);
 		}
-	}
-
-
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-
 		
-	}
-
-
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		
-		if(e.getKeyChar() == moveChar) {
+		if(Game.keyChecker.checkIfCharIsPressed(moveChar)==false) {
 			setForward(false);
 			
 		}
-		if(e.getKeyChar() == turnLeftChar) {
+		if(Game.keyChecker.checkIfCharIsPressed(turnLeftChar)==false) {
 			setLeft(false);
 		}
-		if(e.getKeyChar() == turnRightChar) {
+		if(Game.keyChecker.checkIfCharIsPressed(turnRightChar)==false) {
 			setRight(false);
 			
 		}
-		if(e.getKeyChar() == shootChar) {
+		if(Game.keyChecker.isLeftMousePressed()==false) {
 			setShootForInteractiveAtts(false);
 		}
 
+		
 	}
+
+
 	
 	
 	public void updatePlayer() {
@@ -135,6 +120,7 @@ public class Player extends LivingObject implements KeyListener{
 	    canon = new MagazineAttachment(new Corner[] {b1,b2,b3,b4}, new Corner(rp) , new double[] {rp[0], rp[1] + 5}, 0, wp, 0,0);
 	    canon.setMagazineParameters(5, 60);
 	    canon.setAttRangle(5);
+	    canon.setRotateWithParentOb(false);
 	//    canon.setRotationSegment(new double[] {-220,220});
 	    
 	    

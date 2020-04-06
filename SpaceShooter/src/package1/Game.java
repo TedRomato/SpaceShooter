@@ -33,6 +33,7 @@ public class Game extends JPanel implements MouseListener{
 	protected int currentScreenHeight;
 	public static double screenRatio;
 	private RandomMeteorGenerator randomMeteorGenerator = new RandomMeteorGenerator();
+	public static KeyChecker keyChecker = new KeyChecker();
 	private GameObject[] borders;
 	private GameObject[] objects;
 	private MovingObject[] reflectableObs;
@@ -99,9 +100,14 @@ public class Game extends JPanel implements MouseListener{
 		
 	}
 	public void keyPressed(KeyEvent e) {
-		
+		if(e != null) {
+			keyChecker.charPressed(e.getKeyChar());
+		}
 	}
 	public void keyReleased(KeyEvent e) {
+		if(e != null) {
+			keyChecker.charReleased(e.getKeyChar());
+		}
 	}
 	
 	
@@ -141,6 +147,7 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void tick() {
+		p.handlePlayerKeys();
 		updatePlayerAimPoint();
 		p.updatePlayer();
 		handleShooting();	
@@ -482,12 +489,23 @@ public class Game extends JPanel implements MouseListener{
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
+		if(e.getButton() == 1) {
+			keyChecker.setLeftMousePressed(true);
+		}
+		if(e.getButton() == 3) {
+			keyChecker.setRightMousePressed(true);
+		}
 		
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		if(e.getButton() == 1) {
+			keyChecker.setLeftMousePressed(false);
+		}
+		if(e.getButton() == 3) {
+			keyChecker.setRightMousePressed(false);
+		}
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
