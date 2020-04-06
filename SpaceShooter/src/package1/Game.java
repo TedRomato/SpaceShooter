@@ -166,12 +166,12 @@ public class Game extends JPanel{
 					if(att instanceof InteractiveAttachment) {
 						if(sob instanceof AI) {
 							if(att.getReloadLenght() == att.getReloadTimer() && att.shouldShoot(att.getAimCorner())) {
-								addObToGame(att.shoot(), new int[] {1,2,3,4,6,7,8,9,10});
+								addObToGame(att.shoot(sob), new int[] {1,2,3,4,6,7,8,9,10});
 								att.setReloadLenght(0);
 							}
 						}
 						else if(att.getReloadLenght() == att.getReloadTimer() && att.shouldShoot()) {
-							addObToGame(att.shoot(), new int[] {1,2,3,4,6,7,8,9,10});
+							addObToGame(att.shoot(sob), new int[] {1,2,3,4,6,7,8,9,10});
 							att.setReloadLenght(0);
 						}
 						if(att.getReloadLenght() != att.getReloadTimer()) { 
@@ -211,7 +211,7 @@ public class Game extends JPanel{
 			for(MovingObject ob : reflectingObs) {
 				if(mob != ob) {
 					mob.checkAndHandleReflect(ob);
-					if(ob.getClass().getSimpleName().equals("LivingObject") || ob.getClass().getSimpleName().equals("Player")) {
+					if(ob instanceof LivingObject) {
 						if(((LivingObject) ob).getAttachments()!= null) {
 							if(((LivingObject) ob).getAttachments().length > 0) {
 								for(ObjectAttachment att : ((LivingObject) ob).getAttachments()) {
@@ -234,14 +234,19 @@ public class Game extends JPanel{
 					
 					if(objects[i].checkCollision(compareArray[x])) {
 						if(objects[i].getInvulnurability() == false) {
-							if(compareArray[x] instanceof Missile) {
-								if(objects[i] instanceof Missile) {
+							if(objects[i] instanceof Missile) {
+								if(compareArray[x] instanceof Missile) {
 									((Missile)objects[i]).handleMissileCollision((Missile)compareArray[x]);
 								}else {
-									objects[i].setHP(objects[i].getHP()-((Missile) compareArray[x]).getDmg());
-
+									if(((Missile) objects[i]).getWhoShot() != compareArray[x]) {
+										objects[i].setHP(objects[i].getHP()-objects[i].getHP());
+									}
 								}
-							}else {
+							} else if(compareArray[x] instanceof Missile) {
+								if(((Missile) compareArray[x]).getWhoShot() != objects[i]) {
+									objects[i].setHP(objects[i].getHP()-1);
+								}
+							} else {
 								objects[i].setHP(objects[i].getHP()-1);
 							}
 							objects[i].startInvulnurability();
@@ -272,7 +277,7 @@ public class Game extends JPanel{
 	private void reflectFromSides() {
 		for(int i = 0; i < borders.length; i++) {
 			for(MovingObject go : borderSensitive) {
-				if(go.getClass().getSimpleName().equals("Meteor") ) {
+				if(go instanceof Meteor) {
 					if(go.checkCollision(borders[i])) {
 						((Meteor) go).reflectMeteorFromSide(i,go.getRotationPoint());
 					}

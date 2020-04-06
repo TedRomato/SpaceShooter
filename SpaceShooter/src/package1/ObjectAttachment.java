@@ -74,7 +74,7 @@ public class ObjectAttachment extends GameObject{
 		rotateWithParentOb = b;
 	}
 	
-	protected Missile shoot() {
+	protected Missile shoot(GameObject ob) {
 		return null;
 	}
 	

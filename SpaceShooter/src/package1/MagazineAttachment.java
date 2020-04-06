@@ -37,7 +37,6 @@ public class MagazineAttachment extends InteractiveAttachment{
 	}
 	
 	public void handleMagazine() {
-		System.out.println(magazineSize);
 		if(magazineSize <= 0) {
 			magazineReloadTimer--;
 			reloadingMag = true;
