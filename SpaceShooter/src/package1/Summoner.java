@@ -83,6 +83,10 @@ public class Summoner extends AI{
 		}
 	}
 	
+	public void setSummoningSpeed(int i) {
+		w8Length = i;
+	}
+	
 	public void render(Graphics g) {
 		super.render(g);
 		

@@ -7,15 +7,21 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.LayoutManager;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 
-public class Game extends JPanel{
+public class Game extends JPanel implements MouseListener{
 
 	int mainHeight = 1908,mainWidth = 3392;
 	protected Player p;
@@ -27,6 +33,7 @@ public class Game extends JPanel{
 	protected int currentScreenHeight;
 	public static double screenRatio;
 	private RandomMeteorGenerator randomMeteorGenerator = new RandomMeteorGenerator();
+	public static KeyChecker keyChecker = new KeyChecker();
 	private GameObject[] borders;
 	private GameObject[] objects;
 	private MovingObject[] reflectableObs;
@@ -62,7 +69,9 @@ public class Game extends JPanel{
 	    summoners = new Summoner[] {};
 		aiEnemys = new GameObject[] {};
 	    arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais, meteors, shootingObs,summoners, aiEnemys};
-
+	    
+	    addMouseListener(this);
+	    
 	    Corner rightBotC = new Corner(new double[] {mainWidth,mainHeight}, new double[] {500,400});
 	    Corner leftBotC = new Corner(new double[] {0,mainHeight}, new double[] {500,400});
 	    Corner rightTopC = new Corner(new double[] {mainWidth,0}, new double[] {500,400});
@@ -91,9 +100,14 @@ public class Game extends JPanel{
 		
 	}
 	public void keyPressed(KeyEvent e) {
-		
+		if(e != null) {
+			keyChecker.charPressed(e.getKeyChar());
+		}
 	}
 	public void keyReleased(KeyEvent e) {
+		if(e != null) {
+			keyChecker.charReleased(e.getKeyChar());
+		}
 	}
 	
 	
@@ -132,7 +146,10 @@ public class Game extends JPanel{
 		}
 	}
 	
-	public void tick() {	
+	public void tick() {
+		p.handlePlayerKeys();
+		updatePlayerAimPoint();
+		p.updatePlayer();
 		handleShooting();	
 		checkAndHandleCollision();
     	updateLivingObsReflect();
@@ -147,31 +164,41 @@ public class Game extends JPanel{
 	}
 	
 	
-
+	public void updatePlayerAimPoint() {
+		PointerInfo a = MouseInfo.getPointerInfo();
+		Point b = a.getLocation();
+		int x = (int) b.getX();
+		int y = (int) b.getY();
+		p.setPlayerAimCorner(x*(double)mainWidth/(double)currentScreenWidth, y*(double)mainWidth/(double)currentScreenWidth);
+	}
 	
 	private void handleAis() {
 		for(AI ai : ais) {
 			ai.updateAI(aiEnemys, aiVisible, ais);
 		}
 	}
-
+	//TODO vyresit pro magazine reload 
+	
 	private void handleShooting(){
 		for(LivingObject sob : shootingObs ) {	
 			if(sob.getAttachments() != null && sob.getAttachments().length > 0) {
 				for(ObjectAttachment att : sob.getAttachments()) {
+					if(att instanceof MagazineAttachment) {
+						((MagazineAttachment) att).handleMagazine();
+					}
 					if(att instanceof InteractiveAttachment) {
 						if(sob instanceof AI) {
-							if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot(((InteractiveAttachment)att).getAimCorner()) !=  null) {
-								addObToGame(((InteractiveAttachment)att).shoot(((InteractiveAttachment)att).getAimCorner()), new int[] {1,2,3,4,6,7,8,9,10});
-								((InteractiveAttachment)att).setReloadLenght(0);
+							if(att.getReloadLenght() == att.getReloadTimer() && att.shouldShoot(att.getAimCorner())) {
+								addObToGame(att.shoot(sob), new int[] {1,2,3,4,6,7,8,9,10});
+								att.setReloadLenght(0);
 							}
 						}
-						else if(((InteractiveAttachment)att).reloadLenght == ((InteractiveAttachment)att).reloadTimer && ((InteractiveAttachment)att).shoot() !=  null) {
-							addObToGame(((InteractiveAttachment)att).shoot(), new int[] {1,2,3,4,6,7,8,9,10});
-							((InteractiveAttachment)att).setReloadLenght(0);
+						else if(att.getReloadLenght() == att.getReloadTimer() && att.shouldShoot()) {
+							addObToGame(att.shoot(sob), new int[] {1,2,3,4,6,7,8,9,10});
+							att.setReloadLenght(0);
 						}
-						if(((InteractiveAttachment)att).reloadLenght != ((InteractiveAttachment)att).reloadTimer) { 
-							((InteractiveAttachment)att).reloadLenght++;
+						if(att.getReloadLenght() != att.getReloadTimer()) { 
+							att.setReloadLenght(att.getReloadLenght()+1);
 						}
 					}
 				}
@@ -207,7 +234,7 @@ public class Game extends JPanel{
 			for(MovingObject ob : reflectingObs) {
 				if(mob != ob) {
 					mob.checkAndHandleReflect(ob);
-					if(ob.getClass().getSimpleName().equals("LivingObject") || ob.getClass().getSimpleName().equals("Player")) {
+					if(ob instanceof LivingObject) {
 						if(((LivingObject) ob).getAttachments()!= null) {
 							if(((LivingObject) ob).getAttachments().length > 0) {
 								for(ObjectAttachment att : ((LivingObject) ob).getAttachments()) {
@@ -230,14 +257,19 @@ public class Game extends JPanel{
 					
 					if(objects[i].checkCollision(compareArray[x])) {
 						if(objects[i].getInvulnurability() == false) {
-							if(compareArray[x] instanceof Missile) {
-								if(objects[i] instanceof Missile) {
+							if(objects[i] instanceof Missile) {
+								if(compareArray[x] instanceof Missile) {
 									((Missile)objects[i]).handleMissileCollision((Missile)compareArray[x]);
 								}else {
-									objects[i].setHP(objects[i].getHP()-((Missile) compareArray[x]).getDmg());
-
+									if(((Missile) objects[i]).getWhoShot() != compareArray[x]) {
+										objects[i].setHP(objects[i].getHP()-objects[i].getHP());
+									}
 								}
-							}else {
+							} else if(compareArray[x] instanceof Missile) {
+								if(((Missile) compareArray[x]).getWhoShot() != objects[i]) {
+									objects[i].setHP(objects[i].getHP()-1);
+								}
+							} else {
 								objects[i].setHP(objects[i].getHP()-1);
 							}
 							objects[i].startInvulnurability();
@@ -268,7 +300,7 @@ public class Game extends JPanel{
 	private void reflectFromSides() {
 		for(int i = 0; i < borders.length; i++) {
 			for(MovingObject go : borderSensitive) {
-				if(go.getClass().getSimpleName().equals("Meteor") ) {
+				if(go instanceof Meteor) {
 					if(go.checkCollision(borders[i])) {
 						((Meteor) go).reflectMeteorFromSide(i,go.getRotationPoint());
 					}
@@ -448,6 +480,42 @@ public class Game extends JPanel{
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		renderAll(g2);
 
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getButton() == 1) {
+			keyChecker.setLeftMousePressed(true);
+		}
+		if(e.getButton() == 3) {
+			keyChecker.setRightMousePressed(true);
+		}
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getButton() == 1) {
+			keyChecker.setLeftMousePressed(false);
+		}
+		if(e.getButton() == 3) {
+			keyChecker.setRightMousePressed(false);
+		}
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

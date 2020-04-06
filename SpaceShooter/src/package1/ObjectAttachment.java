@@ -7,6 +7,8 @@ public class ObjectAttachment extends GameObject{
 	Corner attachmentRP;
 	double atachmentCurrentAngle = 0;
 	boolean rotateWithParentOb = true;
+	protected int reloadTimer;
+	protected int reloadLenght;
 	
 	public ObjectAttachment(Corner[] corners, double[] rotationPoint,double[] attachmentRP, double rotationAngle) {
 		super(corners, rotationPoint, rotationAngle) ;
@@ -72,6 +74,21 @@ public class ObjectAttachment extends GameObject{
 		rotateWithParentOb = b;
 	}
 	
+	protected Missile shoot(GameObject ob) {
+		return null;
+	}
+	
+	public boolean shouldShoot(Corner c){
+		return false;
+	}
+	
+	public boolean shouldShoot(){
+		return false;
+	}
+	
+	public Corner getAimCorner() {
+		return null;
+	}
 	
 	public void render(Graphics g) {
 		super.render(g);

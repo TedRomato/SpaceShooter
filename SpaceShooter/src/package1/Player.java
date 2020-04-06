@@ -1,12 +1,9 @@
 package package1;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 
-public class Player extends LivingObject implements KeyListener{
+
+public class Player extends LivingObject{
 	
 	char moveChar = 'w', turnLeftChar = 'a', turnRightChar = 'd', shootChar = ' ';
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
@@ -28,119 +25,118 @@ public class Player extends LivingObject implements KeyListener{
 		
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		
 	
-		if(e.getKeyChar() == moveChar) {
+	public void handlePlayerKeys() {
+		
+		if(Game.keyChecker.checkIfCharIsPressed(moveChar)) {
 			if(getReflected() == false) {
+
 				setForward(true);
 			}
 			
 			
 		}
-		if(e.getKeyChar() == turnLeftChar) {
+		if(Game.keyChecker.checkIfCharIsPressed(turnLeftChar)) {
 			setLeft(true);
 			makeNegativeRotation();
 		}
-		if(e.getKeyChar() == turnRightChar) {
+		if(Game.keyChecker.checkIfCharIsPressed(turnRightChar)) {
 			setRight(true);
 			makePositiveRotation();
 			
 		}
-		if(e.getKeyChar() == shootChar) {
+		if(Game.keyChecker.isLeftMousePressed()) {
 			setShootForInteractiveAtts(true);
 		}
-	}
-
-
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-
 		
-	}
-
-
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		
-		if(e.getKeyChar() == moveChar) {
+		if(Game.keyChecker.checkIfCharIsPressed(moveChar)==false) {
 			setForward(false);
 			
 		}
-		if(e.getKeyChar() == turnLeftChar) {
+		if(Game.keyChecker.checkIfCharIsPressed(turnLeftChar)==false) {
 			setLeft(false);
 		}
-		if(e.getKeyChar() == turnRightChar) {
+		if(Game.keyChecker.checkIfCharIsPressed(turnRightChar)==false) {
 			setRight(false);
 			
 		}
-		if(e.getKeyChar() == shootChar) {
+		if(Game.keyChecker.isLeftMousePressed()==false) {
 			setShootForInteractiveAtts(false);
 		}
 
+		
+	}
+
+
+	
+	
+	public void updatePlayer() {
+		((MagazineAttachment)getAttachments()[3]).rotateToCorner(((MagazineAttachment)getAttachments()[3]).getAimCorner());
 	}
 	
-	public static Player makeNewPlayer(Corner rp) {
-		Player p;
-		ObjectAttachment attachment;
-	//	ObjectAttachment straightLine;
-		
-		Corner peakA = new Corner(new double[] {rp.getX(),rp.getY()-75}, rp);
-	    Corner rightCornerA = new Corner(new double[] { - 10, rp.getY()-25}, rp);
-	    Corner leftCornerA = new Corner(new double[] {rp.getX() + 10,  rp.getY()-25}, rp);
-	    
-	    attachment = new ObjectAttachment(new Corner[] {peakA, rightCornerA, leftCornerA}, rp,new double[] {rp.getX(),rp.getY()-25},0);
-	//    straightLine = new ObjectAttachment(new Corner[] {new Corner(new double[] {rp.getX() ,rp.getY() + 25}, rp), new Corner(new double[] {rp.getX() ,rp.getY() + 350}, rp),}, rp,new double[] {rp.getX(),rp.getY()-25},-5);
-		
-	    Corner peak = new Corner(new double[] {rp.getX() ,rp.getY() + 25}, rp);
-	    Corner rightCorner = new Corner(new double[] {rp.getX() - 25, rp.getY() - 25}, rp);
-	    Corner leftCorner = new Corner(new double[] {rp.getX() + 25, rp.getY() - 25}, rp);
-	    
-	    p = new Player(new Corner[] {peak, rightCorner, leftCorner},rp,6, new Corner(new double[] {rp.getX(),rp.getY()+25}, rp));
-	    p.addAttachment(attachment);
-	    p.setHP(50);
-	    p.setReflectedSpeed(6);
-
-
-	 //   p.addAttachment(straightLine);
-	    
-	    return p;
+	public void setPlayerAimCorner(double x, double y) {
+		((MagazineAttachment)getAttachments()[3]).setAimCorner(x,y);
 	}
+	
 	
 	public static Player makeNewPlayer(double[] rp) {
 		Player p;
-		ObjectAttachment attachment;
-		InteractiveAttachment canon;
+		ObjectAttachment attachment1;
+		ObjectAttachment attachment2;
+		ObjectAttachment attachment3;
+		MagazineAttachment canon;
 //		ObjectAttachment straightLine;
+		Corner wp = new Corner(new double[] {rp[0] ,rp[1] + 10}, rp);
+
 		
-		Corner peakA = new Corner(new double[] {rp[0],rp[1]-75}, rp);
-	    Corner rightCornerA = new Corner(new double[] {rp[0] - 10, rp[1]-25}, rp);
-	    Corner leftCornerA = new Corner(new double[] {rp[0] + 10,  rp[1]-25}, rp);
+		Corner peakA1 = new Corner(new double[] {rp[0]-40,rp[1]-40}, rp);
+	    Corner rightCornerA1 = new Corner(new double[] {rp[0] - 20, rp[1]+50}, rp);
+	    Corner leftCornerA1 = new Corner(new double[] {rp[0] - 20,  rp[1]-50}, rp);
 	    
-	    attachment = new ObjectAttachment(new Corner[] {peakA, rightCornerA, leftCornerA}, rp,new double[] {rp[0],rp[1]},-5);
+	    attachment1 = new ObjectAttachment(new Corner[] {peakA1, rightCornerA1, leftCornerA1}, rp,new double[] {rp[0],rp[1]},-5);
+	    
+	    Corner peakA2 = new Corner(new double[] {rp[0]+40,rp[1]-40}, rp);
+	    Corner rightCornerA2 = new Corner(new double[] {rp[0] + 20, rp[1]-50}, rp);
+	    Corner leftCornerA2 = new Corner(new double[] {rp[0] + 20,  rp[1]+50}, rp);
+	    
+	    attachment2 = new ObjectAttachment(new Corner[] {peakA2, rightCornerA2, leftCornerA2}, rp,new double[] {rp[0],rp[1]},-5);
+	    
+	    Corner l1 = new Corner(new double[] {rp[0] - 20,rp[1]+50}, rp);
+	    Corner l2 = new Corner(new double[] {rp[0] - 10, rp[1]+65}, rp);
+	    Corner r2 = new Corner(new double[] {rp[0] + 10,  rp[1]+65}, rp);
+	    Corner r1 = new Corner(new double[] {rp[0] + 20,  rp[1]+50}, rp);
+	    
+	    attachment3 = new ObjectAttachment(new Corner[] {l1,l2,r2,r1}, rp,new double[] {rp[0],rp[1]},-5);
+	    
+	    
 
 //	    straightLine = new ObjectAttachment(new Corner[] {new Corner(new double[] {rp[0] ,rp[1] + 25}, rp), new Corner(new double[] {rp[0] ,rp[1] + 350}, rp),}, rp,new double[] {rp[0],rp[1]-25},-5);
-	    Corner tl = new Corner(new double[] {rp[0] - 3 ,rp[1] + 23}, rp);
-	    Corner tr =	new Corner(new double[] {rp[0] + 3,rp[1] + 23}, rp);
-	    Corner br = new Corner(new double[] {rp[0] + 3,rp[1] + 40}, rp);
-	    Corner bl = new Corner(new double[] {rp[0] - 3,rp[1] + 40}, rp);
-		Corner wp = new Corner(new double[] {rp[0] ,rp[1] + 40}, rp);
+	    Corner b1 = new Corner(new double[] {rp[0] - 6,rp[1] + 5}, rp);
+	    Corner b2 =	new Corner(new double[] {rp[0] + 6,rp[1] + 5}, rp);
+	    Corner b3 = new Corner(new double[] {rp[0] + 6,rp[1] + 40}, rp);
+	    Corner b4 = new Corner(new double[] {rp[0] - 6,rp[1] + 40}, rp);
+
+		
+	    canon = new MagazineAttachment(new Corner[] {b1,b2,b3,b4}, new Corner(rp) , new double[] {rp[0], rp[1] + 5}, 0, wp, 0,0);
+	    canon.setMagazineParameters(5, 60);
+	    canon.setAttRangle(5);
+	    canon.setRotateWithParentOb(false);
+	//    canon.setRotationSegment(new double[] {-220,220});
 	    
-	    canon = new InteractiveAttachment(new Corner[] {tl,tr,br,bl}, new Corner(rp) , new double[] {rp[0], rp[1]}, 0, wp, 0,0);
 	    
-	    Corner peak = new Corner(new double[] {rp[0] ,rp[1] + 25}, rp);
-	    Corner rightCorner = new Corner(new double[] {rp[0] - 25, rp[1] - 25}, rp);
-	    Corner leftCorner = new Corner(new double[] {rp[0] + 25, rp[1] - 25}, rp);
-	    
+	    Corner rightTCorner = new Corner(new double[] {rp[0] - 20, rp[1] - 50}, rp);
+	    Corner leftTCorner = new Corner(new double[] {rp[0] + 20, rp[1] - 50}, rp);
+	    Corner rightBCorner = new Corner(new double[] {rp[0] - 20, rp[1] + 50}, rp);
+	    Corner leftBCorner = new Corner(new double[] {rp[0] + 20, rp[1] + 50}, rp);
 	   
-	    p = new Player(new Corner[] {peak, rightCorner, leftCorner},rp, 1, new Corner(new double[] {rp[0],rp[1]+25}, rp));
-	    p.addAttachment(attachment);	    
+	    p = new Player(new Corner[] {leftTCorner,leftBCorner,rightBCorner,rightTCorner},rp, 1, new Corner(new double[] {rp[0],rp[1]+25}, rp));
+	    p.addAttachment(attachment1);	    
+	    p.addAttachment(attachment2);	  
+	    p.addAttachment(attachment3);
 	    p.setHP(50);
 	    p.setReflectedSpeed(6);
 	    p.addAttachment(canon);
+	    p.setReflectedLenght(20);
 //	    p.addAttachment(straightLine);
 
 	    

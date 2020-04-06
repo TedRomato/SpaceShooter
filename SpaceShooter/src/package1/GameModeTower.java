@@ -92,15 +92,7 @@ public class GameModeTower extends Game {
 			default : 
 		}
 	}
-public void keyTyped(KeyEvent e) {
-		
-	}
-	public void keyPressed(KeyEvent e) {
-		p.keyPressed(e);
-	}
-	public void keyReleased(KeyEvent e) {
-		p.keyReleased(e);
-	}
+
 
 	
 }

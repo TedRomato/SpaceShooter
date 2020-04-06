@@ -535,11 +535,17 @@ public class GameObject {
 				g.drawLine((int) Math.round(corners[i].getX()*Game.screenRatio),(int) Math.round(corners[i].getY()*Game.screenRatio),(int) Math.round(corners[0].getX()*Game.screenRatio),(int) Math.round(corners[0].getY()*Game.screenRatio));
 			}
 		}
-		
-
-	
 	}
 	
+	public int getReloadLenght() {
+		return 0;
+	}
+	public int getReloadTimer() {
+		return 0;
+	}
+	public void setReloadLenght(int d) {
+		
+	}
 	
 	public Square getCollisionSquare() {
 		return collisionSquare;

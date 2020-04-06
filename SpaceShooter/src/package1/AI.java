@@ -126,7 +126,7 @@ public class AI extends LivingObject{
 			collisionDanger = false;
 		}
 	}
-	
+		
 	
 	//Loops through all gos and set triggered lines to isTriggered 
 	private void setAllDLTriggeresToCurrentObs(GameObject[] gos) {

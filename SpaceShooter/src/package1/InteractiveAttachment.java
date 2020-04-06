@@ -4,8 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class InteractiveAttachment extends ObjectAttachment{
-	protected int reloadLenght;
-	protected int reloadTimer;
+
 	Corner wayPoint;
 	Corner shootDirection, shootPoint;
 	double attRotationAngle;
@@ -95,50 +94,43 @@ public class InteractiveAttachment extends ObjectAttachment{
 
 		}
 	
-	public Missile shoot(Corner goalCorner) {
 
+	
+	public boolean shouldShoot(Corner goalCorner) {
 		if(getShoot() && goalCorner != null) {
-
-			if(decideIfFire(goalCorner)){
-
-				Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
-				Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
-				Corner BotLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()+4*dmg}, rp);
-				Corner BotRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()+4*dmg}, rp);
-				Corner TopRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()-4*dmg}, rp);
-				Corner md = new Corner(new double[] {getSD().getX(), getSD().getY()}, rp);
-				Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, rp, 0,md,12);
-				m.getNewRatios();
-				m.setNewVels();
-				m.setDmg(dmg);
-				getNewInaccuracy();
-				return m;
-			}else {
-				return null;
+			if(decideIfFire(goalCorner)) {
+				return true;
 			}
 		}
-		else return null;
+		return false;
 	}
 	
-	public Missile shoot() {
+
+	
+	public boolean shouldShoot() {
 		if(getShoot()) {
-				Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
-				Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
-				Corner BotLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()+4*dmg}, rp);
-				Corner BotRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()+4*dmg}, rp);
-				Corner TopRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()-4*dmg}, rp);
-				Corner md = new Corner(new double[] {getSD().getX(), getSD().getY()}, rp);
-				Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, rp, 0,md,12);
-				m.getNewRatios();
-				m.setNewVels();
-				m.setDmg(dmg);
-				return m;
-			}
-		else return null;
+			return true;
 		}
+		else return false;
+	}
 	
 	public void updateAimPoint(GameObject go) {
 		setAimCorner(getNewAimCorner(go));
+	}
+	
+	protected Missile shoot(GameObject whoShot) {
+		Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
+		Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
+		Corner BotLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()+4*dmg}, rp);
+		Corner BotRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()+4*dmg}, rp);
+		Corner TopRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()-4*dmg}, rp);
+		Corner md = new Corner(new double[] {getSD().getX(), getSD().getY()}, rp);
+		Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, rp, 0,md,12,whoShot);
+		m.getNewRatios();
+		m.setNewVels();
+		m.setDmg(dmg);
+		getNewInaccuracy();
+		return m;
 	}
 	
 
@@ -300,8 +292,8 @@ public class InteractiveAttachment extends ObjectAttachment{
 	public void render(Graphics g) {
 //		shootDirection.renderCorner(g, 4);
 //		shootPoint.renderCorner(g, 4);
-		shotTrajectory.render(g);
-		aimCorner.renderCorner(g, 10);
+//		shotTrajectory.render(g);
+//		aimCorner.renderCorner(g, 10);
 		super.render(g);
 		
 	}
@@ -309,6 +301,12 @@ public class InteractiveAttachment extends ObjectAttachment{
 	public void setAimCorner(Corner newAimCorner) {
 		aimCorner = newAimCorner;
 	}
+	
+	public void setAimCorner(double x, double y) {
+		aimCorner.setX(x);
+		aimCorner.setY(y);
+	}
+	
 	public Corner getAimCorner() {
 		return aimCorner;
 	}
