@@ -127,7 +127,7 @@ public class LivingObject extends MovingObject{
 		}
 	}
 	
-	private void updateMDtoMP() {
+	protected void updateMDtoMP() {
 		
 		moveDirection = new Corner(movePoint, getRotationPoint());
 	
@@ -141,8 +141,9 @@ public class LivingObject extends MovingObject{
 			setCurrentSpeed(getCurrentSpeed() + acceleration);
 		}
 		if(getCurrentSpeed() > maxSpeed && getReflected() == false) {
-			setCurrentSpeed(maxSpeed);
-		}if(forward != true && getCurrentSpeed() > 0 - acceleration) {
+			setCurrentSpeed(getCurrentSpeed()- acceleration);
+		}
+		if(forward != true && getCurrentSpeed() > 0 - acceleration) {
 			setCurrentSpeed(getCurrentSpeed() - acceleration);
 			if(getCurrentSpeed() < 0) {
 				setCurrentSpeed(0);

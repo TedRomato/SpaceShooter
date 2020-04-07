@@ -4,37 +4,44 @@ package package1;
 
 
 public class Player extends LivingObject{
+	int dashCooldownTimer = 0, dashCooldown = 300;
+	double baseSpeed, dashSpeed = 20;
 	
-	int moveChar = 87, turnLeftChar = 65, turnRightChar = 68;
+	int moveChar = 87, turnLeftChar = 65, turnRightChar = 68, dashChar = 16;
+
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
+		setMaxSpeed(7);
 		setReflectedLenght(35);
 		setRotationAngle(3.9);
 		setAcceleration(getMaxSpeed() / 45);
+		baseSpeed = getMaxSpeed();
 	}
-
-	
 
 
 	
 	public Player(Corner[] corners, Corner rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
+		setMaxSpeed(7);
 		setReflectedLenght(35);
 		setRotationAngle(3.9);
 		setAcceleration(getMaxSpeed() / 45);
+		baseSpeed = getMaxSpeed();
+
 		
 	}
 
 	
 	public void handlePlayerKeys() {
+		if(Game.keyChecker.checkIfkeyIsPressed(dashChar)) {
+			startDash();
+		}
 		
 		if(Game.keyChecker.checkIfkeyIsPressed(moveChar)) {
 			if(getReflected() == false) {
 
 				setForward(true);
 			}
-			
-			
 		}
 		if(Game.keyChecker.checkIfkeyIsPressed(turnLeftChar)) {
 			setLeft(true);
@@ -66,11 +73,26 @@ public class Player extends LivingObject{
 
 		
 	}
+	
+	private void startDash() {
+		if(dashCooldownTimer <= 0) {
+			updateMDtoMP();
+			getNewRatios();
+			setNewVels();
+			setCurrentSpeed(dashSpeed);
+			dashCooldownTimer = dashCooldown;
+		}
+	}
 
-
+	private void handleDashCooldown() {
+		if(dashCooldownTimer > 0) {
+			dashCooldownTimer--;
+		}
+	}
 	
 	
 	public void updatePlayer() {
+		handleDashCooldown();
 		((MagazineAttachment)getAttachments()[3]).rotateToCorner(((MagazineAttachment)getAttachments()[3]).getAimCorner());
 	}
 	

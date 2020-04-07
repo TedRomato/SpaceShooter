@@ -150,6 +150,9 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	//TODO Improve missle speed (take it as argument)
 	public Corner getAimCornerForMovingOb(MovingObject moo) {
+		if(moo.getCurrentSpeed() >= 12) {
+			return new Corner(moo.getRotationPoint(), moo.getRotationPoint());
+		}
 		double mooSpeed = moo.getCurrentSpeed();
 		double missileSpeed = 12;
 		double ratio = missileSpeed/mooSpeed;
