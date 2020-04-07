@@ -101,13 +101,13 @@ public class Game extends JPanel implements MouseListener{
 	}
 	public void keyPressed(KeyEvent e) {
 		if(e != null) {
-			keyChecker.charPressed(e.getKeyChar());
+			keyChecker.keyPressed(e.getKeyCode());
 		}
 		
 	}
 	public void keyReleased(KeyEvent e) {
 		if(e != null) {
-			keyChecker.charReleased(e.getKeyChar());
+			keyChecker.keyReleased(e.getKeyCode());
 		}
 	}
 	
@@ -123,19 +123,19 @@ public class Game extends JPanel implements MouseListener{
         	long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
-            this.repaint();
+      
             while(delta >=1)
             	{
                 tick();
                 delta--;
                 }
-                
+            	this.repaint();
                 frames++;
 
                 if(System.currentTimeMillis() - timer > 1000)
                 { 
                 	timer += 1000;
-                    //System.out.println("FPS: "+ frames);
+                    System.out.println("FPS: "+ frames);
 
                     frames = 0;
                     }
