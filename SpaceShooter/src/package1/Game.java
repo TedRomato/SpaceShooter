@@ -103,6 +103,7 @@ public class Game extends JPanel implements MouseListener{
 		if(e != null) {
 			keyChecker.charPressed(e.getKeyChar());
 		}
+		
 	}
 	public void keyReleased(KeyEvent e) {
 		if(e != null) {

@@ -65,5 +65,49 @@ public class MagazineAttachment extends InteractiveAttachment{
 		return reloadingMag;
 	}
 	
+	public int getMagazineSize() {
+		return magazineSize;
+	}
 
+
+
+	public void setMagazineSize(int magazineSize) {
+		this.magazineSize = magazineSize;
+	}
+
+
+
+	public int getMagazineMaxSize() {
+		return magazineMaxSize;
+	}
+
+
+
+	public void setMagazineMaxSize(int magazineMaxSize) {
+		this.magazineMaxSize = magazineMaxSize;
+	}
+
+
+
+	public int getMagazineReloadTimer() {
+		return magazineReloadTimer;
+	}
+
+
+
+	public void setMagazineReloadTimer(int magazineReloadTimer) {
+		this.magazineReloadTimer = magazineReloadTimer;
+	}
+
+
+
+	public int getMagazineReloadLenght() {
+		return magazineReloadLenght;
+	}
+
+
+
+	public void setMagazineReloadLenght(int magazineReloadLenght) {
+		this.magazineReloadLenght = magazineReloadLenght;
+	}
 }
