@@ -4,43 +4,50 @@ package package1;
 
 
 public class Player extends LivingObject{
+	int dashCooldownTimer = 0, dashCooldown = 300;
+	double baseSpeed, dashSpeed = 20;
 	
-	char moveChar = 'w', turnLeftChar = 'a', turnRightChar = 'd', shootChar = ' ';
+	int moveChar = 87, turnLeftChar = 65, turnRightChar = 68, dashChar = 16;
+
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
+		setMaxSpeed(7);
 		setReflectedLenght(35);
 		setRotationAngle(3.9);
 		setAcceleration(getMaxSpeed() / 45);
+		baseSpeed = getMaxSpeed();
 	}
-
-	
 
 
 	
 	public Player(Corner[] corners, Corner rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
+		setMaxSpeed(7);
 		setReflectedLenght(35);
 		setRotationAngle(3.9);
 		setAcceleration(getMaxSpeed() / 45);
+		baseSpeed = getMaxSpeed();
+
 		
 	}
 
 	
 	public void handlePlayerKeys() {
+		if(Game.keyChecker.checkIfkeyIsPressed(dashChar)) {
+			startDash();
+		}
 		
-		if(Game.keyChecker.checkIfCharIsPressed(moveChar)) {
+		if(Game.keyChecker.checkIfkeyIsPressed(moveChar)) {
 			if(getReflected() == false) {
 
 				setForward(true);
 			}
-			
-			
 		}
-		if(Game.keyChecker.checkIfCharIsPressed(turnLeftChar)) {
+		if(Game.keyChecker.checkIfkeyIsPressed(turnLeftChar)) {
 			setLeft(true);
 			makeNegativeRotation();
 		}
-		if(Game.keyChecker.checkIfCharIsPressed(turnRightChar)) {
+		if(Game.keyChecker.checkIfkeyIsPressed(turnRightChar)) {
 			setRight(true);
 			makePositiveRotation();
 			
@@ -49,14 +56,14 @@ public class Player extends LivingObject{
 			setShootForInteractiveAtts(true);
 		}
 		
-		if(Game.keyChecker.checkIfCharIsPressed(moveChar)==false) {
+		if(Game.keyChecker.checkIfkeyIsPressed(moveChar)==false) {
 			setForward(false);
 			
 		}
-		if(Game.keyChecker.checkIfCharIsPressed(turnLeftChar)==false) {
+		if(Game.keyChecker.checkIfkeyIsPressed(turnLeftChar)==false) {
 			setLeft(false);
 		}
-		if(Game.keyChecker.checkIfCharIsPressed(turnRightChar)==false) {
+		if(Game.keyChecker.checkIfkeyIsPressed(turnRightChar)==false) {
 			setRight(false);
 			
 		}
@@ -66,11 +73,26 @@ public class Player extends LivingObject{
 
 		
 	}
+	
+	private void startDash() {
+		if(dashCooldownTimer <= 0) {
+			updateMDtoMP();
+			getNewRatios();
+			setNewVels();
+			setCurrentSpeed(dashSpeed);
+			dashCooldownTimer = dashCooldown;
+		}
+	}
 
-
+	private void handleDashCooldown() {
+		if(dashCooldownTimer > 0) {
+			dashCooldownTimer--;
+		}
+	}
 	
 	
 	public void updatePlayer() {
+		handleDashCooldown();
 		((MagazineAttachment)getAttachments()[3]).rotateToCorner(((MagazineAttachment)getAttachments()[3]).getAimCorner());
 	}
 	
@@ -119,7 +141,7 @@ public class Player extends LivingObject{
 		
 	    canon = new MagazineAttachment(new Corner[] {b1,b2,b3,b4}, new Corner(rp) , new double[] {rp[0], rp[1] + 5}, 0, wp, 0,0);
 	    canon.setMagazineParameters(5, 60);
-	    canon.setAttRangle(5);
+	    canon.setAttRangle(20);
 	    canon.setRotateWithParentOb(false);
 	//    canon.setRotationSegment(new double[] {-220,220});
 	    

@@ -1,12 +1,12 @@
 package package1;
 
 public class KeyChecker {
-	char[] pressedChars = {};
+	int[] pressedChars = {};
 	boolean leftMousePressed = false;
 	boolean rightMousePressed = false;
 	
-	public boolean checkIfCharIsPressed(char c) {
-		for(char pressed : pressedChars) {
+	public boolean checkIfkeyIsPressed(int c) {
+		for(int pressed : pressedChars) {
 			if(pressed == c) {
 				return true;
 			}
@@ -14,15 +14,15 @@ public class KeyChecker {
 		return false;
 	}
 	
-	public void charPressed(char pressed) {
+	public void keyPressed(int pressed) {
 		boolean alreadyPressed = false;
-		for(char c : pressedChars) {
+		for(int c : pressedChars) {
 			if(c == pressed) {
 				alreadyPressed = true;
 			}
 		}
 		if(alreadyPressed == false) {
-			char[] newPressed = new char[pressedChars.length+1];
+			int[] newPressed = new int[pressedChars.length+1];
 			for(int i = 0; i < pressedChars.length; i++) {
 				newPressed[i] = pressedChars[i];
 			}
@@ -31,7 +31,7 @@ public class KeyChecker {
 		}
 	}
 	
-	public void charReleased(char released) {
+	public void keyReleased(int released) {
 		int i = -1;
 		for(int c = 0; c < pressedChars.length; c++) {
 			if(pressedChars[c] == released) {
@@ -40,13 +40,13 @@ public class KeyChecker {
 			}
 		}
 		if(i != -1) {
-			boolean afterReleasedChar = false;
-			char[] newPressed = new char[pressedChars.length-1];
+			boolean afterReleasedint = false;
+			int[] newPressed = new int[pressedChars.length-1];
 			for(int b = 0; b < newPressed.length; b++) {
 				if(b == i) {
-					afterReleasedChar = true;
+					afterReleasedint = true;
 				}
-				if(afterReleasedChar==false) {
+				if(afterReleasedint==false) {
 					newPressed[b] = pressedChars[b];
 				}else {
 					newPressed[b] = pressedChars[b+1];

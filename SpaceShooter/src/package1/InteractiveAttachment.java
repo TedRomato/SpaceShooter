@@ -49,13 +49,19 @@ public class InteractiveAttachment extends ObjectAttachment{
 		double[] differences = Corner.getAngleDifferencRL(wAngle,cAngle);
 		rightDifference = differences[0];
 		leftDifference = differences[1];
-		if(rightDifference > getAttachmentRotationAngle() + 1 && leftDifference > getAttachmentRotationAngle() + 1) {
+		if(rightDifference > getAttachmentRotationAngle() && leftDifference > getAttachmentRotationAngle()) {
 			if(rightDifference < leftDifference) {
 				rotateAttachmentAroundItsCorner(getAttachmentRotationAngle());
 			}
 			if(leftDifference < rightDifference) {
 				rotateAttachmentAroundItsCorner(-getAttachmentRotationAngle());
-		}
+			}
+		}else {
+			if(rightDifference < leftDifference){
+				rotateAttachmentAroundItsCorner(rightDifference);
+			}else {
+				rotateAttachmentAroundItsCorner(-leftDifference);
+			}
 		}
 		
 	}
@@ -144,6 +150,9 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	//TODO Improve missle speed (take it as argument)
 	public Corner getAimCornerForMovingOb(MovingObject moo) {
+		if(moo.getCurrentSpeed() >= 12) {
+			return new Corner(moo.getRotationPoint(), moo.getRotationPoint());
+		}
 		double mooSpeed = moo.getCurrentSpeed();
 		double missileSpeed = 12;
 		double ratio = missileSpeed/mooSpeed;
@@ -212,8 +221,10 @@ public class InteractiveAttachment extends ObjectAttachment{
 	
 	public void handleFriendlyFire(AI[] ais) {
 		for(AI ai : ais) {
-			if(ai.checkCollision(shotTrajectory)) {
-				setShoot(false);
+			if(ai instanceof HuntingMine == false) {
+				if(ai.checkCollision(shotTrajectory)) {
+					setShoot(false);
+				}
 			}
 		}
 	}
