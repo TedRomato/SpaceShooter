@@ -5,7 +5,7 @@ package package1;
 
 public class Player extends LivingObject{
 	
-	char moveChar = 'w', turnLeftChar = 'a', turnRightChar = 'd', shootChar = ' ';
+	int moveChar = 87, turnLeftChar = 65, turnRightChar = 68;
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
 		setReflectedLenght(35);
@@ -28,7 +28,7 @@ public class Player extends LivingObject{
 	
 	public void handlePlayerKeys() {
 		
-		if(Game.keyChecker.checkIfCharIsPressed(moveChar)) {
+		if(Game.keyChecker.checkIfkeyIsPressed(moveChar)) {
 			if(getReflected() == false) {
 
 				setForward(true);
@@ -36,11 +36,11 @@ public class Player extends LivingObject{
 			
 			
 		}
-		if(Game.keyChecker.checkIfCharIsPressed(turnLeftChar)) {
+		if(Game.keyChecker.checkIfkeyIsPressed(turnLeftChar)) {
 			setLeft(true);
 			makeNegativeRotation();
 		}
-		if(Game.keyChecker.checkIfCharIsPressed(turnRightChar)) {
+		if(Game.keyChecker.checkIfkeyIsPressed(turnRightChar)) {
 			setRight(true);
 			makePositiveRotation();
 			
@@ -49,14 +49,14 @@ public class Player extends LivingObject{
 			setShootForInteractiveAtts(true);
 		}
 		
-		if(Game.keyChecker.checkIfCharIsPressed(moveChar)==false) {
+		if(Game.keyChecker.checkIfkeyIsPressed(moveChar)==false) {
 			setForward(false);
 			
 		}
-		if(Game.keyChecker.checkIfCharIsPressed(turnLeftChar)==false) {
+		if(Game.keyChecker.checkIfkeyIsPressed(turnLeftChar)==false) {
 			setLeft(false);
 		}
-		if(Game.keyChecker.checkIfCharIsPressed(turnRightChar)==false) {
+		if(Game.keyChecker.checkIfkeyIsPressed(turnRightChar)==false) {
 			setRight(false);
 			
 		}
