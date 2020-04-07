@@ -6,6 +6,7 @@ import java.awt.Graphics;
 public class LongRangeAI extends AI{
 	Corner wayPoint;
 	boolean wasInStoppingDistance = false;
+	double goingDistance = 0;
 
 
 	
@@ -40,7 +41,21 @@ public class LongRangeAI extends AI{
 		}
 	}
 	
+	private double addToStoppingDistance() {
+		if(wasInStoppingDistance == true) {
+			return goingDistance;
+		}else {
+			return 0;
+		}
+	}
 	
+	public void updateIsInStoppingDistance(GameObject enemy){
+		double toAdd = addToStoppingDistance();
+		stoppingDistance += toAdd;
+		super.updateIsInStoppingDistance(enemy);
+		stoppingDistance-= toAdd;
+		
+	}
 	
 	public void updateInSD(GameObject[] enemys, GameObject[] gos, AI[] ais) {
 		getClosestEnemy(enemys);
@@ -154,6 +169,14 @@ public class LongRangeAI extends AI{
 		rotateDls(rAngle);
 	}
 	
+	public double getGoingDistance() {
+		return goingDistance;
+	}
+
+	public void setGoingDistance(double goingDistance) {
+		this.goingDistance = goingDistance;
+	}
+
 	public void render(Graphics g) {
 		super.render(g);
 	//	g.setColor(Color.ORANGE);

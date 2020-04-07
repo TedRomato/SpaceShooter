@@ -119,7 +119,7 @@ public class Player extends LivingObject{
 		
 	    canon = new MagazineAttachment(new Corner[] {b1,b2,b3,b4}, new Corner(rp) , new double[] {rp[0], rp[1] + 5}, 0, wp, 0,0);
 	    canon.setMagazineParameters(5, 60);
-	    canon.setAttRangle(5);
+	    canon.setAttRangle(20);
 	    canon.setRotateWithParentOb(false);
 	//    canon.setRotationSegment(new double[] {-220,220});
 	    
