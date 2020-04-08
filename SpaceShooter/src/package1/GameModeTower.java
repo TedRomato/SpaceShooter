@@ -34,7 +34,7 @@ public class GameModeTower extends Game{
 	private BufferedImage HealthIcon, AmmoIcon , Plus1Mag, Plus1Health;
 	private Font font = new Font("josef", Font.PLAIN, 25);
 	private int AIcount = 90;
-	private int wave = 1;
+	private int wave = 6;
 	private int waveCount = 0;
 	private int PowerLevel = 0;
 	private int TowerBaseHP=1000;
@@ -50,6 +50,7 @@ public class GameModeTower extends Game{
 		addObToGame(Tower, new int[] {1,3,4,6,7,8,9});
 
 		setLayout(null);
+		setName("TowerMode");
 		
 		try {
 			HealthIcon = ImageIO.read(new File("HealthIcon.png"));
@@ -351,6 +352,10 @@ public class GameModeTower extends Game{
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 		super.mouseEntered(e);
+		if(e.getComponent().getName()=="TowerMode") {
+			remove(PowerUpDisplay);
+			repaint();
+		}
 		if(e.getComponent().getName()=="Power1") {
 			PowerUpDisplay.setBounds(e.getComponent().getX()+e.getComponent().getWidth()/2-50, e.getComponent().getY()+e.getComponent().getHeight(), 150, 50);
 			PowerUpDisplay.setText("Health Refill");
