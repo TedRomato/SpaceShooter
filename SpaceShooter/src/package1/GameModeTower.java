@@ -34,7 +34,7 @@ public class GameModeTower extends Game{
 	private BufferedImage HealthIcon, AmmoIcon , Plus1Mag, Plus1Health;
 	private Font font = new Font("josef", Font.PLAIN, 25);
 	private int AIcount = 90;
-	private int wave = 6;
+	private int wave = 1;
 	private int waveCount = 0;
 	private int PowerLevel = 0;
 	private int TowerBaseHP=1000;
@@ -47,7 +47,8 @@ public class GameModeTower extends Game{
 		Corner[] corners  = GameObject.generatePeriodicObject(100,8,new Corner(new double[] {mainWidth/2,mainHeight/2-50})).getCorners();
 		Tower = new LivingObject(corners,new double[] {mainWidth/2,mainHeight/2},0,new Corner(new double[] {mainWidth/2,mainHeight/2}, new double[] {mainWidth/2,mainHeight/2}));
 		Tower.setHP(TowerBaseHP);
-		addObToGame(Tower, new int[] {1,3,4,5,6,7,8,9});
+		addObToGame(Tower, new int[] {1,3,4,6,7,8,9});
+
 		setLayout(null);
 		
 		try {
@@ -148,11 +149,10 @@ public class GameModeTower extends Game{
 			}
 		});
 		
+
 		PowerUpDisplay = new JLabel("");
 		PowerUpDisplay.setFont(font);
-		
-		
-		PlayerAmmoDisplay = new JLabel(""+ ((MagazineAttachment)p.getAttachments()[3]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[3]).getMagazineMaxSize());
+		PlayerAmmoDisplay = new JLabel(""+ ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize());
 		PlayerAmmoDisplay.setBounds(30,40,50,30);
 		PlayerAmmoDisplay.setFont(font);
 		add(PlayerAmmoDisplay);
@@ -173,9 +173,9 @@ public class GameModeTower extends Game{
 		waveDisplay.setFont(font);
 		add(waveDisplay);
 		
-		PlayerReloadTime = new JProgressBar(0,((MagazineAttachment)p.getAttachments()[3]).getMagazineReloadLenght());
+		PlayerReloadTime = new JProgressBar(0,((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadLenght());
 		PlayerReloadTime.setBounds(0, 70, 80, 10);
-		PlayerReloadTime.setValue(((MagazineAttachment)p.getAttachments()[3]).getMagazineReloadLenght());
+		PlayerReloadTime.setValue(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadLenght());
 		PlayerReloadTime.setForeground(Color.BLACK);
 		add(PlayerReloadTime);
 		
@@ -198,6 +198,7 @@ public class GameModeTower extends Game{
 		nextWave();
 		updateDisplay();
 		DisplayPowerUps();
+
 		endGame();
 	}
 	public void handleWaves() {
@@ -228,8 +229,8 @@ public class GameModeTower extends Game{
 		TowerHPDisplay.setValue(Tower.getHP());
 		TowerHPDisplay.setString(Tower.getHP() + "/" + TowerBaseHP);
 		PlayerHPDisplay.setText(""+p.getHP());
-		PlayerAmmoDisplay.setText(""+ ((MagazineAttachment)p.getAttachments()[3]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[3]).getMagazineMaxSize());
-		PlayerReloadTime.setValue(((MagazineAttachment)p.getAttachments()[3]).getMagazineReloadTimer());
+		PlayerAmmoDisplay.setText(""+ ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize());
+		PlayerReloadTime.setValue(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadTimer());
 	}
 	public void nextWave() {
 		if(ais.length == 0 && wave != waveCount+1 && waveEnd) {

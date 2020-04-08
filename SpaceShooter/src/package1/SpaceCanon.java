@@ -48,7 +48,7 @@ public class SpaceCanon extends AI{
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
 	    ai.setMaxSpeed(3.5);
 	    ai.addAttachment(att);
-	    ai.setHP(4);
+	    ai.setHP(5);
 	    ai.setAcceleration(0.1);
 	    ai.setReflectedSpeed(6);
 	    ai.setStoppingDistance(900);

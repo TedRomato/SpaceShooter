@@ -148,10 +148,10 @@ public class SpaceCruiser extends LongRangeAI{
 	    canon2 = new MagazineAttachment(corners, new Corner(new double[] {x,y}), new double[] {x+80,y}, 5, new Corner(new double[] {x + 80, y+50}, new double[] {x,y}), 650,150);
 	    canon1.setInaccuracy(100);
 	    canon2.setInaccuracy(100);
-	    double[] segment1 = new double[] {-40,200};
-	    double[] segment2 = new double[] {-200,40};
-	    canon1.setRotationSegment(segment1);
-	    canon2.setRotationSegment(segment2);
+//	    double[] segment1 = new double[] {-40,200};
+//	    double[] segment2 = new double[] {-200,40};
+//	    canon1.setRotationSegment(segment1);
+//	    canon2.setRotationSegment(segment2);
 	    canon1.setMagazineParameters(10,90);
 	    canon2.setMagazineParameters(10,90);
 

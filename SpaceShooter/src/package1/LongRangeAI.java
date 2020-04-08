@@ -7,6 +7,7 @@ public class LongRangeAI extends AI{
 	Corner wayPoint;
 	boolean wasInStoppingDistance = false;
 	double goingDistance = 0;
+	boolean goingLeft = false;
 
 
 	
@@ -21,9 +22,10 @@ public class LongRangeAI extends AI{
 				setShootForInteractiveAtts(true);
 				wasInStoppingDistance = true;
 				movePointAndDlsTransition(90);
+				goingLeft = false;
 				setRotationAngle(0.6);
 			}
-			
+			turnIfCollisionDanger();
 			updateInSD(enemys, gos, ais);
 			getClosestEnemy(enemys);
 
@@ -31,13 +33,32 @@ public class LongRangeAI extends AI{
 		}else {
 			if(wasInStoppingDistance == true) {
 				wasInStoppingDistance = false;
-				movePointAndDlsTransition(-90);
+				turnBack();				
 				setRotationAngle(1);
 				setShootForInteractiveAtts(false);
 			}
 			super.updateAI(enemys, gos, ais);
 			stopIfCollisionDanger();
 
+		}
+	}
+	
+	public void turnIfCollisionDanger() {
+		if(collisionDanger == true) {
+			movePointAndDlsTransition(180);
+			if(goingLeft) {
+				goingLeft = false;
+			}else {
+				goingLeft = true;
+				}		
+			}
+		
+	}
+	public void turnBack() {
+		if(goingLeft) {
+			movePointAndDlsTransition(90);
+		}else {
+			movePointAndDlsTransition(-90);
 		}
 	}
 	

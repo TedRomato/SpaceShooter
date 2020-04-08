@@ -135,7 +135,7 @@ public class Game extends JPanel implements MouseListener{
                 if(System.currentTimeMillis() - timer > 1000)
                 { 
                 	timer += 1000;
-                    System.out.println("FPS: "+ frames);
+              //      System.out.println("FPS: "+ frames);
 
                     frames = 0;
                     }
@@ -178,7 +178,6 @@ public class Game extends JPanel implements MouseListener{
 			ai.updateAI(aiEnemys, aiVisible, ais);
 		}
 	}
-	//TODO vyresit pro magazine reload 
 	
 	private void handleShooting(){
 		for(LivingObject sob : shootingObs ) {	

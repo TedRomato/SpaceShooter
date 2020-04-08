@@ -16,6 +16,7 @@ public class AI extends LivingObject{
 	double stoppingDistance = 0;
 	boolean isInStoppingDistance = false;
 	GameObject targetedEnemy;
+	boolean playerFocus = false;
 
 	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
 		super(corners, rotationPoint, rotationAngle, md);
@@ -309,15 +310,23 @@ public class AI extends LivingObject{
 			targetedEnemy = null;
 		}
 		int closestEnemy = 0;
-		double closest = this.getRotationPoint().getPointDistance(enemys[0].getRotationPoint());
-		for(int i = 1; i < enemys.length; i++) {
+		double closest = 100000;
+		for(int i = 0; i < enemys.length; i++) {
 			double newDistance = this.getRotationPoint().getPointDistance(enemys[i].getRotationPoint());
-			if(newDistance < closest) {
+			if(playerFocus == true) {
+				if(newDistance < closest && enemys[i] instanceof Player) {
 				closestEnemy = i;
 				closest = newDistance;
+				}	
 			}
-		}
-		targetedEnemy = enemys[closestEnemy];	
+			else {
+				if(newDistance < closest) {
+					closestEnemy = i;
+					closest = newDistance;
+				}
+			}
+		targetedEnemy = enemys[closestEnemy];
+		}	
 	}
 	
 	/*
@@ -325,6 +334,16 @@ public class AI extends LivingObject{
 		setGoalToCorner((getClosestEnemy(enemys)).getRotationPoint());
 	}*/
 	
+	public boolean isPlayerFocus() {
+		return playerFocus;
+	}
+
+
+	public void setPlayerFocus(boolean playerFocus) {
+		this.playerFocus = playerFocus;
+	}
+
+
 	public void stopIfTooClose(GameObject enemy) {
 		if(this.getRotationPoint().getPointDistance(enemy.getRotationPoint()) < stoppingDistance) {
 			setForward(false);
@@ -366,14 +385,14 @@ public class AI extends LivingObject{
 
 		//	g.setColor(Color.black);
 	// 	
-	//	for(DetectionLine dl : rightDetectionLines) {
-	//		dl.renderDL(g);
-	//	}
-	//	for(DetectionLine dl : leftDetectionLines) {
-	//		dl.renderDL(g);
-	//	}
-	//	mainDetectionLine.renderDL(g); 
-	//	 
+//		for(DetectionLine dl : rightDetectionLines) {
+//			dl.renderDL(g);
+//		}
+//		for(DetectionLine dl : leftDetectionLines) {
+//			dl.renderDL(g);
+//		}
+//		mainDetectionLine.renderDL(g); 
+		 
 	}
 	
 

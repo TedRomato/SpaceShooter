@@ -35,8 +35,80 @@ public class InteractiveAttachment extends ObjectAttachment{
 		makeShotTrajectory(lenght, width);
 		
 	}
+/*	
+	private boolean checkIfInSegment(int segment, double angleToRotate) {
+		//left / minus segment 
+		//rotateLeft
+		if(getRotationSegment().length != 2 ) {
+			return true;
+		}
+		double attAngle = getAttachmentAngle();
+		if(segment == 0) {
+			if(attAngle - angleToRotate < getRotationSegment()[0]) {
+				return false;
+			}else {
+				return true;
+			}
+		}else if(segment == 1) {
+			if(attAngle + angleToRotate > getRotationSegment()[1]) {
+				return false;
+			}else {
+				return true;
+			}
+		}else {
+			return false;
+		}
+	}
 	
+	private boolean decideIfRightInSegment(double angle) {
+		double minusDifference;
+		double plusDifference;
+		minusDifference = 360 - angle - getRotationSegment()[0];
+		plusDifference = angle - getRotationSegment()[1];
+		if(plusDifference > minusDifference) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+	*/
+	public void rotateToCorner(Corner c) {
+		Corner newC = new Corner(c , getAttachmentRP());
+		Corner newC2 = new Corner(getWayPoint(),getAttachmentRP());
+		double cAngle = newC.getAngle(getAttachmentRP());
+		double wAngle = newC2.getAngle(getAttachmentRP());
 
+		//From wangle
+		double rightDifference;
+		double leftDifference;
+		double[] differences = Corner.getAngleDifferencRL(wAngle,cAngle);
+		rightDifference = differences[0];
+		leftDifference = differences[1];
+
+		if(getRotationSegment().length==2) {
+
+		}
+		if(rightDifference > getAttachmentRotationAngle() && leftDifference > getAttachmentRotationAngle()) {
+			if(rightDifference < leftDifference) {
+				rotateAttachmentAroundItsCorner(getAttachmentRotationAngle());
+			}
+			else{
+				rotateAttachmentAroundItsCorner(-getAttachmentRotationAngle());
+			}
+		}
+		
+		else {
+			if(rightDifference < leftDifference){
+				rotateAttachmentAroundItsCorner(rightDifference);
+			}else {
+				rotateAttachmentAroundItsCorner(-leftDifference);
+			}
+		}
+		
+	}
+	
+/*
 	public void rotateToCorner(Corner c) {
 		Corner newC = new Corner(c , getAttachmentRP());
 		Corner newC2 = new Corner(getWayPoint(),getAttachmentRP());
@@ -65,7 +137,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 		}
 		
 	}
-	
+	*/
 	public void rotateAttachment(double angle) {
 			super.rotateAttachment(angle);
 			wayPoint.rotateCorner(getRotationPoint(), angle);
@@ -188,25 +260,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 		inaccuracyY = generateNumInRange(new double[] {-getInaccuracy(), getInaccuracy()});
 
 	}
-	
-/*	public boolean decideIfFire(Corner goalCorner) {
-		Corner sd = new Corner(getSD(),getAttachmentRP());
-		Corner gd = new Corner(goalCorner, getAttachmentRP());
-		double goalAngle = gd.getAngle(getAttachmentRP());
-		double sAngle = sd.getAngle(getAttachmentRP());
-		System.out.println("-----------");
-		System.out.println("goal angle : " + goalAngle);
-		System.out.println("shoot angle : " + sAngle);
-		if(sAngle + maxShotAngleDifference > goalAngle && sAngle - maxShotAngleDifference < goalAngle) {
-			System.out.println("shoot");
 
-			return true;
-		}else {
-			System.out.println("dont shoot");
-
-			return false;
-		}
-	}*/
 	public boolean decideIfFire(Corner goalCorner) {
 		
 		if(shotTrajectory.checkCollision(new GameObject(new Corner[] {goalCorner, goalCorner}, goalCorner, 0))) {
@@ -236,6 +290,10 @@ public class InteractiveAttachment extends ObjectAttachment{
 		if(d > rotationSegment[0] && d < rotationSegment[1]) {
 			return true;
 		} else return false;
+	}
+	
+	public void upgradeDMG() {
+		setDmg(getDmg() + 1);
 	}
 	
 	public int getReloadLenght() {
@@ -326,16 +384,21 @@ public class InteractiveAttachment extends ObjectAttachment{
 		// TODO Auto-generated method stub
 		this.dmg = dmg;
 	}
+	
 	public int getDmg() {
-		// TODO Auto-generated method stub
-		return this.dmg;
+		return dmg;
 	}
+
 	public void setInaccuracy(double ina) {
 		inaccuracy = ina;
 	}
 	
 	public double getInaccuracy() {
 		return inaccuracy;
+	}
+	
+	public double[] getRotationSegment() {
+		return rotationSegment;
 	}
 	
 
