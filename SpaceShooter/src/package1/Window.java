@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 
 public class Window extends JFrame implements KeyListener{
 	private JButton exit, startTower, startClassic, startTest;
+	public static JButton MainMenu;
 	private JPanel menu;
 	private boolean running = true;
 	private Game game;
@@ -47,6 +48,19 @@ public class Window extends JFrame implements KeyListener{
 		menu.setSize(1920, 1080);
 		menu.setLayout(null);
 		
+		MainMenu = new JButton("Main Menu");
+		MainMenu.setBounds(screenWidth/2-100,screenHeight-300 , 200, 100);
+		MainMenu.setFocusable(false);
+		MainMenu.addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				getContentPane().removeAll();
+				RenewMenu();
+				getContentPane().add(menu);
+				menu.repaint();
+			}
+		});
 		
 		startClassic = new JButton("Classic");
 		startClassic.setBounds(screenWidth/2-100, screenHeight/2-275, 200, 100);
@@ -55,7 +69,7 @@ public class Window extends JFrame implements KeyListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				game = new GameModeTesting(screenWidth,screenHeight);
+				game = new GameModeClassic(screenWidth,screenHeight);
 				getContentPane().removeAll();
 				getContentPane().invalidate();
 				getContentPane().add(game);
@@ -63,7 +77,7 @@ public class Window extends JFrame implements KeyListener{
 				game.running = true;
 			}
 		});
-		menu.add(startClassic);
+		
 		
 		
 		startTower = new JButton("Tower");
@@ -76,13 +90,13 @@ public class Window extends JFrame implements KeyListener{
 				game = new GameModeTower(screenWidth,screenHeight);
 				getContentPane().removeAll();
 				getContentPane().invalidate();
-				getContentPane().add(game);
+				getContentPane().add(game); 
 				getContentPane().revalidate();
 				game.running = true;
 				
 			}
 		});
-		menu.add(startTower);
+		
 		
 		
 		startTest = new JButton("Test");
@@ -100,7 +114,7 @@ public class Window extends JFrame implements KeyListener{
 				game.running = true;
 			}
 		});
-		menu.add(startTest);
+		
 		
 		
 		exit = new JButton("Exit");
@@ -115,18 +129,23 @@ public class Window extends JFrame implements KeyListener{
 				dispose();				
 			}
 		});
-		menu.add(exit);
 		
 		
+		RenewMenu();
 		add(menu);
-
+		menu.repaint();
 		
         while(running) {
 		game.start();
 		System.out.print("");
         }	
 	}
-	
+	public void RenewMenu() {
+		menu.add(startClassic);
+		menu.add(startTower);
+		menu.add(startTest);
+		menu.add(exit);
+	}
 	public static void main(String[] args) {
 		new Window();
 	}

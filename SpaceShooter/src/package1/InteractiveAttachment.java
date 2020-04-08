@@ -326,7 +326,10 @@ public class InteractiveAttachment extends ObjectAttachment{
 		// TODO Auto-generated method stub
 		this.dmg = dmg;
 	}
-	
+	public int getDmg() {
+		// TODO Auto-generated method stub
+		return this.dmg;
+	}
 	public void setInaccuracy(double ina) {
 		inaccuracy = ina;
 	}

@@ -268,7 +268,7 @@ public class Game extends JPanel implements MouseListener{
 								}
 							} else if(compareArray[x] instanceof Missile) {
 								if(((Missile) compareArray[x]).getWhoShot() != objects[i]) {
-									objects[i].setHP(objects[i].getHP()-1);
+									objects[i].setHP(objects[i].getHP()-((Missile) compareArray[x]).getDmg());
 								}
 							} else {
 								objects[i].setHP(objects[i].getHP()-1);
