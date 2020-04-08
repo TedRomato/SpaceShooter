@@ -119,6 +119,7 @@ public class Window extends JFrame implements KeyListener{
 		
 		
 		add(menu);
+		menu.repaint();
 
 		
         while(running) {
