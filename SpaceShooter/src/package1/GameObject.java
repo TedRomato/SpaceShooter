@@ -15,7 +15,7 @@ public class GameObject {
 	private boolean collision;
 	private int HP = 3;
     //can be activated after reflection for other beahaviour
-	private int invulnerabilityLength = 10;
+	private int invulnerabilityLength = 1;
 	private int invulnerabilityTimer = 0;
 	private boolean invulnurable = false;
 	

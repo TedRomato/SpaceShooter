@@ -91,6 +91,20 @@ public class LivingObject extends MovingObject{
 		
 		movePoint.rotateCorner(getRotationPoint(), getRotationAngle());	
 		}
+	public void rotateOb(double angle) {
+		super.rotateOb(angle);
+		if(attachments != null) {
+			for(ObjectAttachment att : attachments) {
+				if(att.getRotateWithParentOb()) {
+					att.rotateAttachment(angle);
+				}
+
+			}
+
+		}
+		
+		movePoint.rotateCorner(getRotationPoint(), angle);	
+		}
 	
 	//rotates only mp, sp,sd
 	public void rotateWithoutObject() {
@@ -328,7 +342,7 @@ public class LivingObject extends MovingObject{
 /*
 		g.setColor(Color.red);
 		g.fillRect((int) Math.round(moveDirection.getX()*Game.screenRatio),(int) Math.round(moveDirection.getY()*Game.screenRatio), 10, 10);
-		g.setColor(Color.darkGray);
+		g.setColor(Color.GREEN);
 		g.fillRect((int) Math.round(getRotationPoint().getX()*Game.screenRatio),(int) Math.round(getRotationPoint().getY()*Game.screenRatio), 9, 9);
 		g.setColor(Color.BLUE);
 		g.fillRect((int) Math.round(movePoint.getX()*Game.screenRatio),(int) Math.round(movePoint.getY()*Game.screenRatio), 8, 8);
