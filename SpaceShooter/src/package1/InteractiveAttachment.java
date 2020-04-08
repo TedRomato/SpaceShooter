@@ -388,7 +388,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 	public int getDmg() {
 		return dmg;
 	}
-	
+
 	public void setInaccuracy(double ina) {
 		inaccuracy = ina;
 	}

@@ -9,30 +9,32 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 
-public class GameModeTower extends Game implements KeyListener {
+public class GameModeTower extends Game{
 	private LivingObject Tower;
 	private HuntingMine hm;
 	private Mothership mp;
 	private SpaceCanon sca;
 	private SpaceCruiser scr;
-	private JLabel waveDisplay, PlayerHPDisplay, PlayerAmmoDisplay;
+	private JLabel waveDisplay, PlayerHPDisplay, PlayerAmmoDisplay, GameOver, PowerUpDisplay;
 	private Corner spawnCorner;
 	private JProgressBar TowerHPDisplay, PlayerReloadTime;
 	private JButton Power1, Power2, Power3, Power4;
-	private BufferedImage HealthIcon, AmmoIcon;
+	private BufferedImage HealthIcon, AmmoIcon , Plus1Mag, Plus1Health;
 	private Font font = new Font("josef", Font.PLAIN, 25);
 	private int AIcount = 90;
-	private int wave = 16;
+	private int wave = 6;
 	private int waveCount = 0;
 	private int PowerLevel = 0;
 	private int TowerBaseHP=1000;
@@ -46,19 +48,35 @@ public class GameModeTower extends Game implements KeyListener {
 		Tower = new LivingObject(corners,new double[] {mainWidth/2,mainHeight/2},0,new Corner(new double[] {mainWidth/2,mainHeight/2}, new double[] {mainWidth/2,mainHeight/2}));
 		Tower.setHP(TowerBaseHP);
 		addObToGame(Tower, new int[] {1,3,4,6,7,8,9});
-		
+
 		setLayout(null);
+		setName("TowerMode");
 		
 		try {
 			HealthIcon = ImageIO.read(new File("HealthIcon.png"));
 			AmmoIcon =  ImageIO.read(new File("AmmoIcon.png"));
+			Plus1Mag =  ImageIO.read(new File("+1mag.png"));
+			Plus1Health  =  ImageIO.read(new File("+1health.png"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
-		Power1 = new JButton("Option 1");
+		/*
+		 Health Refill
+		 Ammo Capacity
+		 Tower/Player turret
+		 Tower/Player turret dmg
+		 Dash + Dash cooldown
+		 Player Cannon variety
+		 */
+		
+		Power1 = new JButton("");
+		Power1.addMouseListener(this);
+		Power1.setName("Power1");
+		Power1.setIcon(new ImageIcon(Plus1Health));
 		Power1.setFocusable(false);
+		Power1.setBackground(Color.GRAY);
 		Power1.addActionListener(new ActionListener() {
 			
 			@Override
@@ -69,13 +87,18 @@ public class GameModeTower extends Game implements KeyListener {
 				remove(Power4);
 				invalidate();
 				revalidate();
+				p.setHP(p.getHP()+10);
 				running = true;
 				PUpicked = true;
 				
 			}
 		});
-		Power2 = new JButton("Option 2");
+		Power2 = new JButton("");
+		Power2.addMouseListener(this);
+		Power2.setName("Power2");
+		Power2.setIcon(new ImageIcon(Plus1Mag));
 		Power2.setFocusable(false);
+		Power2.setBackground(Color.YELLOW);
 		Power2.addActionListener(new ActionListener() {
 			
 			@Override
@@ -86,6 +109,7 @@ public class GameModeTower extends Game implements KeyListener {
 				remove(Power4);;
 				invalidate();
 				revalidate();
+				((MagazineAttachment)p.getAttachments()[3]).setMagazineMaxSize((((MagazineAttachment)p.getAttachments()[3]).getMagazineMaxSize())+1);
 				running = true;
 				PUpicked = true;
 				
@@ -126,10 +150,18 @@ public class GameModeTower extends Game implements KeyListener {
 			}
 		});
 		
+
+		PowerUpDisplay = new JLabel("");
+		PowerUpDisplay.setFont(font);
 		PlayerAmmoDisplay = new JLabel(""+ ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize());
 		PlayerAmmoDisplay.setBounds(30,40,50,30);
 		PlayerAmmoDisplay.setFont(font);
 		add(PlayerAmmoDisplay);
+		
+		GameOver = new JLabel("GAME OVER");
+		GameOver.setForeground(Color.RED);
+		GameOver.setFont(new Font("Karel",Font.BOLD,150));
+		GameOver.setBounds(currentScreenHeight/2-50,currentScreenHeight/2-300,1000,300);
 		
 		PlayerHPDisplay = new JLabel(""+ p.getHP());
 		PlayerHPDisplay.setBounds(40,0,30,30);
@@ -139,6 +171,7 @@ public class GameModeTower extends Game implements KeyListener {
 		
 		waveDisplay = new JLabel("Wave: " + wave);
 		waveDisplay.setBounds(currentScreenWidth/2-50, 0, 150, 50);
+		waveDisplay.setFont(font);
 		add(waveDisplay);
 		
 		PlayerReloadTime = new JProgressBar(0,((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadLenght());
@@ -166,6 +199,8 @@ public class GameModeTower extends Game implements KeyListener {
 		nextWave();
 		updateDisplay();
 		DisplayPowerUps();
+
+		endGame();
 	}
 	public void handleWaves() {
 		if(AIneeded && AIcount == 90) {	
@@ -207,13 +242,20 @@ public class GameModeTower extends Game implements KeyListener {
 			waveEnd = false;
 		}
 	}
+	public void endGame() {
+		if(Tower.getHP()<=0 || p.getHP() <=0) {
+			stop();
+			add(GameOver);
+			add(Window.MainMenu);
+		}
+	}
 	public void DisplayPowerUps() {
 		if(wave%5==0) {
 			PUpicked = false;
 		}
-		if((wave-1)%5==0 && !PUpicked) {
+		if((wave-1)%5==0 && !PUpicked&&wave!=1) {
 			PUrnd1 = (int) (Math.random() * ((4-1)+1)) + 1;
-			
+			PUrnd1 = 1;
 			switch(PUrnd1) {
 			case 1:
 				stop();
@@ -245,7 +287,7 @@ public class GameModeTower extends Game implements KeyListener {
 			while(PUrnd1 == PUrnd2) {	
 				PUrnd2 = (int) (Math.random() * ((4-1)+1)) + 1;
 			}
-
+			PUrnd2 = 2;
 				switch(PUrnd2) {
 				case 1:
 						stop();
@@ -306,5 +348,38 @@ public class GameModeTower extends Game implements KeyListener {
 		g2.drawImage(AmmoIcon,0,40,30,30,null);
 	}
 
-	
+	 @Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		super.mouseEntered(e);
+		if(e.getComponent().getName()=="TowerMode") {
+			remove(PowerUpDisplay);
+			repaint();
+		}
+		if(e.getComponent().getName()=="Power1") {
+			PowerUpDisplay.setBounds(e.getComponent().getX()+e.getComponent().getWidth()/2-50, e.getComponent().getY()+e.getComponent().getHeight(), 150, 50);
+			PowerUpDisplay.setText("Health Refill");
+			add(PowerUpDisplay);
+			repaint();
+		}
+		if(e.getComponent().getName()=="Power2") {
+			PowerUpDisplay.setBounds(e.getComponent().getX()+e.getComponent().getWidth()/2-50, e.getComponent().getY()+e.getComponent().getHeight(), 200, 50);
+			PowerUpDisplay.setText("+1 Mag Capacity");
+			add(PowerUpDisplay);
+			repaint();
+		}
+	}
+	 @Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		super.mouseExited(e);
+		if(e.getComponent().getName()=="Power1") {
+			remove(PowerUpDisplay);
+			repaint();
+		}
+		if(e.getComponent().getName()=="Power2") {
+			remove(PowerUpDisplay);
+			repaint();
+		}
+	}
 }
