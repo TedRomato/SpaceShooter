@@ -11,6 +11,8 @@ public class Player extends LivingObject{
 	int faceCanon = -1;
 	int machinegun = -1;
 	int baseCanon = 2;
+	
+	boolean dashUnlocked = false;
 
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
@@ -57,7 +59,7 @@ public class Player extends LivingObject{
 				((MagazineAttachment) getAttachments()[baseCanon]).reloadMag();
 			}
 		}
-		if(Game.keyChecker.checkIfkeyIsPressed(dashChar)) {
+		if(Game.keyChecker.checkIfkeyIsPressed(dashChar) && dashUnlocked == true) {
 			startDash();
 		}
 		
@@ -125,6 +127,13 @@ public class Player extends LivingObject{
 	private void handleDashCooldown() {
 		if(dashCooldownTimer > 0) {
 			dashCooldownTimer--;
+		}
+	}
+	
+	public void upgradeDash(int toSubtract) {
+		if(dashCooldown - toSubtract > 60) {
+			dashCooldown -= toSubtract;
+
 		}
 	}
 	
