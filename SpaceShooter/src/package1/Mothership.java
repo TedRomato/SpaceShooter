@@ -84,7 +84,7 @@ public class Mothership extends Summoner{
 	    ai.addAttachment(att2);
 	    ai.addAttachment(att3);
 	    ai.setStoppingDistance(600);
-	    ai.setHP(20);
+	    ai.setHP(12);
 	    ai.getClosestEnemy(enemys);
 	    ai.setSummoningSpeed(200);
 	    return ai;

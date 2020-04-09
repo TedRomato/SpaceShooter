@@ -105,7 +105,7 @@ public class MovingObject extends GameObject{
 			return c1.getX() + difference/2;
 		}
 		
-		System.out.println("71 moving ob returns null");
+		System.out.println("returns null");
 		return (Double) null;
 	}
 		
