@@ -13,6 +13,8 @@ public class Player extends LivingObject{
 	int baseCanon = 2;
 	
 	boolean dashUnlocked = false;
+	
+	boolean fireMG = false;
 
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
@@ -41,9 +43,7 @@ public class Player extends LivingObject{
 		if(Game.keyChecker.checkIfkeyIsPressed(abilityChar)) {
 			
 			if(machinegun != -1) {
-				((InteractiveAttachment) getAttachments()[machinegun]).setShoot(true);
-				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(true);
-
+				fireMG = true;
 			}
 		
 		}
@@ -102,14 +102,7 @@ public class Player extends LivingObject{
 
 			}
 		}
-		if(Game.keyChecker.checkIfkeyIsPressed(abilityChar) == false) {
-			if(machinegun != -1) {
-				((InteractiveAttachment) getAttachments()[machinegun]).setShoot(false);
-				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(false);
-
-			}
-			
-		}
+		
 
 		
 	}
@@ -137,8 +130,25 @@ public class Player extends LivingObject{
 		}
 	}
 	
+	private void fireMG() {
+		if(machinegun != -1) {
+			if(((MagazineAttachment) getAttachments()[machinegun]).getMagazineReloadTimer() < ((InteractiveAttachment) getAttachments()[machinegun]).getReloadLenght()) {
+				fireMG = false;
+			}
+			if(fireMG == false) {
+				((InteractiveAttachment) getAttachments()[machinegun]).setShoot(false);
+				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(false);
+			}	
+			else if(fireMG) {
+				((InteractiveAttachment) getAttachments()[machinegun]).setShoot(true);
+				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(true);
+			}
+		}
+		
+	}
 	
 	public void updatePlayer() {
+		fireMG();
 		handleDashCooldown();
 		((MagazineAttachment)getAttachments()[2]).rotateToCorner(((MagazineAttachment)getAttachments()[2]).getAimCorner());
 	}
@@ -155,28 +165,28 @@ public class Player extends LivingObject{
 			
 			MagazineAttachment mg1;
 			
-			Corner c11 = new Corner(new double[] {rp[0]+33,rp[1]},getRotationPoint());
-			Corner c12 = new Corner(new double[] {rp[0]+33,rp[1]+50},getRotationPoint());		
-			Corner c13 = new Corner(new double[] {rp[0]+40,rp[1]+50},getRotationPoint());
-			Corner c14 = new Corner(new double[] {rp[0]+40,rp[1]-35},getRotationPoint());
+			Corner c11 = new Corner(new double[] {rp[0]+27,rp[1]+18},getRotationPoint());
+			Corner c12 = new Corner(new double[] {rp[0]+27,rp[1]+50},getRotationPoint());		
+			Corner c13 = new Corner(new double[] {rp[0]+34,rp[1]+50},getRotationPoint());
+			Corner c14 = new Corner(new double[] {rp[0]+34,rp[1]-12},getRotationPoint());
 			
 			Corner[] corners1 = new Corner[] {c11,c12,c13,c14};
 			
-			Corner wp1 = new Corner(new double[] {rp[0]+36,rp[1]+50},getRotationPoint());
+			Corner wp1 = new Corner(new double[] {rp[0]+30,rp[1]+50},getRotationPoint());
 			
 			mg1 = new MagazineAttachment(corners1, new Corner(getRotationPoint(),getRotationPoint()), new double[] {rp[0],rp[1]}, 0, wp1, 0, 0);
 		
 			mg1.setRotateWithParentOb(true);
 			
 			MagazineAttachment mg2;
-			Corner c21 = new Corner(new double[] {rp[0]-33,rp[1]},getRotationPoint());
-			Corner c22 = new Corner(new double[] {rp[0]-33,rp[1]+50},getRotationPoint());		
-			Corner c23 = new Corner(new double[] {rp[0]-40,rp[1]+50},getRotationPoint());
-			Corner c24 = new Corner(new double[] {rp[0]-40,rp[1]-35},getRotationPoint());
+			Corner c21 = new Corner(new double[] {rp[0]-27,rp[1]+18},getRotationPoint());
+			Corner c22 = new Corner(new double[] {rp[0]-27,rp[1]+50},getRotationPoint());		
+			Corner c23 = new Corner(new double[] {rp[0]-34,rp[1]+50},getRotationPoint());
+			Corner c24 = new Corner(new double[] {rp[0]-34,rp[1]-12},getRotationPoint());
 			
 			Corner[] corners2 = new Corner[] {c21,c22,c23,c24};
 			
-			Corner wp2 = new Corner(new double[] {rp[0]-36,rp[1]+50},getRotationPoint());
+			Corner wp2 = new Corner(new double[] {rp[0]-30,rp[1]+50},getRotationPoint());
 			
 			mg2 = new MagazineAttachment(corners2, new Corner(getRotationPoint(), getRotationPoint()), new double[] {rp[0],rp[1]}, 0, wp2, 0, 0);
 		
