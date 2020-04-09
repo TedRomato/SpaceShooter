@@ -87,7 +87,7 @@ public class GameModeTower extends Game{
 				remove(Power4);
 				invalidate();
 				revalidate();
-				p.setHP(p.getHP()+10);
+				p.setHP(50);
 				running = true;
 				PUpicked = true;
 				
@@ -109,7 +109,7 @@ public class GameModeTower extends Game{
 				remove(Power4);;
 				invalidate();
 				revalidate();
-				((MagazineAttachment)p.getAttachments()[3]).setMagazineMaxSize((((MagazineAttachment)p.getAttachments()[3]).getMagazineMaxSize())+1);
+				((MagazineAttachment)p.getAttachments()[p.baseCanon]).setMagazineMaxSize((((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize())+1);
 				running = true;
 				PUpicked = true;
 				
@@ -153,6 +153,7 @@ public class GameModeTower extends Game{
 
 		PowerUpDisplay = new JLabel("");
 		PowerUpDisplay.setFont(font);
+		
 		PlayerAmmoDisplay = new JLabel(""+ ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize());
 		PlayerAmmoDisplay.setBounds(30,40,50,30);
 		PlayerAmmoDisplay.setFont(font);
