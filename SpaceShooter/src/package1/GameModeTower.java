@@ -23,6 +23,7 @@ import javax.swing.plaf.basic.BasicProgressBarUI;
 
 public class GameModeTower extends Game{
 	private LivingObject Tower;
+	private Hunter ht;
 	private HuntingMine hm;
 	private Mothership mp;
 	private SpaceCanon sca;
@@ -34,12 +35,12 @@ public class GameModeTower extends Game{
 	private BufferedImage HealthIcon, AmmoIcon , Plus1Mag, Plus1Health;
 	private Font font = new Font("josef", Font.PLAIN, 25);
 	private int AIcount = 90;
-	private int wave = 1;
+	private int wave = 7;
 	private int waveCount = 0;
 	private int PowerLevel = 0;
 	private int TowerBaseHP=1000;
 	private int NumberOfPowerUps = 4;
-	private int[] PowerLevelAr = new int[] {1,2,4,6};
+	private int[] PowerLevelAr = new int[] {1,2,4,6,3};
 	private int AIrnd, PUrnd1, PUrnd2;
 	private boolean AIneeded = true, waveEnd = false, PUpicked = false;
 	
@@ -204,7 +205,7 @@ public class GameModeTower extends Game{
 	}
 	public void handleWaves() {
 		if(AIneeded && AIcount == 90) {	
-			AIrnd = (int) (Math.random() * ((3-0)+1)) + 0;
+			AIrnd = (int) (Math.random() * ((4-0)+1)) + 0;
 			if(PowerLevelAr[AIrnd] + PowerLevel> wave) {	
 				return;
 			}
@@ -308,6 +309,9 @@ public class GameModeTower extends Game{
 
 			case 3 : scr = SpaceCruiser.makeNewSpaceCruiser(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys()); addObToGame(scr, new int[] {4,7,9,10}); 
 			break;
+			
+			case 4 : ht = Hunter.makeNewHunter(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys()); addObToGame(ht, new int[] {4,7,9,10}); 
+			
 			default : 
 		}
 	}
