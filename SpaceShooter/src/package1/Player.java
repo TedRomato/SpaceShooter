@@ -306,7 +306,6 @@ public class Player extends LivingObject{
 	    p.addAttachment(canon);
 	    p.setReflectedLenght(20);
 //	    p.addAttachment(straightLine);
-	    p.addFrontMachineGun();
 
 	    
 	    return p;
