@@ -37,17 +37,15 @@ public class Player extends LivingObject{
 	
 	public void handlePlayerKeys() {
 		if(Game.keyChecker.checkIfkeyIsPressed(abilityChar)) {
-			if(machinegun == -1 ) {
-				addFrontMachineGun();
-			}
-			if(faceCanon == -1 ) {
-				addFrontCanon();
-			}
+			
 			if(machinegun != -1) {
 				((InteractiveAttachment) getAttachments()[machinegun]).setShoot(true);
 				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(true);
 
 			}
+		
+		}
+		if(Game.keyChecker.isRightMousePressed()) {
 			if(faceCanon != -1) {
 				((InteractiveAttachment) getAttachments()[faceCanon]).setShoot(true);
 
@@ -96,16 +94,19 @@ public class Player extends LivingObject{
 		if(Game.keyChecker.isLeftMousePressed()==false) {
 			((InteractiveAttachment) getAttachments()[baseCanon]).setShoot(false);
 		}
+		if(Game.keyChecker.isRightMousePressed()==false) {
+			if(faceCanon != -1) {
+				((InteractiveAttachment) getAttachments()[faceCanon]).setShoot(false);
+
+			}
+		}
 		if(Game.keyChecker.checkIfkeyIsPressed(abilityChar) == false) {
 			if(machinegun != -1) {
 				((InteractiveAttachment) getAttachments()[machinegun]).setShoot(false);
 				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(false);
 
 			}
-			if(faceCanon != -1) {
-				((InteractiveAttachment) getAttachments()[faceCanon]).setShoot(false);
-
-			}
+			
 		}
 
 		
@@ -143,7 +144,7 @@ public class Player extends LivingObject{
 			this.rotateOb(180 - ang);
 			double[] rp = new double[]{getRotationPoint().getX(), getRotationPoint().getY()};
 			
-			InteractiveAttachment mg1;
+			MagazineAttachment mg1;
 			
 			Corner c11 = new Corner(new double[] {rp[0]+33,rp[1]},getRotationPoint());
 			Corner c12 = new Corner(new double[] {rp[0]+33,rp[1]+50},getRotationPoint());		
@@ -154,11 +155,11 @@ public class Player extends LivingObject{
 			
 			Corner wp1 = new Corner(new double[] {rp[0]+36,rp[1]+50},getRotationPoint());
 			
-			mg1 = new InteractiveAttachment(corners1, new Corner(getRotationPoint(),getRotationPoint()), new double[] {rp[0],rp[1]}, 0, wp1, 0, 0);
+			mg1 = new MagazineAttachment(corners1, new Corner(getRotationPoint(),getRotationPoint()), new double[] {rp[0],rp[1]}, 0, wp1, 0, 0);
 		
 			mg1.setRotateWithParentOb(true);
 			
-			InteractiveAttachment mg2;
+			MagazineAttachment mg2;
 			Corner c21 = new Corner(new double[] {rp[0]-33,rp[1]},getRotationPoint());
 			Corner c22 = new Corner(new double[] {rp[0]-33,rp[1]+50},getRotationPoint());		
 			Corner c23 = new Corner(new double[] {rp[0]-40,rp[1]+50},getRotationPoint());
@@ -168,11 +169,15 @@ public class Player extends LivingObject{
 			
 			Corner wp2 = new Corner(new double[] {rp[0]-36,rp[1]+50},getRotationPoint());
 			
-			mg2 = new InteractiveAttachment(corners2, new Corner(getRotationPoint(), getRotationPoint()), new double[] {rp[0],rp[1]}, 0, wp2, 0, 0);
+			mg2 = new MagazineAttachment(corners2, new Corner(getRotationPoint(), getRotationPoint()), new double[] {rp[0],rp[1]}, 0, wp2, 0, 0);
 		
 			mg2.setRotateWithParentOb(true);
 			
 			machinegun = getAttachments().length;
+			
+			mg1.setMagazineParameters(5, 600);
+			mg2.setMagazineParameters(5, 600);
+
 			
 			this.addAttachment(mg1);
 			this.addAttachment(mg2);
@@ -183,12 +188,19 @@ public class Player extends LivingObject{
 		
 	}
 	
+	public void upgradeMG() {
+		((MagazineAttachment) getAttachments()[machinegun]).upgradeMag(1);
+		((MagazineAttachment) getAttachments()[machinegun]).upgradeMagReload(40);
+		((MagazineAttachment) getAttachments()[machinegun+1]).upgradeMag(1);
+		((MagazineAttachment) getAttachments()[machinegun+1]).upgradeMagReload(40);
+	}
+	
 	public void addFrontCanon() {
 		if(faceCanon == -1) {
 			double ang = getMP().getAngle(getRotationPoint());
 			this.rotateOb(180 - ang);
 			double[] rp = new double[]{getRotationPoint().getX(), getRotationPoint().getY()};
-			InteractiveAttachment canon;
+			MagazineAttachment canon;
 			Corner c11 = new Corner(new double[] {rp[0]+10,rp[1]+65},getRotationPoint());
 			Corner c12 = new Corner(new double[] {rp[0]+9,rp[1]+80},getRotationPoint());		
 			Corner c13 = new Corner(new double[] {rp[0]-9,rp[1]+80},getRotationPoint());
@@ -198,12 +210,13 @@ public class Player extends LivingObject{
 			
 			Corner wp1 = new Corner(new double[] {rp[0], rp[1] + 80},getRotationPoint());
 			
-			canon = new InteractiveAttachment(corners1, new Corner(getRotationPoint(), getRotationPoint()), new double[] {rp[0],rp[1]}, 0, wp1, 0, 0);
+			canon = new MagazineAttachment(corners1, new Corner(getRotationPoint(), getRotationPoint()), new double[] {rp[0],rp[1]}, 0, wp1, 0, 0);
 		
 			canon.setRotateWithParentOb(true);
 			
 			canon.setReloadTimer(30);
 			canon.setDmg(3);
+			canon.setMagazineParameters(1, 200);
 			
 			faceCanon = getAttachments().length;
 			
@@ -212,6 +225,11 @@ public class Player extends LivingObject{
 			this.rotateOb(0.5);
 
 		}
+	}
+	
+	public void upgradeFaceCanon() {
+		((MagazineAttachment) getAttachments()[faceCanon]).upgradeMag(1);
+		((MagazineAttachment) getAttachments()[faceCanon]).upgradeMagReload(30);
 	}
 	
 	public static Player makeNewPlayer(double[] rp) {
