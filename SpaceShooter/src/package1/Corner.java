@@ -157,9 +157,9 @@ public class Corner {
 	public double getAngle(Corner rotationPoint) {
 
 		if(qadrant == 1 || qadrant == 3) {
-			return Math.toDegrees(Math.asin(Math.abs(rotationPoint.getX()-x)/distance)) + (qadrant-1)*90;
+			return Math.toDegrees(Math.asin(Math.abs(rotationPoint.getX()-x)/(double)distance)) + (qadrant-1)*90;
 		}else if(qadrant == 2 || qadrant == 4) {
-			return Math.toDegrees(Math.asin(Math.abs(rotationPoint.getY()-y)/distance)) + (qadrant-1)*90;
+			return Math.toDegrees(Math.asin(Math.abs(rotationPoint.getY()-y)/(double)distance)) + (qadrant-1)*90;
 		} else {
 			if(x == rotationPoint.getX()) {
 				if(y > rotationPoint.getY()) {
@@ -183,9 +183,9 @@ public class Corner {
 	public double getAngle(double[] rotationPoint) {
 
 		if(qadrant == 1 || qadrant == 3) {
-			return Math.toDegrees(Math.asin(Math.abs(rotationPoint[0]-x)/distance)) + (qadrant-1)*90;
+			return Math.toDegrees(Math.asin(Math.abs(rotationPoint[0]-x)/distance)) + (double)(qadrant-1)*90;
 		}else if(qadrant == 2 || qadrant == 4) {
-			return Math.toDegrees(Math.asin(Math.abs(rotationPoint[1]-y)/distance)) + (qadrant-1)*90;
+			return Math.toDegrees(Math.asin(Math.abs(rotationPoint[1]-y)/distance)) + (double)(qadrant-1)*90;
 		} else {
 			if(x == rotationPoint[0]) {
 				if(y > rotationPoint[1]) {
@@ -238,7 +238,7 @@ public class Corner {
 	
 	private double countSinusPoint() {
 
-		return   (distance * Math.cos(Math.toRadians((currentAngle - ((qadrant-1)*90)))));
+		return   (distance * Math.cos(Math.toRadians((currentAngle - (double)((qadrant-1)*90)))));
 	}
 	
 	//Gets new coords based on currentAngle and Position of RP

@@ -265,13 +265,13 @@ public class GameObject {
 				return new double[] {-x, -y};
 			case 0:
 				if(angle == 90) {
-					return new double[] {distance, 0};
+					return new double[] {distance, 0.0};
 				} else if(angle == 270){
-					return new double[] {-distance, 0};
+					return new double[] {-distance, 0.0};
 				} else if(angle == 180){
-					return new double[] {0, distance};
+					return new double[] {0.0, distance};
 				} else if(angle == 0 || angle == 360){
-					return new double[] {0, -distance};
+					return new double[] {0.0, -distance};
 				}
 		}
 		System.out.println("Chyba get new cords switch");

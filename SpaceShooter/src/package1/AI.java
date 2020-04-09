@@ -186,7 +186,7 @@ public class AI extends LivingObject{
 		
 	}
 	
-	private void setGoalToCorner(Corner c) {
+	protected void setGoalToCorner(Corner c) {
 		goalDestination.setX(c.getX());
 		goalDestination.setY(c.getY());
 	}
@@ -345,10 +345,18 @@ public class AI extends LivingObject{
 
 
 	public void stopIfTooClose(GameObject enemy) {
-		if(this.getRotationPoint().getPointDistance(enemy.getRotationPoint()) < stoppingDistance) {
+		if(checkIfInDistance(enemy, stoppingDistance)) {
 			setForward(false);
 		}else {
 			setForward(true);
+		}
+	}
+	
+	public boolean checkIfInDistance(GameObject enemy, double distance) {
+		if(this.getRotationPoint().getPointDistance(enemy.getRotationPoint()) < distance) {
+			return true;
+		}else {
+			return false;
 		}
 	}
 	
@@ -379,9 +387,9 @@ public class AI extends LivingObject{
 	//	g.fillRect((int) Math.round(getRotationPoint().getX()*Game.screenRatio),(int) Math.round(getRotationPoint().getY()*Game.screenRatio), 9, 9);
 	//	g.setColor(Color.BLUE);
 	//	g.fillRect((int) Math.round(getMP().getX()*Game.screenRatio),(int) Math.round(getMP().getY()*Game.screenRatio), 8, 8);
-	//	g.setColor(Color.GREEN);
-	//	g.fillRect((int) Math.round(goalDestination.getX()*Game.screenRatio),(int) Math.round(goalDestination.getY()*Game.screenRatio), 10, 10);
-	//	g.setColor(Color.BLACK);
+		g.setColor(Color.GREEN);
+		g.fillRect((int) Math.round(goalDestination.getX()*Game.screenRatio),(int) Math.round(goalDestination.getY()*Game.screenRatio), 10, 10);
+		g.setColor(Color.BLACK);
 
 		//	g.setColor(Color.black);
 	// 	

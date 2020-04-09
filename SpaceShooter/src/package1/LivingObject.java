@@ -225,7 +225,7 @@ public class LivingObject extends MovingObject{
 	public void checkAndHandleReflect(GameObject otherOb) {
 		if(getCollisionSquare().squareCollision(otherOb.getCollisionSquare())) {
 			if(otherOb != this) {
-				Corner[] corners = null;
+				Corner[] corners = new Corner[] {};
 				
 				
 				corners = getCrossedLineCorners(otherOb);
