@@ -109,7 +109,7 @@ public class GameModeTower extends Game{
 				remove(Power4);;
 				invalidate();
 				revalidate();
-				((MagazineAttachment)p.getAttachments()[3]).setMagazineMaxSize((((MagazineAttachment)p.getAttachments()[3]).getMagazineMaxSize())+1);
+				((MagazineAttachment)p.getAttachments()[p.baseCanon]).setMagazineMaxSize((((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize())+1);
 				running = true;
 				PUpicked = true;
 				
@@ -127,6 +127,11 @@ public class GameModeTower extends Game{
 				remove(Power4);
 				invalidate();
 				revalidate();
+				if(p.faceCanon==-1) {
+					p.addFrontCanon();
+				}else {
+					p.upgradeFaceCanon();
+				}
 				running = true;
 				PUpicked = true;
 				
@@ -144,6 +149,11 @@ public class GameModeTower extends Game{
 				remove(Power4);
 				invalidate();
 				revalidate();
+				if(p.machinegun==-1) {
+					p.addFrontMachineGun();
+				}else {
+					p.upgradeMG();
+				}
 				running = true;
 				PUpicked = true;
 				
@@ -255,7 +265,7 @@ public class GameModeTower extends Game{
 		}
 		if((wave-1)%5==0 && !PUpicked&&wave!=1) {
 			PUrnd1 = (int) (Math.random() * ((4-1)+1)) + 1;
-			PUrnd1 = 1;
+	//		PUrnd1 = 1;
 			switch(PUrnd1) {
 			case 1:
 				stop();
@@ -287,7 +297,7 @@ public class GameModeTower extends Game{
 			while(PUrnd1 == PUrnd2) {	
 				PUrnd2 = (int) (Math.random() * ((4-1)+1)) + 1;
 			}
-			PUrnd2 = 2;
+		//	PUrnd2 = 2;
 				switch(PUrnd2) {
 				case 1:
 						stop();
