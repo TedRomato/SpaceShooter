@@ -7,7 +7,7 @@ public class Summoner extends AI{
 	double summonTimer = w8Length;
 	boolean onCooldown = false;
 	Corner[] summoningDestinations;
-	double runningDistance = 400;
+	double runningDistance = 550;
 
 	public Summoner(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination) {
 		super(corners, rotationPoint, rotationAngle, md, goalDestination);
