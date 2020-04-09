@@ -165,10 +165,10 @@ public class Player extends LivingObject{
 			
 			MagazineAttachment mg1;
 			
-			Corner c11 = new Corner(new double[] {rp[0]+27,rp[1]},getRotationPoint());
+			Corner c11 = new Corner(new double[] {rp[0]+27,rp[1]+18},getRotationPoint());
 			Corner c12 = new Corner(new double[] {rp[0]+27,rp[1]+50},getRotationPoint());		
 			Corner c13 = new Corner(new double[] {rp[0]+34,rp[1]+50},getRotationPoint());
-			Corner c14 = new Corner(new double[] {rp[0]+34,rp[1]-35},getRotationPoint());
+			Corner c14 = new Corner(new double[] {rp[0]+34,rp[1]-12},getRotationPoint());
 			
 			Corner[] corners1 = new Corner[] {c11,c12,c13,c14};
 			
@@ -179,10 +179,10 @@ public class Player extends LivingObject{
 			mg1.setRotateWithParentOb(true);
 			
 			MagazineAttachment mg2;
-			Corner c21 = new Corner(new double[] {rp[0]-27,rp[1]},getRotationPoint());
+			Corner c21 = new Corner(new double[] {rp[0]-27,rp[1]+18},getRotationPoint());
 			Corner c22 = new Corner(new double[] {rp[0]-27,rp[1]+50},getRotationPoint());		
 			Corner c23 = new Corner(new double[] {rp[0]-34,rp[1]+50},getRotationPoint());
-			Corner c24 = new Corner(new double[] {rp[0]-34,rp[1]-35},getRotationPoint());
+			Corner c24 = new Corner(new double[] {rp[0]-34,rp[1]-12},getRotationPoint());
 			
 			Corner[] corners2 = new Corner[] {c21,c22,c23,c24};
 			
@@ -306,6 +306,7 @@ public class Player extends LivingObject{
 	    p.addAttachment(canon);
 	    p.setReflectedLenght(20);
 //	    p.addAttachment(straightLine);
+	    p.addFrontMachineGun();
 
 	    
 	    return p;
