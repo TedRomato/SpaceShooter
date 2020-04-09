@@ -38,6 +38,7 @@ public class GameModeTower extends Game{
 	private int waveCount = 0;
 	private int PowerLevel = 0;
 	private int TowerBaseHP=1000;
+	private int NumberOfPowerUps = 4;
 	private int[] PowerLevelAr = new int[] {1,2,4,6};
 	private int AIrnd, PUrnd1, PUrnd2;
 	private boolean AIneeded = true, waveEnd = false, PUpicked = false;
@@ -81,10 +82,7 @@ public class GameModeTower extends Game{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				remove(Power1);
-				remove(Power2);
-				remove(Power3);
-				remove(Power4);
+				removeButtons();
 				invalidate();
 				revalidate();
 				p.setHP(50);
@@ -103,10 +101,7 @@ public class GameModeTower extends Game{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				remove(Power1);
-				remove(Power2);
-				remove(Power3);
-				remove(Power4);;
+				removeButtons();
 				invalidate();
 				revalidate();
 				((MagazineAttachment)p.getAttachments()[p.baseCanon]).setMagazineMaxSize((((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize())+1);
@@ -121,10 +116,7 @@ public class GameModeTower extends Game{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				remove(Power1);
-				remove(Power2);
-				remove(Power3);
-				remove(Power4);
+				removeButtons();
 				invalidate();
 				revalidate();
 				if(p.faceCanon==-1) {
@@ -143,10 +135,7 @@ public class GameModeTower extends Game{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				remove(Power1);
-				remove(Power2);
-				remove(Power3);
-				remove(Power4);
+				removeButtons();
 				invalidate();
 				revalidate();
 				if(p.machinegun==-1) {
@@ -265,71 +254,45 @@ public class GameModeTower extends Game{
 			PUpicked = false;
 		}
 		if((wave-1)%5==0 && !PUpicked&&wave!=1) {
-			PUrnd1 = (int) (Math.random() * ((4-1)+1)) + 1;
-	//		PUrnd1 = 1;
-			switch(PUrnd1) {
-			case 1:
-				stop();
-				Power1.setBounds(125, 250, currentScreenWidth/2-250, currentScreenHeight-500);
-				add(Power1);
-				repaint();
-				break;
-			case 2:
-				stop();
-				Power2.setBounds(125, 250, currentScreenWidth/2-250, currentScreenHeight-500);
-				add(Power2);
-				repaint();
-				break;
-			case 3:
-				stop();
-				Power3.setBounds(125, 250, currentScreenWidth/2-250, currentScreenHeight-500);
-				add(Power3);
-				repaint();
-				break;
-			case 4:
-				stop();
-				Power4.setBounds(125, 250, currentScreenWidth/2-250, currentScreenHeight-500);
-				add(Power4);
-				repaint();
-				break;
-			default:
-			}
-			PUrnd2 = (int) (Math.random() * ((4-1)+1)) + 1;
+			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
+			choosePowerUps(PUrnd1,125,250); 
+			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			while(PUrnd1 == PUrnd2) {	
-				PUrnd2 = (int) (Math.random() * ((4-1)+1)) + 1;
+				PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			}
-		//	PUrnd2 = 2;
-				switch(PUrnd2) {
-				case 1:
-						stop();
-						Power1.setBounds(currentScreenWidth-currentScreenWidth/2+125,250, currentScreenWidth/2-250, currentScreenHeight-500);
-						add(Power1);
-						repaint();
-					break;
-					case 2:
-						stop();
-						Power2.setBounds(currentScreenWidth-currentScreenWidth/2+125,250, currentScreenWidth/2-250, currentScreenHeight-500);
-						add(Power2);
-						repaint();
-						break;
-					case 3:
-						stop();
-						Power3.setBounds(currentScreenWidth-currentScreenWidth/2+125,250, currentScreenWidth/2-250, currentScreenHeight-500);
-						add(Power3);
-						repaint();
-						break;
-					case 4:
-						stop();
-						Power4.setBounds(currentScreenWidth-currentScreenWidth/2+125,250, currentScreenWidth/2-250, currentScreenHeight-500);
-						add(Power4);
-						repaint();
-						break;
-					default:
-				}
+			choosePowerUps(PUrnd2,currentScreenWidth-currentScreenWidth/2+125,250);
 			}
 			
 		}
-
+	public void choosePowerUps(int rnd, int x, int y) {
+		switch(rnd) {
+		case 1:
+			stop();
+			Power1.setBounds(x, y, currentScreenWidth/2-250, currentScreenHeight-500);
+			add(Power1);
+			repaint();
+			break;
+		case 2:
+			stop();
+			Power2.setBounds(x, y, currentScreenWidth/2-250, currentScreenHeight-500);
+			add(Power2);
+			repaint();
+			break;
+		case 3:
+			stop();
+			Power3.setBounds(x, y, currentScreenWidth/2-250, currentScreenHeight-500);
+			add(Power3);
+			repaint();
+			break;
+		case 4:
+			stop();
+			Power4.setBounds(x, y, currentScreenWidth/2-250, currentScreenHeight-500);
+			add(Power4);
+			repaint();
+			break;
+		default: 
+		}
+	}
 	public void spawnAI(int PL) {
 		spawnCorner = GameObject.generateCornerOutsideMapInRange(mainWidth, mainHeight, new int[] {70,100});
 		switch(PL){
@@ -348,7 +311,12 @@ public class GameModeTower extends Game{
 			default : 
 		}
 	}
-	
+	public void removeButtons() {
+		remove(Power1);
+		remove(Power2);
+		remove(Power3);
+		remove(Power4);
+	}
 	 @Override
 	protected void paintComponent(Graphics g) {
 		// TODO Auto-generated method stub
