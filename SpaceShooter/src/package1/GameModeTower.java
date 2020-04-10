@@ -340,7 +340,7 @@ public class GameModeTower extends Game{
 			PUpicked = false;
 		}
 		if((wave-1)%5==0 && !PUpicked&&wave!=1) {
-			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
+			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;		
 			choosePowerUps(PUrnd1,125,250); 
 			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			while(PUrnd1 == PUrnd2) {	
@@ -443,13 +443,13 @@ public class GameModeTower extends Game{
 				break;
 			case "Power1" :
 				PowerUpDisplay.setBounds(e.getComponent().getX(), e.getComponent().getY()+e.getComponent().getHeight(), e.getComponent().getWidth(), 50);
-				PowerUpDisplay.setText("MedKit - Fully restores your Health");
+				PowerUpDisplay.setText("<html>MedKit - Fully restores your Health<html>");
 				add(PowerUpDisplay);
 				repaint();
 				break;
 			case "Power2" :
 				PowerUpDisplay.setBounds(e.getComponent().getX(), e.getComponent().getY()+e.getComponent().getHeight(), e.getComponent().getWidth(), 50);
-				PowerUpDisplay.setText("Magazine extender - Increases your ammo capacity by 1");
+				PowerUpDisplay.setText("<html>Magazine extender - Increases your ammo capacity by 1<html>");
 				add(PowerUpDisplay);
 				repaint();
 				break;
@@ -478,10 +478,10 @@ public class GameModeTower extends Game{
 			case "Power5" :
 				PowerUpDisplay.setBounds(e.getComponent().getX(), e.getComponent().getY()+e.getComponent().getHeight(), e.getComponent().getWidth(), 50);
 				if(!p.isDashUnlocked()) {
-					PowerUpDisplay.setText("Dash - Press SHIFT to leap forward");
+					PowerUpDisplay.setText("<html>Dash - Press SHIFT to leap forward<html>");
 				}
 				else {
-					PowerUpDisplay.setText("Dash upgrade - Slightly reduceses dash charge time");
+					PowerUpDisplay.setText("<html>Dash upgrade - Slightly reduceses dash charge time<html>");
 				}
 				add(PowerUpDisplay);
 				repaint();
