@@ -310,7 +310,7 @@ public class Player extends LivingObject{
 	}
 	
 	public void upgradeFaceCanon() {
-		((MagazineAttachment) getAttachments()[faceCanon]).upgradeMag(1);
+		((MagazineAttachment) getAttachments()[faceCanon]).setDmg(((MagazineAttachment) getAttachments()[faceCanon]).getDmg()+1);
 		((MagazineAttachment) getAttachments()[faceCanon]).upgradeMagReload(30);
 	}
 	
