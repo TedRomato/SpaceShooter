@@ -449,7 +449,7 @@ public class GameModeTower extends Game{
 				break;
 			case "Power2" :
 				PowerUpDisplay.setBounds(e.getComponent().getX(), e.getComponent().getY()+e.getComponent().getHeight(), e.getComponent().getWidth(), 50);
-				PowerUpDisplay.setText("Magazine extender - Increases your ammo capacity by 1");
+				PowerUpDisplay.setText("<html>Magazine extender - Increases your ammo capacity by 1<html>");
 				add(PowerUpDisplay);
 				repaint();
 				break;
@@ -481,7 +481,7 @@ public class GameModeTower extends Game{
 					PowerUpDisplay.setText("Dash - Press SHIFT to leap forward");
 				}
 				else {
-					PowerUpDisplay.setText("Dash upgrade - Slightly reduceses dash charge time");
+					PowerUpDisplay.setText("<html>Dash upgrade - Slightly reduceses dash charge time<html>");
 				}
 				add(PowerUpDisplay);
 				repaint();
