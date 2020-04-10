@@ -13,6 +13,12 @@ public class Player extends LivingObject{
 	int baseCanon = 2;
 	
 	boolean dashUnlocked = false;
+	
+	boolean usingBC = true;
+	boolean usingFC = false;
+	boolean usingMG = false;
+	
+	boolean fireMG = false;
 
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
@@ -41,15 +47,17 @@ public class Player extends LivingObject{
 		if(Game.keyChecker.checkIfkeyIsPressed(abilityChar)) {
 			
 			if(machinegun != -1) {
-				((InteractiveAttachment) getAttachments()[machinegun]).setShoot(true);
-				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(true);
-
+				usingMG = true;
+				usingBC = false;
+				usingFC = false;
 			}
 		
 		}
 		if(Game.keyChecker.isRightMousePressed()) {
 			if(faceCanon != -1) {
-				((InteractiveAttachment) getAttachments()[faceCanon]).setShoot(true);
+				usingFC = true;
+				usingMG = false;
+				usingBC = false;
 
 			}
 		}
@@ -79,7 +87,13 @@ public class Player extends LivingObject{
 			
 		}
 		if(Game.keyChecker.isLeftMousePressed()) {
-			((InteractiveAttachment) getAttachments()[baseCanon]).setShoot(true);
+			if(usingBC) {
+				((InteractiveAttachment) getAttachments()[baseCanon]).setShoot(true);
+			}else if(usingMG) {
+				fireMG = true;
+			}else if(usingFC) {
+				((InteractiveAttachment) getAttachments()[faceCanon]).setShoot(true);
+			}
 		}
 		
 		if(Game.keyChecker.checkIfkeyIsPressed(moveChar)==false) {
@@ -96,23 +110,25 @@ public class Player extends LivingObject{
 		if(Game.keyChecker.isLeftMousePressed()==false) {
 			((InteractiveAttachment) getAttachments()[baseCanon]).setShoot(false);
 		}
+		//Abilities that set bc to false;
 		if(Game.keyChecker.isRightMousePressed()==false) {
 			if(faceCanon != -1) {
 				((InteractiveAttachment) getAttachments()[faceCanon]).setShoot(false);
-
+				if(usingMG == false) {
+					usingBC = true;
+				}
+				usingFC = false;
+				}
 			}
-		}
 		if(Game.keyChecker.checkIfkeyIsPressed(abilityChar) == false) {
-			if(machinegun != -1) {
-				((InteractiveAttachment) getAttachments()[machinegun]).setShoot(false);
-				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(false);
-
+			if(usingFC == false) {
+				usingBC = true;
 			}
-			
+			usingMG = false;
+			}
 		}
-
 		
-	}
+
 	
 	private void startDash() {
 		if(dashCooldownTimer <= 0) {
@@ -137,14 +153,60 @@ public class Player extends LivingObject{
 		}
 	}
 	
+	private void fireMG() {
+		if(machinegun != -1) {
+			if(((MagazineAttachment) getAttachments()[machinegun]).getMagazineReloadTimer() < ((MagazineAttachment) getAttachments()[machinegun]).getMagazineReloadLenght()) {
+				fireMG = false;
+			}
+			if(fireMG == false) {
+				((InteractiveAttachment) getAttachments()[machinegun]).setShoot(false);
+				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(false);
+			}	
+			else if(fireMG) {
+				((InteractiveAttachment) getAttachments()[machinegun]).setShoot(true);
+				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(true);
+			}
+		}
+		
+	}
 	
 	public void updatePlayer() {
+		fireMG();
 		handleDashCooldown();
-		((MagazineAttachment)getAttachments()[2]).rotateToCorner(((MagazineAttachment)getAttachments()[2]).getAimCorner());
+		if(usingBC) {
+			((MagazineAttachment)getAttachments()[baseCanon]).rotateToCorner(((MagazineAttachment)getAttachments()[baseCanon]).getAimCorner());
+		}
+		if(machinegun != -1) {
+			if(usingMG) {
+				((MagazineAttachment)getAttachments()[machinegun]).rotateToCorner(((MagazineAttachment)getAttachments()[machinegun]).getAimCorner());
+				((MagazineAttachment)getAttachments()[machinegun+1]).rotateToCorner(((MagazineAttachment)getAttachments()[machinegun+1]).getAimCorner());
+			}else if(usingMG == false && fireMG == false && getAttachments()[machinegun].getAttachmentAngle()!=0) {
+				((InteractiveAttachment)getAttachments()[machinegun]).rotateAttachmentAroundItsCorner(0-getAttachments()[machinegun].getAttachmentAngle());
+				((InteractiveAttachment)getAttachments()[machinegun+1]).rotateAttachmentAroundItsCorner(0-getAttachments()[machinegun+1].getAttachmentAngle());			
+				}
+		}
+		if(faceCanon != -1) {
+			if(usingFC) {
+				((MagazineAttachment)getAttachments()[faceCanon]).rotateToCorner(((MagazineAttachment)getAttachments()[faceCanon]).getAimCorner());
+			}else if(usingFC == false&& getAttachments()[faceCanon].getAttachmentAngle()!=0) {
+				((InteractiveAttachment)getAttachments()[faceCanon]).rotateAttachmentAroundItsCorner(0-getAttachments()[faceCanon].getAttachmentAngle());
+				}
+
+		}
 	}
 	
 	public void setPlayerAimCorner(double x, double y) {
-		((MagazineAttachment)getAttachments()[2]).setAimCorner(x,y);
+		((MagazineAttachment)getAttachments()[baseCanon]).setAimCorner(x,y);
+		if(machinegun != -1) {
+			((MagazineAttachment)getAttachments()[machinegun]).setAimCorner(x,y);
+			((MagazineAttachment)getAttachments()[machinegun+1]).setAimCorner(x,y);
+		}
+		if(faceCanon != -1) {
+			((MagazineAttachment)getAttachments()[faceCanon]).setAimCorner(x,y);
+
+		}
+		
+
 	}
 	
 	public void addFrontMachineGun() {
@@ -155,30 +217,30 @@ public class Player extends LivingObject{
 			
 			MagazineAttachment mg1;
 			
-			Corner c11 = new Corner(new double[] {rp[0]+33,rp[1]},getRotationPoint());
-			Corner c12 = new Corner(new double[] {rp[0]+33,rp[1]+50},getRotationPoint());		
-			Corner c13 = new Corner(new double[] {rp[0]+40,rp[1]+50},getRotationPoint());
-			Corner c14 = new Corner(new double[] {rp[0]+40,rp[1]-35},getRotationPoint());
+			Corner c11 = new Corner(new double[] {rp[0]+27,rp[1]+18},getRotationPoint());
+			Corner c12 = new Corner(new double[] {rp[0]+27,rp[1]+50},getRotationPoint());		
+			Corner c13 = new Corner(new double[] {rp[0]+34,rp[1]+50},getRotationPoint());
+			Corner c14 = new Corner(new double[] {rp[0]+34,rp[1]-12},getRotationPoint());
 			
 			Corner[] corners1 = new Corner[] {c11,c12,c13,c14};
 			
-			Corner wp1 = new Corner(new double[] {rp[0]+36,rp[1]+50},getRotationPoint());
+			Corner wp1 = new Corner(new double[] {rp[0]+30,rp[1]+35},getRotationPoint());
 			
-			mg1 = new MagazineAttachment(corners1, new Corner(getRotationPoint(),getRotationPoint()), new double[] {rp[0],rp[1]}, 0, wp1, 0, 0);
+			mg1 = new MagazineAttachment(corners1, new Corner(getRotationPoint(),getRotationPoint()), new double[] {rp[0]+30,rp[1]-11}, 0, wp1, 0, 0);
 		
 			mg1.setRotateWithParentOb(true);
 			
 			MagazineAttachment mg2;
-			Corner c21 = new Corner(new double[] {rp[0]-33,rp[1]},getRotationPoint());
-			Corner c22 = new Corner(new double[] {rp[0]-33,rp[1]+50},getRotationPoint());		
-			Corner c23 = new Corner(new double[] {rp[0]-40,rp[1]+50},getRotationPoint());
-			Corner c24 = new Corner(new double[] {rp[0]-40,rp[1]-35},getRotationPoint());
+			Corner c21 = new Corner(new double[] {rp[0]-27,rp[1]+18},getRotationPoint());
+			Corner c22 = new Corner(new double[] {rp[0]-27,rp[1]+50},getRotationPoint());		
+			Corner c23 = new Corner(new double[] {rp[0]-34,rp[1]+50},getRotationPoint());
+			Corner c24 = new Corner(new double[] {rp[0]-34,rp[1]-12},getRotationPoint());
 			
 			Corner[] corners2 = new Corner[] {c21,c22,c23,c24};
 			
-			Corner wp2 = new Corner(new double[] {rp[0]-36,rp[1]+50},getRotationPoint());
+			Corner wp2 = new Corner(new double[] {rp[0]-30,rp[1]+35},getRotationPoint());
 			
-			mg2 = new MagazineAttachment(corners2, new Corner(getRotationPoint(), getRotationPoint()), new double[] {rp[0],rp[1]}, 0, wp2, 0, 0);
+			mg2 = new MagazineAttachment(corners2, new Corner(getRotationPoint(), getRotationPoint()), new double[] {rp[0] - 30,rp[1] - 11}, 0, wp2, 0, 0);
 		
 			mg2.setRotateWithParentOb(true);
 			
@@ -187,6 +249,13 @@ public class Player extends LivingObject{
 			mg1.setMagazineParameters(5, 600);
 			mg2.setMagazineParameters(5, 600);
 
+			mg1.setAttRangle(2);
+			mg2.setAttRangle(2);
+			
+			double[] s = new double[] {-15,15};
+			
+			mg1.setRotationSegment(s);
+			mg2.setRotationSegment(s);
 			
 			this.addAttachment(mg1);
 			this.addAttachment(mg2);
@@ -210,16 +279,16 @@ public class Player extends LivingObject{
 			this.rotateOb(180 - ang);
 			double[] rp = new double[]{getRotationPoint().getX(), getRotationPoint().getY()};
 			MagazineAttachment canon;
-			Corner c11 = new Corner(new double[] {rp[0]+10,rp[1]+65},getRotationPoint());
+			Corner c11 = new Corner(new double[] {rp[0]+10,rp[1]+50},getRotationPoint());
 			Corner c12 = new Corner(new double[] {rp[0]+9,rp[1]+80},getRotationPoint());		
 			Corner c13 = new Corner(new double[] {rp[0]-9,rp[1]+80},getRotationPoint());
-			Corner c14 = new Corner(new double[] {rp[0]-10,rp[1]+65},getRotationPoint());
+			Corner c14 = new Corner(new double[] {rp[0]-10,rp[1]+50},getRotationPoint());
 			
 			Corner[] corners1 = new Corner[] {c11,c12,c13,c14};
 			
 			Corner wp1 = new Corner(new double[] {rp[0], rp[1] + 80},getRotationPoint());
 			
-			canon = new MagazineAttachment(corners1, new Corner(getRotationPoint(), getRotationPoint()), new double[] {rp[0],rp[1]}, 0, wp1, 0, 0);
+			canon = new MagazineAttachment(corners1, new Corner(getRotationPoint(), getRotationPoint()), new double[] {rp[0],rp[1]+50}, 0, wp1, 0, 0);
 		
 			canon.setRotateWithParentOb(true);
 			
@@ -227,7 +296,11 @@ public class Player extends LivingObject{
 			canon.setDmg(3);
 			canon.setMagazineParameters(1, 200);
 			
+			canon.setRotationSegment(new double[] {-20,20});
+			
 			faceCanon = getAttachments().length;
+			
+			canon.setAttRangle(4);
 			
 			addAttachment(canon);
 			this.rotateOb(ang - 180);
@@ -237,7 +310,7 @@ public class Player extends LivingObject{
 	}
 	
 	public void upgradeFaceCanon() {
-		((MagazineAttachment) getAttachments()[faceCanon]).upgradeMag(1);
+		((MagazineAttachment) getAttachments()[faceCanon]).setDmg(((MagazineAttachment) getAttachments()[faceCanon]).getDmg()+1);
 		((MagazineAttachment) getAttachments()[faceCanon]).upgradeMagReload(30);
 	}
 	
@@ -295,6 +368,8 @@ public class Player extends LivingObject{
 	    p.setReflectedSpeed(6);
 	    p.addAttachment(canon);
 	    p.setReflectedLenght(20);
+	    //p.addFrontCanon();
+	   // p.addFrontMachineGun();
 //	    p.addAttachment(straightLine);
 
 	    

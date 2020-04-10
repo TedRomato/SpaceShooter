@@ -25,6 +25,7 @@ import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 
 public class GameModeTower extends Game{
+
 	private LivingObject Tower;
 	private Hunter ht;
 	private HuntingMine hm;
@@ -56,19 +57,19 @@ public class GameModeTower extends Game{
 
 		setLayout(null);
 		setName("TowerMode");
-		
-		
+
 		try {
-			HealthIcon = ImageIO.read(new File("HealthIcon.png"));
-			AmmoIcon =  ImageIO.read(new File("AmmoIcon.png"));
-			Plus1Mag =  ImageIO.read(new File("Magazine.png"));
-			Plus1Health  =  ImageIO.read(new File("MedKit.png"));
-			DashIcon = ImageIO.read(new File("Dash.png"));
-			MachineGunIcon = ImageIO.read(new File("MachineGunAmmo.png"));
-			RocketIcon = ImageIO.read(new File("Rocket.png"));
-			RocketLauncher = ImageIO.read(new File("RocketLauncher.png"));
-			MachineGun = ImageIO.read(new File("MachineGun.png"));
-			DashRefillIcon = ImageIO.read(new File("DashRefillIcon.png"));
+			HealthIcon = ImageIO.read(new File("src/Icons/HealthIcon.png"));
+			AmmoIcon =  ImageIO.read(new File("src/Icons/AmmoIcon.png"));
+			Plus1Mag =  ImageIO.read(new File("src/Icons/Magazine.png"));
+			Plus1Health  =  ImageIO.read(new File("src/Icons/MedKit.png"));
+			DashIcon = ImageIO.read(new File("src/Icons/Dash.png"));
+			MachineGunIcon = ImageIO.read(new File("src/Icons/MachineGunAmmo.png"));
+			RocketIcon = ImageIO.read(new File("src/Icons/Rocket.png"));
+			RocketLauncher = ImageIO.read(new File("src/Icons/RocketLauncher.png"));
+			MachineGun = ImageIO.read(new File("src/Icons/MachineGun.png"));
+			DashRefillIcon = ImageIO.read(new File("src/Icons/DashRefillIcon.png"));
+
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -340,7 +341,6 @@ public class GameModeTower extends Game{
 		}
 		if((wave-1)%5==0 && !PUpicked&&wave!=1) {
 			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
-			PUrnd1 = 5;
 			choosePowerUps(PUrnd1,125,250); 
 			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			while(PUrnd1 == PUrnd2) {	
@@ -456,7 +456,7 @@ public class GameModeTower extends Game{
 			case "Power3" :
 				PowerUpDisplay.setBounds(e.getComponent().getX(), e.getComponent().getY()+e.getComponent().getHeight(), e.getComponent().getWidth(), 65);
 				if(p.faceCanon == -1) {
-					PowerUpDisplay.setText("Rocket Launcher - RIGHT CLICK to shoot rockets");
+					PowerUpDisplay.setText("<html>Rocket Launcher - RIGHT CLICK + LEFT CLICK to shoot rockets<html>");
 				}
 				else {
 					PowerUpDisplay.setText("<html>Rocket Launcher upgrade - Slightly reduceses reload time and encreases damage by 1<html>");
@@ -467,7 +467,7 @@ public class GameModeTower extends Game{
 			case "Power4" :
 				PowerUpDisplay.setBounds(e.getComponent().getX(), e.getComponent().getY()+e.getComponent().getHeight(), e.getComponent().getWidth(), 65);
 				if(p.machinegun == -1) {
-					PowerUpDisplay.setText("Machine Gun - Press SPACEBAR to activate Machine guns");
+					PowerUpDisplay.setText("<html>Machine Gun - Press SPACEBAR + LEFT CLICK to activate Machine guns<html>");
 				}
 				else {
 					PowerUpDisplay.setText("<html>Machine Gun upgrade - Slightly reduceses reload time and<br>encreases ammo capacity by 1<html>");
