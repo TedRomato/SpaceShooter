@@ -39,7 +39,7 @@ public class GameModeTower extends Game{
 	private BufferedImage HealthIcon, AmmoIcon , Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, DashRefillIcon;
 	private Font font = new Font("josef", Font.PLAIN, 25);
 	private int AIcount = 90;
-	private int wave = 1;
+	private int wave = 6;
 	private int waveCount = 0;
 	private int PowerLevel = 0;
 	private int TowerBaseHP=1000;
@@ -341,11 +341,13 @@ public class GameModeTower extends Game{
 		}
 		if((wave-1)%5==0 && !PUpicked&&wave!=1) {
 			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
+			PUrnd1 = 1;
 			choosePowerUps(PUrnd1,125,250); 
 			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			while(PUrnd1 == PUrnd2) {	
 				PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			}
+			PUrnd2 = 2;
 			choosePowerUps(PUrnd2,currentScreenWidth-currentScreenWidth/2+125,250);
 			}
 			
@@ -443,7 +445,7 @@ public class GameModeTower extends Game{
 				break;
 			case "Power1" :
 				PowerUpDisplay.setBounds(e.getComponent().getX(), e.getComponent().getY()+e.getComponent().getHeight(), e.getComponent().getWidth(), 50);
-				PowerUpDisplay.setText("MedKit - Fully restores your Health");
+				PowerUpDisplay.setText("<html>MedKit - Fully restores your Health<html>");
 				add(PowerUpDisplay);
 				repaint();
 				break;
@@ -478,7 +480,7 @@ public class GameModeTower extends Game{
 			case "Power5" :
 				PowerUpDisplay.setBounds(e.getComponent().getX(), e.getComponent().getY()+e.getComponent().getHeight(), e.getComponent().getWidth(), 50);
 				if(!p.isDashUnlocked()) {
-					PowerUpDisplay.setText("Dash - Press SHIFT to leap forward");
+					PowerUpDisplay.setText("<html>Dash - Press SHIFT to leap forward<html>");
 				}
 				else {
 					PowerUpDisplay.setText("<html>Dash upgrade - Slightly reduceses dash charge time<html>");
