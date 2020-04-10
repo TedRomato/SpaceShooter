@@ -39,7 +39,7 @@ public class GameModeTower extends Game{
 	private BufferedImage HealthIcon, AmmoIcon , Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, DashRefillIcon;
 	private Font font = new Font("josef", Font.PLAIN, 25);
 	private int AIcount = 90;
-	private int wave = 6;
+	private int wave = 1;
 	private int waveCount = 0;
 	private int PowerLevel = 0;
 	private int TowerBaseHP=1000;
@@ -340,14 +340,12 @@ public class GameModeTower extends Game{
 			PUpicked = false;
 		}
 		if((wave-1)%5==0 && !PUpicked&&wave!=1) {
-			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
-			PUrnd1 = 1;
+			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;		
 			choosePowerUps(PUrnd1,125,250); 
 			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			while(PUrnd1 == PUrnd2) {	
 				PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			}
-			PUrnd2 = 2;
 			choosePowerUps(PUrnd2,currentScreenWidth-currentScreenWidth/2+125,250);
 			}
 			
