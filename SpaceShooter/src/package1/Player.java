@@ -368,12 +368,48 @@ public class Player extends LivingObject{
 	    p.setReflectedSpeed(6);
 	    p.addAttachment(canon);
 	    p.setReflectedLenght(20);
-	    p.addFrontCanon();
-	    p.addFrontMachineGun();
+	    //p.addFrontCanon();
+	   // p.addFrontMachineGun();
 //	    p.addAttachment(straightLine);
 
 	    
 	    return p;
+	}
+
+
+
+	public boolean isDashUnlocked() {
+		return dashUnlocked;
+	}
+
+
+
+	public void setDashUnlocked(boolean dashUnlocked) {
+		this.dashUnlocked = dashUnlocked;
+	}
+
+
+
+	public int getDashCooldownTimer() {
+		return dashCooldownTimer;
+	}
+
+
+
+	public void setDashCooldownTimer(int dashCooldownTimer) {
+		this.dashCooldownTimer = dashCooldownTimer;
+	}
+
+
+
+	public int getDashCooldown() {
+		return dashCooldown;
+	}
+
+
+
+	public void setDashCooldown(int dashCooldown) {
+		this.dashCooldown = dashCooldown;
 	}
 		
 	
