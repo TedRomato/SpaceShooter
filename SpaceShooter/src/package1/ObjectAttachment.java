@@ -29,7 +29,7 @@ public class ObjectAttachment extends GameObject{
 		attachmentRP.rotateCorner(getRotationPoint(), angle);
 	}
 	
-	public void rotateAttchmentAroundItsCorner(double angle) {
+	public void rotateAttachmentAroundItsCorner(double angle) {
 		for(Corner c : getCorners()) {
 			c.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
 		}

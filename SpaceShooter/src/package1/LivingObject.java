@@ -137,7 +137,7 @@ public class LivingObject extends MovingObject{
 	
 	public void rotateAtachmentsAroundItsCorner() {
 		for(ObjectAttachment att : attachments) {
-			att.rotateAttchmentAroundItsCorner(att.getRotationAngle());
+			att.rotateAttachmentAroundItsCorner(att.getRotationAngle());
 		}
 	}
 	

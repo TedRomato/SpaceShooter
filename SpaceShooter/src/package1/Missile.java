@@ -27,9 +27,12 @@ public class Missile extends MovingObject{
 	
 	
 	public void handleMissileCollision(Missile ms) {
-		if(this.dmg - 1 <= ms.getDmg()) {
-			this.setHP(0);
+		if(whoShot != ms.getWhoShot()) {
+			if(this.dmg - 1 <= ms.getDmg()) {
+				this.setHP(0);
+			}
 		}
+		
 	}
 
 	

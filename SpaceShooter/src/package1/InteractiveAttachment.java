@@ -149,7 +149,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 	
 	public void rotateAttachmentAroundItsCorner(double angle) {
 		if(checkIfInRotationSegment(getAttachmentAngle()+angle)) {
-			super.rotateAttchmentAroundItsCorner(angle);
+			super.rotateAttachmentAroundItsCorner(angle);
 			wayPoint.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
 			shootDirection.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
 			shootPoint.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
