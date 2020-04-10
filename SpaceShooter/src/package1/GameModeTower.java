@@ -22,6 +22,7 @@ import javax.swing.JProgressBar;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 
 public class GameModeTower extends Game{
+
 	private LivingObject Tower;
 	private HuntingMine hm;
 	private Mothership mp;
@@ -51,12 +52,11 @@ public class GameModeTower extends Game{
 
 		setLayout(null);
 		setName("TowerMode");
-		
 		try {
-			HealthIcon = ImageIO.read(new File("HealthIcon.png"));
-			AmmoIcon =  ImageIO.read(new File("AmmoIcon.png"));
-			Plus1Mag =  ImageIO.read(new File("+1mag.png"));
-			Plus1Health  =  ImageIO.read(new File("+1health.png"));
+			HealthIcon = ImageIO.read(new File("src/Icons/+1health.png"));
+			AmmoIcon =  ImageIO.read(new File("src/Icons/+1mag.png"));
+			Plus1Mag =  ImageIO.read(new File("src/Icons/+1mag.png"));
+			Plus1Health  =  ImageIO.read(new File("src/Icons/+1health.png"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
