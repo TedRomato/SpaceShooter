@@ -29,11 +29,12 @@ public class Game extends JPanel implements MouseListener{
 	public static JLabel scoreDisplay;
 	protected int score = 0;
 	private boolean ShowScore;
-	protected int currentScreenWidth;
-	protected int currentScreenHeight;
+	public static int currentScreenWidth;
+	public static int currentScreenHeight;
 	public static double screenRatio;
 	private RandomMeteorGenerator randomMeteorGenerator = new RandomMeteorGenerator();
 	public static KeyChecker keyChecker = new KeyChecker();
+	public static Camera camera;
 	private GameObject[] borders;
 	private GameObject[] objects;
 	private MovingObject[] reflectableObs;
@@ -89,6 +90,7 @@ public class Game extends JPanel implements MouseListener{
 		addObToGame(p, new int[] {5,6,7,9}); 
 
 		screenRatio = (double)currentScreenWidth/(double)mainWidth;
+		camera = new Camera(currentScreenWidth,currentScreenHeight,1.4);
 	}
 	public int getScore() {
 		return score;
@@ -148,6 +150,7 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void tick() {
+		camera.setCameraToCorner(p.getRotationPoint());
 		p.handlePlayerKeys();
 		updatePlayerAimPoint();
 		p.updatePlayer();
@@ -170,7 +173,7 @@ public class Game extends JPanel implements MouseListener{
 		Point b = a.getLocation();
 		int x = (int) b.getX();
 		int y = (int) b.getY();
-		p.setPlayerAimCorner(x*(double)mainWidth/(double)currentScreenWidth, y*(double)mainWidth/(double)currentScreenWidth);
+		p.setPlayerAimCorner((x+camera.getX()*camera.getZoom())*(double)mainWidth/(double)currentScreenWidth/camera.getZoom(), (y+camera.getY()*camera.getZoom())*(double)mainWidth/(double)currentScreenWidth/camera.getZoom());
 	}
 	
 	private void handleAis() {
