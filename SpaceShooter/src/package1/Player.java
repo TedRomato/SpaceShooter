@@ -7,7 +7,7 @@ public class Player extends LivingObject{
 	int dashCooldownTimer = 0, dashCooldown = 300;
 	double baseSpeed, dashSpeed = 20;
 	
-	int moveChar = 87, turnLeftChar = 65, turnRightChar = 68, dashChar = 16, reloadChar = 82, abilityChar = 32;
+	int moveChar = 87, turnLeftChar = 65, turnRightChar = 68, dashChar = 16, reloadChar = 82, abilityChar = 32, fullMapChar = 20;
 	int faceCanon = -1;
 	int machinegun = -1;
 	int baseCanon = 2;
@@ -44,6 +44,11 @@ public class Player extends LivingObject{
 
 	
 	public void handlePlayerKeys() {
+		if(Game.keyChecker.checkIfkeyIsPressed(fullMapChar)) {
+			Game.camera.setZoom(1);
+			Game.camera.setCameraCoords(0,0);
+			Game.camera.updateCamera();
+		}
 		if(Game.keyChecker.checkIfkeyIsPressed(abilityChar)) {
 			
 			if(machinegun != -1) {
@@ -109,6 +114,12 @@ public class Player extends LivingObject{
 		}
 		if(Game.keyChecker.isLeftMousePressed()==false) {
 			((InteractiveAttachment) getAttachments()[baseCanon]).setShoot(false);
+		}
+		if(Game.keyChecker.checkIfkeyIsPressed(fullMapChar) == false) {
+			Game.camera.setZoom(1.4);
+			Game.camera.setCameraToCorner(this.getRotationPoint());
+			Game.camera.updateCamera();
+
 		}
 		//Abilities that set bc to false;
 		if(Game.keyChecker.isRightMousePressed()==false) {

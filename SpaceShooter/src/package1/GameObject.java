@@ -529,10 +529,10 @@ public class GameObject {
 	//	getCollisionSquare().render(g);
 		for(int i = 0;i<corners.length;i++) {
 			if(i<corners.length-1) {
-				g.drawLine((int) Math.round(corners[i].getX()*Game.screenRatio),(int) Math.round(corners[i].getY()*Game.screenRatio),(int) Math.round(corners[i+1].getX()*Game.screenRatio),(int) Math.round(corners[i+1].getY()*Game.screenRatio));
+				g.drawLine((int) Math.round(corners[i].getX()*Game.camera.toMultiply() + Game.camera.toAddX()),(int) Math.round(corners[i].getY()*Game.camera.toMultiply() + Game.camera.toAddY()),(int) Math.round(corners[i+1].getX()*Game.camera.toMultiply() + Game.camera.toAddX()),(int) Math.round(corners[i+1].getY()*Game.camera.toMultiply() + Game.camera.toAddY()));
 			}
 			else {
-				g.drawLine((int) Math.round(corners[i].getX()*Game.screenRatio),(int) Math.round(corners[i].getY()*Game.screenRatio),(int) Math.round(corners[0].getX()*Game.screenRatio),(int) Math.round(corners[0].getY()*Game.screenRatio));
+				g.drawLine((int) Math.round(corners[i].getX()*Game.camera.toMultiply() + Game.camera.toAddX()),(int) Math.round(corners[i].getY()*Game.camera.toMultiply() + Game.camera.toAddY()),(int) Math.round(corners[0].getX()*Game.camera.toMultiply() + Game.camera.toAddX()),(int) Math.round(corners[0].getY()*Game.camera.toMultiply() + Game.camera.toAddY()));
 			}
 		}
 	}
