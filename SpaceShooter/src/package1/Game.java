@@ -175,7 +175,6 @@ public class Game extends JPanel implements MouseListener{
 	
 	public void tick() {
 		handlePlayerOutsideSafeZone();
-		camera.setCameraToCorner(p.getRotationPoint());
 		p.handlePlayerKeys();
 		updatePlayerAimPoint();
 		p.updatePlayer();
@@ -190,7 +189,7 @@ public class Game extends JPanel implements MouseListener{
 		updateAllObs();
 		handleAis();
 		handleSummoners();
-		System.out.println();
+		camera.setCameraToCorner(p.getRotationPoint());
 	}
 	 
 	public void updateDisplay() {
