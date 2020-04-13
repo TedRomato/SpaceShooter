@@ -142,6 +142,7 @@ public class GameModeTower extends Game{
 					add(FaceCannonReload);
 				}else {
 					p.upgradeFaceCanon();
+					FaceCannonReload.setMaximum(((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineReloadLenght());
 				}
 				running = true;
 				PUpicked = true;
@@ -168,6 +169,7 @@ public class GameModeTower extends Game{
 					add(MachineGunReload);
 				}else {
 					p.upgradeMG();
+					MachineGunReload.setMaximum(((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineReloadLenght());
 				}
 				running = true;
 				PUpicked = true;
@@ -196,6 +198,7 @@ public class GameModeTower extends Game{
 				} 
 				else {
 					p.upgradeDash(1);
+					DashRefill.setMaximum(p.getDashCooldown());
 				}
 				running = true;
 				PUpicked = true;
@@ -301,6 +304,7 @@ public class GameModeTower extends Game{
 		}
 	}
 	public void updateDisplay() { 
+		super.updateDisplay();
 		waveDisplay.setText("Wave: " + wave);
 		TowerHPDisplay.setValue(Tower.getHP());
 		TowerHPDisplay.setString(Tower.getHP() + "/" + TowerBaseHP);

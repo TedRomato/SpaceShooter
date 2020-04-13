@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.LayoutManager;
@@ -16,7 +17,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -27,7 +32,8 @@ public class Game extends JPanel implements MouseListener{
 	int mainHeight = 1908,mainWidth = 3392;
 	protected Player p;
 
-	public static JLabel scoreDisplay;
+	public static JLabel scoreDisplay, Warning;
+	private BufferedImage WarningSign;
 	protected int score = 0;
 	private boolean ShowScore;
 	public static int currentScreenWidth;
@@ -74,6 +80,18 @@ public class Game extends JPanel implements MouseListener{
 		aiEnemys = new GameObject[] {};
 	    arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais, meteors, shootingObs,summoners, aiEnemys};
 	    
+	    Warning = new JLabel("");
+	    Warning.setForeground(Color.RED);
+	    Warning.setFont(new Font("Karel",Font.BOLD,60));
+	    Warning.setBounds(currentScreenWidth/2-160, currentScreenHeight/2-200,600,120);
+	    
+	    try {
+			WarningSign = ImageIO.read(new File("src/Icons/Warning.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
 	    addMouseListener(this);
 	    
 	    if(softBorder == false) {
@@ -96,7 +114,7 @@ public class Game extends JPanel implements MouseListener{
 		addObToGame(p, new int[] {5,6,7,9}); 
 
 		screenRatio = (double)currentScreenWidth/(double)mainWidth;
-		camera = new Camera(currentScreenWidth,currentScreenHeight,2);
+		camera = new Camera(currentScreenWidth,currentScreenHeight,1);
 		camera.setCameraToCorner(p.getRotationPoint());
 
 	}
@@ -173,8 +191,18 @@ public class Game extends JPanel implements MouseListener{
 		updateAllObs();
 		handleAis();
 		handleSummoners();
+		System.out.println();
 	}
-	
+	 
+	public void updateDisplay() {
+		if(p.checkIfOutsideRect(0, 0, mainWidth, mainHeight)) {
+			Warning.setText("WARNING!");
+			add(Warning);
+		}
+		else {
+			remove(Warning);
+		}
+	}
 	protected void handlePlayerOutsideSafeZone() {
 		if(p.wasDamagedByZone == false) {
 			if(p.getRotationPoint().getY() < 0) {
@@ -539,6 +567,10 @@ public class Game extends JPanel implements MouseListener{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		renderAll(g2);
+		if(p.checkIfOutsideRect(0, 0, mainWidth, mainHeight)) {
+			g2.drawImage(WarningSign,currentScreenWidth/2-260, currentScreenHeight/2-200,100,100, null);
+			g2.drawImage(WarningSign,currentScreenWidth/2+150, currentScreenHeight/2-200,100,100, null);
+		}
 
 	}
 	@Override

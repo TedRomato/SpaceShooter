@@ -118,7 +118,7 @@ public class Player extends LivingObject{
 		if(Game.keyChecker.isLeftMousePressed()==false) {
 			((InteractiveAttachment) getAttachments()[baseCanon]).setShoot(false);
 		}
-		
+
 		//Abilities that set bc to false;
 		if(Game.keyChecker.isRightMousePressed()==false) {
 			if(faceCanon != -1) {
