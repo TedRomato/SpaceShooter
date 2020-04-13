@@ -49,7 +49,7 @@ public class GameModeTower extends Game{
 	private boolean AIneeded = true, waveEnd = false, PUpicked = false;
 	
 	public GameModeTower(int sw, int sh) {
-		super(sw, sh);
+		super(sw, sh, true);
 		Corner[] corners  = GameObject.generatePeriodicObject(100,8,new Corner(new double[] {mainWidth/2,mainHeight/2-50})).getCorners();
 		Tower = new LivingObject(corners,new double[] {mainWidth/2,mainHeight/2},0,new Corner(new double[] {mainWidth/2,mainHeight/2}, new double[] {mainWidth/2,mainHeight/2}));
 		Tower.setHP(TowerBaseHP);
@@ -142,6 +142,7 @@ public class GameModeTower extends Game{
 					add(FaceCannonReload);
 				}else {
 					p.upgradeFaceCanon();
+					FaceCannonReload.setMaximum(((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineReloadLenght());
 				}
 				running = true;
 				PUpicked = true;
@@ -168,6 +169,7 @@ public class GameModeTower extends Game{
 					add(MachineGunReload);
 				}else {
 					p.upgradeMG();
+					MachineGunReload.setMaximum(((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineReloadLenght());
 				}
 				running = true;
 				PUpicked = true;
@@ -196,6 +198,7 @@ public class GameModeTower extends Game{
 				} 
 				else {
 					p.upgradeDash(1);
+					DashRefill.setMaximum(p.getDashCooldown());
 				}
 				running = true;
 				PUpicked = true;
@@ -301,6 +304,7 @@ public class GameModeTower extends Game{
 		}
 	}
 	public void updateDisplay() { 
+		super.updateDisplay();
 		waveDisplay.setText("Wave: " + wave);
 		TowerHPDisplay.setValue(Tower.getHP());
 		TowerHPDisplay.setString(Tower.getHP() + "/" + TowerBaseHP);
@@ -386,7 +390,7 @@ public class GameModeTower extends Game{
 		}
 	}
 	public void spawnAI(int PL) {
-		spawnCorner = GameObject.generateCornerOutsideMapInRange(mainWidth, mainHeight, new int[] {70,100});
+		spawnCorner = GameObject.generateCornerOutsideMapInRange(mainWidth, mainHeight, new int[] {600,1000});
 		switch(PL){
 
 			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys()); addObToGame(hm, new int[] {4,7,9,10}); 

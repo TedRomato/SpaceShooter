@@ -7,7 +7,7 @@ public class GameModeTesting extends Game{
 
 
 	public GameModeTesting(int sw, int sh) {
-		super(sw, sh);
+		super(sw, sh, true);
 		Hunter hu = Hunter.makeNewHunter(500,200, getAiEnemys());
 	//	SpaceCruiser ai = SpaceCruiser.makeNewSpaceCruiser(500,200,getAiEnemys());
 	//	SpaceCanon ai1 = SpaceCanon.makeNewSpaceCanon(1000,600,getAiEnemys());
