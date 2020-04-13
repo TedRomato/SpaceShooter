@@ -304,6 +304,7 @@ public class GameModeTower extends Game{
 		}
 	}
 	public void updateDisplay() { 
+		super.updateDisplay();
 		waveDisplay.setText("Wave: " + wave);
 		TowerHPDisplay.setValue(Tower.getHP());
 		TowerHPDisplay.setString(Tower.getHP() + "/" + TowerBaseHP);
