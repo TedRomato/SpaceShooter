@@ -90,7 +90,7 @@ public class Game extends JPanel implements MouseListener{
 		addObToGame(p, new int[] {5,6,7,9}); 
 
 		screenRatio = (double)currentScreenWidth/(double)mainWidth;
-		camera = new Camera(currentScreenWidth,currentScreenHeight,1.4);
+		camera = new Camera(currentScreenWidth,currentScreenHeight,1);
 	}
 	public int getScore() {
 		return score;

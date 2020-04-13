@@ -44,11 +44,7 @@ public class Player extends LivingObject{
 
 	
 	public void handlePlayerKeys() {
-		if(Game.keyChecker.checkIfkeyIsPressed(fullMapChar)) {
-			Game.camera.setZoom(1);
-			Game.camera.setCameraCoords(0,0);
-			Game.camera.updateCamera();
-		}
+		
 		if(Game.keyChecker.checkIfkeyIsPressed(abilityChar)) {
 			
 			if(machinegun != -1) {
@@ -115,12 +111,7 @@ public class Player extends LivingObject{
 		if(Game.keyChecker.isLeftMousePressed()==false) {
 			((InteractiveAttachment) getAttachments()[baseCanon]).setShoot(false);
 		}
-		if(Game.keyChecker.checkIfkeyIsPressed(fullMapChar) == false) {
-			Game.camera.setZoom(1.4);
-			Game.camera.setCameraToCorner(this.getRotationPoint());
-			Game.camera.updateCamera();
 
-		}
 		//Abilities that set bc to false;
 		if(Game.keyChecker.isRightMousePressed()==false) {
 			if(faceCanon != -1) {
