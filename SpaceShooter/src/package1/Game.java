@@ -96,7 +96,9 @@ public class Game extends JPanel implements MouseListener{
 		addObToGame(p, new int[] {5,6,7,9}); 
 
 		screenRatio = (double)currentScreenWidth/(double)mainWidth;
-		camera = new Camera(currentScreenWidth,currentScreenHeight,1);
+		camera = new Camera(currentScreenWidth,currentScreenHeight,2);
+		camera.setCameraToCorner(p.getRotationPoint());
+
 	}
 	public int getScore() {
 		return score;
@@ -157,7 +159,6 @@ public class Game extends JPanel implements MouseListener{
 	
 	public void tick() {
 		handlePlayerOutsideSafeZone();
-		camera.setCameraToCorner(p.getRotationPoint());
 		p.handlePlayerKeys();
 		updatePlayerAimPoint();
 		p.updatePlayer();
@@ -534,7 +535,6 @@ public class Game extends JPanel implements MouseListener{
 	}
 	@Override
 	protected void paintComponent(Graphics g) {
-		
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

@@ -24,6 +24,8 @@ public class Player extends LivingObject{
 	boolean usingMG = false;
 	
 	boolean fireMG = false;
+	
+	boolean cameraAttached = true;
 
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
@@ -223,6 +225,13 @@ public class Player extends LivingObject{
 		}
 		
 
+	}
+	
+	public void moveOb() {
+		super.moveOb();
+		if(cameraAttached) {
+			Game.camera.moveCam(getVelX(), getVelY());
+		}
 	}
 	
 	public void addFrontMachineGun() {

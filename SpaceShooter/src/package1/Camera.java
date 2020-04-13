@@ -1,7 +1,7 @@
 package package1;
 
 public class Camera {
-	double x = 0, y = 0;
+	Corner tlCorner;
 	double cameraWidth, cameraHeight;
 	int screenWidth, screenHeight;
 	double zoom = 1;
@@ -9,11 +9,18 @@ public class Camera {
 	double toMultiply = 1;
 	
 	public Camera(int screenWidth,int screenHeight,double zoom) { 
+		tlCorner = new Corner(new double[] {0,0});
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		this.zoom = zoom;
 		setCameraWidthAndHeight();
 		updateCamera();
+	}
+	
+	public void moveCam(double velX,double velY) {
+		tlCorner.moveCorner(velX*Game.screenRatio, velY*Game.screenRatio);
+		updateCameraLocation();
+
 	}
 	
 	public void setCameraWidthAndHeight() {
@@ -23,8 +30,8 @@ public class Camera {
 	}
 	
 	public void setCameraToCorner(Corner c) {
-		x = c.getX() * Game.screenRatio - cameraWidth/2;
-		y = c.getY() * Game.screenRatio - cameraHeight/2;
+		tlCorner.setX(c.getX() * Game.screenRatio - cameraWidth/2);
+		tlCorner.setY(c.getY() * Game.screenRatio - cameraHeight/2);
 		updateCameraLocation();
 	}
 	
@@ -40,8 +47,8 @@ public class Camera {
 	}
 	
 	public void setCameraCoords(double x, double y) {
-		this.x = x;
-		this.y = y;
+		tlCorner.setX(x);
+		tlCorner.setY(y);
 	}
 	
 	public double getZoom() {
@@ -53,11 +60,11 @@ public class Camera {
 	}
 	
 	public double getX() {
-		return x;
+		return tlCorner.getX();
 	}
 	
 	public double getY() {
-		return y;
+		return tlCorner.getY();
 	}
 	
 	public double toMultiply() {
