@@ -12,7 +12,7 @@ public class GameModeClassic extends Game{
 
 
 	public GameModeClassic(int sw, int sh) {
-		super(sw, sh); 
+		super(sw, sh,false); 
 		coin.setHP(1);
 		addObToGame(coin, new int[] {1,2,3,4,5,6,7,8,9,10});
 		// TODO Auto-generated constructor stub

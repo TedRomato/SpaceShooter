@@ -362,7 +362,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 //		shootDirection.renderCorner(g, 4);
 //		shootPoint.renderCorner(g, 4);
 //		shotTrajectory.render(g);
-		aimCorner.renderCorner(g, 10);
+//		aimCorner.renderCorner(g, 10);
 		super.render(g);
 		
 	}
