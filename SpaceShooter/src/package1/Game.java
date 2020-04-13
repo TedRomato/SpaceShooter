@@ -1,6 +1,7 @@
 
 package package1;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -49,15 +50,17 @@ public class Game extends JPanel implements MouseListener{
 	private boolean WasCalled = false;
 	private Meteor[] meteors;
 	private Summoner[] summoners;
+	boolean softBorders = false;
 	
 	private boolean wasCalled = false;
 	//public static JPanel gp = new GamePanel();
 	public static boolean running = false;
 	private int Count = 0;
 	
-	public Game(int sw,int sh) {
+	public Game(int sw,int sh,boolean softBorder) {
 		this.currentScreenHeight = sh;
 		this.currentScreenWidth = sw;
+		this.softBorders = softBorder;
 		objects = new GameObject[] {};
 	    reflectableObs = new MovingObject[] {};
 	    reflectingObs = new MovingObject[] {};
@@ -73,17 +76,20 @@ public class Game extends JPanel implements MouseListener{
 	    
 	    addMouseListener(this);
 	    
-	    Corner rightBotC = new Corner(new double[] {mainWidth,mainHeight}, new double[] {500,400});
-	    Corner leftBotC = new Corner(new double[] {0,mainHeight}, new double[] {500,400});
-	    Corner rightTopC = new Corner(new double[] {mainWidth,0}, new double[] {500,400});
-	    Corner leftTopC = new Corner(new double[] {0,0}, new double[] {500,400});
+	    if(softBorder == false) {
+	    	Corner rightBotC = new Corner(new double[] {mainWidth,mainHeight}, new double[] {500,400});
+		    Corner leftBotC = new Corner(new double[] {0,mainHeight}, new double[] {500,400});
+		    Corner rightTopC = new Corner(new double[] {mainWidth,0}, new double[] {500,400});
+		    Corner leftTopC = new Corner(new double[] {0,0}, new double[] {500,400});
+		    
+		    GameObject rightBorder = new GameObject(new Corner[] {rightTopC, rightBotC}, new double[] {500,400}, 0);
+		    GameObject leftBorder = new GameObject(new Corner[] {leftTopC, leftBotC}, new double[] {500,400}, 0);
+		    GameObject topBorder = new GameObject(new Corner[] {rightTopC, leftTopC}, new double[] {500,400}, 0);
+		    GameObject botBorder = new GameObject(new Corner[] {leftBotC, rightBotC}, new double[] {500,400}, 0);
+		    
+		    borders = new GameObject[] {botBorder,leftBorder,topBorder,rightBorder};
+	    }
 	    
-	    GameObject rightBorder = new GameObject(new Corner[] {rightTopC, rightBotC}, new double[] {500,400}, 0);
-	    GameObject leftBorder = new GameObject(new Corner[] {leftTopC, leftBotC}, new double[] {500,400}, 0);
-	    GameObject topBorder = new GameObject(new Corner[] {rightTopC, leftTopC}, new double[] {500,400}, 0);
-	    GameObject botBorder = new GameObject(new Corner[] {leftBotC, rightBotC}, new double[] {500,400}, 0);
-	    
-	    borders = new GameObject[] {botBorder,leftBorder,topBorder,rightBorder};
 	    
 	    
 	    p = Player.makeNewPlayer(new double[] {100,100});
@@ -150,6 +156,7 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void tick() {
+		handlePlayerOutsideSafeZone();
 		camera.setCameraToCorner(p.getRotationPoint());
 		p.handlePlayerKeys();
 		updatePlayerAimPoint();
@@ -165,6 +172,38 @@ public class Game extends JPanel implements MouseListener{
 		updateAllObs();
 		handleAis();
 		handleSummoners();
+	}
+	
+	protected void handlePlayerOutsideSafeZone() {
+		if(p.wasDamagedByZone == false) {
+			if(p.getRotationPoint().getY() < 0) {
+				p.setHP(p.getHP() - getHPToSubtract(getDifferenceFromZero(p.getRotationPoint().getY())));
+				p.wasDamagedByZone = true;
+			}else if(p.getRotationPoint().getY() > mainHeight) {
+				p.setHP(p.getHP() - getHPToSubtract(getDownOrRightDifference(p.getRotationPoint().getY(),mainHeight)));
+				p.wasDamagedByZone = true;
+			}
+			
+			if(p.getRotationPoint().getX() < 0) {
+				p.setHP(p.getHP() - getHPToSubtract(getDifferenceFromZero(p.getRotationPoint().getX())));
+				p.wasDamagedByZone = true;
+
+			}else if(p.getRotationPoint().getX() > mainWidth) {
+				p.setHP(p.getHP() - getHPToSubtract(getDownOrRightDifference(p.getRotationPoint().getX(),mainWidth)));
+				p.wasDamagedByZone = true;
+
+			}
+		}
+	}
+	
+	private double getDownOrRightDifference(double xy, double widthHeight) {
+		return xy-widthHeight;
+	}
+	private double getDifferenceFromZero(double xy) {
+		return Math.abs(xy);
+	}
+	private int getHPToSubtract(double i) {
+		return (int) (i/50);
 	}
 	
 	
@@ -211,14 +250,11 @@ public class Game extends JPanel implements MouseListener{
 
 	protected void removeObsOut() {
 		for(GameObject ob : objects) {
-			if(ob.checkIfOutsideRect(-2000, -2000,mainWidth + 3000, mainHeight + 3000)) {
+			if(ob.checkIfOutsideRect(-3000, -3000,mainWidth + 6000, mainHeight + 6000)) {
 				removeObFromGame(ob);
 			}
 		}
 	}
-	
-
-	
 	
 
 	
@@ -301,15 +337,17 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	private void reflectFromSides() {
-		for(int i = 0; i < borders.length; i++) {
-			for(MovingObject go : borderSensitive) {
-				if(go instanceof Meteor) {
-					if(go.checkCollision(borders[i])) {
-						((Meteor) go).reflectMeteorFromSide(i,go.getRotationPoint());
+		if(softBorders == false) {
+			for(int i = 0; i < borders.length; i++) {
+				for(MovingObject go : borderSensitive) {
+					if(go instanceof Meteor) {
+						if(go.checkCollision(borders[i])) {
+							((Meteor) go).reflectMeteorFromSide(i,go.getRotationPoint());
+						}
+					}else {
+						go.checkAndHandleReflect(borders[i]);
+		
 					}
-				}else {
-					go.checkAndHandleReflect(borders[i]);
-
 				}
 			}
 		}
@@ -454,6 +492,9 @@ public class Game extends JPanel implements MouseListener{
 	
 	
 	private void renderAll(Graphics g) {
+		if(softBorders) {
+			renderDangerZone(g);
+		}
 		if(objects != null) {
 			if(objects.length > 0) {
 				for(GameObject ob : objects) {
@@ -461,11 +502,27 @@ public class Game extends JPanel implements MouseListener{
 				}
 			}
 		}
-		for(GameObject ob : borders) {
-			ob.render(g);
-		}
+		if(softBorders == false) {
+			for(GameObject ob : borders) {
+				ob.render(g);
+			}
+		}	
 	}
 	
+	private void renderDangerZone(Graphics g) {
+		int width = 2000;
+		g.setColor(Color.pink);
+		fillRect(g,0-width, 1 - width, currentScreenWidth + 2*width, width );
+		fillRect(g,0 - width, -10, width, currentScreenHeight+20);
+		fillRect(g,0-width, currentScreenHeight-1, currentScreenWidth + 2*width, width );
+		fillRect(g,currentScreenWidth,-10,width,currentScreenHeight+20);
+		g.setColor(Color.black);
+
+	}
+	
+	private void fillRect(Graphics g,int x, int y, int width, int height) {
+		g.fillRect((int)Math.round(x*camera.getZoom()+camera.toAddX()), (int)Math.round(y*camera.getZoom()+camera.toAddY()), (int)Math.round(width*camera.getZoom()),(int)Math.round( height*camera.getZoom()));
+	}
 	
 	public GameObject[] getAiEnemys() {
 		return aiEnemys;

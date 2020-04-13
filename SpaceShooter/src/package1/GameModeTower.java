@@ -49,7 +49,7 @@ public class GameModeTower extends Game{
 	private boolean AIneeded = true, waveEnd = false, PUpicked = false;
 	
 	public GameModeTower(int sw, int sh) {
-		super(sw, sh);
+		super(sw, sh, true);
 		Corner[] corners  = GameObject.generatePeriodicObject(100,8,new Corner(new double[] {mainWidth/2,mainHeight/2-50})).getCorners();
 		Tower = new LivingObject(corners,new double[] {mainWidth/2,mainHeight/2},0,new Corner(new double[] {mainWidth/2,mainHeight/2}, new double[] {mainWidth/2,mainHeight/2}));
 		Tower.setHP(TowerBaseHP);
@@ -389,7 +389,7 @@ public class GameModeTower extends Game{
 		}
 	}
 	public void spawnAI(int PL) {
-		spawnCorner = GameObject.generateCornerOutsideMapInRange(mainWidth, mainHeight, new int[] {70,100});
+		spawnCorner = GameObject.generateCornerOutsideMapInRange(mainWidth, mainHeight, new int[] {600,1000});
 		switch(PL){
 
 			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys()); addObToGame(hm, new int[] {4,7,9,10}); 
