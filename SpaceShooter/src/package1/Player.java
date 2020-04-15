@@ -321,11 +321,11 @@ public class Player extends LivingObject{
 			canon.setDmg(3);
 			canon.setMagazineParameters(1, 200);
 			
-			canon.setRotationSegment(new double[] {-20,20});
+			canon.setRotationSegment(new double[] {-60,60});
 			
 			faceCanon = getAttachments().length;
 			
-			canon.setAttRangle(4);
+			canon.setAttRangle(10);
 			
 			addAttachment(canon);
 			this.rotateOb(ang - 180);
@@ -393,7 +393,7 @@ public class Player extends LivingObject{
 	    p.setReflectedSpeed(6);
 	    p.addAttachment(canon);
 	    p.setReflectedLenght(20);
-	    //p.addFrontCanon();
+	   //p.addFrontCanon();
 	   // p.addFrontMachineGun();
 //	    p.addAttachment(straightLine);
 

@@ -197,15 +197,8 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	
 	protected Missile shoot(GameObject whoShot) {
-		Corner rp = new Corner(new double[] {getSP().getX(),getSP().getY()});
-		Corner TopLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()-4*dmg}, rp);
-		Corner BotLeft = new Corner(new double[] {getSP().getX()-4*dmg,getSP().getY()+4*dmg}, rp);
-		Corner BotRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()+4*dmg}, rp);
-		Corner TopRight = new Corner(new double[] {getSP().getX()+4*dmg,getSP().getY()-4*dmg}, rp);
-		Corner md = new Corner(new double[] {getSD().getX(), getSD().getY()}, rp);
-		Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, rp, 0,md,12,whoShot);
-		m.getNewRatios();
-		m.setNewVels();
+		Missile m;
+		m = Missile.makeNewMissile(getSP(), getDmg(), getSD(), whoShot);
 		m.setDmg(dmg);
 		getNewInaccuracy();
 		return m;
