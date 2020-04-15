@@ -86,6 +86,7 @@ public class MagazineAttachment extends InteractiveAttachment{
 
 	public void setMagazineSize(int magazineSize) {
 		this.magazineSize = magazineSize;
+		
 	}
 
 
@@ -98,6 +99,7 @@ public class MagazineAttachment extends InteractiveAttachment{
 
 	public void setMagazineMaxSize(int magazineMaxSize) {
 		this.magazineMaxSize = magazineMaxSize;
+		this.magazineSize = magazineMaxSize;
 	}
 
 

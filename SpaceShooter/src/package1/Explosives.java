@@ -76,7 +76,12 @@ public class Explosives extends LivingObject{
 		this.whoShot = whoShot;
 	}
 
-
+	public void setExplodesOnImpact(boolean b) {
+		explodesOnImpact = b;
+	}
+	public boolean getExplodesOnImpact() {
+		return explodesOnImpact;
+	}
 
 	public void moveOb() {
 		super.moveOb();
@@ -93,5 +98,6 @@ public class Explosives extends LivingObject{
 	
 	public void setSpeed(double d) {
 		setMaxSpeed(d);
+		setReflectedSpeed(getMaxSpeed());
 	}
 }

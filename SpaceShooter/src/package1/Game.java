@@ -174,6 +174,8 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void tick() {
+
+
 		handlePlayerOutsideSafeZone();
 		p.handlePlayerKeys();
 		updatePlayerAimPoint();
@@ -274,7 +276,7 @@ public class Game extends JPanel implements MouseListener{
 							}
 						}
 						if(sob instanceof SpecialCharge) {
-							if(att.getReloadLenght() >= att.getReloadTimer() && att.shouldShoot(att.getAimCorner())) {
+							if(att.getReloadLenght() >= att.getReloadTimer() && att.shouldShoot()) {
 								addObToGame(att.shoot(((SpecialCharge) sob).getWhoShot()), new int[] {1,2,3,4,6,7,8,9,10,11});
 								att.setReloadLenght(0);
 							}

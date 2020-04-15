@@ -352,8 +352,8 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	
 	public void render(Graphics g) {
-//		shootDirection.renderCorner(g, 4);
-//		shootPoint.renderCorner(g, 4);
+		shootDirection.renderCorner(g, 4);
+		shootPoint.renderCorner(g, 4);
 //		shotTrajectory.render(g);
 //		aimCorner.renderCorner(g, 10);
 		super.render(g);
