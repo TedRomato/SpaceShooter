@@ -37,6 +37,9 @@ public class Explosives extends LivingObject{
 	
 	
 	public boolean checkCollision(GameObject go) {
+		if(go == this.getWhoShot()) {
+			return false;
+		}
 		boolean b = super.checkCollision(go);
 		if(go instanceof LivingObject && explodesOnImpact && b) {
 			setHP(0);
@@ -47,7 +50,7 @@ public class Explosives extends LivingObject{
 			return false;
 		}
 	}
-	
+
 	public Missile[] makePeriodicExplosion(int distance, Corner rp, int chunks){
 		Missile[] m = new Missile[chunks];
 		Corner[] rpList = GameObject.generatePeriodicObject(50, chunks, rp).getCorners();
@@ -58,6 +61,13 @@ public class Explosives extends LivingObject{
 		}
 		
 		return m;
+	}
+	
+	public void checkAndHandleReflect(GameObject otherOb) {
+		if(otherOb == getWhoShot()) {
+			return;
+		}
+		super.checkAndHandleReflect(otherOb);
 	}
 	
 	public double getDistanceTraveled() {

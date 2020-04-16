@@ -93,7 +93,9 @@ public class RotatingCharge extends SpecialCharge{
 		rc.setCurrentSpeed(rc.getMaxSpeed());
 		rc.getNewRatios();
 		rc.setNewVels();
-		rc.setHP(5);
+		rc.setHP(50);
+		rc.setSolid(false);
+		rc.setExplodesOnImpact(false);
 		return rc;
 	}
 	

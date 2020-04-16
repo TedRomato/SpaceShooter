@@ -13,7 +13,7 @@ public class LivingObject extends MovingObject{
 	//does have acceleration and max Speed
 	//can have attachments 
 	//other than that same methods, but work for attachment as well
-	
+	boolean solid = true; 
 	private boolean forward = false, turnRight = false, turnLeft = false;
 	private Corner movePoint;
 	private double maxSpeed = 7;
@@ -33,7 +33,8 @@ public class LivingObject extends MovingObject{
 		movePoint = new Corner(md, rotationPoint);
 		setReflectedSpeed(maxSpeed*2);
 		setHP(10);
-		makeSquare();	}
+		makeSquare();	
+		}
 
 	public void setMaxSpeed(double maxSpeed) {
 		this.maxSpeed = maxSpeed;
@@ -197,6 +198,11 @@ public class LivingObject extends MovingObject{
 	}
 	
 	public boolean checkCollision(GameObject go) {
+		if(go instanceof Explosives) {
+			if(((Explosives) go).getWhoShot() == this) {
+				return false;
+			}
+		}
 		if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2) {
 			return true;
 		}
@@ -223,6 +229,12 @@ public class LivingObject extends MovingObject{
 	}
 	
 	public void checkAndHandleReflect(GameObject otherOb) {
+		if(otherOb instanceof Explosives) {
+			if(((Explosives) otherOb).getWhoShot() == this) {
+				return;
+			}
+		}
+		
 		if(getCollisionSquare().squareCollision(otherOb.getCollisionSquare())) {
 			if(otherOb != this) {
 				Corner[] corners = new Corner[] {};
@@ -268,6 +280,14 @@ public class LivingObject extends MovingObject{
 	}
 
 	
+	public boolean isSolid() {
+		return solid;
+	}
+
+	public void setSolid(boolean solid) {
+		this.solid = solid;
+	}
+
 	public void makeSquare() {
 		double biggest = 0;
 		biggest = this.getFurthestDistance();

@@ -269,7 +269,8 @@ public class Game extends JPanel implements MouseListener{
 					}
 					if(att instanceof InteractiveAttachment) {
 						if(att instanceof ExplosiveShootingAtt) {
-							if(att.getReloadLenght() >= att.getReloadTimer() && att.shouldShoot(att.getAimCorner())) {
+							if(att.getReloadLenght() >= att.getReloadTimer() && att.shouldShoot()) {
+								System.out.println("FITREE");
 								addObToGame(((ExplosiveShootingAtt) att).Fire(sob),new int[] {5,6,7,9});
 								att.setReloadLenght(0);
 							}
@@ -290,7 +291,7 @@ public class Game extends JPanel implements MouseListener{
 							addObToGame(att.shoot(sob), new int[] {1,2,3,4,6,7,8,9,10,11});
 							att.setReloadLenght(0);
 						}
-						else if(att.getReloadLenght() != att.getReloadTimer()) { 
+						if(att.getReloadLenght() != att.getReloadTimer()) { 
 							att.setReloadLenght(att.getReloadLenght()+1);
 						}
 					}
@@ -324,15 +325,7 @@ public class Game extends JPanel implements MouseListener{
 			for(MovingObject ob : reflectingObs) {
 				if(mob != ob) {
 					mob.checkAndHandleReflect(ob);
-					if(ob instanceof LivingObject) {
-						if(((LivingObject) ob).getAttachments()!= null) {
-							if(((LivingObject) ob).getAttachments().length > 0) {
-								for(ObjectAttachment att : ((LivingObject) ob).getAttachments()) {
-									mob.checkAndHandleReflect(att);
-								}
-							}
-						}
-					}
+					
 				}
 			}
 		}

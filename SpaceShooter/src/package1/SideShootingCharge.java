@@ -39,8 +39,8 @@ public class SideShootingCharge extends SpecialCharge{
 	}
 	
 	private void updateAttGoals() {
-		goal0 = Corner.makeCornerUsinAngle(90, getMD().getAngle(getRotationPoint())-90, getRotationPoint());
-		goal1 = Corner.makeCornerUsinAngle(90, getMD().getAngle(getRotationPoint())+90, getRotationPoint());
+		goal0 = Corner.makeCornerUsinAngle(90, getMD().getAngle(getRotationPoint())-65, getRotationPoint());
+		goal1 = Corner.makeCornerUsinAngle(90, getMD().getAngle(getRotationPoint())+65, getRotationPoint());
 
 	}
 	
@@ -111,7 +111,7 @@ public class SideShootingCharge extends SpecialCharge{
 		
 		rc.rotateOb(ang);
 		rc.getMP().rotateCorner(rc.getRotationPoint(), -ang);
-		rc.setMaxSpeed(10);
+		rc.setMaxSpeed(4);
 		rc.setCurrentSpeed(rc.getMaxSpeed());
 		rc.getNewRatios();
 		rc.setNewVels();
