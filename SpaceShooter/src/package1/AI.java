@@ -78,9 +78,11 @@ public class AI extends LivingObject{
 	}
 	
 	public void handleAllFriendlyFire(AI[] ais) {
+		if(getAttachments() != null) {
 			for(ObjectAttachment att : getAttachments()) {
 			if(att instanceof InteractiveAttachment) {
 				((InteractiveAttachment) att).handleFriendlyFire(ais);
+				}
 			}
 		}
 	}
@@ -370,9 +372,11 @@ public class AI extends LivingObject{
 	
 	
 	protected void updateAllAimCorners(GameObject go) {
-		for(ObjectAttachment att : getAttachments()) {
-			if(att instanceof InteractiveAttachment) {
-				((InteractiveAttachment) att).setAimCorner(((InteractiveAttachment) att).getNewAimCorner(go));
+		if(getAttachments() != null) {
+			for(ObjectAttachment att : getAttachments()) {
+				if(att instanceof InteractiveAttachment) {
+					((InteractiveAttachment) att).setAimCorner(((InteractiveAttachment) att).getNewAimCorner(go));
+				}
 			}
 		}
 	}

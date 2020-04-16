@@ -50,6 +50,7 @@ public class MagazineAttachment extends InteractiveAttachment{
 	
 	public void upgradeMag(int toAdd) {
 		this.setMagazineMaxSize(getMagazineMaxSize()+toAdd);
+		this.magazineReloadTimer = 0;
 	}
 	
 	public void upgradeMagReload(int toSubtract) {

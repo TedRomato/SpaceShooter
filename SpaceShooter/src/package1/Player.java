@@ -209,7 +209,6 @@ public class Player extends LivingObject{
 			}else if(usingFC == false&& getAttachments()[faceCanon].getAttachmentAngle()!=0) {
 				((InteractiveAttachment)getAttachments()[faceCanon]).rotateAttachmentAroundItsCorner(0-getAttachments()[faceCanon].getAttachmentAngle());
 				}
-
 		}
 	}
 	

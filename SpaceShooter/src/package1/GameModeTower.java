@@ -116,7 +116,7 @@ public class GameModeTower extends Game{
 				removeButtons();
 				invalidate();
 				revalidate();
-				((MagazineAttachment)p.getAttachments()[p.baseCanon]).setMagazineMaxSize((((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize())+1);
+				((MagazineAttachment)p.getAttachments()[p.baseCanon]).upgradeMag(1);
 				running = true;
 				PUpicked = true;
 				
@@ -340,10 +340,10 @@ public class GameModeTower extends Game{
 		}
 	}
 	public void DisplayPowerUps() {
-		if(wave%5==0) {
+		if(wave%2==0) {
 			PUpicked = false;
 		}
-		if((wave-1)%5==0 && !PUpicked&&wave!=1) {
+		if((wave-1)%2==0 && !PUpicked&&wave!=1) {
 			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;		
 			choosePowerUps(PUrnd1,125,250); 
 			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;

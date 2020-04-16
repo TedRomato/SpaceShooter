@@ -17,14 +17,11 @@ public class Mothership extends Summoner{
 		Corner summoningPoint3 = new Corner(new double[] {x-65,y-65}, new double[] {x,y});
 		Corner summoningPoint4 = new Corner(new double[] {x+65,y-65}, new double[] {x,y});
 
-		
 		Corner bo1 = new Corner(new double[] {x , y + -50}, new double[] {x,y});
 		Corner bo2 = new Corner(new double[] {x + -50, y }, new double[] {x,y});
 		Corner bo3 = new Corner(new double[] {x, y + 50}, new double[] {x,y});
 		Corner bo4 = new Corner(new double[] {x + 50, y}, new double[] {x,y});
-		
-
-		
+				
 		Corner[] body = new Corner[]  {bo1,bo2,bo3,bo4};
 		
 		Corner md = new Corner(new double[] {x, y + 50}, new double[] {x,y});

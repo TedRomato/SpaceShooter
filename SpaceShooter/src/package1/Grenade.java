@@ -12,7 +12,7 @@ public class Grenade extends Explosives{
 			setHP(0);
 		}
 	}
-	
+
 	public Missile[] explode() {
 		if(getHP() <= 0) {
 			return makePeriodicExplosion(25, getRotationPoint(), 16);
