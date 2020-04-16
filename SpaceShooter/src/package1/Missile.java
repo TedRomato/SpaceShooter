@@ -32,7 +32,18 @@ public class Missile extends MovingObject{
 				this.setHP(0);
 			}
 		}
-		
+	}
+	
+	public void handleCollision(GameObject ob) {
+		if(ob instanceof Missile) {
+			handleMissileCollision((Missile) ob);
+		}else if(ob == getWhoShot()) {
+			return;
+		}
+		else {
+			setHP(getHP() - 1);
+			startInvulnurability();
+		}
 	}
 
 	

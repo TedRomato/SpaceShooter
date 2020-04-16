@@ -340,22 +340,9 @@ public class Game extends JPanel implements MouseListener{
 					
 					if(objects[i].checkCollision(compareArray[x])) {
 						if(objects[i].getInvulnurability() == false) {
-							if(objects[i] instanceof Missile) {
-								if(compareArray[x] instanceof Missile) {
-									((Missile)objects[i]).handleMissileCollision((Missile)compareArray[x]);
-								}else {
-									if(((Missile) objects[i]).getWhoShot() != compareArray[x]) {
-										objects[i].setHP(objects[i].getHP()-objects[i].getHP());
-									}
-								}
-							} else if(compareArray[x] instanceof Missile) {
-								if(((Missile) compareArray[x]).getWhoShot() != objects[i]) {
-									objects[i].setHP(objects[i].getHP()-((Missile) compareArray[x]).getDmg());
-								}
-							} else {
-								objects[i].setHP(objects[i].getHP()-1);
+							objects[i].handleCollision(compareArray[x]);
 							}
-							objects[i].startInvulnurability();
+								
 						}
 					}
 				}
@@ -363,7 +350,7 @@ public class Game extends JPanel implements MouseListener{
 			}
 		}
 		
-	}
+	
 	
 	private void updateAllInvs() {
 		for(GameObject ob : objects) {
