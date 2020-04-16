@@ -1,5 +1,6 @@
 package package1;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class SideShootingCharge extends SpecialCharge{
@@ -15,7 +16,7 @@ public class SideShootingCharge extends SpecialCharge{
 	}
 	
 	public Missile[] explode() {
-		return makePeriodicExplosion(25, this.getRotationPoint(), 16);
+		return makePeriodicExplosion(25, this.getRotationPoint(), 8);
 	}
 
 	public void updateExplosive() {
@@ -28,16 +29,18 @@ public class SideShootingCharge extends SpecialCharge{
 	//TODO rotovat atts po odrazu 
 	
 	private void handleAttRotation() {
-		System.out.println(getMD().getAngle(getRotationPoint()));
-		System.out.println(goal1.getAngle(getRotationPoint()));
 		((MagazineAttachment)getAttachments()[0]).rotateToCorner(goal0);
 		((MagazineAttachment)getAttachments()[1]).rotateToCorner(goal1);
 	}
 	
+	public void reflect(Corner c1, Corner c2) {
+		super.reflect(c1, c2);
+		updateAttGoals();
+	}
+	
 	private void updateAttGoals() {
-		System.out.println("updating goals");
-		goal0 = Corner.makeCornerUsinAngle(getMD().getPointDistance(getRotationPoint()), getMD().getAngle(getRotationPoint())-90, getRotationPoint());
-		goal1 = Corner.makeCornerUsinAngle(getMD().getPointDistance(getRotationPoint()), getMD().getAngle(getRotationPoint())+90, getRotationPoint());
+		goal0 = Corner.makeCornerUsinAngle(90, getMD().getAngle(getRotationPoint())-90, getRotationPoint());
+		goal1 = Corner.makeCornerUsinAngle(90, getMD().getAngle(getRotationPoint())+90, getRotationPoint());
 
 	}
 	
@@ -52,14 +55,25 @@ public class SideShootingCharge extends SpecialCharge{
 		periodicShooter = b;
 		if(periodicShooter) {
 			((MagazineAttachment)getAttachments()[1]).setMagazineMaxSize(1);
-			((MagazineAttachment)getAttachments()[1]).setMagazineReloadLenght(40);
+			((MagazineAttachment)getAttachments()[1]).setMagazineReloadLenght(1);
+			((MagazineAttachment)getAttachments()[1]).setMagazineReloadTimer(1);
+			((MagazineAttachment)getAttachments()[1]).setReloadTimer(18);
+
+
 			((MagazineAttachment)getAttachments()[0]).setMagazineMaxSize(1);
-			((MagazineAttachment)getAttachments()[0]).setMagazineReloadLenght(40);
+			((MagazineAttachment)getAttachments()[0]).setMagazineReloadLenght(1);
+			((MagazineAttachment)getAttachments()[0]).setMagazineReloadTimer(1);
+			((MagazineAttachment)getAttachments()[0]).setReloadTimer(18);
+
 		}else {
 			((MagazineAttachment)getAttachments()[1]).setMagazineMaxSize(8);
-			((MagazineAttachment)getAttachments()[1]).setMagazineReloadLenght(180);
+			((MagazineAttachment)getAttachments()[1]).setMagazineReloadLenght(30);
+			((MagazineAttachment)getAttachments()[1]).setReloadTimer(10);
+			
 			((MagazineAttachment)getAttachments()[0]).setMagazineMaxSize(8);
-			((MagazineAttachment)getAttachments()[0]).setMagazineReloadLenght(180);
+			((MagazineAttachment)getAttachments()[0]).setMagazineReloadLenght(30);
+			((MagazineAttachment)getAttachments()[0]).setReloadTimer(10);
+
 		}
 	}
 	
@@ -71,30 +85,25 @@ public class SideShootingCharge extends SpecialCharge{
 		Corner c3 = new Corner(new double[] {x+5,y+30}, new double[] {x,y});
 		Corner c4 = new Corner(new double[] {x+5,y+10}, new double[] {x,y});
 		
-		MagazineAttachment m1= new MagazineAttachment(new Corner[] {c1,c2,c3,c4}, new Corner (new double[] {x,y}), new double[] {x,y}, 0, new Corner(new double[] {x,y+70}), 0.0, 0.0);
+		MagazineAttachment m1= new MagazineAttachment(new Corner[] {c1,c2,c3,c4}, new Corner (new double[] {x,y}), new double[] {x,y}, 0, new Corner(new double[] {x,y+70}, new double[] {x,y}), 0.0, 0.0);
 		
 		Corner c21 = new Corner(new double[] {x-5,y+10}, new double[] {x,y});
 		Corner c22 = new Corner(new double[] {x-5,y+30}, new double[] {x,y});
 		Corner c23 = new Corner(new double[] {x+5,y+30}, new double[] {x,y});
 		Corner c24 = new Corner(new double[] {x+5,y+10}, new double[] {x,y});
 		
-		MagazineAttachment m2= new MagazineAttachment(new Corner[] {c21,c22,c23,c24}, new Corner (new double[] {x,y}), new double[] {x,y}, 0, new Corner(new double[] {x,y+70}), 0.0, 0.0);
+		MagazineAttachment m2= new MagazineAttachment(new Corner[] {c21,c22,c23,c24}, new Corner (new double[] {x,y}), new double[] {x,y}, 0, new Corner(new double[] {x,y+70}, new double[] {x,y}), 0.0, 0.0);
 		
 		Corner[] c = GameObject.generatePeriodicObject(35, 8, rp).getCorners();
 		SideShootingCharge rc = new SideShootingCharge(c,rp,0,md);
-		
-		m1.setReloadTimer(20);
-		m2.setReloadTimer(20);
 
+		m1.setAttRangle(25);
+		m2.setAttRangle(25);
 		
-		m1.setMagazineMaxSize(30);
-		m2.setMagazineMaxSize(30);
-
-		
-		rc.addAttachment(m1);
 		rc.rotateOb(180);
 		rc.addAttachment(m2);
 		rc.rotateOb(180);
+		rc.addAttachment(m1);
 		rc.setShootForInteractiveAtts(true);
 		
 		double ang = md.getAngle(rc.getRotationPoint())-90;
@@ -102,19 +111,22 @@ public class SideShootingCharge extends SpecialCharge{
 		
 		rc.rotateOb(ang);
 		rc.getMP().rotateCorner(rc.getRotationPoint(), -ang);
-		rc.setMaxSpeed(5);
+		rc.setMaxSpeed(10);
 		rc.setCurrentSpeed(rc.getMaxSpeed());
 		rc.getNewRatios();
 		rc.setNewVels();
 		rc.setHP(5);
 		rc.setExplodesOnImpact(false);
 		rc.updateAttGoals();
+		rc.setPeriodicShooter(true);
 
 		return rc;
 	}
 	
 	public void render(Graphics g) {
 		super.render(g);
+		goal0.renderCorner(g, 10);
 		goal1.renderCorner(g, 10);
+
 	}
 }
