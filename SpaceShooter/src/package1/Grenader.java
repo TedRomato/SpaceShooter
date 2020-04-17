@@ -6,8 +6,20 @@ public class Grenader extends LongRangeAI{
 		// TODO Auto-generated constructor stub
 	}
 	
+	public void updateInSD(GameObject[] enemys, GameObject[] gos, AI[] ais) {
+		super.updateInSD(enemys, gos, ais);
+		handleTurrets();
+	}
+
+	public void handleTurrets() {
+		for(int i = 0; i < 1; i++) {
+			((InteractiveAttachment) getAttachments()[i]).rotateToCorner(((InteractiveAttachment) getAttachments()[i]).getAimCorner());
+		}
+	}
+	
 	public static Grenader makeNewGrenader(double x, double y, GameObject[] enemys) {
 		Grenader ai;
+		ExplosiveShootingAtt canon;
 		//H1
 		Corner h11 = new Corner(new double[] {x + -60, y + -30}, new double[] {x,y});
 		Corner h12 = new Corner(new double[] {x + -90, y + -30}, new double[] {x,y});
@@ -53,18 +65,34 @@ public class Grenader extends LongRangeAI{
 	    
 	    ObjectAttachment k1 =  new ObjectAttachment(new Corner[] {h11,h12,h13}, new double[] {x,y},  new double[] {x,y}, 0);
 	    ObjectAttachment k2 =  new ObjectAttachment(new Corner[] {h21,h22,h23}, new double[] {x,y},  new double[] {x,y}, 0);
+	    
+	    //gl
+	    Corner c1 = new Corner(new double[] {x-15, y+10},new double[] {x ,y});
+	    Corner c2 = new Corner(new double[] {x-11, y+65},new double[] {x ,y});
+	    Corner c3 = new Corner(new double[] {x+11, y+65},new double[] {x ,y});
+	    Corner c4 = new Corner(new double[] {x+15, y+10},new double[] {x ,y});
+	    Corner c5 = new Corner(new double[] {x+5, y+2},new double[] {x ,y});
+	    Corner c6 = new Corner(new double[] {x-5, y+2},new double[] {x ,y});
+	    Corner[] corners = new Corner[] {c1,c2,c3,c4,c5,c6}; 
+	    canon = new ExplosiveShootingAtt(corners, new Corner(new double[] {x ,y}),new double[] {x ,y}, 5, new Corner(new double[] {x, y + 50},new double[] {x, y}),1200,200);
+	    canon.setRotationSegment(new double[] {-60,60});
+	    canon.setFireGrenade(true);
+	    canon.setInaccuracy(200);
+	    canon.setMagazineParameters(4, 240);
+	    canon.setReloadTimer(100);
 
 	    
 		ai = new Grenader(body, new double[] {x,y}, 10, md, gd, wp);
-	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
+	    ai.addAttachment(canon);
+		ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
 	    ai.setMaxSpeed(4.2);
 	    ai.setReflectedSpeed(6);
-	    ai.setStoppingDistance(800);
+	    ai.setStoppingDistance(1000);
 	    ai.addAttachment(k1);
 	    ai.addAttachment(k2);
-	    ai.setHP(20);
+	    ai.setHP(8);
 	    ai.getClosestEnemy(enemys);
-	    ai.setGoingDistance(600);
+	    ai.setGoingDistance(700);
 
 	   
 	    return ai;

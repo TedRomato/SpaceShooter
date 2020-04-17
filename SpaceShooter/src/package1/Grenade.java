@@ -25,7 +25,7 @@ public class Grenade extends Explosives{
 		Corner rp = new Corner(new double[] {x,y});
 		Corner[] c = GameObject.generatePeriodicObject(20, 8, rp).getCorners();
 		Grenade nade = new Grenade(c,rp,0,md);
-		nade.setSpeed(2);
+		nade.setSpeed(10);
 		nade.setHP(5);
 	//	nade.setSolid(false);
 		return nade;
