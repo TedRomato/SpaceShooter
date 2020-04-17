@@ -8,11 +8,17 @@ public class Player extends LivingObject{
 	int zoneDamagedTimerLenght = 60;
 	int zoneDamagedTimer = zoneDamagedTimerLenght;
 
+	int  berserkModeCooldown = 1800, berserkModeTimer = berserkModeCooldown, costInLives = 5;
+	int exploWave = 10, exploWaveCounter = 0,  exploTimer = 0,  exploLenght = 20;
+	double berserkSpeed = 12;
+	int chunks = 20;
+	boolean berserkMode = false;
+	boolean berserkModeUnlocked = false;
 	
 	int dashCooldownTimer = 0, dashCooldown = 300;
 	double baseSpeed, dashSpeed = 20;
 	
-	int moveChar = 87, turnLeftChar = 65, turnRightChar = 68, dashChar = 16, reloadChar = 82, abilityChar = 32;
+	int moveChar = 87, turnLeftChar = 65, turnRightChar = 68, dashChar = 16, reloadChar = 82, abilityChar = 32, berserkChar = 66;
 	int faceCanon = -1;
 	int machinegun = -1;
 	int baseCanon = 2;
@@ -51,6 +57,13 @@ public class Player extends LivingObject{
 
 	
 	public void handlePlayerKeys() {
+		if(Game.keyChecker.checkIfkeyIsPressed(berserkChar)) {
+			
+			if(berserkModeTimer >= berserkModeCooldown && berserkModeUnlocked) {
+				berserkMode = true;
+			}
+		
+		}
 		
 		if(Game.keyChecker.checkIfkeyIsPressed(abilityChar)) {
 			
@@ -184,7 +197,31 @@ public class Player extends LivingObject{
 				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(true);
 			}
 		}
-		
+	}
+	
+	public Missile[] handleBereserkMode() {
+		if(berserkMode) {
+			setCurrentSpeed(berserkSpeed);
+			exploTimer++;
+			if(exploTimer >= exploLenght) {
+				exploWaveCounter++;
+				if(exploWaveCounter <= exploWave) {
+					exploTimer = 0;
+					return makePeriodicExplosion(50, getRotationPoint(), chunks, this);
+				}else {
+					exploWaveCounter = 0;
+					exploTimer = 0;
+					berserkModeTimer = 0;
+					berserkMode = false;
+					return null;
+				}
+			}
+		}else if(berserkModeTimer < berserkModeCooldown){
+			berserkMode = false;
+			berserkModeTimer++;
+		}
+		return null;
+
 	}
 	
 	public void updatePlayer() {
@@ -396,6 +433,7 @@ public class Player extends LivingObject{
 	   //p.addFrontCanon();
 	   // p.addFrontMachineGun();
 //	    p.addAttachment(straightLine);
+	    p.berserkModeUnlocked = true;
 
 	    
 	    return p;

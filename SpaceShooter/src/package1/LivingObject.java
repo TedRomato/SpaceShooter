@@ -373,7 +373,17 @@ public class LivingObject extends MovingObject{
 				
 	}
 	
-
+	public Missile[] makePeriodicExplosion(int distance, Corner rp, int chunks, GameObject whoShot){
+		Missile[] m = new Missile[chunks];
+		Corner[] rpList = GameObject.generatePeriodicObject(50, chunks, rp).getCorners();
+		Corner[] mdList = GameObject.generatePeriodicObject(70, chunks, rp).getCorners();
+		
+		for(int i = 0; i < chunks; i++) {
+			m[i] = Missile.makeNewMissile(rpList[i], 1, mdList[i], whoShot);
+		}
+		
+		return m;
+	}
 
 	public ObjectAttachment[] getAttachments() {
 		

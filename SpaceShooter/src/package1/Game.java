@@ -174,7 +174,7 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void tick() {
-
+		handleBerserkModes();
 		handlePlayerOutsideSafeZone();
 		p.handlePlayerKeys();
 		updatePlayerAimPoint();
@@ -193,7 +193,17 @@ public class Game extends JPanel implements MouseListener{
         deleteNoHpObs();
 
 	}
-	//TODO
+	
+	public void handleBerserkModes() {
+		Missile[] missiles;
+		missiles = p.handleBereserkMode();
+		if(missiles != null) {
+			for(Missile m : missiles) {
+				addObToGame(m, new int[] {1,2,3,4,6,7,8,9,10,11});
+			}
+		}
+	}
+	
 	public void handelExplosives() {
 		for(Explosives explo : explosives) {
 			explo.updateExplosive();
