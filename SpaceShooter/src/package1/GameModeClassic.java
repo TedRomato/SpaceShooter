@@ -10,7 +10,6 @@ public class GameModeClassic extends Game{
 
 	
 
-
 	public GameModeClassic(int sw, int sh) {
 		super(sw, sh,false); 
 		coin.setHP(1);

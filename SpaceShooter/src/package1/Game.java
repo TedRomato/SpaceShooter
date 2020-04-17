@@ -56,6 +56,7 @@ public class Game extends JPanel implements MouseListener{
 	private boolean WasCalled = false;
 	private Meteor[] meteors;
 	private Summoner[] summoners;
+	private Explosives[] explosives;
 	boolean softBorders = false;
 	
 	private boolean wasCalled = false;
@@ -78,7 +79,8 @@ public class Game extends JPanel implements MouseListener{
 	    meteors = new Meteor[] {};
 	    summoners = new Summoner[] {};
 		aiEnemys = new GameObject[] {};
-	    arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais, meteors, shootingObs,summoners, aiEnemys};
+		explosives = new Explosives[] {};
+	    arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais, meteors, shootingObs,summoners, aiEnemys,explosives};
 	    
 	    Warning = new JLabel("");
 	    Warning.setForeground(Color.RED);
@@ -88,7 +90,7 @@ public class Game extends JPanel implements MouseListener{
 	    try {
 			WarningSign = ImageIO.read(new File("src/Icons/Warning.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	    
@@ -106,17 +108,14 @@ public class Game extends JPanel implements MouseListener{
 		    GameObject botBorder = new GameObject(new Corner[] {leftBotC, rightBotC}, new double[] {500,400}, 0);
 		    
 		    borders = new GameObject[] {botBorder,leftBorder,topBorder,rightBorder};
-	    }
-	    
-	    
+	    }	    	    
 	    
 	    p = Player.makeNewPlayer(new double[] {100,100});
-		addObToGame(p, new int[] {5,6,7,9}); 
+		addObToGame(p, new int[] {5,6,7,9,11}); 
 
 		screenRatio = (double)currentScreenWidth/(double)mainWidth;
 		camera = new Camera(currentScreenWidth,currentScreenHeight,1);
 		camera.setCameraToCorner(p.getRotationPoint());
-
 	}
 	public int getScore() {
 		return score;
@@ -159,7 +158,6 @@ public class Game extends JPanel implements MouseListener{
                 }
             	this.repaint();
                 frames++;
-
                 if(System.currentTimeMillis() - timer > 1000)
                 { 
                 	timer += 1000;
@@ -176,6 +174,7 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void tick() {
+
 		handlePlayerOutsideSafeZone();
 		p.handlePlayerKeys();
 		updatePlayerAimPoint();
@@ -184,14 +183,30 @@ public class Game extends JPanel implements MouseListener{
 		checkAndHandleCollision();
     	updateLivingObsReflect();
     	checkAndHandleAllRefs();
-        deleteNoHpObs();
     	updateAllInvs();
         reflectFromSides();
         removeObsOut();
 		updateAllObs();
 		handleAis();
 		handleSummoners();
-		System.out.println();
+		handelExplosives();
+        deleteNoHpObs();
+
+	}
+	//TODO
+	public void handelExplosives() {
+		for(Explosives explo : explosives) {
+			explo.updateExplosive();
+			if(explo.getShouldExplode()) {
+				Missile[] m = explo.explode();
+				if(m!=null) {
+					for(Missile mis : m) {
+						addObToGame(mis, new int[] {1,2,3,4,6,7,8,9,10,11});
+					}
+				}
+			}
+		
+		}
 	}
 	 
 	public void updateDisplay() {
@@ -212,15 +227,12 @@ public class Game extends JPanel implements MouseListener{
 				p.setHP(p.getHP() - getHPToSubtract(getDownOrRightDifference(p.getRotationPoint().getY(),mainHeight)));
 				p.wasDamagedByZone = true;
 			}
-			
 			if(p.getRotationPoint().getX() < 0) {
 				p.setHP(p.getHP() - getHPToSubtract(getDifferenceFromZero(p.getRotationPoint().getX())));
 				p.wasDamagedByZone = true;
-
 			}else if(p.getRotationPoint().getX() > mainWidth) {
 				p.setHP(p.getHP() - getHPToSubtract(getDownOrRightDifference(p.getRotationPoint().getX(),mainWidth)));
 				p.wasDamagedByZone = true;
-
 			}
 		}
 	}
@@ -234,8 +246,6 @@ public class Game extends JPanel implements MouseListener{
 	private int getHPToSubtract(double i) {
 		return (int) (i/50);
 	}
-	
-	
 	public void updatePlayerAimPoint() {
 		PointerInfo a = MouseInfo.getPointerInfo();
 		Point b = a.getLocation();
@@ -258,14 +268,26 @@ public class Game extends JPanel implements MouseListener{
 						((MagazineAttachment) att).handleMagazine();
 					}
 					if(att instanceof InteractiveAttachment) {
-						if(sob instanceof AI) {
+						if(att instanceof ExplosiveShootingAtt) {
 							if(att.getReloadLenght() >= att.getReloadTimer() && att.shouldShoot(att.getAimCorner())) {
-								addObToGame(att.shoot(sob), new int[] {1,2,3,4,6,7,8,9,10});
+								addObToGame(((ExplosiveShootingAtt) att).Fire(sob),new int[] {5,6,7,9,10});
+								att.setReloadLenght(0);
+							}
+						}
+						else if(sob instanceof AI) {
+							if(att.getReloadLenght() >= att.getReloadTimer() && att.shouldShoot(att.getAimCorner())) {
+								addObToGame(att.shoot(sob), new int[] {1,2,3,4,6,7,8,9,10,11});
+								att.setReloadLenght(0);
+							}
+						}
+						else if(sob instanceof SpecialCharge) {
+							if(att.getReloadLenght() >= att.getReloadTimer() && att.shouldShoot()) {
+								addObToGame(att.shoot(((SpecialCharge) sob).getWhoShot()), new int[] {1,2,3,4,6,7,8,9,10,11});
 								att.setReloadLenght(0);
 							}
 						}
 						else if(att.getReloadLenght() >= att.getReloadTimer() && att.shouldShoot()) {
-							addObToGame(att.shoot(sob), new int[] {1,2,3,4,6,7,8,9,10});
+							addObToGame(att.shoot(sob), new int[] {1,2,3,4,6,7,8,9,10,11});
 							att.setReloadLenght(0);
 						}
 						if(att.getReloadLenght() != att.getReloadTimer()) { 
@@ -302,15 +324,7 @@ public class Game extends JPanel implements MouseListener{
 			for(MovingObject ob : reflectingObs) {
 				if(mob != ob) {
 					mob.checkAndHandleReflect(ob);
-					if(ob instanceof LivingObject) {
-						if(((LivingObject) ob).getAttachments()!= null) {
-							if(((LivingObject) ob).getAttachments().length > 0) {
-								for(ObjectAttachment att : ((LivingObject) ob).getAttachments()) {
-									mob.checkAndHandleReflect(att);
-								}
-							}
-						}
-					}
+					
 				}
 			}
 		}
@@ -325,22 +339,9 @@ public class Game extends JPanel implements MouseListener{
 					
 					if(objects[i].checkCollision(compareArray[x])) {
 						if(objects[i].getInvulnurability() == false) {
-							if(objects[i] instanceof Missile) {
-								if(compareArray[x] instanceof Missile) {
-									((Missile)objects[i]).handleMissileCollision((Missile)compareArray[x]);
-								}else {
-									if(((Missile) objects[i]).getWhoShot() != compareArray[x]) {
-										objects[i].setHP(objects[i].getHP()-objects[i].getHP());
-									}
-								}
-							} else if(compareArray[x] instanceof Missile) {
-								if(((Missile) compareArray[x]).getWhoShot() != objects[i]) {
-									objects[i].setHP(objects[i].getHP()-((Missile) compareArray[x]).getDmg());
-								}
-							} else {
-								objects[i].setHP(objects[i].getHP()-1);
+							objects[i].handleCollision(compareArray[x]);
 							}
-							objects[i].startInvulnurability();
+								
 						}
 					}
 				}
@@ -348,7 +349,7 @@ public class Game extends JPanel implements MouseListener{
 			}
 		}
 		
-	}
+	
 	
 	private void updateAllInvs() {
 		for(GameObject ob : objects) {
@@ -386,7 +387,7 @@ public class Game extends JPanel implements MouseListener{
 		for(Summoner s : summoners) {
 			AI ai = s.handleSummoner(getAiEnemys());
 			if(ai != null) {
-				addObToGame(ai, new int[] {7,4,9,10});
+				addObToGame(ai, new int[] {7,4,9,10,11});
 			}
 		}
 	}
@@ -394,7 +395,7 @@ public class Game extends JPanel implements MouseListener{
 	
 	protected void respawnMeteorsToAmount(int amount) {
 		if(meteors.length < amount) {
-			addObToGame(randomMeteorGenerator.generateRandomMeteorOutside(mainWidth, mainHeight), new int[] {3,6,4,8,9});
+			addObToGame(randomMeteorGenerator.generateRandomMeteorOutside(mainWidth, mainHeight), new int[] {3,6,4,8,9,11});
 		}
 	}
 	
@@ -446,6 +447,15 @@ public class Game extends JPanel implements MouseListener{
 	    shootingObs = makeGameObArLivingArr(arrayList[8]);
 	    summoners = makeSummonersObAr(arrayList[9]);
 	    aiEnemys = arrayList[10];
+	    explosives = makeExplosivesObAr(arrayList[11]);
+	}
+	
+	private Explosives[] makeExplosivesObAr(GameObject[] arr) {
+		Explosives[] newArr = new Explosives[arr.length];
+		for(int i = 0; i < arr.length; i++) {
+			newArr[i] = (Explosives) arr[i];
+		}
+		return newArr;
 	}
 	
 	private Summoner[] makeSummonersObAr(GameObject[] arr) {
@@ -575,12 +585,10 @@ public class Game extends JPanel implements MouseListener{
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		if(e.getButton() == 1) {
 			keyChecker.setLeftMousePressed(true);
 		}
@@ -591,7 +599,6 @@ public class Game extends JPanel implements MouseListener{
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 		if(e.getButton() == 1) {
 			keyChecker.setLeftMousePressed(false);
 		}
@@ -601,12 +608,10 @@ public class Game extends JPanel implements MouseListener{
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 	

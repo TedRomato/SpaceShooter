@@ -165,10 +165,19 @@ public class GameObject {
 	}
 	
 
+	public void handleCollision(GameObject ob) {
+		if(ob instanceof Missile) {
+			if(this != ((Missile) ob).getWhoShot()) {
+				setHP(getHP() - ((Missile) ob).getDmg());
+				startInvulnurability();
+			}
+		}else {
+			setHP(getHP() - 1);
+			startInvulnurability();
+		}
+
 	
-	
-	
-	
+	}
 	
 	protected boolean checkCollisionInside(GameObject go) {
 		boolean isCollision = false;

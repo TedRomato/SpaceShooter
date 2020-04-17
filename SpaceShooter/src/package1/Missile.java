@@ -32,7 +32,18 @@ public class Missile extends MovingObject{
 				this.setHP(0);
 			}
 		}
-		
+	}
+	
+	public void handleCollision(GameObject ob) {
+		if(ob instanceof Missile) {
+			handleMissileCollision((Missile) ob);
+		}else if(ob == getWhoShot()) {
+			return;
+		}
+		else {
+			setHP(getHP() - 1);
+			startInvulnurability();
+		}
 	}
 
 	
@@ -42,6 +53,18 @@ public class Missile extends MovingObject{
 	
 	public GameObject getWhoShot() {
 		return whoShot;
+	}
+	
+	static Missile makeNewMissile(Corner rp, int dmg, Corner md, GameObject whoShot) {
+		Corner TopLeft = new Corner(new double[] {rp.getX()-4*dmg,rp.getY()-4*dmg}, new Corner(new double[] {rp.getX(), rp.getY()}));
+		Corner BotLeft = new Corner(new double[] {rp.getX()-4*dmg,rp.getY()+4*dmg}, new Corner(new double[] {rp.getX(), rp.getY()}));
+		Corner BotRight = new Corner(new double[] {rp.getX()+4*dmg,rp.getY()+4*dmg}, new Corner(new double[] {rp.getX(), rp.getY()}));
+		Corner TopRight = new Corner(new double[] {rp.getX()+4*dmg,rp.getY()-4*dmg}, new Corner(new double[] {rp.getX(), rp.getY()}));
+		Corner mdN = new Corner(md, rp);
+		Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, new Corner(new double[] {rp.getX(), rp.getY()}), 0,mdN,12,whoShot);
+		m.getNewRatios();
+		m.setNewVels();
+		return m;
 	}
 	
 	
