@@ -76,7 +76,7 @@ public class Grenader extends LongRangeAI{
 	    Corner[] corners = new Corner[] {c1,c2,c3,c4,c5,c6}; 
 	    canon = new ExplosiveShootingAtt(corners, new Corner(new double[] {x ,y}),new double[] {x ,y}, 5, new Corner(new double[] {x, y + 50},new double[] {x, y}),1200,200);
 	    canon.setRotationSegment(new double[] {-60,60});
-	    canon.setFireGrenade(true);
+	    canon.setFireRotatingCharge(true);
 	    canon.setInaccuracy(200);
 	    canon.setMagazineParameters(4, 240);
 	    canon.setReloadTimer(100);

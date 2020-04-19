@@ -390,7 +390,9 @@ public class LivingObject extends MovingObject{
 		shotImunes = new GameObject[arr.length+toAdds.length];
 		for(int i = 0; i < arr.length; i++) {
 			shotImunes[i] = arr[i];
-			shotImunes[i+shotImunes.length] = toAdds[i];
+			if(i < toAdds.length) {
+				shotImunes[i+arr.length] = toAdds[i];
+			}
 		}
 	}
 	
