@@ -27,7 +27,6 @@ public class Grenade extends Explosives{
 		Grenade nade = new Grenade(c,rp,0,md);
 		nade.setSpeed(10);
 		nade.setHP(5);
-	//	nade.setSolid(false);
 		return nade;
 	}
 }

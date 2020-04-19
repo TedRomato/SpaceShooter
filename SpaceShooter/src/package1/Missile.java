@@ -27,11 +27,22 @@ public class Missile extends MovingObject{
 	
 	
 	public void handleMissileCollision(Missile ms) {
-		if(!isImune(ms)) {
+		if(!isFriendlyBullet(ms)) {
 			if(this.dmg - 1 <= ms.getDmg()) {
 				this.setHP(0);
 			}
 		}
+	}
+	
+	public boolean isFriendlyBullet(Missile ms) {
+		for(GameObject go1 : getImunne()) {
+			for(GameObject go2 : getImunne()) {
+				if(go1 == go2) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	public void handleCollision(GameObject ob) {
