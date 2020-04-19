@@ -431,10 +431,9 @@ public class Player extends LivingObject{
 	    p.addAttachment(canon);
 	    p.setReflectedLenght(20);
 	   //p.addFrontCanon();
-	    p.addFrontMachineGun();
-	    p.setDashUnlocked(true);
+//	    p.addFrontMachineGun();
+//	    p.setDashUnlocked(true);
 //	    p.addAttachment(straightLine);
-	    p.startStun(90);
 
 	    
 	    return p;

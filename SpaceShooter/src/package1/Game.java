@@ -272,7 +272,7 @@ public class Game extends JPanel implements MouseListener{
 	
 	private void handleShooting(){
 		for(LivingObject sob : shootingObs ) {	
-			if(sob.getAttachments() != null && sob.getAttachments().length > 0) {
+			if(sob.getAttachments() != null && sob.getAttachments().length > 0 && sob.getIsStunned() == false) {
 				for(ObjectAttachment att : sob.getAttachments()) {
 					if(att instanceof MagazineAttachment) {
 						((MagazineAttachment) att).handleMagazine();

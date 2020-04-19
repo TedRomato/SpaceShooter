@@ -54,7 +54,7 @@ public class LivingObject extends MovingObject{
 
 		moveOb();
 
-		if(turnRight || turnLeft) {
+		if(turnRight || turnLeft ) {
 			rotateOb();
 
 
@@ -82,18 +82,20 @@ public class LivingObject extends MovingObject{
 	}
 	
 	public void rotateOb() {
-		super.rotateOb();
-		if(attachments != null) {
-			for(ObjectAttachment att : attachments) {
-				if(att.getRotateWithParentOb()) {
-					att.rotateAttachment(this.getRotationAngle());
-				}
-
-			}
-
-		}
+		if(!isStunned) {
+			super.rotateOb();
+			if(attachments != null) {
+				for(ObjectAttachment att : attachments) {
+					if(att.getRotateWithParentOb()) {
+						att.rotateAttachment(this.getRotationAngle());
+					}
 		
-		movePoint.rotateCorner(getRotationPoint(), getRotationAngle());	
+				}
+		
+			}
+			
+			movePoint.rotateCorner(getRotationPoint(), getRotationAngle());	
+			}
 		}
 	public void rotateOb(double angle) {
 		super.rotateOb(angle);
