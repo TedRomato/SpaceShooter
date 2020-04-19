@@ -174,6 +174,7 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void tick() {
+		handlePulse();
 		handleBerserkModes();
 		handlePlayerOutsideSafeZone();
 		p.handlePlayerKeys();
@@ -192,6 +193,13 @@ public class Game extends JPanel implements MouseListener{
 		handelExplosives();
         deleteNoHpObs();
 
+	}
+	
+	public void handlePulse() {
+		if(p.pulse) {
+			p.usePulse(ais);
+			p.pulse = false;
+		}
 	}
 	
 	public void handleBerserkModes() {

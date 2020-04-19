@@ -364,15 +364,15 @@ public class LivingObject extends MovingObject{
 			}
 		}
 
-/*
+
 		g.setColor(Color.red);
-		g.fillRect((int) Math.round(moveDirection.getX()*Game.screenRatio),(int) Math.round(moveDirection.getY()*Game.screenRatio), 10, 10);
-		g.setColor(Color.GREEN);
-		g.fillRect((int) Math.round(getRotationPoint().getX()*Game.screenRatio),(int) Math.round(getRotationPoint().getY()*Game.screenRatio), 9, 9);
-		g.setColor(Color.BLUE);
-		g.fillRect((int) Math.round(movePoint.getX()*Game.screenRatio),(int) Math.round(movePoint.getY()*Game.screenRatio), 8, 8);
+		getMD().renderCorner(g, 10);
+//		g.setColor(Color.GREEN);
+//		g.fillRect((int) Math.round(getRotationPoint().getX()*Game.screenRatio),(int) Math.round(getRotationPoint().getY()*Game.screenRatio), 9, 9);
+//		g.setColor(Color.BLUE);
+//		g.fillRect((int) Math.round(movePoint.getX()*Game.screenRatio),(int) Math.round(movePoint.getY()*Game.screenRatio), 8, 8);
 		g.setColor(Color.black);	
-*/
+//
 	//	g.fillRect((int) Math.round(attachments[0].getAttachmentRP().getX()*Game.screenRatio),(int) Math.round(attachments[0].getAttachmentRP().getY()*Game.screenRatio), 8, 8);
 	//	getCollisionSquare().render(g);
 				
@@ -429,10 +429,14 @@ public class LivingObject extends MovingObject{
 	}
 	
 	public void pushFromObject(GameObject go, double speed) {
-		double goalAngle = go.getRotationPoint().getAngle(getRotationPoint());
-		Corner newMP = Corner.makeCornerUsinAngle(getMP().getPointDistance(getRotationPoint()), goalAngle, getRotationPoint());
-		setMoveDirection(newMP);
+		Corner c = new Corner(getRotationPoint(), go.getRotationPoint());
+		double goalAngle = c.getAngle(go.getRotationPoint());
+		Corner newMD = Corner.makeCornerUsinAngle(getMP().getPointDistance(getRotationPoint()), goalAngle, getRotationPoint());
+		setMoveDirection(newMD);
 		setCurrentSpeed(speed);
+		getNewRatios();
+		setNewVels();
+		
 	}
 	
 	public void startStun(int stunLenght) {
