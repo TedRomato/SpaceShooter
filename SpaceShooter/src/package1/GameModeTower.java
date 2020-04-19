@@ -54,6 +54,7 @@ public class GameModeTower extends Game{
 		Tower = new LivingObject(corners,new double[] {mainWidth/2,mainHeight/2},0,new Corner(new double[] {mainWidth/2,mainHeight/2}, new double[] {mainWidth/2,mainHeight/2}));
 		Tower.setHP(TowerBaseHP);
 		addObToGame(Tower, new int[] {1,3,4,6,7,8,9,11});
+		p.addShotImune(Tower);
 
 		setLayout(null);
 		setName("TowerMode");

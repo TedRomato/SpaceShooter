@@ -167,7 +167,7 @@ public class GameObject {
 
 	public void handleCollision(GameObject ob) {
 		if(ob instanceof Missile) {
-			if(this != ((Missile) ob).getWhoShot()) {
+			if(!((Missile) ob).isImune(this)) {
 				setHP(getHP() - ((Missile) ob).getDmg());
 				startInvulnurability();
 			}

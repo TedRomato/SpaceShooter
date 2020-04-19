@@ -10,7 +10,7 @@ public class RotatingCharge extends SpecialCharge{
 	}
 	
 	public Missile[] explode() {
-		return makePeriodicExplosion(25, this.getRotationPoint(), 8, getWhoShot());
+		return makePeriodicExplosion(25, this.getRotationPoint(), 8, getShotImunes());
 	}
 
 	public void updateExplosive() {

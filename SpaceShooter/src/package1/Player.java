@@ -207,7 +207,7 @@ public class Player extends LivingObject{
 				exploWaveCounter++;
 				if(exploWaveCounter <= exploWave) {
 					exploTimer = 0;
-					return makePeriodicExplosion(50, getRotationPoint(), chunks, this);
+					return makePeriodicExplosion(50, getRotationPoint(), chunks, getShotImunes());
 				}else {
 					exploWaveCounter = 0;
 					exploTimer = 0;

@@ -13,6 +13,7 @@ public class LivingObject extends MovingObject{
 	//does have acceleration and max Speed
 	//can have attachments 
 	//other than that same methods, but work for attachment as well
+	GameObject[] shotImunes = new GameObject[] {};
 	boolean solid = true; 
 	private boolean forward = false, turnRight = false, turnLeft = false;
 	private Corner movePoint;
@@ -26,6 +27,7 @@ public class LivingObject extends MovingObject{
 		setReflectedSpeed(maxSpeed*2);
 		setHP(10);
 		makeSquare();
+		addShotImune(this);
 	}
 	
 	public LivingObject(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md) {
@@ -34,6 +36,7 @@ public class LivingObject extends MovingObject{
 		setReflectedSpeed(maxSpeed*2);
 		setHP(10);
 		makeSquare();	
+		addShotImune(this);
 		}
 
 	public void setMaxSpeed(double maxSpeed) {
@@ -199,7 +202,7 @@ public class LivingObject extends MovingObject{
 	
 	public boolean checkCollision(GameObject go) {
 		if(go instanceof Explosives) {
-			if(((Explosives) go).getWhoShot() == this) {
+			if(((Explosives) go).isShotImune(this)) {
 				return false;
 			}
 		}
@@ -230,7 +233,7 @@ public class LivingObject extends MovingObject{
 	
 	public void checkAndHandleReflect(GameObject otherOb) {
 		if(otherOb instanceof Explosives) {
-			if(((Explosives) otherOb).getWhoShot() == this) {
+			if(((Explosives) otherOb).isShotImune(this)) {
 				return;
 			}
 		}
@@ -373,13 +376,31 @@ public class LivingObject extends MovingObject{
 				
 	}
 	
-	public Missile[] makePeriodicExplosion(int distance, Corner rp, int chunks, GameObject whoShot){
+	public void addShotImune(GameObject toAdd) {
+		GameObject[] arr = shotImunes;
+		shotImunes = new GameObject[arr.length+1];
+		for(int i = 0; i < arr.length; i++) {
+			shotImunes[i] = arr[i];
+		}
+		shotImunes[shotImunes.length-1] = toAdd;
+	}
+	
+	public void addShotImunes(GameObject[] toAdds) {
+		GameObject[] arr = shotImunes;
+		shotImunes = new GameObject[arr.length+toAdds.length];
+		for(int i = 0; i < arr.length; i++) {
+			shotImunes[i] = arr[i];
+			shotImunes[i+shotImunes.length] = toAdds[i];
+		}
+	}
+	
+	public Missile[] makePeriodicExplosion(int distance, Corner rp, int chunks, GameObject[] im){
 		Missile[] m = new Missile[chunks];
 		Corner[] rpList = GameObject.generatePeriodicObject(50, chunks, rp).getCorners();
 		Corner[] mdList = GameObject.generatePeriodicObject(70, chunks, rp).getCorners();
 		
 		for(int i = 0; i < chunks; i++) {
-			m[i] = Missile.makeNewMissile(rpList[i], 1, mdList[i], whoShot);
+			m[i] = Missile.makeNewMissile(rpList[i], 1, mdList[i], im);
 		}
 		
 		return m;
@@ -388,5 +409,18 @@ public class LivingObject extends MovingObject{
 	public ObjectAttachment[] getAttachments() {
 		
 		return attachments;
+	}
+	
+	public GameObject[] getShotImunes() {
+		return shotImunes;
+	}
+	
+	public boolean isShotImune(GameObject go) {
+		for(int i = 0; i < getShotImunes().length; i++) {
+			if(go == getShotImunes()[i]) {
+				return true;
+			}
+		}
+		return false;
 	}
 } 

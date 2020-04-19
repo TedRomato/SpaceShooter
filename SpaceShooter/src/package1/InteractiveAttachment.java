@@ -196,9 +196,9 @@ public class InteractiveAttachment extends ObjectAttachment{
 		setAimCorner(getNewAimCorner(go));
 	}
 	
-	protected Missile shoot(GameObject whoShot) {
+	protected Missile shoot(GameObject[] imunes) {
 		Missile m;
-		m = Missile.makeNewMissile(getSP(), getDmg(), getSD(), whoShot);
+		m = Missile.makeNewMissile(getSP(), getDmg(), getSD(), imunes);
 		m.setDmg(dmg);
 		getNewInaccuracy();
 		return m;
@@ -394,6 +394,10 @@ public class InteractiveAttachment extends ObjectAttachment{
 	public double[] getRotationSegment() {
 		return rotationSegment;
 	}
+	
+	
+	
+	
 	
 
 }

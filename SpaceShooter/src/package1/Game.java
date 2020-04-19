@@ -280,24 +280,24 @@ public class Game extends JPanel implements MouseListener{
 					if(att instanceof InteractiveAttachment) {
 						if(att instanceof ExplosiveShootingAtt) {
 							if(att.getReloadLenght() >= att.getReloadTimer() && att.shouldShoot(att.getAimCorner())) {
-								addObToGame(((ExplosiveShootingAtt) att).Fire(sob),new int[] {5,6,7,9,10});
+								addObToGame(((ExplosiveShootingAtt) att).Fire(sob.getShotImunes()),new int[] {5,6,7,9,10});
 								att.setReloadLenght(0);
 							}
 						}
 						else if(sob instanceof AI) {
 							if(att.getReloadLenght() >= att.getReloadTimer() && att.shouldShoot(att.getAimCorner())) {
-								addObToGame(att.shoot(sob), new int[] {1,2,3,4,6,7,8,9,10,11});
+								addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,6,7,8,9,10,11});
 								att.setReloadLenght(0);
 							}
 						}
 						else if(sob instanceof SpecialCharge) {
 							if(att.getReloadLenght() >= att.getReloadTimer() && att.shouldShoot()) {
-								addObToGame(att.shoot(((SpecialCharge) sob).getWhoShot()), new int[] {1,2,3,4,6,7,8,9,10,11});
+								addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,6,7,8,9,10,11});
 								att.setReloadLenght(0);
 							}
 						}
 						else if(att.getReloadLenght() >= att.getReloadTimer() && att.shouldShoot()) {
-							addObToGame(att.shoot(sob), new int[] {1,2,3,4,6,7,8,9,10,11});
+							addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,6,7,8,9,10,11});
 							att.setReloadLenght(0);
 						}
 						if(att.getReloadLenght() != att.getReloadTimer()) { 

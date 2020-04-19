@@ -2,22 +2,22 @@ package package1;
 
 public class Missile extends MovingObject{
 	int dmg = 1;
-	GameObject whoShot;
+	GameObject[] immune;
 
-	public Missile(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner movingDirection, double speed, GameObject whoShot) {
+	public Missile(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner movingDirection, double speed, GameObject[] immune) {
 		super(corners, rotationPoint, rotationAngle, movingDirection);
 		setHP(1);
 		setCurrentSpeed(speed);
-		this.whoShot = whoShot;
+		this.immune = immune;
 
 		// TODO Auto-generated constructor stub
 	}
 
-	public Missile(Corner[] corners, Corner rp, int rotationAngle, Corner md, int speed, GameObject whoShot) {
+	public Missile(Corner[] corners, Corner rp, int rotationAngle, Corner md, int speed, GameObject[] immune) {
 		super(corners, rp, rotationAngle, md);
 		setHP(1);
 		setCurrentSpeed(speed);
-		this.whoShot = whoShot;
+		this.immune = immune;
 
 	}
 	
@@ -27,7 +27,7 @@ public class Missile extends MovingObject{
 	
 	
 	public void handleMissileCollision(Missile ms) {
-		if(whoShot != ms.getWhoShot()) {
+		if(!isImune(ms)) {
 			if(this.dmg - 1 <= ms.getDmg()) {
 				this.setHP(0);
 			}
@@ -37,7 +37,7 @@ public class Missile extends MovingObject{
 	public void handleCollision(GameObject ob) {
 		if(ob instanceof Missile) {
 			handleMissileCollision((Missile) ob);
-		}else if(ob == getWhoShot()) {
+		}else if(isImune(ob)) {
 			return;
 		}
 		else {
@@ -51,11 +51,11 @@ public class Missile extends MovingObject{
 		return dmg;
 	}
 	
-	public GameObject getWhoShot() {
-		return whoShot;
+	public GameObject[] getImunne() {
+		return immune;
 	}
 	
-	static Missile makeNewMissile(Corner rp, int dmg, Corner md, GameObject whoShot) {
+	static Missile makeNewMissile(Corner rp, int dmg, Corner md, GameObject[] whoShot) {
 		Corner TopLeft = new Corner(new double[] {rp.getX()-4*dmg,rp.getY()-4*dmg}, new Corner(new double[] {rp.getX(), rp.getY()}));
 		Corner BotLeft = new Corner(new double[] {rp.getX()-4*dmg,rp.getY()+4*dmg}, new Corner(new double[] {rp.getX(), rp.getY()}));
 		Corner BotRight = new Corner(new double[] {rp.getX()+4*dmg,rp.getY()+4*dmg}, new Corner(new double[] {rp.getX(), rp.getY()}));
@@ -65,6 +65,15 @@ public class Missile extends MovingObject{
 		m.getNewRatios();
 		m.setNewVels();
 		return m;
+	}
+	
+	public boolean isImune(GameObject ob) {
+		for(GameObject i : immune) {
+			if(i == ob) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	
