@@ -434,13 +434,19 @@ public class Player extends LivingObject{
 	    p.addFrontMachineGun();
 	    p.setDashUnlocked(true);
 //	    p.addAttachment(straightLine);
-	    p.berserkModeUnlocked = true;
+	    p.startStun(90);
 
 	    
 	    return p;
 	}
 
-
+	public void usePulse(LivingObject[] gos) {
+		for(LivingObject go : gos) {
+			if(go.getRotationPoint().getPointDistance(getRotationPoint()) < pulseRange) {
+				go.pushFromObject(this, pushSpeed);
+			}
+		}
+	}
 
 	public boolean isDashUnlocked() {
 		return dashUnlocked;

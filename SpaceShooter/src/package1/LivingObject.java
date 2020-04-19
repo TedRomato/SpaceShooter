@@ -20,6 +20,8 @@ public class LivingObject extends MovingObject{
 	private double maxSpeed = 7;
 	private double acceleration = maxSpeed/200;
 	private ObjectAttachment[] attachments;
+	boolean isStunned = false;
+	int stunTimer;
 	
 	public LivingObject(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md) {
 		super(corners, rotationPoint, rotationAngle, md);
@@ -46,7 +48,8 @@ public class LivingObject extends MovingObject{
 	
 	
 	public void updateOb() {
-			
+		updateStun();
+		
 		updateSpeed();
 
 		moveOb();
@@ -58,13 +61,10 @@ public class LivingObject extends MovingObject{
 		}
 		
 		updateForward();
-		
+				
 		if(forward) {
-			updateMDtoMP();
-			
+			updateMDtoMP();			
 			getNewRatios();
-
-
 			setNewVels();
 
 
@@ -161,7 +161,7 @@ public class LivingObject extends MovingObject{
 		if(getCurrentSpeed() > maxSpeed && getReflected() == false) {
 			setCurrentSpeed(getCurrentSpeed()- acceleration);
 		}
-		if(forward != true && getCurrentSpeed() > 0 - acceleration) {
+		else if(forward != true && getCurrentSpeed() > 0 - acceleration) {
 			setCurrentSpeed(getCurrentSpeed() - acceleration);
 			if(getCurrentSpeed() < 0) {
 				setCurrentSpeed(0);
@@ -424,5 +424,32 @@ public class LivingObject extends MovingObject{
 			}
 		}
 		return false;
+	}
+	
+	public void pushFromObject(GameObject go, double speed) {
+		double goalAngle = go.getRotationPoint().getAngle(getRotationPoint());
+		Corner newMP = Corner.makeCornerUsinAngle(getMP().getPointDistance(getRotationPoint()), goalAngle, getRotationPoint());
+		setMoveDirection(newMP);
+		setCurrentSpeed(speed);
+	}
+	
+	public void startStun(int stunLenght) {
+		stunTimer = stunLenght;
+		isStunned = true;
+
+	}
+	
+	public void updateStun() {
+		if(isStunned == true) {
+			setForward(false);
+			stunTimer--;
+			if(stunTimer <= 0) {
+				isStunned = false;
+			}
+		}
+	}
+	
+	public boolean getIsStunned() {
+		return isStunned;
 	}
 } 

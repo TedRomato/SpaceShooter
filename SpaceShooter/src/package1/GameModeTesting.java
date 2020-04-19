@@ -11,7 +11,7 @@ public class GameModeTesting extends Game{
 	//	RotatingCharge nade = RotatingCharge.makeNewRotatingCharge(400, 400, new Corner(new double[] {550,550}, new double[] {500,500}));
 	//	SideShootingCharge nade2 = SideShootingCharge.makeNewSideShootingCharge(500, 500, new Corner(new double[] {550,550}, new double[] {500,500}));
 	//	Grenade nade3 = Grenade.makeNewGrenade(500, 500, new Corner(new double[] {600,600}, new double[] {700,700}));
-		Grenader gr = Grenader.makeNewGrenader(500, 500, getAiEnemys());
+	//	Grenader gr = Grenader.makeNewGrenader(500, 500, getAiEnemys());
 	//	SpaceCruiser ai = SpaceCruiser.makeNewSpaceCruiser(500,200,getAiEnemys());
 	//	SpaceCanon ai1 = SpaceCanon.makeNewSpaceCanon(1000,600,getAiEnemys());
 	//	SpaceCanon ai12 = SpaceCanon.makeNewSpaceCanon(1000,800, getAiEnemys());
@@ -34,7 +34,7 @@ public class GameModeTesting extends Game{
 	//	addObToGame(nade,new int[] {5,6,7,9});
 	//	addObToGame(nade2,new int[] {5,6,7,9});
 	//	addObToGame(nade3,new int[] {5,6,7,9});
-		addObToGame(gr,new int[] {4,7,9,10,11});
+	//	addObToGame(gr,new int[] {4,7,9,10,11});
 
 
 		
