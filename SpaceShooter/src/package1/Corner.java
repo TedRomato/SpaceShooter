@@ -153,6 +153,8 @@ public class Corner {
 	
 	
 	//gets Angle from a rotation Point
+	//if using this method make sure to set this Corner to rp u are using
+	//(otherwise this method might return null)
 	
 	public double getAngle(Corner rotationPoint) {
 

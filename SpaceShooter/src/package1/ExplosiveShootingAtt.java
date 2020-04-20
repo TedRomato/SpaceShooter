@@ -12,20 +12,20 @@ public class ExplosiveShootingAtt extends MagazineAttachment {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Explosives Fire(GameObject whoShot) {
+	public Explosives Fire(GameObject[] imunes) {
 		if(fireGrenade) { 
 			Grenade nade = Grenade.makeNewGrenade(getSP().getX(), getSP().getY(), getSD());
-			nade.setWhoShot(whoShot);
+			nade.addShotImunes(imunes);
 			return nade;
 		}
 		if(fireSideShooter) {
 			SideShootingCharge nade = SideShootingCharge.makeNewSideShootingCharge(getSP().getX(), getSP().getY(), getSD());
-			nade.setWhoShot(whoShot);
+			nade.addShotImunes(imunes);
 			return nade;
 		}
 		if(fireRotatingCharge) {
 			RotatingCharge nade = RotatingCharge.makeNewRotatingCharge(getSP().getX(), getSP().getY(), getSD());
-			nade.setWhoShot(whoShot);
+			nade.addShotImunes(imunes);
 			return nade;
 		}
 		return null;

@@ -39,7 +39,7 @@ public class GameModeTower extends Game{
 	private BufferedImage HealthIcon, AmmoIcon , Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, DashRefillIcon;
 	private Font font = new Font("josef", Font.PLAIN, 25);
 	private int AIcount = 90;
-	private int wave = 1;
+	private int wave = 20;
 	private int waveCount = 0;
 	private int PowerLevel = 0;
 	private int TowerBaseHP=1000;
@@ -54,6 +54,7 @@ public class GameModeTower extends Game{
 		Tower = new LivingObject(corners,new double[] {mainWidth/2,mainHeight/2},0,new Corner(new double[] {mainWidth/2,mainHeight/2}, new double[] {mainWidth/2,mainHeight/2}));
 		Tower.setHP(TowerBaseHP);
 		addObToGame(Tower, new int[] {1,3,4,6,7,8,9,11});
+		p.addShotImune(Tower);
 
 		setLayout(null);
 		setName("TowerMode");

@@ -1,7 +1,6 @@
 package package1;
 
 public class Explosives extends LivingObject{
-	GameObject whoShot;
 	double distanceTraveled = 0;
 	double BOOMDistance = 1500;
 	boolean shouldExplode = false;
@@ -37,7 +36,7 @@ public class Explosives extends LivingObject{
 	
 	
 	public boolean checkCollision(GameObject go) {
-		if(go == this.getWhoShot()) {
+		if(isShotImune(go)) {
 			return false;
 		}
 		boolean b = super.checkCollision(go);
@@ -51,20 +50,10 @@ public class Explosives extends LivingObject{
 		}
 	}
 
-	public Missile[] makePeriodicExplosion(int distance, Corner rp, int chunks){
-		Missile[] m = new Missile[chunks];
-		Corner[] rpList = GameObject.generatePeriodicObject(50, chunks, rp).getCorners();
-		Corner[] mdList = GameObject.generatePeriodicObject(70, chunks, rp).getCorners();
-		
-		for(int i = 0; i < chunks; i++) {
-			m[i] = Missile.makeNewMissile(rpList[i], 1, mdList[i], getWhoShot());
-		}
-		
-		return m;
-	}
+	
 	
 	public void checkAndHandleReflect(GameObject otherOb) {
-		if(otherOb == getWhoShot()) {
+		if(isShotImune(otherOb)) {
 			return;
 		}
 		super.checkAndHandleReflect(otherOb);
@@ -82,9 +71,7 @@ public class Explosives extends LivingObject{
 
 
 
-	public void setWhoShot(GameObject whoShot) {
-		this.whoShot = whoShot;
-	}
+	
 
 	public void setExplodesOnImpact(boolean b) {
 		explodesOnImpact = b;
@@ -98,9 +85,7 @@ public class Explosives extends LivingObject{
 		distanceTraveled += getCurrentSpeed();
 	}
 	
-	public GameObject getWhoShot() {
-		return whoShot;
-	}
+	
 	
 	public boolean getShouldExplode() {
 		return shouldExplode;

@@ -13,12 +13,15 @@ public class LivingObject extends MovingObject{
 	//does have acceleration and max Speed
 	//can have attachments 
 	//other than that same methods, but work for attachment as well
+	GameObject[] shotImunes = new GameObject[] {};
 	boolean solid = true; 
 	private boolean forward = false, turnRight = false, turnLeft = false;
 	private Corner movePoint;
 	private double maxSpeed = 7;
 	private double acceleration = maxSpeed/200;
 	private ObjectAttachment[] attachments;
+	boolean isStunned = false;
+	int stunTimer;
 	
 	public LivingObject(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md) {
 		super(corners, rotationPoint, rotationAngle, md);
@@ -26,6 +29,7 @@ public class LivingObject extends MovingObject{
 		setReflectedSpeed(maxSpeed*2);
 		setHP(10);
 		makeSquare();
+		addShotImune(this);
 	}
 	
 	public LivingObject(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md) {
@@ -34,6 +38,7 @@ public class LivingObject extends MovingObject{
 		setReflectedSpeed(maxSpeed*2);
 		setHP(10);
 		makeSquare();	
+		addShotImune(this);
 		}
 
 	public void setMaxSpeed(double maxSpeed) {
@@ -43,25 +48,23 @@ public class LivingObject extends MovingObject{
 	
 	
 	public void updateOb() {
-			
+		updateStun();
+		
 		updateSpeed();
 
 		moveOb();
 
-		if(turnRight || turnLeft) {
+		if(turnRight || turnLeft ) {
 			rotateOb();
 
 
 		}
 		
 		updateForward();
-		
+				
 		if(forward) {
-			updateMDtoMP();
-			
+			updateMDtoMP();			
 			getNewRatios();
-
-
 			setNewVels();
 
 
@@ -79,18 +82,20 @@ public class LivingObject extends MovingObject{
 	}
 	
 	public void rotateOb() {
-		super.rotateOb();
-		if(attachments != null) {
-			for(ObjectAttachment att : attachments) {
-				if(att.getRotateWithParentOb()) {
-					att.rotateAttachment(this.getRotationAngle());
-				}
-
-			}
-
-		}
+		if(!isStunned) {
+			super.rotateOb();
+			if(attachments != null) {
+				for(ObjectAttachment att : attachments) {
+					if(att.getRotateWithParentOb()) {
+						att.rotateAttachment(this.getRotationAngle());
+					}
 		
-		movePoint.rotateCorner(getRotationPoint(), getRotationAngle());	
+				}
+		
+			}
+			
+			movePoint.rotateCorner(getRotationPoint(), getRotationAngle());	
+			}
 		}
 	public void rotateOb(double angle) {
 		super.rotateOb(angle);
@@ -158,7 +163,7 @@ public class LivingObject extends MovingObject{
 		if(getCurrentSpeed() > maxSpeed && getReflected() == false) {
 			setCurrentSpeed(getCurrentSpeed()- acceleration);
 		}
-		if(forward != true && getCurrentSpeed() > 0 - acceleration) {
+		else if(forward != true && getCurrentSpeed() > 0 - acceleration) {
 			setCurrentSpeed(getCurrentSpeed() - acceleration);
 			if(getCurrentSpeed() < 0) {
 				setCurrentSpeed(0);
@@ -199,7 +204,7 @@ public class LivingObject extends MovingObject{
 	
 	public boolean checkCollision(GameObject go) {
 		if(go instanceof Explosives) {
-			if(((Explosives) go).getWhoShot() == this) {
+			if(((Explosives) go).isShotImune(this)) {
 				return false;
 			}
 		}
@@ -230,7 +235,7 @@ public class LivingObject extends MovingObject{
 	
 	public void checkAndHandleReflect(GameObject otherOb) {
 		if(otherOb instanceof Explosives) {
-			if(((Explosives) otherOb).getWhoShot() == this) {
+			if(((Explosives) otherOb).isShotImune(this)) {
 				return;
 			}
 		}
@@ -359,24 +364,102 @@ public class LivingObject extends MovingObject{
 			}
 		}
 
-/*
-		g.setColor(Color.red);
-		g.fillRect((int) Math.round(moveDirection.getX()*Game.screenRatio),(int) Math.round(moveDirection.getY()*Game.screenRatio), 10, 10);
-		g.setColor(Color.GREEN);
-		g.fillRect((int) Math.round(getRotationPoint().getX()*Game.screenRatio),(int) Math.round(getRotationPoint().getY()*Game.screenRatio), 9, 9);
-		g.setColor(Color.BLUE);
-		g.fillRect((int) Math.round(movePoint.getX()*Game.screenRatio),(int) Math.round(movePoint.getY()*Game.screenRatio), 8, 8);
-		g.setColor(Color.black);	
-*/
+
+//		g.setColor(Color.red);
+//		getRotationPoint().renderCorner(g, 10);
+//		g.setColor(Color.GREEN);
+//		g.fillRect((int) Math.round(getRotationPoint().getX()*Game.screenRatio),(int) Math.round(getRotationPoint().getY()*Game.screenRatio), 9, 9);
+//		g.setColor(Color.BLUE);
+//		g.fillRect((int) Math.round(movePoint.getX()*Game.screenRatio),(int) Math.round(movePoint.getY()*Game.screenRatio), 8, 8);
+//		g.setColor(Color.black);	
+//
 	//	g.fillRect((int) Math.round(attachments[0].getAttachmentRP().getX()*Game.screenRatio),(int) Math.round(attachments[0].getAttachmentRP().getY()*Game.screenRatio), 8, 8);
 	//	getCollisionSquare().render(g);
 				
 	}
 	
-
+	public void addShotImune(GameObject toAdd) {
+		GameObject[] arr = shotImunes;
+		shotImunes = new GameObject[arr.length+1];
+		for(int i = 0; i < arr.length; i++) {
+			shotImunes[i] = arr[i];
+		}
+		shotImunes[shotImunes.length-1] = toAdd;
+	}
+	
+	public void addShotImunes(GameObject[] toAdds) {
+		GameObject[] arr = shotImunes;
+		shotImunes = new GameObject[arr.length+toAdds.length];
+		for(int i = 0; i < arr.length; i++) {
+			shotImunes[i] = arr[i];
+			if(i < toAdds.length) {
+				shotImunes[i+arr.length] = toAdds[i];
+			}
+		}
+	}
+	
+	public Missile[] makePeriodicExplosion(int distance, Corner rp, int chunks, GameObject[] im){
+		Missile[] m = new Missile[chunks];
+		Corner[] rpList = GameObject.generatePeriodicObject(50, chunks, rp).getCorners();
+		Corner[] mdList = GameObject.generatePeriodicObject(70, chunks, rp).getCorners();
+		
+		for(int i = 0; i < chunks; i++) {
+			m[i] = Missile.makeNewMissile(rpList[i], 1, mdList[i], im);
+		}
+		
+		return m;
+	}
 
 	public ObjectAttachment[] getAttachments() {
 		
 		return attachments;
+	}
+	
+	public GameObject[] getShotImunes() {
+		return shotImunes;
+	}
+	
+	public boolean isShotImune(GameObject go) {
+		for(int i = 0; i < getShotImunes().length; i++) {
+			if(go == getShotImunes()[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public double getVelToGoDistance(double distance) {
+		return Math.sqrt(2*distance*acceleration);
+	}
+	
+	public void pushFromObject(GameObject go, double speed) {
+		Corner c = new Corner(getRotationPoint(), go.getRotationPoint());
+		double goalAngle = c.getAngle(go.getRotationPoint());
+		Corner newMD = Corner.makeCornerUsinAngle(getMP().getPointDistance(getRotationPoint()), goalAngle, getRotationPoint());
+		setMoveDirection(newMD);
+		setCurrentSpeed(speed);
+		getNewRatios();
+		setNewVels();
+		
+	}
+	
+	public void startStun(int stunLenght) {
+		stunTimer = stunLenght;
+		isStunned = true;
+
+	}
+	
+	public void updateStun() {
+		if(isStunned == true) {
+			setForward(false);
+			stunTimer--;
+			if(stunTimer <= 0) {
+				isStunned = false;
+			}
+		}
+	}
+	
+	public boolean getIsStunned() {
+		return isStunned;
 	}
 } 
