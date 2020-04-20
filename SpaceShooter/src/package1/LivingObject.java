@@ -365,13 +365,13 @@ public class LivingObject extends MovingObject{
 		}
 
 
-		g.setColor(Color.red);
-		getMD().renderCorner(g, 10);
+//		g.setColor(Color.red);
+//		getRotationPoint().renderCorner(g, 10);
 //		g.setColor(Color.GREEN);
 //		g.fillRect((int) Math.round(getRotationPoint().getX()*Game.screenRatio),(int) Math.round(getRotationPoint().getY()*Game.screenRatio), 9, 9);
 //		g.setColor(Color.BLUE);
 //		g.fillRect((int) Math.round(movePoint.getX()*Game.screenRatio),(int) Math.round(movePoint.getY()*Game.screenRatio), 8, 8);
-		g.setColor(Color.black);	
+//		g.setColor(Color.black);	
 //
 	//	g.fillRect((int) Math.round(attachments[0].getAttachmentRP().getX()*Game.screenRatio),(int) Math.round(attachments[0].getAttachmentRP().getY()*Game.screenRatio), 8, 8);
 	//	getCollisionSquare().render(g);
@@ -426,6 +426,10 @@ public class LivingObject extends MovingObject{
 			}
 		}
 		return false;
+	}
+	
+	public double getVelToGoDistance(double distance) {
+		return Math.sqrt(2*distance*acceleration);
 	}
 	
 	public void pushFromObject(GameObject go, double speed) {

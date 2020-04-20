@@ -11,7 +11,7 @@ public class Player extends LivingObject{
 	int pulseCooldownTimer = 0, pulseCooldown = 800;
 	boolean pulse = false;
 	int stunLenght = 300;
-	double pulseRange = 1200, pulsePushSpeed = 12;
+	double pulseRange = 900;
 
 	int  berserkModeCooldown = 1800, berserkModeTimer = berserkModeCooldown, costInLives = 5;
 	int exploWave = 10, exploWaveCounter = 0,  exploTimer = 0,  exploLenght = 20;
@@ -166,7 +166,7 @@ public class Player extends LivingObject{
 		if(pulseCooldownTimer <= 0) {
 			for(LivingObject go : gos) {
 				if(go.getRotationPoint().getPointDistance(getRotationPoint()) < pulseRange) {
-					go.pushFromObject(this, pulsePushSpeed);
+					go.pushFromObject(this, go.getVelToGoDistance(pulseRange));
 					go.startStun(stunLenght);
 				}
 			}
