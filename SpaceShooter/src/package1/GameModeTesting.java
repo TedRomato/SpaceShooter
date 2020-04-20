@@ -3,14 +3,14 @@ package package1;
 import java.awt.event.KeyEvent;
 
 public class GameModeTesting extends Game{
-	private Player p = super.p;
+	private Player p;
 
 
 	public GameModeTesting(int sw, int sh) {
 		super(sw, sh, true);
-		Hunter hu = Hunter.makeNewHunter(500,200, getAiEnemys());
+	//  Hunter hu = Hunter.makeNewHunter(500,200, getAiEnemys());
 	//	SpaceCruiser ai = SpaceCruiser.makeNewSpaceCruiser(500,200,getAiEnemys());
-	//	SpaceCanon ai1 = SpaceCanon.makeNewSpaceCanon(1000,600,getAiEnemys());
+		SpaceCanon ai1 = SpaceCanon.makeNewSpaceCanon(1000,600,getAiEnemys());
 	//	SpaceCanon ai12 = SpaceCanon.makeNewSpaceCanon(1000,800, getAiEnemys());
 	//	SpaceCanon ai13 = SpaceCanon.makeNewSpaceCanon(1200,860,getAiEnemys());
 	//	SpaceCanon ai14 = SpaceCanon.makeNewSpaceCanon(900,750,getAiEnemys());
@@ -20,7 +20,7 @@ public class GameModeTesting extends Game{
 	//	Mothership ai3 = Mothership.makeNewMothership(200,600,getAiEnemys());
 	//	addObToGame(hu, new int[] {4,7,9,10}); 
 	//	addObToGame(ai, new int[] {4,7,9,10}); 
-		//addObToGame(ai1, new int[] {4,7,9,10}); 
+		addObToGame(ai1, new int[] {4,7,9,10}); 
 		//addObToGame(ai3, new int[] {4,7,10}); 
 
 //		addObToGame(ai12, new int[] {4,7,9,10}); 
@@ -30,7 +30,7 @@ public class GameModeTesting extends Game{
 //		addObToGame(ai16, new int[] {4,7,9,10});
 
 
-
+		p = super.p; 
 		
 
 
@@ -42,9 +42,13 @@ public class GameModeTesting extends Game{
 		super.tick();
 		respawnMeteorsToAmount(0);
 		handleSummoners();
+		
 	}
 	
-	
+	@Override
+	public void updateDisplay() {
+		super.updateDisplay();
+	}
 	
 	
 	
