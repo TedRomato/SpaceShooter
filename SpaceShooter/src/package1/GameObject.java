@@ -126,6 +126,8 @@ public class GameObject {
 		
 	}
 	
+	//generates random Corner in a rectangle
+	
 	public static Corner generateCornerInRect(double x,double y,double width,double height) {
 		double xCoord;
 		double yCoord;
@@ -138,6 +140,9 @@ public class GameObject {
 	private static int pickRandomSide() {
 		return (int) Math.floor(Math.random()*4);
 	}
+	
+	//returns true if rotation point is outside specified rectangle
+	//returns false if is Inside rectangle
 	
 	public boolean checkIfOutsideRect(int x, int y, int width, int height) {
 		if(this.getRotationPoint().getX() > x + width || this.getRotationPoint().getX() < x) {
@@ -164,11 +169,21 @@ public class GameObject {
 		}
 	}
 	
+	
+
+	public void handleCollision(GameObject ob) {
+		if(ob instanceof Missile) {
+			if(!((Missile) ob).isImune(this)) {
+				setHP(getHP() - ((Missile) ob).getDmg());
+				startInvulnurability();
+			}
+		}else {
+			setHP(getHP() - 1);
+			startInvulnurability();
+		}
 
 	
-	
-	
-	
+	}
 	
 	protected boolean checkCollisionInside(GameObject go) {
 		boolean isCollision = false;
@@ -221,7 +236,6 @@ public class GameObject {
 	}
 	
 	private Corner[] getCornerReflectedCorners(Corner collided, Corner one, Corner two) {
-		// TODO vyresit pro nekonecno a nulu
 		double[] collidedRP = new double[] {collided.getX(), collided.getY()};
 		Corner one1 = new Corner(new double[] {one.getX(),one.getY()},collidedRP);
 		Corner two1 = new Corner(new double[] {two.getX(),two.getY()},collidedRP);
@@ -324,10 +338,7 @@ public class GameObject {
 			
 		}
 		corners = gettingNewCornerHandle(go.getCorners()[0],go.getCorners()[go.getCorners().length-1],getCorners()[0],getCorners()[getCorners().length-1], corners);
-	/*	if(corners.length == 2) {
-			System.out.println("corne1 x: " + corners[0].getX() + "corner1 y: " + corners[0].getY());
-			System.out.println("corner2 x: " + corners[1].getX() +"corner2 y: " + corners[1].getY());
-		} */
+	
 		
 		return corners;
 	}
@@ -341,7 +352,6 @@ public class GameObject {
 		double abo[] = getAB(o1,o2);
 		double abl[] = getAB(l1,l2);
 		//crossing point x;
-	//	System.out.println("ABO : " + abo[0] + "  " + abo[1] + "   ABl : " + abl[0] + "  " + abl[1]);
 		if(abo[0] == Double.POSITIVE_INFINITY || abo[0] == Double.NEGATIVE_INFINITY) {
 			if(abl[0] * o1.getX() + abl[1] <= o1.getY() && abl[0] * o1.getX() + abl[1] >= o2.getY() || abl[0] * o1.getX() + abl[1] >= o1.getY() && abl[0] * o1.getX() + abl[1] <= o2.getY()) {
 				if(o1.getX() <= l1.getX() && o1.getX() >= l2.getX() || o1.getX() <= l2.getX() && o1.getX() >= l1.getX()) {
@@ -386,13 +396,11 @@ public class GameObject {
 		if(b == true && newB == true) {
 			return false;
 		}
-		//if(b == false && newB == true)
 		else{
 			return true;
 		}
 	}
 	
-	//rotates and moves ob
 	
 		
 	
@@ -439,6 +447,7 @@ public class GameObject {
 	}
 	
 	
+	//Returns farthest distance from rp to this objects corner
 	public double getFurthestDistance() {
 		double furthest = 0;
 		for(Corner c : getCorners()) {

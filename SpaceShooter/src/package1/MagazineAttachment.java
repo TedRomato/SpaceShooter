@@ -49,15 +49,16 @@ public class MagazineAttachment extends InteractiveAttachment{
 	}
 	
 	public void upgradeMag(int toAdd) {
-        this.setMagazineMaxSize(getMagazineMaxSize()+toAdd);
-        this.magazineReloadTimer = 0;
-    }
+
+		this.setMagazineMaxSize(getMagazineMaxSize()+toAdd);
+		this.magazineReloadTimer = 0;
+	}
 	
 	public void upgradeMagReload(int toSubtract) {
 		if(magazineReloadLenght - toSubtract > 60) {
 			magazineReloadLenght -= toSubtract;
 		}
-	}
+	} 
 	
 	public void reloadMag() {
 		magazineSize = 0;
@@ -87,6 +88,7 @@ public class MagazineAttachment extends InteractiveAttachment{
 
 	public void setMagazineSize(int magazineSize) {
 		this.magazineSize = magazineSize;
+		
 	}
 
 
@@ -99,6 +101,7 @@ public class MagazineAttachment extends InteractiveAttachment{
 
 	public void setMagazineMaxSize(int magazineMaxSize) {
 		this.magazineMaxSize = magazineMaxSize;
+		this.magazineSize = magazineMaxSize;
 	}
 
 

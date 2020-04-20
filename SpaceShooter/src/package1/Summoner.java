@@ -38,7 +38,7 @@ public class Summoner extends AI{
 	
 	public AI handleSummoner(GameObject[] enemys) {
 		updateTimer();
-		if(onCooldown == false) {
+		if(onCooldown == false && !getIsStunned()) {
 			onCooldown = true;
 			return summonAI(enemys);
 		}else {

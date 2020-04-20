@@ -9,6 +9,7 @@ public class ObjectAttachment extends GameObject{
 	boolean rotateWithParentOb = true;
 	protected int reloadTimer;
 	protected int reloadLenght;
+
 	
 	public ObjectAttachment(Corner[] corners, double[] rotationPoint,double[] attachmentRP, double rotationAngle) {
 		super(corners, rotationPoint, rotationAngle) ;
@@ -74,7 +75,7 @@ public class ObjectAttachment extends GameObject{
 		rotateWithParentOb = b;
 	}
 	
-	protected Missile shoot(GameObject ob) {
+	protected Missile shoot(GameObject[] imunes) {
 		return null;
 	}
 	
@@ -102,5 +103,6 @@ public class ObjectAttachment extends GameObject{
 		return attachmentRP;
 	}
 	
+
 	
 }

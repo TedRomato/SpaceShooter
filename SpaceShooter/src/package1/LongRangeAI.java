@@ -29,7 +29,7 @@ public class LongRangeAI extends AI{
 			updateInSD(enemys, gos, ais);
 			getClosestEnemy(enemys);
 
-			
+		
 		}else {
 			if(wasInStoppingDistance == true) {
 				wasInStoppingDistance = false;

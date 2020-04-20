@@ -339,6 +339,10 @@ public class MovingObject extends GameObject{
 		return moveDirection;
 	}
 	
+	public void printXYRatio() {
+		System.out.println(xyRatio);
+	}
+	
 	
 	
 }
