@@ -26,7 +26,7 @@ public class Window extends JFrame implements KeyListener{
 	private Game game;
 
 	public Window() {
-		super("EPIC TITLE");
+		super("EPIC FUCK UP");
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height;
 		int screenWidth = screenSize.width;
