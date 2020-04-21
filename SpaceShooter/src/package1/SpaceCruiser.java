@@ -116,7 +116,7 @@ public class SpaceCruiser extends LongRangeAI{
 	    Corner[] corners = new Corner[] {c1,c2,c3,c4,c5,c6}; 
 	    mc = new InteractiveAttachment(corners, new Corner(new double[] {x ,y}),new double[] {x ,y}, 5, new Corner(new double[] {x, y + 50},new double[] {x, y}),1000,70);
 	    mc.setDmg(4);
-	    mc.setReloadTimer(90);
+	    mc.setReloadLenght(90);
 	    mc.setRotationSegment(new double[] {-60,60});
 	    //Side canons 
 	    MagazineAttachment canon1;
@@ -150,7 +150,6 @@ public class SpaceCruiser extends LongRangeAI{
 	    canon2.setInaccuracy(100);
 //	    double[] segment1 = new double[] {-40,200};
 //	    double[] segment2 = new double[] {-200,40};
-//	    canon1.setRotationSegment(segment1);
 //	    canon2.setRotationSegment(segment2);
 	    canon1.setMagazineParameters(10,90);
 	    canon2.setMagazineParameters(10,90);

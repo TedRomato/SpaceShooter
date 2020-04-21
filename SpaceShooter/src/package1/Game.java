@@ -190,7 +190,7 @@ public class Game extends JPanel implements MouseListener{
 		updateAllObs();
 		handleAis();
 		handleSummoners();
-		handelExplosives();
+		handleExplosives();
         deleteNoHpObs();
 
 	}
@@ -212,7 +212,7 @@ public class Game extends JPanel implements MouseListener{
 		}
 	}
 	
-	public void handelExplosives() {
+	public void handleExplosives() {
 		for(Explosives explo : explosives) {
 			explo.updateExplosive();
 			if(explo.getShouldExplode()) {
@@ -287,29 +287,35 @@ public class Game extends JPanel implements MouseListener{
 					}
 					if(att instanceof InteractiveAttachment) {
 						if(att instanceof ExplosiveShootingAtt) {
-							if(att.getReloadLenght() >= att.getReloadTimer() && att.shouldShoot(att.getAimCorner())) {
+							if(sob instanceof Player) {
+								if(att.getReloadTimer() >= att.getReloadLenght() &&  att.shouldShoot()) {
+									addObToGame(((ExplosiveShootingAtt) att).Fire(sob.getShotImunes()),new int[] {5,6,7,9,10});
+									att.setReloadTimer(0);
+								}
+							}
+							else if(att.getReloadTimer() >= att.getReloadLenght() && att.shouldShoot(att.getAimCorner())) {
 								addObToGame(((ExplosiveShootingAtt) att).Fire(sob.getShotImunes()),new int[] {5,6,7,9,10});
-								att.setReloadLenght(0);
+								att.setReloadTimer(0);
 							}
 						}
 						else if(sob instanceof AI) {
-							if(att.getReloadLenght() >= att.getReloadTimer() && att.shouldShoot(att.getAimCorner())) {
+							if(att.getReloadTimer() >= att.getReloadLenght() && att.shouldShoot(att.getAimCorner())) {
 								addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,6,7,8,9,10,11});
-								att.setReloadLenght(0);
+								att.setReloadTimer(0);
 							}
 						}
 						else if(sob instanceof SpecialCharge) {
-							if(att.getReloadLenght() >= att.getReloadTimer() && att.shouldShoot()) {
+							if(att.getReloadTimer() >= att.getReloadLenght() && att.shouldShoot()) {
 								addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,6,7,8,9,10,11});
-								att.setReloadLenght(0);
+								att.setReloadTimer(0);
 							}
 						}
-						else if(att.getReloadLenght() >= att.getReloadTimer() && att.shouldShoot()) {
+						else if(att.getReloadTimer() >= att.getReloadLenght() && att.shouldShoot()) {
 							addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,6,7,8,9,10,11});
-							att.setReloadLenght(0);
+							att.setReloadTimer(0);
 						}
-						if(att.getReloadLenght() != att.getReloadTimer()) { 
-							att.setReloadLenght(att.getReloadLenght()+1);
+						if(att.getReloadTimer() != att.getReloadLenght()) { 
+							att.setReloadTimer(att.getReloadTimer()+1);
 						}
 					}
 				}
@@ -374,6 +380,8 @@ public class Game extends JPanel implements MouseListener{
 			ob.updateInvulnurability();
 		}
 	}
+	
+	//Deletes all GameObjects with <= 0 HP
 	
 	private void deleteNoHpObs() {
 		for(GameObject ob : objects) {

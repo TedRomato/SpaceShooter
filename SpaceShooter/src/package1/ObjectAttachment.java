@@ -102,6 +102,10 @@ public class ObjectAttachment extends GameObject{
 	public Corner getAttRP() {
 		return attachmentRP;
 	}
+
+	public void setReloadTimer(int i) {
+		reloadTimer = i;
+	}
 	
 
 	

@@ -445,7 +445,6 @@ public class Player extends LivingObject{
 	    canon.setMagazineParameters(5, 60);
 	    canon.setAttRangle(25);
 	    canon.setRotateWithParentOb(false);
-	//    canon.setFireSideShooter(true);
 	//    canon.setRotationSegment(new double[] {-220,220});
 	    
 	    

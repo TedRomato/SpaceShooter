@@ -36,7 +36,7 @@ public class Missile extends MovingObject{
 	
 	public boolean isFriendlyBullet(Missile ms) {
 		for(GameObject go1 : getImunne()) {
-			for(GameObject go2 : getImunne()) {
+			for(GameObject go2 : ms.getImunne()) {
 				if(go1 == go2) {
 					return true;
 				}

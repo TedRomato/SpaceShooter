@@ -79,7 +79,7 @@ public class Grenader extends LongRangeAI{
 	    canon.setFireGrenade(true);
 	    canon.setInaccuracy(200);
 	    canon.setMagazineParameters(4, 240);
-	    canon.setReloadTimer(100);
+	    canon.setReloadLenght(100);
 
 	    
 		ai = new Grenader(body, new double[] {x,y}, 10, md, gd, wp);

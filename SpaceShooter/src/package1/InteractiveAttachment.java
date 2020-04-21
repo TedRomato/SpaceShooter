@@ -31,48 +31,11 @@ public class InteractiveAttachment extends ObjectAttachment{
 		shootPoint = new Corner(new double[] {wayPoint.getX(),wayPoint.getY()+20}, getRotationPoint());
 		shootDirection = new Corner(new double[] {wayPoint.getX(),wayPoint.getY()+40}, getRotationPoint());
 		aimCorner = new Corner(rp,getRotationPoint());
-		this.reloadTimer = 10;
-		makeShotTrajectory(lenght, width);
-		
+		this.reloadLenght = 10;
+		this.reloadTimer = 0;
+		makeShotTrajectory(lenght, width);		
 	}
-/*	
-	private boolean checkIfInSegment(int segment, double angleToRotate) {
-		//left / minus segment 
-		//rotateLeft
-		if(getRotationSegment().length != 2 ) {
-			return true;
-		}
-		double attAngle = getAttachmentAngle();
-		if(segment == 0) {
-			if(attAngle - angleToRotate < getRotationSegment()[0]) {
-				return false;
-			}else {
-				return true;
-			}
-		}else if(segment == 1) {
-			if(attAngle + angleToRotate > getRotationSegment()[1]) {
-				return false;
-			}else {
-				return true;
-			}
-		}else {
-			return false;
-		}
-	}
-	
-	private boolean decideIfRightInSegment(double angle) {
-		double minusDifference;
-		double plusDifference;
-		minusDifference = 360 - angle - getRotationSegment()[0];
-		plusDifference = angle - getRotationSegment()[1];
-		if(plusDifference > minusDifference) {
-			return true;
-		}else {
-			return false;
-		}
-		
-	}
-	*/
+
 	public void rotateToCorner(Corner c) {
 		Corner newC = new Corner(c , getAttachmentRP());
 		Corner newC2 = new Corner(getWayPoint(),getAttachmentRP());
@@ -107,37 +70,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 		}
 		
 	}
-	
-/*
-	public void rotateToCorner(Corner c) {
-		Corner newC = new Corner(c , getAttachmentRP());
-		Corner newC2 = new Corner(getWayPoint(),getAttachmentRP());
-		double cAngle = newC.getAngle(getAttachmentRP());
-		double wAngle = newC2.getAngle(getAttachmentRP());
 
-		//From wangle
-		double rightDifference;
-		double leftDifference;
-		double[] differences = Corner.getAngleDifferencRL(wAngle,cAngle);
-		rightDifference = differences[0];
-		leftDifference = differences[1];
-		if(rightDifference > getAttachmentRotationAngle() && leftDifference > getAttachmentRotationAngle()) {
-			if(rightDifference < leftDifference) {
-				rotateAttachmentAroundItsCorner(getAttachmentRotationAngle());
-			}
-			if(leftDifference < rightDifference) {
-				rotateAttachmentAroundItsCorner(-getAttachmentRotationAngle());
-			}
-		}else {
-			if(rightDifference < leftDifference){
-				rotateAttachmentAroundItsCorner(rightDifference);
-			}else {
-				rotateAttachmentAroundItsCorner(-leftDifference);
-			}
-		}
-		
-	}
-	*/
 	public void rotateAttachment(double angle) {
 			super.rotateAttachment(angle);
 			wayPoint.rotateCorner(getRotationPoint(), angle);

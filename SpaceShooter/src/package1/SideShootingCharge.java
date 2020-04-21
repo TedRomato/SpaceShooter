@@ -57,22 +57,22 @@ public class SideShootingCharge extends SpecialCharge{
 			((MagazineAttachment)getAttachments()[1]).setMagazineMaxSize(1);
 			((MagazineAttachment)getAttachments()[1]).setMagazineReloadLenght(1);
 			((MagazineAttachment)getAttachments()[1]).setMagazineReloadTimer(1);
-			((MagazineAttachment)getAttachments()[1]).setReloadTimer(18);
+			((MagazineAttachment)getAttachments()[1]).setReloadLenght(18);
 
 
 			((MagazineAttachment)getAttachments()[0]).setMagazineMaxSize(1);
 			((MagazineAttachment)getAttachments()[0]).setMagazineReloadLenght(1);
 			((MagazineAttachment)getAttachments()[0]).setMagazineReloadTimer(1);
-			((MagazineAttachment)getAttachments()[0]).setReloadTimer(18);
+			((MagazineAttachment)getAttachments()[0]).setReloadLenght(18);
 
 		}else {
 			((MagazineAttachment)getAttachments()[1]).setMagazineMaxSize(8);
 			((MagazineAttachment)getAttachments()[1]).setMagazineReloadLenght(30);
-			((MagazineAttachment)getAttachments()[1]).setReloadTimer(10);
+			((MagazineAttachment)getAttachments()[1]).setReloadLenght(10);
 			
 			((MagazineAttachment)getAttachments()[0]).setMagazineMaxSize(8);
 			((MagazineAttachment)getAttachments()[0]).setMagazineReloadLenght(30);
-			((MagazineAttachment)getAttachments()[0]).setReloadTimer(10);
+			((MagazineAttachment)getAttachments()[0]).setReloadLenght(10);
 
 		}
 	}
