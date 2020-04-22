@@ -67,15 +67,14 @@ public class Player extends LivingObject{
 			if(pulseCooldownTimer >= pulseCooldown && pulseIsUnlocked) {
 				pulse = true;
 			}
-		
 		}
+		
 		if(Game.keyChecker.checkIfkeyIsPressed(berserkChar)) {
-			
+
 			if(berserkModeTimer >= berserkModeCooldown && berserkModeUnlocked && berserkMode == false) {
 				berserkMode = true;
 				this.setHP(getHP()-costInLives);
-			}
-		
+			}		
 		}
 		
 		if(Game.keyChecker.checkIfkeyIsPressed(abilityChar)) {
@@ -468,9 +467,9 @@ public class Player extends LivingObject{
 	    p.setReflectedLenght(20);
 	   //p.addFrontCanon();
 //	    p.addFrontMachineGun();
-	    p.setDashUnlocked(true);
-	    p.setPulseUnlocked(true);
-	    p.setBerserkModeUnlocked(true);
+//	    p.setDashUnlocked(true);
+//	    p.setPulseUnlocked(true);
+//	    p.setBerserkModeUnlocked(true);
 //	    p.addAttachment(straightLine);
 
 	    
