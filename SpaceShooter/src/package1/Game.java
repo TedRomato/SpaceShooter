@@ -196,9 +196,9 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void handlePulse() {
-		if(p.pulse) {
+		if(p.isPulse()) {
 			p.usePulse(ais);
-			p.pulse = false;
+			p.setPulse(false);
 		}
 	}
 	
