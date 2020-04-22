@@ -174,12 +174,8 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void tick() {
-		handlePulse();
-		handleBerserkModes();
-		handlePlayerOutsideSafeZone();
-		p.handlePlayerKeys();
-		updatePlayerAimPoint();
-		p.updatePlayer();
+	//	respawnMeteorsToAmount(5);
+		updatePlayer();
 		handleShooting();	
 		checkAndHandleCollision();
     	updateLivingObsReflect();
@@ -195,9 +191,18 @@ public class Game extends JPanel implements MouseListener{
 
 	}
 	
+	public void updatePlayer() {
+		handlePulse();
+		handleBerserkModes();
+		handlePlayerOutsideSafeZone();
+		p.handlePlayerKeys();
+		updatePlayerAimPoint();
+		p.updatePlayer();
+	}
+	
 	public void handlePulse() {
 		if(p.isPulse()) {
-			p.usePulse(ais);
+			p.usePulse(objects);
 			p.setPulse(false);
 		}
 	}

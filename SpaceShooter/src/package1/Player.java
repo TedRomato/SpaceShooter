@@ -8,7 +8,7 @@ public class Player extends LivingObject{
 	int zoneDamagedTimerLenght = 60;
 	int zoneDamagedTimer = 0;
 	
-	int pulseCooldownTimer = 0, pulseCooldown = 800;
+	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
 	boolean pulse = false, pulseIsUnlocked = false;
 	int stunLenght = 300;
 	double pulseRange = 900;
@@ -72,8 +72,7 @@ public class Player extends LivingObject{
 		if(Game.keyChecker.checkIfkeyIsPressed(berserkChar)) {
 
 			if(berserkModeTimer >= berserkModeCooldown && berserkModeUnlocked && berserkMode == false) {
-				berserkMode = true;
-				this.setHP(getHP()-costInLives);
+				startBerserkMode();
 			}		
 		}
 		
@@ -161,15 +160,22 @@ public class Player extends LivingObject{
 			usingMG = false;
 			}
 		}
-	
-	public void usePulse(LivingObject[] gos) {
+	public void usePulse(GameObject[] obs) {
 		if(pulseCooldownTimer >= pulseCooldown) {
-			for(LivingObject go : gos) {
-				if(go.getRotationPoint().getPointDistance(getRotationPoint()) < pulseRange) {
-					go.pushFromObject(this, go.getVelToGoDistance(pulseRange));
-					go.startStun(stunLenght);
+			for(GameObject go : obs) {
+				if(go instanceof LivingObject) {
+					if(go.getRotationPoint().getPointDistance(getRotationPoint()) < pulseRange && !isShotImune(go)) {
+						((MovingObject) go).pushFromObject(this, ((LivingObject) go).getVelToGoDistance(pulseRange));
+						((LivingObject) go).startStun(stunLenght);
+					}	
+				}else if(go instanceof Missile) {
+					if(go.getRotationPoint().getPointDistance(getRotationPoint()) < pulseRange) {
+						((MovingObject) go).pushFromObject(this, ((MovingObject) go).getCurrentSpeed());
+					}
 				}
+				
 			}
+			
 			pulseCooldownTimer = 0;
 			pulse =false;
 		}
@@ -191,7 +197,7 @@ public class Player extends LivingObject{
 		}
 	}
 	
-	private void startDash() {
+	public void startDash() {
 		if(dashCooldownTimer >= dashCooldown) {
 			updateMDtoMP();
 			getNewRatios();
@@ -200,8 +206,7 @@ public class Player extends LivingObject{
 			dashCooldownTimer = 0;
 		}
 	}
-
-	private void handleDashCooldown() {
+	public void handleDashCooldown() {
 		if(dashCooldownTimer < dashCooldown) {
 			dashCooldownTimer++;
 		}
@@ -228,6 +233,11 @@ public class Player extends LivingObject{
 				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(true);
 			}
 		}
+	}
+	
+	public void startBerserkMode() {
+		berserkMode = true;
+		this.setHP(getHP()-costInLives);
 	}
 	
 	public Missile[] handleBereserkMode() {
@@ -468,7 +478,7 @@ public class Player extends LivingObject{
 	   //p.addFrontCanon();
 //	    p.addFrontMachineGun();
 //	    p.setDashUnlocked(true);
-//	    p.setPulseUnlocked(true);
+	    p.setPulseUnlocked(true);
 //	    p.setBerserkModeUnlocked(true);
 //	    p.addAttachment(straightLine);
 
@@ -537,6 +547,11 @@ public class Player extends LivingObject{
 	public void setDashCooldown(int dashCooldown) {
 		this.dashCooldown = dashCooldown;
 	}
+
+
+
+
+
 		
 	
 }

@@ -432,16 +432,7 @@ public class LivingObject extends MovingObject{
 		return Math.sqrt(2*distance*acceleration);
 	}
 	
-	public void pushFromObject(GameObject go, double speed) {
-		Corner c = new Corner(getRotationPoint(), go.getRotationPoint());
-		double goalAngle = c.getAngle(go.getRotationPoint());
-		Corner newMD = Corner.makeCornerUsinAngle(getMP().getPointDistance(getRotationPoint()), goalAngle, getRotationPoint());
-		setMoveDirection(newMD);
-		setCurrentSpeed(speed);
-		getNewRatios();
-		setNewVels();
-		
-	}
+	
 	
 	public void startStun(int stunLenght) {
 		stunTimer = stunLenght;
