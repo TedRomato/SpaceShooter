@@ -75,9 +75,11 @@ public class LivingObject extends MovingObject{
 	}
 	
 	public void updateRotatedAngsForAtts() {
-		for(ObjectAttachment att : getAttachments()) {
-			att.fixRotatedAngle();
-			att.fixAttachmentAngleRotated();
+		if(getAttachments() != null) {
+			for(ObjectAttachment att : getAttachments()) {
+				att.fixRotatedAngle();
+				att.fixAttachmentAngleRotated();
+			}
 		}
 	}
 	
