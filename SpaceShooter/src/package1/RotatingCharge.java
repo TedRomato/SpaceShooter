@@ -67,10 +67,10 @@ public class RotatingCharge extends SpecialCharge{
 		Corner[] c = GameObject.generatePeriodicObject(35, 8, rp).getCorners();
 		RotatingCharge rc = new RotatingCharge(c,rp,0,md);
 		
-		m1.setReloadTimer(20);
-		m2.setReloadTimer(20);
-		m3.setReloadTimer(20);
-		m4.setReloadTimer(20);
+		m1.setReloadLenght(20);
+		m2.setReloadLenght(20);
+		m3.setReloadLenght(20);
+		m4.setReloadLenght(20);
 		
 		m1.setMagazineMaxSize(30);
 		m2.setMagazineMaxSize(30);

@@ -19,6 +19,7 @@ public class GameObject {
 	private int invulnerabilityTimer = 0;
 	private boolean invulnurable = false;
 	
+	double angleRotated = 0;
 	private Square collisionSquare;
 
 	
@@ -45,6 +46,7 @@ public class GameObject {
 	}
 	//updates object --> move and rotate
 	public void updateOb() {
+		angleRotated = 0;
 		moveOb();
 		rotateOb();
 	}
@@ -82,7 +84,6 @@ public class GameObject {
 				}
 			}
 			return false;
-			
 		}
 		
 		
@@ -416,12 +417,14 @@ public class GameObject {
 	public void rotateOb() {
 		for(Corner corner : corners) {
 			corner.rotateCorner(getRotationPoint(), rotationAngle);
+			angleRotated += rotationAngle;
 		}
 	}
 	
 	public void rotateOb(double angle) {
 		for(Corner corner : corners) {
 			corner.rotateCorner(getRotationPoint(), angle);
+			angleRotated += rotationAngle;
 		}
 	}
 	
@@ -467,6 +470,7 @@ public class GameObject {
 	public void rotateObAroundDifferentCorner(Corner attachmentRP, double angle, Corner getRotationPoint) {
 		for(Corner c : getCorners()) {
 			c.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
+			angleRotated += angle;
 		}
 	}
 	
@@ -565,11 +569,8 @@ public class GameObject {
 		this.collision = collision;
 	}
 
-
-	
-	
-	
-	
-	
+	public double getRotatedAngle() {
+		return angleRotated;
+	}
 
 }

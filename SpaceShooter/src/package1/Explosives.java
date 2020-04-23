@@ -15,7 +15,6 @@ public class Explosives extends LivingObject{
 	}
 	
 	public void updateOb() {
-		setCurrentSpeed(getMaxSpeed());
 		super.updateOb();
 	}
 	
@@ -94,5 +93,8 @@ public class Explosives extends LivingObject{
 	public void setSpeed(double d) {
 		setMaxSpeed(d);
 		setReflectedSpeed(getMaxSpeed());
+		setAcceleration(0);
+		setCurrentSpeed(getMaxSpeed());
+		setNewVels();
 	}
 }

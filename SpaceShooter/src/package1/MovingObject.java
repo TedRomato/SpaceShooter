@@ -55,6 +55,17 @@ public class MovingObject extends GameObject{
 
 	}
 	
+	public void pushFromObject(GameObject go, double speed) {
+		Corner c = new Corner(getRotationPoint(), go.getRotationPoint());
+		double goalAngle = c.getAngle(go.getRotationPoint());
+		Corner newMD = Corner.makeCornerUsinAngle(getMoveDirection().getPointDistance(getRotationPoint()), goalAngle, getRotationPoint());
+		setMoveDirection(newMD);
+		setCurrentSpeed(speed);
+		getNewRatios();
+		setNewVels();
+		
+	}
+	
 	
 	//relfects from  line 
 	//NOTE : it doesn't matter if objects touch with line 

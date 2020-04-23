@@ -17,6 +17,9 @@ public class AI extends LivingObject{
 	boolean isInStoppingDistance = false;
 	GameObject targetedEnemy;
 	boolean playerFocus = false;
+	int aiUpdateLenght = 5;
+	int aiUpdateTimer = aiUpdateLenght;
+
 
 	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
 		super(corners, rotationPoint, rotationAngle, md);
@@ -26,9 +29,13 @@ public class AI extends LivingObject{
 		setHP(100);
 		setReflectedLenght(80);
 		setAcceleration(getMaxSpeed() / 50);
+		getRandomUpdateFrequence();
 	}
 	//inRange = minimum distance of rp - maximum distance of rp (from sides); sides = bot - y,right - x,top - y,left - x 
 	
+	public void getRandomUpdateFrequence() {
+		aiUpdateLenght = (int) Math.round(Math.random() * 5 + 3);
+	}
 	
 	public static AI makeNewAI(double x, double y) {
 		//ai
@@ -65,16 +72,21 @@ public class AI extends LivingObject{
 	//Guides AI to goal destination, if about to crash gives priority to avoiding collision 
 	
 	public void updateAI(GameObject[] aiEnemys, GameObject[] gos, AI[] ais) {
-		getClosestEnemy(aiEnemys);
-		updateAllAimCorners(getTargetedEnemy());
-		checkAndHandleTrack(gos);
-		updateIsInStoppingDistance(getTargetedEnemy());
+		aiUpdateTimer++;
+		if(aiUpdateTimer >= aiUpdateLenght) {
+			aiUpdateTimer = 0;
+			getClosestEnemy(aiEnemys);
+			updateAllAimCorners(getTargetedEnemy());
+			checkAndHandleTrack(gos);
+			updateIsInStoppingDistance(getTargetedEnemy());
+		}
 		updateRotationToGoal();
 		updateForward();
 		if(collisionDanger == false) {
 			setGoalToGameObject(getTargetedEnemy());
 		}
 		handleAllFriendlyFire(ais);
+		
 	}
 	
 	public void handleAllFriendlyFire(AI[] ais) {
@@ -375,7 +387,7 @@ public class AI extends LivingObject{
 		if(getAttachments() != null) {
 			for(ObjectAttachment att : getAttachments()) {
 				if(att instanceof InteractiveAttachment) {
-					((InteractiveAttachment) att).setAimCorner(((InteractiveAttachment) att).getNewAimCorner(go));
+					((InteractiveAttachment) att).updateAimPoint(go);
 				}
 			}
 		}

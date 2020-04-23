@@ -84,6 +84,7 @@ public class Mothership extends Summoner{
 	    ai.setHP(12);
 	    ai.getClosestEnemy(enemys);
 	    ai.setSummoningSpeed(200);
+	    ai.setPlayerFocus(true);
 	    return ai;
 	}
 	
