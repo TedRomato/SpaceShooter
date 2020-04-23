@@ -572,5 +572,9 @@ public class GameObject {
 	public double getRotatedAngle() {
 		return angleRotated;
 	}
+	
+	public void setAngleRotated() {
+		
+	}
 
 }
