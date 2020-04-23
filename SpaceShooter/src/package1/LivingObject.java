@@ -48,6 +48,8 @@ public class LivingObject extends MovingObject{
 	
 	
 	public void updateOb() {
+		angleRotated = 0;
+		
 		updateStun();
 		
 		updateSpeed();

@@ -30,7 +30,7 @@ public class MovingObject extends GameObject{
 	
 	
 	public void updateOb() {
-		
+		angleRotated = 0;
 		moveOb();
 		rotateOb();
 	

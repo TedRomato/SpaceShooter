@@ -23,7 +23,7 @@ public class GameModeTesting extends Game{
 	//	Mothership ai3 = Mothership.makeNewMothership(200,600,getAiEnemys());
 	//	addObToGame(hu, new int[] {4,7,9,10}); 
 	//	addObToGame(ai, new int[] {4,7,9,10,11}); 
-		addObToGame(ai1, new int[] {4,7,9,10,11}); 
+	//	addObToGame(ai1, new int[] {4,7,9,10,11}); 
 		//addObToGame(ai1, new int[] {4,7,9,10}); 
 		//addObToGame(ai3, new int[] {4,7,10}); 
 		
@@ -38,7 +38,7 @@ public class GameModeTesting extends Game{
 	//	addObToGame(gr,new int[] {4,7,9,10,11});
 		Shield s = Shield.makeShield(new Corner(new double[] {500,500}), 150);
 		s.setUpShield(true, new GameObject[] {}, p);
-		addObToGame(s, new int[] {1,2,3,4,5,6,7,8,9,10,11});
+	//	addObToGame(s, new int[] {1,2,3,4,5,6,7,8,9,10,11});
 	//	spawnBunchOfMines(12);
 		
 
