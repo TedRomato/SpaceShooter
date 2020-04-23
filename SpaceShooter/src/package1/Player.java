@@ -2,6 +2,7 @@ package package1;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -13,6 +14,8 @@ import javax.imageio.ImageIO;
 
 
 public class Player extends LivingObject{
+	
+	double d = 0.01;
 	
 	boolean wasDamagedByZone = false;
 	int zoneDamagedTimerLenght = 60;
@@ -294,6 +297,7 @@ public class Player extends LivingObject{
 		handleDashCooldown();
 		handlePulseCooldown();
 		rotateGuns();
+		d+=0.01;
 	}
 	
 	public void rotateGuns() {
@@ -515,13 +519,14 @@ public class Player extends LivingObject{
 	public void render(Graphics g) {
 		super.render(g);
 		Graphics2D g2 = (Graphics2D) g;
-		//AffineTransform trans1 = new AffineTransform();
-		//trans1.rotate(1,this.getAttachments()[2].getAttachmentRP().getX()*Game.camera.toMultiply() + Game.camera.toAddX(),this.getAttachments()[2].getAttachmentRP().getY()*Game.camera.toMultiply() + Game.camera.toAddY());
-		//AffineTransform old1 = g2.getTransform();
-		//g2.transform(trans1);
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		AffineTransform trans1 = new AffineTransform();
+		trans1.rotate(Math.toRadians(this.getRotatedAngle()),(this.getRotationPoint().getX()*Game.camera.toMultiply() + Game.camera.toAddX()),(int)(this.getRotationPoint().getY()*Game.camera.toMultiply() + Game.camera.toAddY()));
+		AffineTransform old1 = g2.getTransform();
+		g2.transform(trans1);
 		g2.drawImage(PlayerSkin,(int)((this.getRotationPoint().getX()-41)*Game.camera.toMultiply() + Game.camera.toAddX()),(int)((this.getRotationPoint().getY()-47)*Game.camera.toMultiply() + Game.camera.toAddY()),(int)(90*Game.screenRatio),(int)(115*Game.screenRatio),null);
 		//g2.drawImage(PlayerCannon,(int)((this.getAttachments()[2].getAttachmentRP().getX()-5)*Game.camera.toMultiply() + Game.camera.toAddX()),(int) ((this.getAttachments()[2].getAttachmentRP().getY()+2)*Game.camera.toMultiply() + Game.camera.toAddY()), (int)(14*Game.screenRatio),(int)(40*Game.screenRatio),null);
-		//g2.setTransform(old1);
+		g2.setTransform(old1);
 	}
 
 	public boolean isBerserkModeUnlocked() {

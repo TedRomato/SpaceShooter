@@ -185,10 +185,8 @@ public class Game extends JPanel implements MouseListener{
         removeObsOut();
 		updateAllObs();
 		handleAis();
-
 		handleSummoners();
 		handleExplosives();
-
         deleteNoHpObs();
 
 	}
