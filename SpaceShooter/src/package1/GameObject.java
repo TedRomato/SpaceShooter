@@ -82,7 +82,6 @@ public class GameObject {
 				}
 			}
 			return false;
-			
 		}
 		
 		

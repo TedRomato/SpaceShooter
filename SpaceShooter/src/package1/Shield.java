@@ -1,17 +1,18 @@
 package package1;
 
+import java.awt.Graphics;
 
 public class Shield extends GameObject{
-
-	boolean AIBlock = false;
-	GameObject[] whoToBlock = new GameObject[0];
-	
-		
 	public Shield(Corner[] corners, Corner rp, double rotationAngle) {
 		super(corners, rp, rotationAngle);
 		// TODO Auto-generated constructor stub
 	}
+
+	GameObject parent;
+	boolean AIBlock = false;
+	GameObject[] whoToBlock = new GameObject[0];
 	
+
 	
 
 	public static Shield makeShield(Corner rp, int radius) {
@@ -25,8 +26,8 @@ public class Shield extends GameObject{
 			corners[i] = outerCorners[i];
 			corners[cornerAmount*2-1 - i] = innerCorners[i];
 		}
-		corners[cornerAmount*2] = innerCorners[innerCorners.length-1];
-		corners[cornerAmount*2 + 1] = outerCorners[outerCorners.length-1];
+		corners[cornerAmount*2] = new Corner(innerCorners[innerCorners.length-1],rp);
+		corners[cornerAmount*2 + 1] = new Corner(outerCorners[outerCorners.length-1], rp);
 		
 		return new Shield(corners, rp, 0);
 		
@@ -62,9 +63,23 @@ public class Shield extends GameObject{
 		return false;
 	}
 	
-	public void setUpShield(boolean aiBlock, GameObject[] toBlock) {
+	public void updateOb() {
+		if(parent != null) {
+			setRotationPoint(parent.getRotationPoint());
+			rotateOb();
+			getCollisionSquare().setToRP(getRotationPoint());
+		}
+	}
+	
+	public void setUpShield(boolean aiBlock, GameObject[] toBlock, GameObject go) {
 		AIBlock = aiBlock;
 		whoToBlock = toBlock;
+		parent = go;
+	}
+	
+	public void render(Graphics g) {
+		super.render(g);
+	//	getCollisionSquare().render(g);
 	}
 
 }

@@ -1,8 +1,6 @@
 package package1;
 
 
-
-
 public class Player extends LivingObject{
 	boolean wasDamagedByZone = false;
 	int zoneDamagedTimerLenght = 60;
@@ -481,6 +479,9 @@ public class Player extends LivingObject{
 	    p.setPulseUnlocked(true);
 //	    p.setBerserkModeUnlocked(true);
 //	    p.addAttachment(straightLine);
+
+//	    Shield s = Shield.makeShield(new Corner(rp), 150);
+//	    p.addAttachment(s);
 
 	    
 	    return p;
