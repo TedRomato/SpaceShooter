@@ -48,6 +48,8 @@ public class LivingObject extends MovingObject{
 	
 	
 	public void updateOb() {
+		fixRotatedAngle();
+		updateRotatedAngsForAtts();
 		
 		updateStun();
 		
@@ -67,11 +69,14 @@ public class LivingObject extends MovingObject{
 			updateMDtoMP();			
 			getNewRatios();
 			setNewVels();
-
-
 		}
-		
+	}
 	
+	public void updateRotatedAngsForAtts() {
+		for(ObjectAttachment att : getAttachments()) {
+			att.fixRotatedAngle();
+			att.fixAttachmentAngleRotated();
+		}
 	}
 	
 

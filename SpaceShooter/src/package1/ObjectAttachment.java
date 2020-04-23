@@ -118,6 +118,14 @@ public class ObjectAttachment extends GameObject{
 		attachmentAngleRortated = a;
 	}
 	
+	public void fixAttachmentAngleRotated() {
+		if(attachmentAngleRortated > 360) {
+			attachmentAngleRortated -= 360;
+		}else if(attachmentAngleRortated < -360) {
+			attachmentAngleRortated -= -360;
+		}
+	}
+	
 
 	
 }
