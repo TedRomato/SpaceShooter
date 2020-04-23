@@ -37,12 +37,12 @@ public class GameModeTower extends Game{
 	private JLabel waveDisplay, PlayerHPDisplay, PlayerAmmoDisplay, GameOver, PowerUpDisplay, MachineGunAmmoDisplay, RocketAmmoDisplay;
 	private Corner spawnCorner;
 	private JProgressBar TowerHPDisplay, PlayerReloadTime, MachineGunReload, FaceCannonReload, DashRefill;
-	private JButton Power1, Power2, Power3, Power4, Power5;
+	private JButton Power1, Power2, Power3, Power4, Power5, Power6, Power7;
 	private BufferedImage HealthIcon, AmmoIcon , Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, DashRefillIcon;
 	private Font font = new Font("josef", Font.PLAIN, 25);
 	private Container PowerContainer;
 	private int AIcount = 90;
-	private int wave = 6;
+	private int wave = 1;
 	private int waveCount = 0;
 	private int PowerLevel = 0;
 	private int TowerBaseHP=1000;
@@ -189,7 +189,7 @@ public class GameModeTower extends Game{
 				if(!p.isDashUnlocked()) {	
 					p.setDashUnlocked(true);
 					DashRefill.setMaximum(p.getDashCooldown());
-					DashRefill.setValue(p.getDashCooldown()-p.getDashCooldownTimer());
+					DashRefill.setValue(p.getDashCooldown());
 					add(DashRefill); 
 				} 
 				else {
@@ -201,6 +201,7 @@ public class GameModeTower extends Game{
 				
 			}
 		});
+		
 		
 		PowerUpDisplay = new JLabel("");
 		PowerUpDisplay.setFont(font);
@@ -307,17 +308,30 @@ public class GameModeTower extends Game{
 		TowerHPDisplay.setString(Tower.getHP() + "/" + TowerBaseHP);
 		PlayerHPDisplay.setText(""+p.getHP());
 		PlayerAmmoDisplay.setText("" + ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize());
-		PlayerReloadTime.setValue(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadTimer());
+		if(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getReloadingMag()) {
+			PlayerReloadTime.setValue(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadTimer());
+		}else  {
+			PlayerReloadTime.setValue(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadLenght());
+		}
 		if(p.machinegun!=-1) {
-			MachineGunReload.setValue(((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineReloadTimer());
+			if(((MagazineAttachment)p.getAttachments()[p.machinegun]).getReloadingMag()) {
+				MachineGunReload.setValue(((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineReloadTimer());
+			}else {
+				MachineGunReload.setValue(((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineReloadLenght());
+			}
 			MachineGunAmmoDisplay.setText(""+((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineMaxSize());
 		}
 		if(p.faceCanon!=-1) {
-			FaceCannonReload.setValue(((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineReloadTimer());
+			if(((MagazineAttachment)p.getAttachments()[p.faceCanon]).getReloadingMag()) {
+				FaceCannonReload.setValue(((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineReloadTimer());
+			}else {
+				FaceCannonReload.setValue(((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineReloadLenght());
+
+			}
 			RocketAmmoDisplay.setText(""+((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineMaxSize());
 		}
 		if(p.isDashUnlocked()) {
-			DashRefill.setValue(p.getDashCooldown()-p.getDashCooldownTimer());
+			DashRefill.setValue(p.getDashCooldownTimer());
 		}
 	}
 	public void nextWave() {
@@ -341,14 +355,12 @@ public class GameModeTower extends Game{
 			PUpicked = false;
 		}
 		if((wave-1)%2==0 && !PUpicked&&wave!=1) {
-			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;		
-			PUrnd1 = 1;
+			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;	
 			choosePowerUps(PUrnd1,125,250); 
 			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			while(PUrnd1 == PUrnd2) {	
 				PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			}
-			PUrnd2 = 2;
 			choosePowerUps(PUrnd2, currentScreenWidth/2+125, 250);
 			}
 			
