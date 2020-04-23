@@ -1,9 +1,18 @@
 package package1;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 
 
 public class Player extends LivingObject{
+	double d = 0.01;
+	
 	boolean wasDamagedByZone = false;
 	int zoneDamagedTimerLenght = 60;
 	int zoneDamagedTimer = zoneDamagedTimerLenght;
@@ -20,7 +29,7 @@ public class Player extends LivingObject{
 	boolean berserkMode = false;
 	boolean berserkModeUnlocked = false;
 	
-	int dashCooldownTimer = 0, dashCooldown = 300;
+	int dashCooldownTimer = 0, dashCooldown = 300; 
 	double baseSpeed, dashSpeed = 20;
 	
 	int moveChar = 87, turnLeftChar = 65, turnRightChar = 68, dashChar = 16, reloadChar = 82, abilityChar = 32, berserkChar = 66, pushChar = 81;
@@ -30,6 +39,8 @@ public class Player extends LivingObject{
 	
 	boolean dashUnlocked = false;
 	
+	BufferedImage PlayerCannon;
+	
 	boolean usingBC = true;
 	boolean usingFC = false;
 	boolean usingMG = false;
@@ -37,7 +48,8 @@ public class Player extends LivingObject{
 	boolean fireMG = false;
 	
 	boolean cameraAttached = true;
-
+	
+	
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
 		setMaxSpeed(7);
@@ -45,6 +57,12 @@ public class Player extends LivingObject{
 		setRotationAngle(3.9);
 		setAcceleration(getMaxSpeed() / 45);
 		baseSpeed = getMaxSpeed();
+		try {
+			PlayerCannon = ImageIO.read(new File("src/Icons/PlayerCannon.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
@@ -256,6 +274,7 @@ public class Player extends LivingObject{
 	}
 	
 	public void updatePlayer() {
+		d+=0.01;
 		handleZoneTimer();
 		fireMG();
 		handleDashCooldown();
@@ -470,7 +489,18 @@ public class Player extends LivingObject{
 	    
 	    return p;
 	}
-
+  
+	public void render(Graphics g) {
+		super.render(g);
+		Graphics2D g2 = (Graphics2D) g;
+		AffineTransform trans1 = new AffineTransform();
+		trans1.rotate(d,this.getAttachments()[2].getAttachmentRP().getX()*Game.camera.toMultiply() + Game.camera.toAddX(),this.getAttachments()[2].getAttachmentRP().getY()*Game.camera.toMultiply() + Game.camera.toAddY());
+		AffineTransform old1 = g2.getTransform();
+		g2.transform(trans1);
+		g2.drawImage(PlayerCannon,(int)((this.getAttachments()[2].getAttachmentRP().getX()-5)*Game.camera.toMultiply() + Game.camera.toAddX()),(int) ((this.getAttachments()[2].getAttachmentRP().getY()+2)*Game.camera.toMultiply() + Game.camera.toAddY()), (int)(14*Game.screenRatio),(int)(40*Game.screenRatio),null);
+		g2.setTransform(old1);
+		
+	}
 	
 
 	public boolean isDashUnlocked() {

@@ -17,7 +17,7 @@ public class GameModeTesting extends Game{
 	//	Grenader gr = Grenader.makeNewGrenader(500, 500, getAiEnemys());
 
 	//	SpaceCruiser ai = SpaceCruiser.makeNewSpaceCruiser(500,200,getAiEnemys());
-		SpaceCanon ai1 = SpaceCanon.makeNewSpaceCanon(1000,600,getAiEnemys());
+		//SpaceCanon ai1 = SpaceCanon.makeNewSpaceCanon(1000,600,getAiEnemys());
 	//	SpaceCanon ai12 = SpaceCanon.makeNewSpaceCanon(1000,800, getAiEnemys());
 	//	SpaceCanon ai13 = SpaceCanon.makeNewSpaceCanon(1200,860,getAiEnemys());
 	//	SpaceCanon ai14 = SpaceCanon.makeNewSpaceCanon(900,750,getAiEnemys());
@@ -28,7 +28,7 @@ public class GameModeTesting extends Game{
 	//	addObToGame(hu, new int[] {4,7,9,10}); 
 
 	//	addObToGame(ai, new int[] {4,7,9,10}); 
-		addObToGame(ai1, new int[] {4,7,9,10}); 
+		//addObToGame(ai1, new int[] {4,7,9,10}); 
 
 	//	addObToGame(ai, new int[] {4,7,9,10,11}); 
 	//	addObToGame(ai1, new int[] {4,7,9,10,11}); 
@@ -50,7 +50,7 @@ public class GameModeTesting extends Game{
 
 		p = super.p; 
 
-		spawnBunchOfMines(12);
+		//spawnBunchOfMines(12);
 
 		
 

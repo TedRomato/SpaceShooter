@@ -25,7 +25,7 @@ public class GameObject {
 	
 	public GameObject(Corner[] corners, double[] rotationPoint2, double rotationAngle) {
 		this.corners = corners;
-		if(rotationPoint2.length != 2) {
+		if(rotationPoint2.length != 2) { 
 			System.out.println("Rotation point wrong coords in constructor");
 		}
 		

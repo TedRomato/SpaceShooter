@@ -29,7 +29,7 @@ public class LivingObject extends MovingObject{
 		setReflectedSpeed(maxSpeed*2);
 		setHP(10);
 		makeSquare();
-		addShotImune(this);
+		addShotImune(this); 
 	}
 	
 	public LivingObject(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md) {
