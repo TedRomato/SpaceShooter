@@ -14,7 +14,6 @@ public class LivingObject extends MovingObject{
 	//can have attachments 
 	//other than that same methods, but work for attachment as well
 	GameObject[] shotImunes = new GameObject[] {};
-	boolean solid = true; 
 	private boolean forward = false, turnRight = false, turnLeft = false;
 	private Corner movePoint;
 	private double maxSpeed = 7;
@@ -297,13 +296,7 @@ public class LivingObject extends MovingObject{
 	}
 
 	
-	public boolean isSolid() {
-		return solid;
-	}
 
-	public void setSolid(boolean solid) {
-		this.solid = solid;
-	}
 
 	public void makeSquare() {
 		double biggest = 0;

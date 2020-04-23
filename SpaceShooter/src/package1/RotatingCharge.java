@@ -94,7 +94,6 @@ public class RotatingCharge extends SpecialCharge{
 		rc.getNewRatios();
 		rc.setNewVels();
 		rc.setHP(15);
-		rc.setSolid(false);
 		rc.setExplodesOnImpact(false);
 		return rc;
 	}
