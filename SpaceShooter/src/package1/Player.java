@@ -15,10 +15,7 @@ import javax.imageio.ImageIO;
 
 public class Player extends LivingObject{
 	
-<<<<<<< Upstream, based on origin/master
-	
-=======
->>>>>>> e6ace73 afds
+
 	boolean wasDamagedByZone = false;
 	int zoneDamagedTimerLenght = 60;
 	int zoneDamagedTimer = 0;
@@ -515,11 +512,10 @@ public class Player extends LivingObject{
 
 	    
 	    return p;
-<<<<<<< Upstream, based on origin/master
+
 	}
   
-=======
-	}
+
 	public void rotateImage(Graphics2D g,BufferedImage img,double ra, Corner rp, int width, int height, int rpX, int rpY) {
 		AffineTransform trans = new AffineTransform();
 		trans.rotate(Math.toRadians(ra),(rp.getX()*Game.camera.toMultiply() + Game.camera.toAddX()),(int)(rp.getY()*Game.camera.toMultiply() + Game.camera.toAddY()));
@@ -528,7 +524,7 @@ public class Player extends LivingObject{
 		g.drawImage(img,(int)((rp.getX()-rpX)*Game.camera.toMultiply() + Game.camera.toAddX()),(int)((rp.getY()-rpY)*Game.camera.toMultiply() + Game.camera.toAddY()),(int)(width*Game.screenRatio),(int)(height*Game.screenRatio),null);
 		g.setTransform(old);
 	}
->>>>>>> e6ace73 afds
+
 	public void render(Graphics g) {
 		super.render(g);
 		Graphics2D g2 = (Graphics2D) g;
@@ -548,7 +544,7 @@ public class Player extends LivingObject{
 		rotateImage(g2, PlayerSkin, this.getRotatedAngle(),this.getRotationPoint(),90,115,41,50);
 		rotateImage(g2, PlayerCannon, this.getAttachments()[2].getAttachmentAngleRotated() ,this.getAttachments()[2].getAttachmentRP(),14,40,5,2);
 	}
->>>>>>> e6ace73 afds
+
 
 	public boolean isBerserkModeUnlocked() {
 		return berserkModeUnlocked;
