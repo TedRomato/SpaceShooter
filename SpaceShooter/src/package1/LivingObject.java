@@ -48,7 +48,6 @@ public class LivingObject extends MovingObject{
 	
 	
 	public void updateOb() {
-		angleRotated = 0;
 		
 		updateStun();
 		
@@ -75,7 +74,6 @@ public class LivingObject extends MovingObject{
 	
 	}
 	
-
 
 	private void updateForward() {
 		if(getReflected()  == true) {

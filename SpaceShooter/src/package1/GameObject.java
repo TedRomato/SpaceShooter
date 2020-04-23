@@ -46,7 +46,6 @@ public class GameObject {
 	}
 	//updates object --> move and rotate
 	public void updateOb() {
-		angleRotated = 0;
 		moveOb();
 		rotateOb();
 	}
@@ -572,5 +571,10 @@ public class GameObject {
 	public double getRotatedAngle() {
 		return angleRotated;
 	}
+	
+	public void setAngleRotated(double a) {
+		angleRotated = a;
+	}
+	
 
 }
