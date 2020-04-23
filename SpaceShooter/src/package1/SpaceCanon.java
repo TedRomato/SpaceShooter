@@ -1,5 +1,7 @@
 package package1;
 
+import java.awt.Graphics;
+
 public class SpaceCanon extends AI{
 	public SpaceCanon(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
 		super(corners,rotationPoint,rotationAngle,md,goalDestination);

@@ -23,7 +23,7 @@ public class Window extends JFrame implements KeyListener{
 	public static JButton MainMenu;
 	private JPanel menu;
 	private boolean running = true;
-	private Game game;
+	private Game game; 
 
 	public Window() {
 		super("EPIC FUCK UP");
