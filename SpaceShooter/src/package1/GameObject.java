@@ -417,15 +417,15 @@ public class GameObject {
 	public void rotateOb() {
 		for(Corner corner : corners) {
 			corner.rotateCorner(getRotationPoint(), rotationAngle);
-			angleRotated += rotationAngle;
 		}
+		angleRotated += rotationAngle;
 	}
 	
 	public void rotateOb(double angle) {
 		for(Corner corner : corners) {
 			corner.rotateCorner(getRotationPoint(), angle);
-			angleRotated += rotationAngle;
 		}
+		angleRotated += angle;
 	}
 	
 	public void moveOb() {
@@ -470,8 +470,8 @@ public class GameObject {
 	public void rotateObAroundDifferentCorner(Corner attachmentRP, double angle, Corner getRotationPoint) {
 		for(Corner c : getCorners()) {
 			c.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
-			angleRotated += angle;
 		}
+		angleRotated += angle;
 	}
 	
 	public double generateNumInRange(double[] range) {
@@ -557,7 +557,7 @@ public class GameObject {
 		return 0;
 	}
 	public void setReloadLenght(int d) {
-		
+			
 	}
 	
 	public Square getCollisionSquare() {
