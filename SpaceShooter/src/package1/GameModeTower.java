@@ -2,9 +2,11 @@ package package1;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,8 +40,9 @@ public class GameModeTower extends Game{
 	private JButton Power1, Power2, Power3, Power4, Power5;
 	private BufferedImage HealthIcon, AmmoIcon , Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, DashRefillIcon;
 	private Font font = new Font("josef", Font.PLAIN, 25);
+	private Container PowerContainer;
 	private int AIcount = 90;
-	private int wave = 20;
+	private int wave = 6;
 	private int waveCount = 0;
 	private int PowerLevel = 0;
 	private int TowerBaseHP=1000;
@@ -53,10 +56,11 @@ public class GameModeTower extends Game{
 		Corner[] corners  = GameObject.generatePeriodicObject(100,8,new Corner(new double[] {mainWidth/2,mainHeight/2-50})).getCorners();
 		Tower = new LivingObject(corners,new double[] {mainWidth/2,mainHeight/2},0,new Corner(new double[] {mainWidth/2,mainHeight/2}, new double[] {mainWidth/2,mainHeight/2}));
 		Tower.setHP(TowerBaseHP);
+
 		addObToGame(Tower, new int[] {1,3,4,6,7,8,9,11});
 		p.addShotImune(Tower);
 
-		setLayout(null);
+		setLayout(null); 
 		setName("TowerMode");
 
 		try {
@@ -75,15 +79,6 @@ public class GameModeTower extends Game{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		/*
-		 Health Refill
-		 Ammo Capacity
-		 Tower/Player turret
-		 Tower/Player turret dmg
-		 Dash + Dash cooldown
-		 Player Cannon variety
-		 */
 		
 		Power1 = new JButton("");
 		Power1.addMouseListener(this);
@@ -206,7 +201,7 @@ public class GameModeTower extends Game{
 				
 			}
 		});
-
+		
 		PowerUpDisplay = new JLabel("");
 		PowerUpDisplay.setFont(font);
 		PowerUpDisplay.setHorizontalAlignment(SwingConstants.CENTER);
@@ -272,6 +267,7 @@ public class GameModeTower extends Game{
 		TowerHPDisplay.setStringPainted(true);
 		TowerHPDisplay.setValue(TowerBaseHP);
 		add(TowerHPDisplay);
+		
 	}
 	public void tick() {
 		super.tick();
@@ -310,7 +306,7 @@ public class GameModeTower extends Game{
 		TowerHPDisplay.setValue(Tower.getHP());
 		TowerHPDisplay.setString(Tower.getHP() + "/" + TowerBaseHP);
 		PlayerHPDisplay.setText(""+p.getHP());
-		PlayerAmmoDisplay.setText(""+ ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize());
+		PlayerAmmoDisplay.setText("" + ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize());
 		PlayerReloadTime.setValue(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadTimer());
 		if(p.machinegun!=-1) {
 			MachineGunReload.setValue(((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineReloadTimer());
@@ -346,16 +342,18 @@ public class GameModeTower extends Game{
 		}
 		if((wave-1)%2==0 && !PUpicked&&wave!=1) {
 			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;		
+			PUrnd1 = 1;
 			choosePowerUps(PUrnd1,125,250); 
 			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			while(PUrnd1 == PUrnd2) {	
 				PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			}
-			choosePowerUps(PUrnd2,currentScreenWidth-currentScreenWidth/2+125,250);
+			PUrnd2 = 2;
+			choosePowerUps(PUrnd2, currentScreenWidth/2+125, 250);
 			}
 			
 		}
-	public void choosePowerUps(int rnd, int x, int y) {
+	public void choosePowerUps(int rnd,int x, int y) {
 		switch(rnd) {
 		case 1:
 			stop();

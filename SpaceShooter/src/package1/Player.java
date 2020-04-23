@@ -1,7 +1,22 @@
 package package1;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+
+import javax.imageio.ImageIO;
+
+
 
 public class Player extends LivingObject{
+	
+	double d = 0.01;
+	
 	boolean wasDamagedByZone = false;
 	int zoneDamagedTimerLenght = 60;
 	int zoneDamagedTimer = 0;
@@ -17,8 +32,10 @@ public class Player extends LivingObject{
 	int chunks = 20;
 	boolean berserkMode = false;
 	boolean berserkModeUnlocked = false;
-	
+	 
+
 	int dashCooldown = 300, dashCooldownTimer = dashCooldown;
+
 	double baseSpeed, dashSpeed = 20;
 	
 	int moveChar = 87, turnLeftChar = 65, turnRightChar = 68, dashChar = 16, reloadChar = 82, abilityChar = 32, berserkChar = 66, pushChar = 81;
@@ -28,6 +45,8 @@ public class Player extends LivingObject{
 	
 	boolean dashUnlocked = false;
 	
+	BufferedImage PlayerCannon, PlayerSkin;
+	
 	boolean usingBC = true;
 	boolean usingFC = false;
 	boolean usingMG = false;
@@ -35,7 +54,8 @@ public class Player extends LivingObject{
 	boolean fireMG = false;
 	
 	boolean cameraAttached = true;
-
+	
+	
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
 		setMaxSpeed(7);
@@ -43,6 +63,13 @@ public class Player extends LivingObject{
 		setRotationAngle(3.9);
 		setAcceleration(getMaxSpeed() / 45);
 		baseSpeed = getMaxSpeed();
+		try {
+			PlayerCannon = ImageIO.read(new File("src/Icons/PlayerCannon.png"));
+			PlayerSkin = ImageIO.read(new File("src/Icons/PlayerSkin.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
@@ -270,6 +297,7 @@ public class Player extends LivingObject{
 		handleDashCooldown();
 		handlePulseCooldown();
 		rotateGuns();
+		d+=0.01;
 	}
 	
 	public void rotateGuns() {
@@ -487,9 +515,23 @@ public class Player extends LivingObject{
 	    
 	    return p;
 	}
+  
+	public void render(Graphics g) {
+		super.render(g);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		AffineTransform trans1 = new AffineTransform();
+		trans1.rotate(Math.toRadians(this.getRotatedAngle()),(this.getRotationPoint().getX()*Game.camera.toMultiply() + Game.camera.toAddX()),(int)(this.getRotationPoint().getY()*Game.camera.toMultiply() + Game.camera.toAddY()));
+		AffineTransform old1 = g2.getTransform();
+		g2.transform(trans1);
+		g2.drawImage(PlayerSkin,(int)((this.getRotationPoint().getX()-41)*Game.camera.toMultiply() + Game.camera.toAddX()),(int)((this.getRotationPoint().getY()-47)*Game.camera.toMultiply() + Game.camera.toAddY()),(int)(90*Game.screenRatio),(int)(115*Game.screenRatio),null);
+		//g2.drawImage(PlayerCannon,(int)((this.getAttachments()[2].getAttachmentRP().getX()-5)*Game.camera.toMultiply() + Game.camera.toAddX()),(int) ((this.getAttachments()[2].getAttachmentRP().getY()+2)*Game.camera.toMultiply() + Game.camera.toAddY()), (int)(14*Game.screenRatio),(int)(40*Game.screenRatio),null);
+		g2.setTransform(old1);
+	}
 
 	public boolean isBerserkModeUnlocked() {
 		return berserkModeUnlocked;
+
 	}
 	
 	public void setBerserkModeUnlocked(boolean b) {
