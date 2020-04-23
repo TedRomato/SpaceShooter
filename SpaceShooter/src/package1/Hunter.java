@@ -72,10 +72,10 @@ public class Hunter extends AI{
 			    Corner sc24 = new Corner(new double[] {x-25,y + 50}, new double[] {x ,y});
 			    Corner wp2 = new Corner(new double[] {x-21,y + 50}, new double[] {x ,y});
 			    InteractiveAttachment sc2 = new InteractiveAttachment(new Corner[] {sc21,sc22,sc23,sc24}, new Corner(new double[] {x,y}), new double[] {x ,y}, 0.0, wp2, 500.0, 200.0);
-			    mc.setReloadTimer(50);
+			    mc.setReloadLenght(50);
 			      
-			    sc1.setReloadTimer(30);
-			    sc2.setReloadTimer(30);
+			    sc1.setReloadLenght(30);
+			    sc2.setReloadLenght(30);
 			    
 			    ai.addAttachment(mc);
 			    ai.rotateOb(6);
@@ -116,11 +116,11 @@ public class Hunter extends AI{
 		if(checkIfInDistance(enemy, 400)) {
 			((InteractiveAttachment) getAttachments()[1]).setShoot(true);
 			((InteractiveAttachment) getAttachments()[2]).setShoot(true);
-			((InteractiveAttachment) getAttachments()[0]).setReloadTimer(30);
+			((InteractiveAttachment) getAttachments()[0]).setReloadLenght(30);
 			((InteractiveAttachment) getAttachments()[0]).setDmg(1);
 
 		}else {
-			((InteractiveAttachment) getAttachments()[0]).setReloadTimer(50);
+			((InteractiveAttachment) getAttachments()[0]).setReloadLenght(50);
 			((InteractiveAttachment) getAttachments()[1]).setShoot(false);
 			((InteractiveAttachment) getAttachments()[2]).setShoot(false);
 		}

@@ -7,28 +7,32 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+
 import javax.imageio.ImageIO;
+
 
 
 public class Player extends LivingObject{
 	
 	boolean wasDamagedByZone = false;
 	int zoneDamagedTimerLenght = 60;
-	int zoneDamagedTimer = zoneDamagedTimerLenght;
+	int zoneDamagedTimer = 0;
 	
-	int pulseCooldownTimer = 0, pulseCooldown = 800;
-	boolean pulse = false;
+	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
+	boolean pulse = false, pulseIsUnlocked = false;
 	int stunLenght = 300;
 	double pulseRange = 900;
 
-	int  berserkModeCooldown = 1800, berserkModeTimer = berserkModeCooldown, costInLives = 5;
+	int  berserkModeCooldown = 1800, berserkModeTimer = berserkModeCooldown, costInLives = 3;
 	int exploWave = 10, exploWaveCounter = 0,  exploTimer = 0,  exploLenght = 20;
 	double berserkSpeed = 12;
 	int chunks = 20;
 	boolean berserkMode = false;
 	boolean berserkModeUnlocked = false;
-	
-	int dashCooldownTimer = 0, dashCooldown = 300; 
+	 
+
+	int dashCooldown = 300, dashCooldownTimer = dashCooldown;
+
 	double baseSpeed, dashSpeed = 20;
 	
 	int moveChar = 87, turnLeftChar = 65, turnRightChar = 68, dashChar = 16, reloadChar = 82, abilityChar = 32, berserkChar = 66, pushChar = 81;
@@ -82,17 +86,16 @@ public class Player extends LivingObject{
 	public void handlePlayerKeys() {
 		if(Game.keyChecker.checkIfkeyIsPressed(pushChar)) {
 			
-			if(pulseCooldownTimer <= 0) {
+			if(pulseCooldownTimer >= pulseCooldown && pulseIsUnlocked) {
 				pulse = true;
 			}
-		
 		}
-		if(Game.keyChecker.checkIfkeyIsPressed(berserkChar)) {
-			
-			if(berserkModeTimer >= berserkModeCooldown && berserkModeUnlocked) {
-				berserkMode = true;
-			}
 		
+		if(Game.keyChecker.checkIfkeyIsPressed(berserkChar)) {
+
+			if(berserkModeTimer >= berserkModeCooldown && berserkModeUnlocked && berserkMode == false) {
+				startBerserkMode();
+			}		
 		}
 		
 		if(Game.keyChecker.checkIfkeyIsPressed(abilityChar)) {
@@ -179,49 +182,55 @@ public class Player extends LivingObject{
 			usingMG = false;
 			}
 		}
-	
-	public void usePulse(LivingObject[] gos) {
-		if(pulseCooldownTimer <= 0) {
-			for(LivingObject go : gos) {
-				if(go.getRotationPoint().getPointDistance(getRotationPoint()) < pulseRange) {
-					go.pushFromObject(this, go.getVelToGoDistance(pulseRange));
-					go.startStun(stunLenght);
+	public void usePulse(GameObject[] obs) {
+		if(pulseCooldownTimer >= pulseCooldown) {
+			for(GameObject go : obs) {
+				if(go instanceof LivingObject) {
+					if(go.getRotationPoint().getPointDistance(getRotationPoint()) < pulseRange && !isShotImune(go)) {
+						((MovingObject) go).pushFromObject(this, ((LivingObject) go).getVelToGoDistance(pulseRange/2));
+						((LivingObject) go).startStun(stunLenght);
+					}	
+				}else if(go instanceof Missile) {
+					if(go.getRotationPoint().getPointDistance(getRotationPoint()) < pulseRange) {
+						((MovingObject) go).pushFromObject(this, ((MovingObject) go).getCurrentSpeed());
+					}
 				}
+				
 			}
-			pulseCooldownTimer = pulseCooldown;
+			
+			pulseCooldownTimer = 0;
 			pulse =false;
 		}
 	}
 	
 	public void handlePulseCooldown() {
-		if(pulseCooldownTimer > 0) {
-			pulseCooldownTimer--;
+		if(pulseCooldownTimer < pulseCooldown) {
+			pulseCooldownTimer++;
 		}
 	}
 		
 	private void handleZoneTimer() {
 		if(wasDamagedByZone) {
-			zoneDamagedTimer--;
-			if(zoneDamagedTimer <= 0) {
-				zoneDamagedTimer = zoneDamagedTimerLenght;
+			zoneDamagedTimer++;
+			if(zoneDamagedTimer >= zoneDamagedTimerLenght) {
+				zoneDamagedTimer = 0;
 				wasDamagedByZone = false;
 			}
 		}
 	}
 	
-	private void startDash() {
-		if(dashCooldownTimer <= 0) {
+	public void startDash() {
+		if(dashCooldownTimer >= dashCooldown) {
 			updateMDtoMP();
 			getNewRatios();
 			setNewVels();
 			setCurrentSpeed(dashSpeed);
-			dashCooldownTimer = dashCooldown;
+			dashCooldownTimer = 0;
 		}
 	}
-
-	private void handleDashCooldown() {
-		if(dashCooldownTimer > 0) {
-			dashCooldownTimer--;
+	public void handleDashCooldown() {
+		if(dashCooldownTimer < dashCooldown) {
+			dashCooldownTimer++;
 		}
 	}
 	
@@ -246,6 +255,11 @@ public class Player extends LivingObject{
 				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(true);
 			}
 		}
+	}
+	
+	public void startBerserkMode() {
+		berserkMode = true;
+		this.setHP(getHP()-costInLives);
 	}
 	
 	public Missile[] handleBereserkMode() {
@@ -274,10 +288,15 @@ public class Player extends LivingObject{
 	}
 	
 	public void updatePlayer() {
+		System.out.println(getAttachments()[0].getRotatedAngle());
 		handleZoneTimer();
 		fireMG();
 		handleDashCooldown();
 		handlePulseCooldown();
+		rotateGuns();
+	}
+	
+	public void rotateGuns() {
 		if(usingBC) {
 			((MagazineAttachment)getAttachments()[baseCanon]).rotateToCorner(((MagazineAttachment)getAttachments()[baseCanon]).getAimCorner());
 		}
@@ -463,7 +482,6 @@ public class Player extends LivingObject{
 	    canon.setMagazineParameters(5, 60);
 	    canon.setAttRangle(25);
 	    canon.setRotateWithParentOb(false);
-	//    canon.setFireSideShooter(true);
 	//    canon.setRotationSegment(new double[] {-220,220});
 	    
 	    
@@ -483,7 +501,12 @@ public class Player extends LivingObject{
 	   //p.addFrontCanon();
 //	    p.addFrontMachineGun();
 //	    p.setDashUnlocked(true);
+//	    p.setPulseUnlocked(true);
+//	    p.setBerserkModeUnlocked(true);
 //	    p.addAttachment(straightLine);
+
+//	    Shield s = Shield.makeShield(new Corner(rp), 150);
+//	    p.addAttachment(s);
 
 	    
 	    return p;
@@ -499,10 +522,25 @@ public class Player extends LivingObject{
 		g2.drawImage(PlayerSkin,(int)((this.getRotationPoint().getX()-41)*Game.camera.toMultiply() + Game.camera.toAddX()),(int)((this.getRotationPoint().getY()-47)*Game.camera.toMultiply() + Game.camera.toAddY()),(int)(90*Game.screenRatio),(int)(115*Game.screenRatio),null);
 		//g2.drawImage(PlayerCannon,(int)((this.getAttachments()[2].getAttachmentRP().getX()-5)*Game.camera.toMultiply() + Game.camera.toAddX()),(int) ((this.getAttachments()[2].getAttachmentRP().getY()+2)*Game.camera.toMultiply() + Game.camera.toAddY()), (int)(14*Game.screenRatio),(int)(40*Game.screenRatio),null);
 		//g2.setTransform(old1);
-		
+	}
+
+	public boolean isBerserkModeUnlocked() {
+		return berserkModeUnlocked;
+
 	}
 	
-
+	public void setBerserkModeUnlocked(boolean b) {
+		berserkModeUnlocked = b;
+	}
+	
+	public boolean isPulseUnlocked() {
+		return pulseIsUnlocked;
+	}
+	
+	public void setPulseUnlocked(boolean b) {
+		pulseIsUnlocked = b;
+	}
+	
 	public boolean isDashUnlocked() {
 		return dashUnlocked;
 	}
@@ -527,6 +565,18 @@ public class Player extends LivingObject{
 
 
 
+	public boolean isPulse() {
+		return pulse;
+	}
+
+
+
+	public void setPulse(boolean pulse) {
+		this.pulse = pulse;
+	}
+
+
+
 	public int getDashCooldown() {
 		return dashCooldown;
 	}
@@ -536,6 +586,11 @@ public class Player extends LivingObject{
 	public void setDashCooldown(int dashCooldown) {
 		this.dashCooldown = dashCooldown;
 	}
+
+
+
+
+
 		
 	
 }

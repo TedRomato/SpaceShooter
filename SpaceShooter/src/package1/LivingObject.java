@@ -48,6 +48,8 @@ public class LivingObject extends MovingObject{
 	
 	
 	public void updateOb() {
+		angleRotated = 0;
+		
 		updateStun();
 		
 		updateSpeed();
@@ -208,12 +210,15 @@ public class LivingObject extends MovingObject{
 				return false;
 			}
 		}
-		if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2) {
-			return true;
+		if(go instanceof Shield) {
+			return false;
 		}
+		if(super.checkCollision(go)) {
+			return true;
+		} 
 		if(attachments != null) {
 			for(ObjectAttachment att : attachments) {
-				if(att.checkCollisionInside(go) || att.getCrossedLineCorners(go).length == 2) {
+				if(att.checkCollisionInside(go) || att.getCrossedLineCorners(go).length == 2) { //TODO prepsat na check collision
 					return true;
 				}
 			}
@@ -432,16 +437,7 @@ public class LivingObject extends MovingObject{
 		return Math.sqrt(2*distance*acceleration);
 	}
 	
-	public void pushFromObject(GameObject go, double speed) {
-		Corner c = new Corner(getRotationPoint(), go.getRotationPoint());
-		double goalAngle = c.getAngle(go.getRotationPoint());
-		Corner newMD = Corner.makeCornerUsinAngle(getMP().getPointDistance(getRotationPoint()), goalAngle, getRotationPoint());
-		setMoveDirection(newMD);
-		setCurrentSpeed(speed);
-		getNewRatios();
-		setNewVels();
-		
-	}
+	
 	
 	public void startStun(int stunLenght) {
 		stunTimer = stunLenght;

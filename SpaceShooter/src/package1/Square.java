@@ -43,8 +43,13 @@ public class Square {
 		return side;
 	}
 	
+	public void setToRP(Corner rp) {
+		tlCorner.setX(rp.getX() - side/2);
+		tlCorner.setY(rp.getY() - side/2);
+	}
+	
 	public void render(Graphics g) {
-		g.drawRect((int) tlCorner.getX(),(int) tlCorner.getY(), (int)side,(int) side);
+		g.drawRect( ((int)(tlCorner.getX()*Game.screenRatio + Game.camera.toAddX())),((int)((int) tlCorner.getY()*Game.screenRatio + Game.camera.toAddY())), ((int)((int)side*Game.screenRatio)),((int)((int) side*Game.screenRatio)));
 	}
 	
 	public void printSquareComps() {

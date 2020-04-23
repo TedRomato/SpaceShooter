@@ -9,15 +9,7 @@ public class GameModeTesting extends Game{
 	public GameModeTesting(int sw, int sh) {
 		super(sw, sh, true);
 
-	//  Hunter hu = Hunter.makeNewHunter(500,200, getAiEnemys());
 
-	//	RotatingCharge nade = RotatingCharge.makeNewRotatingCharge(400, 400, new Corner(new double[] {550,550}, new double[] {500,500}));
-	//	SideShootingCharge nade2 = SideShootingCharge.makeNewSideShootingCharge(500, 500, new Corner(new double[] {550,550}, new double[] {500,500}));
-	//	Grenade nade3 = Grenade.makeNewGrenade(500, 500, new Corner(new double[] {600,600}, new double[] {700,700}));
-	//	Grenader gr = Grenader.makeNewGrenader(500, 500, getAiEnemys());
-
-	//	SpaceCruiser ai = SpaceCruiser.makeNewSpaceCruiser(500,200,getAiEnemys());
-		//SpaceCanon ai1 = SpaceCanon.makeNewSpaceCanon(1000,600,getAiEnemys());
 	//	SpaceCanon ai12 = SpaceCanon.makeNewSpaceCanon(1000,800, getAiEnemys());
 	//	SpaceCanon ai13 = SpaceCanon.makeNewSpaceCanon(1200,860,getAiEnemys());
 	//	SpaceCanon ai14 = SpaceCanon.makeNewSpaceCanon(900,750,getAiEnemys());
@@ -48,9 +40,16 @@ public class GameModeTesting extends Game{
 
 
 
+
 		p = super.p; 
 
 		//spawnBunchOfMines(12);
+
+
+		//Shield s = Shield.makeShield(new Corner(new double[] {500,500}), 150);
+		//s.setUpShield(true, new GameObject[] {}, p);
+	//	addObToGame(s, new int[] {1,2,3,4,5,6,7,8,9,10,11});
+	//	spawnBunchOfMines(12);
 
 		
 

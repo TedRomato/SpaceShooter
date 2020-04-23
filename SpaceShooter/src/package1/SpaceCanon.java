@@ -25,7 +25,7 @@ public class SpaceCanon extends AI{
 	    InteractiveAttachment att = new InteractiveAttachment(new Corner[] {peakAIAt,botAIAt,canonAt1,canonAt2,canonAt3,canonAt4,rightCornerAIAt,leftCornerAIAt},new Corner(new double[] {x ,y}), new double[] {x ,y}, 0.6, wayPoint, 900, 45);
 	    att.setRotateWithParentOb(false);
 	    att.setAttRangle(2);
-	    att.setReloadTimer(120);
+	    att.setReloadLenght(120);
 	    att.setDmg(2);
 	    att.setInaccuracy(100);
 	    //Hmatove vousky
@@ -60,6 +60,7 @@ public class SpaceCanon extends AI{
 	}
 	
 	public void updateAI(GameObject[] enemys, GameObject[] gos, AI[] ais) {
+
 		if(isInStoppingDistance()) {
 		    setShootForInteractiveAtts(true);
 		}

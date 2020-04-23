@@ -30,7 +30,7 @@ public class MovingObject extends GameObject{
 	
 	
 	public void updateOb() {
-		
+		angleRotated = 0;
 		moveOb();
 		rotateOb();
 	
@@ -53,6 +53,17 @@ public class MovingObject extends GameObject{
 		setNewVels();
 		setReflected(true);
 
+	}
+	
+	public void pushFromObject(GameObject go, double speed) {
+		Corner c = new Corner(getRotationPoint(), go.getRotationPoint());
+		double goalAngle = c.getAngle(go.getRotationPoint());
+		Corner newMD = Corner.makeCornerUsinAngle(getMoveDirection().getPointDistance(getRotationPoint()), goalAngle, getRotationPoint());
+		setMoveDirection(newMD);
+		setCurrentSpeed(speed);
+		getNewRatios();
+		setNewVels();
+		
 	}
 	
 	
