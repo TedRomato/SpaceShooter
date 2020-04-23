@@ -48,12 +48,10 @@ public class LivingObject extends MovingObject{
 	
 	
 	public void updateOb() {
-<<<<<<< HEAD
-		
-=======
+
 		fixRotatedAngle();
 		updateRotatedAngsForAtts();
->>>>>>> refs/remotes/origin/master
+
 		
 		updateStun();
 		
