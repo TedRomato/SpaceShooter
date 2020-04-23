@@ -46,7 +46,7 @@ public class GameObject {
 	}
 	//updates object --> move and rotate
 	public void updateOb() {
-		angleRotated = 0;
+		fixRotatedAngle();
 		moveOb();
 		rotateOb();
 	}
@@ -556,9 +556,8 @@ public class GameObject {
 	public int getReloadTimer() {
 		return 0;
 	}
-	public void setReloadLenght(int d) {
-			
-	}
+	
+	
 	
 	public Square getCollisionSquare() {
 		return collisionSquare;
@@ -572,5 +571,14 @@ public class GameObject {
 	public double getRotatedAngle() {
 		return angleRotated;
 	}
+	
+	public void fixRotatedAngle() {
+		if(angleRotated > 360) {
+			angleRotated -= 360;
+		}else if(angleRotated < -360) {
+			angleRotated -= -360;
+		}
+	}
+	
 
 }

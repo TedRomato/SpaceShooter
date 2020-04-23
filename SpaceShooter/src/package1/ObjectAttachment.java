@@ -9,6 +9,7 @@ public class ObjectAttachment extends GameObject{
 	boolean rotateWithParentOb = true;
 	protected int reloadTimer;
 	protected int reloadLenght;
+	double attachmentAngleRortated = 0;
 
 	
 	public ObjectAttachment(Corner[] corners, double[] rotationPoint,double[] attachmentRP, double rotationAngle) {
@@ -28,6 +29,7 @@ public class ObjectAttachment extends GameObject{
 			c.rotateCorner(getRotationPoint(), angle);
 		}
 		attachmentRP.rotateCorner(getRotationPoint(), angle);
+		angleRotated += angle;
 	}
 	
 	public void rotateAttachmentAroundItsCorner(double angle) {
@@ -36,6 +38,7 @@ public class ObjectAttachment extends GameObject{
 		}
 		attachmentRP.rotateAroundDifferentRP(attachmentRP, angle, getRotationPoint());
 		atachmentCurrentAngle += angle;
+		attachmentAngleRortated += angle;
 	}
 	
 	
@@ -105,6 +108,22 @@ public class ObjectAttachment extends GameObject{
 
 	public void setReloadTimer(int i) {
 		reloadTimer = i;
+	}
+	
+	public double getAttachmentAngleRotated() {
+		return attachmentAngleRortated;
+	}
+	
+	public void setAttachmentAngleRotated(double a) {
+		attachmentAngleRortated = a;
+	}
+	
+	public void fixAttachmentAngleRotated() {
+		if(attachmentAngleRortated > 360) {
+			attachmentAngleRortated -= 360;
+		}else if(attachmentAngleRortated < -360) {
+			attachmentAngleRortated -= -360;
+		}
 	}
 	
 
