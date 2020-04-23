@@ -13,7 +13,7 @@ public class GameModeTesting extends Game{
 	//	Grenade nade3 = Grenade.makeNewGrenade(500, 500, new Corner(new double[] {600,600}, new double[] {700,700}));
 	//	Grenader gr = Grenader.makeNewGrenader(500, 500, getAiEnemys());
 	//	SpaceCruiser ai = SpaceCruiser.makeNewSpaceCruiser(500,200,getAiEnemys());
-	//	SpaceCanon ai1 = SpaceCanon.makeNewSpaceCanon(1000,600,getAiEnemys());
+		SpaceCanon ai1 = SpaceCanon.makeNewSpaceCanon(1000,600,getAiEnemys());
 	//	SpaceCanon ai12 = SpaceCanon.makeNewSpaceCanon(1000,800, getAiEnemys());
 	//	SpaceCanon ai13 = SpaceCanon.makeNewSpaceCanon(1200,860,getAiEnemys());
 	//	SpaceCanon ai14 = SpaceCanon.makeNewSpaceCanon(900,750,getAiEnemys());
@@ -23,7 +23,7 @@ public class GameModeTesting extends Game{
 	//	Mothership ai3 = Mothership.makeNewMothership(200,600,getAiEnemys());
 	//	addObToGame(hu, new int[] {4,7,9,10}); 
 	//	addObToGame(ai, new int[] {4,7,9,10,11}); 
-	//	addObToGame(ai1, new int[] {4,7,9,10,11}); 
+		addObToGame(ai1, new int[] {4,7,9,10,11}); 
 		//addObToGame(ai1, new int[] {4,7,9,10}); 
 		//addObToGame(ai3, new int[] {4,7,10}); 
 		
@@ -36,8 +36,10 @@ public class GameModeTesting extends Game{
 	//	addObToGame(nade2,new int[] {5,6,7,9});
 	//	addObToGame(nade3,new int[] {5,6,7,9});
 	//	addObToGame(gr,new int[] {4,7,9,10,11});
-
-		spawnBunchOfMines(12);
+		Shield s = Shield.makeShield(new Corner(new double[] {500,500}), 150);
+		s.setUpShield(true, new GameObject[] {});
+		addObToGame(s, new int[] {1,2,3,4,5,6,7,8,9,10,11});
+	//	spawnBunchOfMines(12);
 		
 
 

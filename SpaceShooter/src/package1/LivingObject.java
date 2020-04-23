@@ -208,12 +208,15 @@ public class LivingObject extends MovingObject{
 				return false;
 			}
 		}
-		if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2) {
-			return true;
+		if(go instanceof Shield) {
+			return false;
 		}
+		if(super.checkCollision(go)) {
+			return true;
+		} 
 		if(attachments != null) {
 			for(ObjectAttachment att : attachments) {
-				if(att.checkCollisionInside(go) || att.getCrossedLineCorners(go).length == 2) {
+				if(att.checkCollisionInside(go) || att.getCrossedLineCorners(go).length == 2) { //TODO prepsat na check collision
 					return true;
 				}
 			}

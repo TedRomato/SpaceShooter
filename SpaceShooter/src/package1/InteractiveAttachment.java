@@ -126,7 +126,10 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	
 	public void updateAimPoint(GameObject go) {
-		setAimCorner(getNewAimCorner(go));
+		Corner c = getNewAimCorner(go);
+		if(!Double.isNaN(c.getX()) && !Double.isNaN(c.getY())) {
+			setAimCorner(c);
+		}
 	}
 	
 	protected Missile shoot(GameObject[] imunes) {
@@ -288,7 +291,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 //		shootDirection.renderCorner(g, 4);
 //		shootPoint.renderCorner(g, 4);
 //		shotTrajectory.render(g);
-//		aimCorner.renderCorner(g, 10);
+		aimCorner.renderCorner(g, 10);
 //		wayPoint.renderCorner(g, 10);
 		super.render(g);
 		

@@ -165,7 +165,7 @@ public class Player extends LivingObject{
 			for(GameObject go : obs) {
 				if(go instanceof LivingObject) {
 					if(go.getRotationPoint().getPointDistance(getRotationPoint()) < pulseRange && !isShotImune(go)) {
-						((MovingObject) go).pushFromObject(this, ((LivingObject) go).getVelToGoDistance(pulseRange));
+						((MovingObject) go).pushFromObject(this, ((LivingObject) go).getVelToGoDistance(pulseRange/2));
 						((LivingObject) go).startStun(stunLenght);
 					}	
 				}else if(go instanceof Missile) {

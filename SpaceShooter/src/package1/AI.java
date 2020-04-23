@@ -387,7 +387,7 @@ public class AI extends LivingObject{
 		if(getAttachments() != null) {
 			for(ObjectAttachment att : getAttachments()) {
 				if(att instanceof InteractiveAttachment) {
-					((InteractiveAttachment) att).setAimCorner(((InteractiveAttachment) att).getNewAimCorner(go));
+					((InteractiveAttachment) att).updateAimPoint(go);
 				}
 			}
 		}

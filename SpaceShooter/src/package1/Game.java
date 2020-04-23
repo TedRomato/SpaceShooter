@@ -305,18 +305,18 @@ public class Game extends JPanel implements MouseListener{
 						}
 						else if(sob instanceof AI) {
 							if(att.getReloadTimer() >= att.getReloadLenght() && att.shouldShoot(att.getAimCorner())) {
-								addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,6,7,8,9,10,11});
+								addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,5,6,7,8,9,10,11});
 								att.setReloadTimer(0);
 							}
 						}
 						else if(sob instanceof SpecialCharge) {
 							if(att.getReloadTimer() >= att.getReloadLenght() && att.shouldShoot()) {
-								addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,6,7,8,9,10,11});
+								addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,5,6,7,8,9,10,11});
 								att.setReloadTimer(0);
 							}
 						}
 						else if(att.getReloadTimer() >= att.getReloadLenght() && att.shouldShoot()) {
-							addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,6,7,8,9,10,11});
+							addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,5,6,7,8,9,10,11});
 							att.setReloadTimer(0);
 						}
 						if(att.getReloadTimer() != att.getReloadLenght()) { 

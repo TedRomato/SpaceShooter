@@ -25,6 +25,15 @@ public class Missile extends MovingObject{
 		this.dmg = dmg;
 	}
 	
+	public boolean checkCollision(GameObject go) {
+		if(go instanceof Shield) {
+			if(((Shield) go).friendlyMissile(this)) {
+				return false;
+			}
+		}
+		return super.checkCollision(go);
+	}
+	
 	
 	public void handleMissileCollision(Missile ms) {
 		if(!isFriendlyBullet(ms)) {
