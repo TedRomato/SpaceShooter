@@ -342,13 +342,13 @@ public class GameModeTower extends Game{
 		}
 		if((wave-1)%2==0 && !PUpicked&&wave!=1) {
 			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;		
-			PUrnd1 = 1;
+			//PUrnd1 = 1;
 			choosePowerUps(PUrnd1,125,250); 
 			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			while(PUrnd1 == PUrnd2) {	
 				PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			}
-			PUrnd2 = 2;
+			//PUrnd2 = 2;
 			choosePowerUps(PUrnd2, currentScreenWidth/2+125, 250);
 			}
 			
