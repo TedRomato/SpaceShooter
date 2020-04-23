@@ -15,7 +15,6 @@ import javax.imageio.ImageIO;
 
 public class Player extends LivingObject{
 	
-	double d = 0.01;
 	
 	boolean wasDamagedByZone = false;
 	int zoneDamagedTimerLenght = 60;
@@ -246,7 +245,7 @@ public class Player extends LivingObject{
 	
 	private void fireMG() {
 		if(machinegun != -1) {
-			if(((MagazineAttachment) getAttachments()[machinegun]).getMagazineReloadTimer() < ((MagazineAttachment) getAttachments()[machinegun]).getMagazineReloadLenght()) {
+			if(((MagazineAttachment) getAttachments()[machinegun]).getMagazineReloadTimer() >= ((MagazineAttachment) getAttachments()[machinegun]).getMagazineReloadLenght()) {
 				fireMG = false;
 			}
 			if(fireMG == false) {
@@ -254,6 +253,7 @@ public class Player extends LivingObject{
 				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(false);
 			}	
 			else if(fireMG) {
+				System.out.println("jsem tu");
 				((InteractiveAttachment) getAttachments()[machinegun]).setShoot(true);
 				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(true);
 			}
@@ -296,7 +296,6 @@ public class Player extends LivingObject{
 		handleDashCooldown();
 		handlePulseCooldown();
 		rotateGuns();
-		d+=0.01;
 	}
 	
 	public void rotateGuns() {

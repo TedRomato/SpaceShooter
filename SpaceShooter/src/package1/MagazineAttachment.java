@@ -38,12 +38,12 @@ public class MagazineAttachment extends InteractiveAttachment{
 	
 	public void handleMagazine() {
 		if(magazineSize <= 0) {
-			magazineReloadTimer--;
+			magazineReloadTimer++;
 			reloadingMag = true;
 		}
-		if(magazineReloadTimer == 0) {
+		if(magazineReloadTimer >= magazineReloadLenght) {
 			reloadingMag = false;
-			magazineReloadTimer = magazineReloadLenght;
+			magazineReloadTimer = 0;
 			magazineSize = magazineMaxSize;
 		}
 	}
