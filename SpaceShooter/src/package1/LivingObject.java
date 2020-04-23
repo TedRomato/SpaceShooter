@@ -48,7 +48,6 @@ public class LivingObject extends MovingObject{
 	
 	
 	public void updateOb() {
-		angleRotated = 0;
 		
 		updateStun();
 		
@@ -75,12 +74,6 @@ public class LivingObject extends MovingObject{
 	
 	}
 	
-	public void resetAllAnglesRotated() {
-		for(ObjectAttachment att : getAttachments()) {
-			att.setAttachmentAngleRotated(0);
-		//	att.setAngleRotated(0);
-		}
-	}
 
 	private void updateForward() {
 		if(getReflected()  == true) {

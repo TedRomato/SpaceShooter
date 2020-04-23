@@ -264,7 +264,6 @@ public class Player extends LivingObject{
 	}
 	
 	public void updatePlayer() {
-		System.out.println(getRotatedAngle());
 		handleZoneTimer();
 		fireMG();
 		handleDashCooldown();
