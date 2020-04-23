@@ -18,7 +18,7 @@ public class Shield extends GameObject{
 	public static Shield makeShield(Corner rp, int radius) {
 		Corner[] outerCorners;
 		Corner[] innerCorners;
-		int cornerAmount = 14;
+		int cornerAmount = 16;
 		outerCorners = GameObject.generatePeriodicObject(radius, cornerAmount, rp).getCorners();
 		innerCorners = GameObject.generatePeriodicObject(radius-15, cornerAmount, rp).getCorners();
 		Corner[] corners = new Corner[cornerAmount*2+2];

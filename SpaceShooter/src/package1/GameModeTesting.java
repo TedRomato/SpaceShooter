@@ -37,7 +37,7 @@ public class GameModeTesting extends Game{
 	//	addObToGame(nade3,new int[] {5,6,7,9});
 	//	addObToGame(gr,new int[] {4,7,9,10,11});
 		Shield s = Shield.makeShield(new Corner(new double[] {500,500}), 150);
-		s.setUpShield(false, new GameObject[] {p}, p);
+		s.setUpShield(true, new GameObject[] {}, p);
 		addObToGame(s, new int[] {1,2,3,4,5,6,7,8,9,10,11});
 	//	spawnBunchOfMines(12);
 		

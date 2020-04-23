@@ -207,6 +207,12 @@ public class Game extends JPanel implements MouseListener{
 		}
 	}
 	
+	public void activateShieldFor(GameObject go, int radius, int HP) {
+		Shield s = Shield.makeShield(go.getRotationPoint(), radius);
+		s.setHP(HP);
+		addObToGame(s, new int[] {1,2,3,4,5,6,7,8,9,10,11});
+	}
+	
 	public void handleBerserkModes() {
 		Missile[] missiles;
 		missiles = p.handleBereserkMode();
