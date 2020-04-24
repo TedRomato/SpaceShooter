@@ -1,5 +1,7 @@
 package package1;
 
+import java.util.List;
+
 public class Mothership extends Summoner{
 	
 
@@ -9,7 +11,7 @@ public class Mothership extends Summoner{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public static Mothership  makeNewMothership(double x, double y, GameObject[] enemys) {
+	public static Mothership  makeNewMothership(double x, double y, List<GameObject> enemys) {
 		Mothership ai;
 		
 		Corner summoningPoint1 = new Corner(new double[] {x-65,y+65}, new double[] {x,y});

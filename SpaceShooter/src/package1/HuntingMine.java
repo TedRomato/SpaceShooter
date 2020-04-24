@@ -1,5 +1,7 @@
 package package1;
 
+import java.util.List;
+
 public class HuntingMine extends AI{
 	
 	public HuntingMine(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
@@ -7,7 +9,7 @@ public class HuntingMine extends AI{
 		
 	}
 	
-	public static HuntingMine makeNewHuntingMine(double x, double y, GameObject[] enemys) {
+	public static HuntingMine makeNewHuntingMine(double x, double y, List<GameObject> enemys) {
 		//ai
 		Corner peakAI = new Corner(new double[] {x,y - 22}, new double[] {x ,y});
 		Corner botAI = new Corner(new double[] {x,y + 22}, new double[] {x ,y});

@@ -1,12 +1,14 @@
 package package1;
 
+import java.util.List;
+
 public class Grenader extends LongRangeAI{
 	public Grenader(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, Corner wayPoint) {
 		super(corners, rotationPoint, rotationAngle, md, goalDestination, wayPoint);
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateInSD(GameObject[] enemys, GameObject[] gos, AI[] ais) {
+	public void updateInSD(List<GameObject> enemys, List<GameObject> gos, List<AI> ais) {
 		super.updateInSD(enemys, gos, ais);
 		handleTurrets();
 	}
@@ -17,7 +19,7 @@ public class Grenader extends LongRangeAI{
 		}
 	}
 	
-	public static Grenader makeNewGrenader(double x, double y, GameObject[] enemys) {
+	public static Grenader makeNewGrenader(double x, double y, List<GameObject> enemys) {
 		Grenader ai;
 		ExplosiveShootingAtt canon;
 		//H1

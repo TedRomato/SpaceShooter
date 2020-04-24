@@ -1,5 +1,7 @@
 package package1;
 
+import java.util.List;
+
 public class SpaceCruiser extends LongRangeAI{
 
 	public SpaceCruiser(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,
@@ -8,7 +10,7 @@ public class SpaceCruiser extends LongRangeAI{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateInSD(GameObject[] enemys, GameObject[] gos, AI[] ais) {
+	public void updateInSD(List<GameObject> enemys, List<GameObject> gos, List<AI> ais) {
 		handleTurretFire(getTargetedEnemy().getRotationPoint().getPointDistance(this.getRotationPoint()));
 		updateAllAimCorners(getTargetedEnemy());
 		checkAndHandleTrack(gos);
@@ -22,7 +24,7 @@ public class SpaceCruiser extends LongRangeAI{
 		handleAllFriendlyFire(ais);
 		
 	}
-	public void updateAI(GameObject[] enemys, GameObject[] gos, AI[] ais) {
+	public void updateAI(List<GameObject> enemys, List<GameObject> gos, List<AI> ais) {
 		super.updateAI(enemys, gos, ais);
 		handleTurrets();
 
@@ -50,7 +52,7 @@ public class SpaceCruiser extends LongRangeAI{
 		}
 	}
 	
-	public static SpaceCruiser makeNewSpaceCruiser(double x, double y, GameObject[] enemys) {
+	public static SpaceCruiser makeNewSpaceCruiser(double x, double y, List<GameObject> list) {
 		SpaceCruiser ai;
 		//H1
 		Corner h11 = new Corner(new double[] {x + -50, y + -10}, new double[] {x,y});
@@ -164,7 +166,7 @@ public class SpaceCruiser extends LongRangeAI{
 	    ai.addAttachment(canon1);
 	    ai.addAttachment(canon2);
 	    ai.setHP(20);
-	    ai.getClosestEnemy(enemys);
+	    ai.getClosestEnemy(list);
 	    ai.setGoingDistance(400);
 
 	   

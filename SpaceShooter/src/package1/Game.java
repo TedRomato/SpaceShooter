@@ -20,6 +20,8 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
@@ -42,21 +44,22 @@ public class Game extends JPanel implements MouseListener{
 	private RandomMeteorGenerator randomMeteorGenerator = new RandomMeteorGenerator();
 	public static KeyChecker keyChecker = new KeyChecker();
 	public static Camera camera;
-	private GameObject[] borders;
-	private GameObject[] objects;
-	private MovingObject[] reflectableObs;
-	private MovingObject[] reflectingObs;
-	private LivingObject[] livingObsReflectUpdate;
-	private LivingObject[] shootingObs; 
-	private MovingObject[] borderSensitive;
-	protected AI[] ais;
-	private GameObject[][] arrayList;
-	private GameObject[] aiVisible;
-	private GameObject[] aiEnemys;
+	private List<GameObject> borders;
+	private List<GameObject> objects;
+	private List<MovingObject> reflectableObs;
+	private List<MovingObject> reflectingObs;
+	private List<LivingObject> livingObsReflectUpdate;
+	private List<LivingObject> shootingObs; 
+	private List<MovingObject> borderSensitive;
+	protected List<AI> ais;
+//	private GameObject[][] arrayList;
+	private List<GameObject> aiVisible;
+	private List<GameObject> aiEnemys;
 	private boolean WasCalled = false;
-	private Meteor[] meteors;
-	private Summoner[] summoners;
-	private Explosives[] explosives;
+	private List<Meteor> meteors;
+	private List<Summoner> summoners;
+	private List<Explosives> explosives;
+	private List<List> arrayList;
 	boolean softBorders = false;
 	
 	private boolean wasCalled = false;
@@ -68,19 +71,37 @@ public class Game extends JPanel implements MouseListener{
 		this.currentScreenHeight = sh;
 		this.currentScreenWidth = sw;
 		this.softBorders = softBorder;
-		objects = new GameObject[] {};
-	    reflectableObs = new MovingObject[] {};
-	    reflectingObs = new MovingObject[] {};
-	    livingObsReflectUpdate = new LivingObject[] {};
-	    borderSensitive = new MovingObject[] {};
-	    aiVisible = new GameObject[] {};
-	    shootingObs = new LivingObject[] {};
-	    ais = new AI[] {};
-	    meteors = new Meteor[] {};
-	    summoners = new Summoner[] {};
-		aiEnemys = new GameObject[] {};
-		explosives = new Explosives[] {};
-	    arrayList = new GameObject[][] {objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais, meteors, shootingObs,summoners, aiEnemys,explosives};
+		objects = new ArrayList<>();
+	    reflectableObs = new ArrayList<>();
+	    reflectingObs = new ArrayList<>();
+	    livingObsReflectUpdate = new ArrayList<>();
+	    borderSensitive = new ArrayList<>();
+	    aiVisible = new ArrayList<>();
+	    shootingObs = new ArrayList<>();
+	    ais = new ArrayList<>();
+	    meteors = new ArrayList<>();
+	    summoners = new ArrayList<>();
+		aiEnemys= new ArrayList<>();
+		explosives = new ArrayList<>();
+		arrayList= new ArrayList<>();
+		borders = new ArrayList<>();
+		
+		//objects, reflectableObs, reflectingObs, livingObsReflectUpdate, borderSensitive, aiVisible, ais, meteors, shootingObs,summoners, aiEnemys,explosives
+		
+		arrayList.add(objects);
+		arrayList.add(reflectableObs);
+		arrayList.add(reflectingObs);
+		arrayList.add(livingObsReflectUpdate);
+		arrayList.add(borderSensitive);
+		arrayList.add(aiVisible);
+		arrayList.add(ais);		
+		arrayList.add(meteors);
+		arrayList.add(shootingObs);
+		arrayList.add(summoners);
+		arrayList.add(aiEnemys);
+		arrayList.add(explosives);
+
+
 	    
 	    Warning = new JLabel("");
 	    Warning.setForeground(Color.RED);
@@ -107,7 +128,12 @@ public class Game extends JPanel implements MouseListener{
 		    GameObject topBorder = new GameObject(new Corner[] {rightTopC, leftTopC}, new double[] {500,400}, 0);
 		    GameObject botBorder = new GameObject(new Corner[] {leftBotC, rightBotC}, new double[] {500,400}, 0);
 		    
-		    borders = new GameObject[] {botBorder,leftBorder,topBorder,rightBorder};
+		//    borders = new GameObject[] {botBorder,leftBorder,topBorder,rightBorder};
+		    borders.add(botBorder);
+		    borders.add(leftBorder);
+		    borders.add(topBorder);
+		    borders.add(rightBorder);
+
 	    }	    	    
 	    
 	    p = Player.makeNewPlayer(new double[] {100,100});
@@ -208,17 +234,16 @@ public class Game extends JPanel implements MouseListener{
 			p.setPulse(false);
 		}
 	}
-	/*
+	
 	public void activateShieldFor(GameObject go, int radius, int HP) {
 		Shield s = Shield.makeShield(go.getRotationPoint(), radius);
 		s.setHP(HP);
 		s.setUpShield(true, new GameObject[] {}, p);
 		addObToGame(s, new int[] {1,2,3,4,5,6,7,8,9,10,11});
 	}
-	*/
+	
 	public void handleShields() {
 		if(p.activateShield) {
-			System.out.println("jsem tu");
 			addObToGame(p.useShield(), new int[] {1,2,3,4,5,6,7,8,9,10,11});
 			p.activateShield = false;
 		}
@@ -302,6 +327,7 @@ public class Game extends JPanel implements MouseListener{
 	
 	private void handleShooting(){
 		for(LivingObject sob : shootingObs ) {	
+	//		System.out.println("class : " + sob.getClass());
 			if(sob.getAttachments() != null && sob.getAttachments().length > 0 && sob.getIsStunned() == false) {
 				for(ObjectAttachment att : sob.getAttachments()) {
 					if(att instanceof MagazineAttachment) {
@@ -346,11 +372,15 @@ public class Game extends JPanel implements MouseListener{
 	}
 
 	protected void removeObsOut() {
+
 		for(GameObject ob : objects) {
 			if(ob.checkIfOutsideRect(-3000, -3000,mainWidth + 6000, mainHeight + 6000)) {
 				removeObFromGame(ob);
+				return;
 			}
 		}
+
+		
 	}
 	
 
@@ -377,15 +407,15 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	private void checkAndHandleCollision() {
-		GameObject[] compareArray = objects; 
-		for(int i = 0; i < objects.length; i++) {
-			for(int x = 0; x < compareArray.length; x++) {
-				
-				if(objects[i] != compareArray[x]) {
+		List<GameObject> compareArray = objects; 
+		for(GameObject mainOb : objects) {
+			for(GameObject comparedOb : compareArray) {
+
+				if(mainOb != comparedOb) {
 					
-					if(objects[i].checkCollision(compareArray[x])) {
-						if(objects[i].getInvulnurability() == false) {
-							objects[i].handleCollision(compareArray[x]);
+					if(mainOb.checkCollision(comparedOb)) {
+						if(mainOb.getInvulnurability() == false) {
+							mainOb.handleCollision(comparedOb);
 							}
 								
 						}
@@ -406,24 +436,36 @@ public class Game extends JPanel implements MouseListener{
 	//Deletes all GameObjects with <= 0 HP
 	
 	private void deleteNoHpObs() {
-		for(GameObject ob : objects) {
-			if(ob.getHP() <= 0) {
-				removeObFromGame(ob);
+		boolean done = true;
+		while(true) {
+			done = true;
+			for(GameObject ob : objects) {
+				if(ob.getHP() <= 0) {
+					removeObFromGame(ob);
+					done = false;
+					break;
+				}
+			}
+			if(done) {
+				return;
 			}
 		}
+		
 		
 	}
 	
 	private void reflectFromSides() {
 		if(softBorders == false) {
-			for(int i = 0; i < borders.length; i++) {
+			int i = -1;
+			for(GameObject border : borders) {
+				i++;
 				for(MovingObject go : borderSensitive) {
 					if(go instanceof Meteor) {
-						if(go.checkCollision(borders[i])) {
+						if(go.checkCollision(border)) {
 							((Meteor) go).reflectMeteorFromSide(i,go.getRotationPoint());
 						}
 					}else {
-						go.checkAndHandleReflect(borders[i]);
+						go.checkAndHandleReflect(border);
 		
 					}
 				}
@@ -432,57 +474,72 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	protected void handleSummoners() {
-		for(Summoner s : summoners) {
+	/*	for(Summoner s : summoners) {
 			AI ai = s.handleSummoner(getAiEnemys());
 			if(ai != null) {
 				addObToGame(ai, new int[] {7,4,9,10,11});
 			}
-		}
+		} */
 	}
 	
 	
 	protected void respawnMeteorsToAmount(int amount) {
-		if(meteors.length < amount) {
+		if(meteors.size() < amount) {
 			addObToGame(randomMeteorGenerator.generateRandomMeteorOutside(mainWidth, mainHeight), new int[] {3,6,4,8,9,11});
 		}
 	}
 	
 	
 	protected void addObToGame(GameObject ob) {
-		for(int i = 0; i < arrayList.length; i++) {
-			arrayList[i] =  makeNewArrayWith(arrayList[i], ob);
+		for(List<GameObject> list : arrayList) {
+			list.add(ob);
 		}
-		fixGameArrays();
+	//	fixGameArrays();
 	}
 	
 	protected void addObToGame(GameObject ob,int[] exclude) {
-		for(int i = 0; i < arrayList.length; i++) {
-			boolean excludedArr = false;
-			for(int x = 0; x < exclude.length; x++){
-				if(exclude[x] == i) {
-					excludedArr = true;
+		int i = -1;
+		boolean excluded;
+		for(List<GameObject> list : arrayList) {
+			i++;
+			excluded = false;
+			for(int b : exclude) {
+				if(b == i) {
+					excluded = true;
 				}
 			}
-			if(excludedArr == false) {
-				arrayList[i] =  makeNewArrayWith(arrayList[i], ob);
+			if(!excluded) {
+				list.add(ob);
 			}
 		}
-		fixGameArrays();
+//		fixGameArrays();
 	}
 	
 	
 	protected void removeObFromGame(GameObject ob){
-		for(int i = 0; i < arrayList.length; i++) {
-			for(int index = 0; index < arrayList[i].length; index++) {
-				if(arrayList[i][index] == ob) {
-					arrayList[i] =  makeNewArrayWithout(arrayList[i], index);
+		boolean wasRemoved;
+		while(true) {
+			wasRemoved = false;
+			for(List<GameObject> list : arrayList) {
+				for(GameObject go : list) {
+					if(go == ob) {
+						list.remove(go);
+						wasRemoved = true;
+						break;
+					}
+				}
+				if(wasRemoved) {
+					break;
 				}
 			}
+			if(!wasRemoved) {
+				return;
+			}
 		}
-		fixGameArrays();
+	//	fixGameArrays();
 		
 	}
-	
+	/*
 	private void fixGameArrays() {
 		objects = arrayList[0];
 	    reflectableObs = makeGameObArMovingArr(arrayList[1]);
@@ -569,7 +626,7 @@ public class Game extends JPanel implements MouseListener{
 		}
 		return newArray;
 	}
-	
+	*/
 	private void updateAllObs() {
 		for(GameObject go : objects) {
 			go.updateOb();
@@ -583,7 +640,7 @@ public class Game extends JPanel implements MouseListener{
 			renderDangerZone(g);
 		}
 		if(objects != null) {
-			if(objects.length > 0) {
+			if(objects.size() > 0) {
 				for(GameObject ob : objects) {
 					ob.render(g);
 				}
@@ -611,7 +668,7 @@ public class Game extends JPanel implements MouseListener{
 		g.fillRect((int)Math.round(x*camera.getZoom()+camera.toAddX()), (int)Math.round(y*camera.getZoom()+camera.toAddY()), (int)Math.round(width*camera.getZoom()),(int)Math.round( height*camera.getZoom()));
 	}
 	
-	public GameObject[] getAiEnemys() {
+	public List<GameObject> getAiEnemys() {
 		return aiEnemys;
 	}
 	
