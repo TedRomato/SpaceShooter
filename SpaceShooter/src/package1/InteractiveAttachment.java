@@ -2,6 +2,7 @@ package package1;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.List;
 
 public class InteractiveAttachment extends ObjectAttachment{
 
@@ -202,7 +203,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	
 	
-	public void handleFriendlyFire(AI[] ais) {
+	public void handleFriendlyFire(List<AI> ais) {
 		for(AI ai : ais) {
 			if(ai instanceof HuntingMine == false) {
 				if(ai.checkCollision(shotTrajectory)) {

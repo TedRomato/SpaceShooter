@@ -7,8 +7,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/OndraOptimizeBranch
 import javax.imageio.ImageIO;
 
 
@@ -210,7 +214,11 @@ public class Player extends LivingObject{
 		}
 	}
 	
+<<<<<<< HEAD
 	public void usePulse(GameObject[] obs) {
+=======
+	public void usePulse(List<GameObject> obs) {
+>>>>>>> refs/remotes/origin/OndraOptimizeBranch
 		if(pulseCooldownTimer >= pulseCooldown) {
 			for(GameObject go : obs) {
 				if(go instanceof LivingObject) {
@@ -542,7 +550,7 @@ public class Player extends LivingObject{
   
 	public void render(Graphics g) {
 		super.render(g);
-		Graphics2D g2 = (Graphics2D) g;
+/*		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		AffineTransform trans1 = new AffineTransform();
 		trans1.rotate(Math.toRadians(this.getRotatedAngle()),(this.getRotationPoint().getX()*Game.camera.toMultiply() + Game.camera.toAddX()),(int)(this.getRotationPoint().getY()*Game.camera.toMultiply() + Game.camera.toAddY()));
@@ -550,8 +558,12 @@ public class Player extends LivingObject{
 		g2.transform(trans1);
 		g2.drawImage(PlayerSkin,(int)((this.getRotationPoint().getX()-41)*Game.camera.toMultiply() + Game.camera.toAddX()),(int)((this.getRotationPoint().getY()-47)*Game.camera.toMultiply() + Game.camera.toAddY()),(int)(90*Game.screenRatio),(int)(115*Game.screenRatio),null);
 		//g2.drawImage(PlayerCannon,(int)((this.getAttachments()[2].getAttachmentRP().getX()-5)*Game.camera.toMultiply() + Game.camera.toAddX()),(int) ((this.getAttachments()[2].getAttachmentRP().getY()+2)*Game.camera.toMultiply() + Game.camera.toAddY()), (int)(14*Game.screenRatio),(int)(40*Game.screenRatio),null);
+<<<<<<< HEAD
 		g2.setTransform(old1);
 
+=======
+		g2.setTransform(old1);*/
+>>>>>>> refs/remotes/origin/OndraOptimizeBranch
 	}
 
 	public boolean isBerserkModeUnlocked() {
