@@ -301,7 +301,6 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	private void handleShooting(){
-<<<<<<< Upstream, based on master
 		for(LivingObject sob : shootingObs ) {	
 			if(sob.getAttachments() != null && sob.getAttachments().length > 0 && sob.getIsStunned() == false) {
 				for(ObjectAttachment att : sob.getAttachments()) {
@@ -312,66 +311,36 @@ public class Game extends JPanel implements MouseListener{
 						if(att instanceof ExplosiveShootingAtt) {
 							if(sob instanceof Player) {
 								if(att.getReloadTimer() >= att.getReloadLenght() &&  att.shouldShoot()) {
-=======
-		boolean done = false;
-		boolean exitLivingLoop = false;
-		while(true) {
-			done = true;
-			exitLivingLoop = false;
-			for(LivingObject sob : shootingObs ) {	
-		//		System.out.println("class : " + sob.getClass());
-				if(sob.getAttachments() != null && sob.getAttachments().length > 0 && sob.getIsStunned() == false) {
-					for(ObjectAttachment att : sob.getAttachments()) {
-						if(att instanceof MagazineAttachment) {
-							((MagazineAttachment) att).handleMagazine();
-						}
-						if(att instanceof InteractiveAttachment) {
-							if(att instanceof ExplosiveShootingAtt) {
-								if(sob instanceof Player) {
-									if(att.getReloadTimer() >= att.getReloadLenght() &&  att.shouldShoot()) {
-										addObToGame(((ExplosiveShootingAtt) att).Fire(sob.getShotImunes()),new int[] {5,6,7,9,10});
-										att.setReloadTimer(0);
-										exitLivingLoop = true;
-										break;
-									}
-								}
-								else if(att.getReloadTimer() >= att.getReloadLenght() && att.shouldShoot(att.getAimCorner())) {
->>>>>>> fe328cd Shooting patch
 									addObToGame(((ExplosiveShootingAtt) att).Fire(sob.getShotImunes()),new int[] {5,6,7,9,10});
 									att.setReloadTimer(0);
-									exitLivingLoop = true;
-									break;
 								}
 							}
-							else if(sob instanceof AI) {
-								if(att.getReloadTimer() >= att.getReloadLenght() && att.shouldShoot(att.getAimCorner())) {
-									addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,5,6,7,8,9,10,11});
-									att.setReloadTimer(0);
-								}
+							else if(att.getReloadTimer() >= att.getReloadLenght() && att.shouldShoot(att.getAimCorner())) {
+								addObToGame(((ExplosiveShootingAtt) att).Fire(sob.getShotImunes()),new int[] {5,6,7,9,10});
+								att.setReloadTimer(0);
 							}
-							else if(sob instanceof SpecialCharge) {
-								if(att.getReloadTimer() >= att.getReloadLenght() && att.shouldShoot()) {
-									addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,5,6,7,8,9,10,11});
-									att.setReloadTimer(0);
-								}
-							}
-							else if(att.getReloadTimer() >= att.getReloadLenght() && att.shouldShoot()) {
+						}
+						else if(sob instanceof AI) {
+							if(att.getReloadTimer() >= att.getReloadLenght() && att.shouldShoot(att.getAimCorner())) {
 								addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,5,6,7,8,9,10,11});
 								att.setReloadTimer(0);
 							}
-							if(att.getReloadTimer() != att.getReloadLenght()) { 
-								att.setReloadTimer(att.getReloadTimer()+1);
+						}
+						else if(sob instanceof SpecialCharge) {
+							if(att.getReloadTimer() >= att.getReloadLenght() && att.shouldShoot()) {
+								addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,5,6,7,8,9,10,11});
+								att.setReloadTimer(0);
 							}
+						}
+						else if(att.getReloadTimer() >= att.getReloadLenght() && att.shouldShoot()) {
+							addObToGame(att.shoot(sob.getShotImunes()), new int[] {1,2,3,4,5,6,7,8,9,10,11});
+							att.setReloadTimer(0);
+						}
+						if(att.getReloadTimer() != att.getReloadLenght()) { 
+							att.setReloadTimer(att.getReloadTimer()+1);
 						}
 					}
 				}
-				if(exitLivingLoop == true) {
-					done = false;
-					break;
-				}
-			}
-			if(done) {
-				return;
 			}
 		}
 	}

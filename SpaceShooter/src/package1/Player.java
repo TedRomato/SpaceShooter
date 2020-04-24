@@ -476,7 +476,7 @@ public class Player extends LivingObject{
 		Player p;
 		ObjectAttachment attachment1;
 		ObjectAttachment attachment2;
-		ExplosiveShootingAtt canon;
+		MagazineAttachment canon;
 //		ObjectAttachment straightLine;
 		Corner wp = new Corner(new double[] {rp[0] ,rp[1] + 10}, rp);
 
@@ -506,11 +506,10 @@ public class Player extends LivingObject{
 	    Corner b4 = new Corner(new double[] {rp[0] - 6,rp[1] + 40}, rp);
 
 		
-	    canon = new ExplosiveShootingAtt(new Corner[] {b1,b2,b3,b4}, new Corner(rp) , new double[] {rp[0], rp[1] + 5}, 0, wp, 0,0);
-	    canon.setMagazineParameters(100, 60);
+	    canon = new MagazineAttachment(new Corner[] {b1,b2,b3,b4}, new Corner(rp) , new double[] {rp[0], rp[1] + 5}, 0, wp, 0,0);
+	    canon.setMagazineParameters(5, 60);
 	    canon.setAttRangle(25);
 	    canon.setRotateWithParentOb(false);
-	    canon.setFireRotatingCharge(true);
 	//    canon.setRotationSegment(new double[] {-220,220});
 	    
 	    
@@ -543,7 +542,7 @@ public class Player extends LivingObject{
   
 	public void render(Graphics g) {
 		super.render(g);
-	/*	Graphics2D g2 = (Graphics2D) g;
+		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		AffineTransform trans1 = new AffineTransform();
 		trans1.rotate(Math.toRadians(this.getRotatedAngle()),(this.getRotationPoint().getX()*Game.camera.toMultiply() + Game.camera.toAddX()),(int)(this.getRotationPoint().getY()*Game.camera.toMultiply() + Game.camera.toAddY()));
@@ -551,11 +550,8 @@ public class Player extends LivingObject{
 		g2.transform(trans1);
 		g2.drawImage(PlayerSkin,(int)((this.getRotationPoint().getX()-41)*Game.camera.toMultiply() + Game.camera.toAddX()),(int)((this.getRotationPoint().getY()-47)*Game.camera.toMultiply() + Game.camera.toAddY()),(int)(90*Game.screenRatio),(int)(115*Game.screenRatio),null);
 		//g2.drawImage(PlayerCannon,(int)((this.getAttachments()[2].getAttachmentRP().getX()-5)*Game.camera.toMultiply() + Game.camera.toAddX()),(int) ((this.getAttachments()[2].getAttachmentRP().getY()+2)*Game.camera.toMultiply() + Game.camera.toAddY()), (int)(14*Game.screenRatio),(int)(40*Game.screenRatio),null);
-<<<<<<< Upstream, based on master
-		g2.setTransform(old1);*/
-=======
 		g2.setTransform(old1);
->>>>>>> c0b2f0e rebase
+
 	}
 
 	public boolean isBerserkModeUnlocked() {
