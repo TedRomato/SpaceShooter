@@ -335,7 +335,7 @@ public class GameModeTower extends Game{
 		}
 	}
 	public void nextWave() {
-		if(ais.size() == 0 && wave != waveCount+1 && waveEnd) {
+		if(ais.length == 0 && wave != waveCount+1 && waveEnd) {
 			wave++;
 			AIneeded = true;
 			PowerLevel=0;

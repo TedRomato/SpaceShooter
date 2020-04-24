@@ -10,7 +10,7 @@ public class SpaceCruiser extends LongRangeAI{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateInSD(List<GameObject> enemys, List<GameObject> gos, List<AI> ais) {
+	public void updateInSD(GameObject[] enemys, GameObject[] gos, AI[] ais) {
 		handleTurretFire(getTargetedEnemy().getRotationPoint().getPointDistance(this.getRotationPoint()));
 		updateAllAimCorners(getTargetedEnemy());
 		checkAndHandleTrack(gos);
@@ -52,7 +52,7 @@ public class SpaceCruiser extends LongRangeAI{
 		}
 	}
 	
-	public static SpaceCruiser makeNewSpaceCruiser(double x, double y, List<GameObject> list) {
+	public static SpaceCruiser makeNewSpaceCruiser(double x, double y, GameObject[] gameObjects) {
 		SpaceCruiser ai;
 		//H1
 		Corner h11 = new Corner(new double[] {x + -50, y + -10}, new double[] {x,y});
@@ -166,7 +166,7 @@ public class SpaceCruiser extends LongRangeAI{
 	    ai.addAttachment(canon1);
 	    ai.addAttachment(canon2);
 	    ai.setHP(20);
-	    ai.getClosestEnemy(list);
+	    ai.getClosestEnemy(gameObjects);
 	    ai.setGoingDistance(400);
 
 	   

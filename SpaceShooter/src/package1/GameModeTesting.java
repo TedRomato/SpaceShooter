@@ -58,16 +58,7 @@ public class GameModeTesting extends Game{
 	}
 	
 	public void spawnBunchOfMines(int amount) {
-<<<<<<< HEAD
-        for(int i = 0; i < amount/4; i++) {
-              addObToGame(HuntingMine.makeNewHuntingMine(800, i*80, getAiEnemys()),new int[] {4,7,9,10,11});
-              addObToGame(HuntingMine.makeNewHuntingMine(1200+500, i*80, getAiEnemys()),new int[] {4,7,9,10,11});
-              addObToGame(HuntingMine.makeNewHuntingMine(1100+500, i*80, getAiEnemys()),new int[] {4,7,9,10,11});
-              addObToGame(HuntingMine.makeNewHuntingMine(900, i*80, getAiEnemys()),new int[] {4,7,9,10,11});
-            
-        }
-    }
-=======
+
 		for(int i = 0; i < amount; i++) {
 			if(i % 2 == 0) {
 				addObToGame(HuntingMine.makeNewHuntingMine(i*50+500, i*80+600, getAiEnemys()),new int[] {4,7,9,10,11});
@@ -76,7 +67,6 @@ public class GameModeTesting extends Game{
 			}
 		}
 	}
->>>>>>> refs/remotes/origin/OndraOptimizeBranch
 	
 	
 	public void tick() { 

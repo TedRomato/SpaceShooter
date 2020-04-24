@@ -9,7 +9,7 @@ public class Hunter extends AI{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public static Hunter  makeNewHunter(double x, double y, List<GameObject> enemys) {
+	public static Hunter  makeNewHunter(double x, double y, GameObject[] gameObjects) {
 				//ai
 				Corner leftTop = new Corner(new double[] {x-20,y - 45}, new double[] {x ,y});
 				Corner	peak= new Corner(new double[] {x,y + 70}, new double[] {x ,y});
@@ -91,13 +91,13 @@ public class Hunter extends AI{
 			    ai.addAttachment(att2);
 			    ai.setHP(4);
 			    ai.setReflectedSpeed(7);
-			    ai.getClosestEnemy(enemys);
+			    ai.getClosestEnemy(gameObjects);
 			    ai.setPlayerFocus(true);
 			    ai.setStoppingDistance(250);
 			    return ai;
 	}
 	
-	public void updateAI(List<GameObject> enemys, List<GameObject> gos, List<AI> ais) {
+	public void updateAI(GameObject[] enemys, GameObject[] gos, AI[] ais) {
 		if(isInStoppingDistance()) {
 		    setShootForInteractiveAtts(true);
 		}

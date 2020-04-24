@@ -203,7 +203,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	
 	
-	public void handleFriendlyFire(List<AI> ais) {
+	public void handleFriendlyFire(AI[] ais) {
 		for(AI ai : ais) {
 			if(ai instanceof HuntingMine == false) {
 				if(ai.checkCollision(shotTrajectory)) {

@@ -15,7 +15,7 @@ public class Summoner extends AI{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateAI(List<GameObject> enemys, List<GameObject> gos, List<AI> ais) {
+	public void updateAI(GameObject[] enemys, GameObject[] gos, AI[] ais) {
 		runIfTooClose(getTargetedEnemy());
 		super.updateAI(enemys, gos, ais);
 		stopIfTooClose(getTargetedEnemy());
@@ -37,17 +37,17 @@ public class Summoner extends AI{
 		}
 	}
 	
-	public AI handleSummoner(List<GameObject> enemys) {
+	public AI handleSummoner(GameObject[] gameObjects) {
 		updateTimer();
 		if(onCooldown == false && !getIsStunned()) {
 			onCooldown = true;
-			return summonAI(enemys);
+			return summonAI(gameObjects);
 		}else {
 			return null;
 		}
 	}
 	
-	public AI summonAI(List<GameObject> enemys) {
+	public AI summonAI(GameObject[] enemys) {
 		int whichOne = (int) (Math.floor(Math.random()*4));
 		HuntingMine ai = HuntingMine.makeNewHuntingMine(summoningDestinations[whichOne].getX(), summoningDestinations[whichOne].getY(), enemys);
 		return ai;
