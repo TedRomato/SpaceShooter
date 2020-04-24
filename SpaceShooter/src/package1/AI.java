@@ -2,6 +2,7 @@ package package1;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.List;
 import java.util.Random;
 
 public class AI extends LivingObject{
@@ -71,13 +72,13 @@ public class AI extends LivingObject{
 	
 	//Guides AI to goal destination, if about to crash gives priority to avoiding collision 
 	
-	public void updateAI(GameObject[] aiEnemys, GameObject[] gos, AI[] ais) {
+	public void updateAI(GameObject[] aiEnemys, GameObject[] aiVisible, AI[] ais) {
 		aiUpdateTimer++;
 		if(aiUpdateTimer >= aiUpdateLenght) {
 			aiUpdateTimer = 0;
 			getClosestEnemy(aiEnemys);
 			updateAllAimCorners(getTargetedEnemy());
-			checkAndHandleTrack(gos);
+			checkAndHandleTrack(aiVisible);
 			updateIsInStoppingDistance(getTargetedEnemy());
 		}
 		updateRotationToGoal();
@@ -99,9 +100,9 @@ public class AI extends LivingObject{
 		}
 	}
 	
-	protected void checkAndHandleTrack(GameObject[] gos) {
+	protected void checkAndHandleTrack(GameObject[] aiVisible) {
 		setAllIsTriggered(false);
-		setAllDLTriggeresToCurrentObs(gos);
+		setAllDLTriggeresToCurrentObs(aiVisible);
 		handleTrack();
 	}
 	
@@ -144,8 +145,8 @@ public class AI extends LivingObject{
 		
 	
 	//Loops through all gos and set triggered lines to isTriggered 
-	private void setAllDLTriggeresToCurrentObs(GameObject[] gos) {
-		for(GameObject go : gos) {
+	private void setAllDLTriggeresToCurrentObs(GameObject[] aiVisible) {
+		for(GameObject go : aiVisible) {
 			if(go != this && go instanceof Missile == false) {
 				for(int i = 0; i < leftDetectionLines.length && i < rightDetectionLines.length; i++) {
 					if(leftDetectionLines[i].getTriggered() == false) {
@@ -319,28 +320,31 @@ public class AI extends LivingObject{
 	
 	//Behavioral methods
 	
-	public void getClosestEnemy(GameObject[] enemys) {
-		if(enemys.length <= 0 ) {
+	public void getClosestEnemy(GameObject[] aiEnemys) {
+		if(aiEnemys.length <= 0 ) {
 			targetedEnemy = null;
 		}
-		int closestEnemy = 0;
+		GameObject closestEnemy = null;
 		double closest = 100000;
-		for(int i = 0; i < enemys.length; i++) {
-			double newDistance = this.getRotationPoint().getPointDistance(enemys[i].getRotationPoint());
+
+		for(GameObject gob : aiEnemys) {
+			double newDistance = this.getRotationPoint().getPointDistance(gob.getRotationPoint());
 			if(playerFocus == true) {
-				if(newDistance < closest && enemys[i] instanceof Player) {
-				closestEnemy = i;
-				closest = newDistance;
+				if(newDistance < closest && gob instanceof Player) {
+					closestEnemy = gob;
+					closest = newDistance;
 				}	
 			}
 			else {
 				if(newDistance < closest) {
-					closestEnemy = i;
+					closestEnemy = gob;
 					closest = newDistance;
 				}
 			}
-		targetedEnemy = enemys[closestEnemy];
-		}	
+		targetedEnemy = closestEnemy;
+		}
+		
+		
 	}
 	
 	/*

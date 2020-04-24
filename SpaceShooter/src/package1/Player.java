@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -21,6 +22,10 @@ public class Player extends LivingObject{
 	boolean wasDamagedByZone = false;
 	int zoneDamagedTimerLenght = 60;
 	int zoneDamagedTimer = 0;
+	
+	int shieldHP = 5, shieldDuration = 300, shieldCooldown = 600, shieldTimer = shieldCooldown;
+	boolean activateShield = false, shieldIsUnlocked = true;
+	
 	
 	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
 	boolean pulse = false, pulseIsUnlocked = false;
@@ -39,7 +44,7 @@ public class Player extends LivingObject{
 
 	double baseSpeed, dashSpeed = 20;
 	
-	int moveChar = 87, turnLeftChar = 65, turnRightChar = 68, dashChar = 16, reloadChar = 82, abilityChar = 32, berserkChar = 66, pushChar = 81;
+	int moveChar = 87, turnLeftChar = 65, turnRightChar = 68, dashChar = 16, reloadChar = 82, abilityChar = 32, berserkChar = 67, pushChar = 81, shieldChar = 70;
 	int faceCanon = -1;
 	int machinegun = -1;
 	int baseCanon = 2;
@@ -88,6 +93,13 @@ public class Player extends LivingObject{
 
 	
 	public void handlePlayerKeys() {
+		if(Game.keyChecker.checkIfkeyIsPressed(shieldChar)) {
+			
+			if(shieldTimer >= shieldCooldown && shieldIsUnlocked) {
+				activateShield = true;
+				shieldTimer=0;
+			}
+		}
 		if(Game.keyChecker.checkIfkeyIsPressed(pushChar)) {
 			
 			if(pulseCooldownTimer >= pulseCooldown && pulseIsUnlocked) {
@@ -186,7 +198,24 @@ public class Player extends LivingObject{
 			usingMG = false;
 			}
 		}
+	
+	public Shield useShield() {
+		Shield s = Shield.makeShield(this.getRotationPoint(), 150);
+		s.setHP(shieldHP);
+		s.setDuration(shieldDuration);
+		s.setUpShield(true, new GameObject[] {}, this);
+		return s;
+	}
+	
+	public void handleShieldCooldown() {
+		if(shieldTimer < shieldCooldown) {
+			shieldTimer++;
+		}
+	}
+	
+
 	public void usePulse(GameObject[] obs) {
+
 		if(pulseCooldownTimer >= pulseCooldown) {
 			for(GameObject go : obs) {
 				if(go instanceof LivingObject) {
@@ -255,7 +284,6 @@ public class Player extends LivingObject{
 				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(false);
 			}	
 			else if(fireMG) {
-				System.out.println("jsem tu");
 				((InteractiveAttachment) getAttachments()[machinegun]).setShoot(true);
 				((InteractiveAttachment) getAttachments()[machinegun+1]).setShoot(true);
 			}
@@ -275,7 +303,7 @@ public class Player extends LivingObject{
 				exploWaveCounter++;
 				if(exploWaveCounter <= exploWave) {
 					exploTimer = 0;
-					return makePeriodicExplosion(50, getRotationPoint(), chunks, getShotImunes());
+					return makePeriodicExplosion(50, getRotationPoint(), chunks, getShotImunes(),1);
 				}else {
 					exploWaveCounter = 0;
 					exploTimer = 0;
@@ -297,6 +325,7 @@ public class Player extends LivingObject{
 		fireMG();
 		handleDashCooldown();
 		handlePulseCooldown();
+		handleShieldCooldown();
 		rotateGuns();
 	}
 	
