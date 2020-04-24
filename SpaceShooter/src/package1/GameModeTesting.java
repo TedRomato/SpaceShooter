@@ -9,7 +9,11 @@ public class GameModeTesting extends Game{
 	public GameModeTesting(int sw, int sh) {
 		super(sw, sh, true);
 
+<<<<<<< Upstream, based on master
 		spawnBunchOfMines(60);
+=======
+	//	spawnBunchOfMines(100);
+>>>>>>> fe328cd Shooting patch
 	//	SpaceCanon ai12 = SpaceCanon.makeNewSpaceCanon(1000,800, getAiEnemys());
 	//	SpaceCanon ai13 = SpaceCanon.makeNewSpaceCanon(1200,860,getAiEnemys());
 	//	SpaceCanon ai14 = SpaceCanon.makeNewSpaceCanon(900,750,getAiEnemys());

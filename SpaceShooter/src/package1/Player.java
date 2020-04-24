@@ -476,7 +476,7 @@ public class Player extends LivingObject{
 		Player p;
 		ObjectAttachment attachment1;
 		ObjectAttachment attachment2;
-		MagazineAttachment canon;
+		ExplosiveShootingAtt canon;
 //		ObjectAttachment straightLine;
 		Corner wp = new Corner(new double[] {rp[0] ,rp[1] + 10}, rp);
 
@@ -506,10 +506,11 @@ public class Player extends LivingObject{
 	    Corner b4 = new Corner(new double[] {rp[0] - 6,rp[1] + 40}, rp);
 
 		
-	    canon = new MagazineAttachment(new Corner[] {b1,b2,b3,b4}, new Corner(rp) , new double[] {rp[0], rp[1] + 5}, 0, wp, 0,0);
-	    canon.setMagazineParameters(5, 60);
+	    canon = new ExplosiveShootingAtt(new Corner[] {b1,b2,b3,b4}, new Corner(rp) , new double[] {rp[0], rp[1] + 5}, 0, wp, 0,0);
+	    canon.setMagazineParameters(100, 60);
 	    canon.setAttRangle(25);
 	    canon.setRotateWithParentOb(false);
+	    canon.setFireRotatingCharge(true);
 	//    canon.setRotationSegment(new double[] {-220,220});
 	    
 	    
