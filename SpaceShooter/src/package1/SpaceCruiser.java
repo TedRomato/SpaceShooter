@@ -24,7 +24,7 @@ public class SpaceCruiser extends LongRangeAI{
 		handleAllFriendlyFire(ais);
 		
 	}
-	public void updateAI(List<GameObject> enemys, List<GameObject> gos, List<AI> ais) {
+	public void updateAI(GameObject[] enemys, GameObject[] gos, AI[] ais) {
 		super.updateAI(enemys, gos, ais);
 		handleTurrets();
 

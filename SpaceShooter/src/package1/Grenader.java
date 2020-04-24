@@ -8,7 +8,7 @@ public class Grenader extends LongRangeAI{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateInSD(List<GameObject> enemys, List<GameObject> gos, List<AI> ais) {
+	public void updateInSD(GameObject[] enemys, GameObject[] gos, AI[] ais) {
 		super.updateInSD(enemys, gos, ais);
 		handleTurrets();
 	}
@@ -19,7 +19,7 @@ public class Grenader extends LongRangeAI{
 		}
 	}
 	
-	public static Grenader makeNewGrenader(double x, double y, List<GameObject> enemys) {
+	public static Grenader makeNewGrenader(double x, double y, GameObject[] enemys) {
 		Grenader ai;
 		ExplosiveShootingAtt canon;
 		//H1

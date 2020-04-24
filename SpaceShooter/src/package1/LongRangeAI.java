@@ -17,7 +17,7 @@ public class LongRangeAI extends AI{
 		this.wayPoint = wP;
 	}
 	
-	public void updateAI(List<GameObject> enemys, List<GameObject> gos, List<AI> ais) {
+	public void updateAI(GameObject[] enemys, GameObject[] gos, AI[] ais) {
 		if(isInStoppingDistance()) {
 			if(wasInStoppingDistance == false) {
 				setShootForInteractiveAtts(true);
@@ -79,7 +79,7 @@ public class LongRangeAI extends AI{
 		
 	}
 	
-	public void updateInSD(List<GameObject> enemys, List<GameObject> gos, List<AI> ais) {
+	public void updateInSD(GameObject[] enemys, GameObject[] gos, AI[] ais) {
 		getClosestEnemy(enemys);
 		updateAllAimCorners(getTargetedEnemy());
 		checkAndHandleTrack(gos);
