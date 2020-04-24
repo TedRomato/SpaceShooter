@@ -174,7 +174,6 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void tick() {
-	//	respawnMeteorsToAmount(5);
 		updatePlayer();
 		handleShooting();	
 		checkAndHandleCollision();
@@ -384,9 +383,9 @@ public class Game extends JPanel implements MouseListener{
 				if(objects[i] != compareArray[x]) {
 					
 					if(objects[i].checkCollision(compareArray[x])) {
-						if(objects[i].getInvulnurability() == false) {
+					//	if(objects[i].getInvulnurability() == false) {
 							objects[i].handleCollision(compareArray[x]);
-							}
+					//		}
 								
 						}
 					}

@@ -1,6 +1,8 @@
 package package1;
 
 public class Grenade extends Explosives{
+	
+	int dmg = 4;
 
 	public Grenade(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md) {
 		super(corners, rotationPoint, rotationAngle, md);
@@ -15,7 +17,7 @@ public class Grenade extends Explosives{
 
 	public Missile[] explode() {
 		if(getHP() <= 0) {
-			return makePeriodicExplosion(25, getRotationPoint(), 16, getShotImunes());
+			return makePeriodicExplosion(25, getRotationPoint(), 16, getShotImunes(), dmg);
 		}else {
 			return null;
 		}
