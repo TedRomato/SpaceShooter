@@ -525,7 +525,11 @@ public class Player extends LivingObject{
 		g2.transform(trans1);
 		g2.drawImage(PlayerSkin,(int)((this.getRotationPoint().getX()-41)*Game.camera.toMultiply() + Game.camera.toAddX()),(int)((this.getRotationPoint().getY()-47)*Game.camera.toMultiply() + Game.camera.toAddY()),(int)(90*Game.screenRatio),(int)(115*Game.screenRatio),null);
 		//g2.drawImage(PlayerCannon,(int)((this.getAttachments()[2].getAttachmentRP().getX()-5)*Game.camera.toMultiply() + Game.camera.toAddX()),(int) ((this.getAttachments()[2].getAttachmentRP().getY()+2)*Game.camera.toMultiply() + Game.camera.toAddY()), (int)(14*Game.screenRatio),(int)(40*Game.screenRatio),null);
+<<<<<<< Upstream, based on master
 		g2.setTransform(old1);*/
+=======
+		g2.setTransform(old1);
+>>>>>>> c0b2f0e rebase
 	}
 
 	public boolean isBerserkModeUnlocked() {
