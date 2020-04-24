@@ -49,7 +49,7 @@ public class GameModeTesting extends Game{
 		//Shield s = Shield.makeShield(new Corner(new double[] {500,500}), 150);
 		//s.setUpShield(true, new GameObject[] {}, p);
 	//	addObToGame(s, new int[] {1,2,3,4,5,6,7,8,9,10,11});
-	//	spawnBunchOfMines(12);
+		//spawnBunchOfMines(12);
 
 		
 
@@ -58,14 +58,14 @@ public class GameModeTesting extends Game{
 	}
 	
 	public void spawnBunchOfMines(int amount) {
-		for(int i = 0; i < amount; i++) {
-			if(i % 2 == 0) {
-				addObToGame(HuntingMine.makeNewHuntingMine(i*50+2000, i*80+1500, getAiEnemys()),new int[] {4,7,9,10,11});
-			}else {
-				addObToGame(HuntingMine.makeNewHuntingMine(i*80+1500, i*50+200, getAiEnemys()),new int[] {4,7,9,10,11});
-			}
-		}
-	}
+        for(int i = 0; i < amount; i++) {
+            if(i % 2 == 0) {
+                addObToGame(HuntingMine.makeNewHuntingMine(i*50+500, i*80+600, getAiEnemys()),new int[] {4,7,9,10,11});
+            }else {
+                addObToGame(HuntingMine.makeNewHuntingMine(i*80+200, i*50+300, getAiEnemys()),new int[] {4,7,9,10,11});
+            }
+        }
+    }
 	
 	
 	public void tick() { 
