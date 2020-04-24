@@ -9,7 +9,7 @@ public class GameModeTesting extends Game{
 	public GameModeTesting(int sw, int sh) {
 		super(sw, sh, true);
 
-
+		spawnBunchOfMines(60);
 	//	SpaceCanon ai12 = SpaceCanon.makeNewSpaceCanon(1000,800, getAiEnemys());
 	//	SpaceCanon ai13 = SpaceCanon.makeNewSpaceCanon(1200,860,getAiEnemys());
 	//	SpaceCanon ai14 = SpaceCanon.makeNewSpaceCanon(900,750,getAiEnemys());
@@ -58,14 +58,14 @@ public class GameModeTesting extends Game{
 	}
 	
 	public void spawnBunchOfMines(int amount) {
-		for(int i = 0; i < amount; i++) {
-			if(i % 2 == 0) {
-				addObToGame(HuntingMine.makeNewHuntingMine(i*50+2000, i*80+1500, getAiEnemys()),new int[] {4,7,9,10,11});
-			}else {
-				addObToGame(HuntingMine.makeNewHuntingMine(i*80+1500, i*50+200, getAiEnemys()),new int[] {4,7,9,10,11});
-			}
-		}
-	}
+        for(int i = 0; i < amount/4; i++) {
+              addObToGame(HuntingMine.makeNewHuntingMine(800, i*80, getAiEnemys()),new int[] {4,7,9,10,11});
+              addObToGame(HuntingMine.makeNewHuntingMine(1200+500, i*80, getAiEnemys()),new int[] {4,7,9,10,11});
+              addObToGame(HuntingMine.makeNewHuntingMine(1100+500, i*80, getAiEnemys()),new int[] {4,7,9,10,11});
+              addObToGame(HuntingMine.makeNewHuntingMine(900, i*80, getAiEnemys()),new int[] {4,7,9,10,11});
+            
+        }
+    }
 	
 	
 	public void tick() { 
