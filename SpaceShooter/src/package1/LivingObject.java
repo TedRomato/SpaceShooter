@@ -14,7 +14,6 @@ public class LivingObject extends MovingObject{
 	//can have attachments 
 	//other than that same methods, but work for attachment as well
 	GameObject[] shotImunes = new GameObject[] {};
-	boolean solid = true; 
 	private boolean forward = false, turnRight = false, turnLeft = false;
 	private Corner movePoint;
 	private double maxSpeed = 7;
@@ -297,13 +296,7 @@ public class LivingObject extends MovingObject{
 	}
 
 	
-	public boolean isSolid() {
-		return solid;
-	}
 
-	public void setSolid(boolean solid) {
-		this.solid = solid;
-	}
 
 	public void makeSquare() {
 		double biggest = 0;
@@ -410,13 +403,13 @@ public class LivingObject extends MovingObject{
 		}
 	}
 	
-	public Missile[] makePeriodicExplosion(int distance, Corner rp, int chunks, GameObject[] im){
+	public Missile[] makePeriodicExplosion(int distance, Corner rp, int chunks, GameObject[] im, int dmg){
 		Missile[] m = new Missile[chunks];
 		Corner[] rpList = GameObject.generatePeriodicObject(50, chunks, rp).getCorners();
 		Corner[] mdList = GameObject.generatePeriodicObject(70, chunks, rp).getCorners();
 		
 		for(int i = 0; i < chunks; i++) {
-			m[i] = Missile.makeNewMissile(rpList[i], 1, mdList[i], im);
+			m[i] = Missile.makeNewMissile(rpList[i], dmg, mdList[i], im);
 		}
 		
 		return m;

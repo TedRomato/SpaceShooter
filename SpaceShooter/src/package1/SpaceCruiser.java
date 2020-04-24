@@ -1,5 +1,7 @@
 package package1;
 
+import java.util.List;
+
 public class SpaceCruiser extends LongRangeAI{
 
 	public SpaceCruiser(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,
@@ -50,7 +52,7 @@ public class SpaceCruiser extends LongRangeAI{
 		}
 	}
 	
-	public static SpaceCruiser makeNewSpaceCruiser(double x, double y, GameObject[] enemys) {
+	public static SpaceCruiser makeNewSpaceCruiser(double x, double y, GameObject[] gameObjects) {
 		SpaceCruiser ai;
 		//H1
 		Corner h11 = new Corner(new double[] {x + -50, y + -10}, new double[] {x,y});
@@ -164,7 +166,7 @@ public class SpaceCruiser extends LongRangeAI{
 	    ai.addAttachment(canon1);
 	    ai.addAttachment(canon2);
 	    ai.setHP(20);
-	    ai.getClosestEnemy(enemys);
+	    ai.getClosestEnemy(gameObjects);
 	    ai.setGoingDistance(400);
 
 	   

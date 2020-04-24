@@ -1,6 +1,7 @@
 package package1;
 
 import java.awt.Graphics;
+import java.util.List;
 
 public class SpaceCanon extends AI{
 	public SpaceCanon(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
@@ -8,7 +9,7 @@ public class SpaceCanon extends AI{
 		
 	}
 	
-	public static SpaceCanon makeNewSpaceCanon(double x, double y, GameObject[] enemys) {
+	public static SpaceCanon makeNewSpaceCanon(double x, double y, GameObject[] gameObjects) {
 		//ai
 		Corner[] corners = GameObject.generatePeriodicObject(30, 8, new Corner(new double[] {x,y})).getCorners();
 	    
@@ -55,7 +56,7 @@ public class SpaceCanon extends AI{
 	    ai.setReflectedSpeed(6);
 	    ai.setStoppingDistance(900);
 	    ai.setShootForInteractiveAtts(true);
-	    ai.getClosestEnemy(enemys);
+	    ai.getClosestEnemy(gameObjects);
 	    return ai;
 	}
 	

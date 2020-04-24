@@ -16,7 +16,7 @@ public class SideShootingCharge extends SpecialCharge{
 	}
 	
 	public Missile[] explode() {
-		return makePeriodicExplosion(25, this.getRotationPoint(), 8, getShotImunes());
+		return makePeriodicExplosion(25, this.getRotationPoint(), 8, getShotImunes(),1);
 	}
 
 	public void updateExplosive() {

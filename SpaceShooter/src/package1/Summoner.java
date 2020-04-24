@@ -1,6 +1,7 @@
 package package1;
 
 import java.awt.Graphics;
+import java.util.List;
 
 public class Summoner extends AI{
 	double w8Length = 50;
@@ -36,11 +37,11 @@ public class Summoner extends AI{
 		}
 	}
 	
-	public AI handleSummoner(GameObject[] enemys) {
+	public AI handleSummoner(GameObject[] gameObjects) {
 		updateTimer();
 		if(onCooldown == false && !getIsStunned()) {
 			onCooldown = true;
-			return summonAI(enemys);
+			return summonAI(gameObjects);
 		}else {
 			return null;
 		}

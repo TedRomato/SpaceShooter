@@ -174,7 +174,6 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void tick() {
-	//	respawnMeteorsToAmount(5);
 		updatePlayer();
 		handleShooting();	
 		checkAndHandleCollision();
@@ -192,12 +191,14 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void updatePlayer() {
+		handleShields();
 		handlePulse();
 		handleBerserkModes();
 		handlePlayerOutsideSafeZone();
 		p.handlePlayerKeys();
 		updatePlayerAimPoint();
 		p.updatePlayer();
+
 	}
 	
 	public void handlePulse() {
@@ -206,11 +207,20 @@ public class Game extends JPanel implements MouseListener{
 			p.setPulse(false);
 		}
 	}
-	
+	/*
 	public void activateShieldFor(GameObject go, int radius, int HP) {
 		Shield s = Shield.makeShield(go.getRotationPoint(), radius);
 		s.setHP(HP);
+		s.setUpShield(true, new GameObject[] {}, p);
 		addObToGame(s, new int[] {1,2,3,4,5,6,7,8,9,10,11});
+	}
+	*/
+	public void handleShields() {
+		if(p.activateShield) {
+			System.out.println("jsem tu");
+			addObToGame(p.useShield(), new int[] {1,2,3,4,5,6,7,8,9,10,11});
+			p.activateShield = false;
+		}
 	}
 	
 	public void handleBerserkModes() {
@@ -373,9 +383,9 @@ public class Game extends JPanel implements MouseListener{
 				if(objects[i] != compareArray[x]) {
 					
 					if(objects[i].checkCollision(compareArray[x])) {
-						if(objects[i].getInvulnurability() == false) {
+					//	if(objects[i].getInvulnurability() == false) {
 							objects[i].handleCollision(compareArray[x]);
-							}
+					//		}
 								
 						}
 					}

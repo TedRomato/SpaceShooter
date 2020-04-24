@@ -12,7 +12,18 @@ public class Shield extends GameObject{
 	boolean AIBlock = false;
 	GameObject[] whoToBlock = new GameObject[0];
 	
-
+	int duration = 600;
+	int durationTimer = 0;
+	boolean hasDuration = false;
+	
+	public void updateDuration() {
+		if(hasDuration) {
+			durationTimer++;
+			if(durationTimer >= duration) {
+				this.setHP(0);
+			}
+		}
+	}
 	
 
 	public static Shield makeShield(Corner rp, int radius) {
@@ -69,12 +80,17 @@ public class Shield extends GameObject{
 			rotateOb();
 			getCollisionSquare().setToRP(getRotationPoint());
 		}
+		updateDuration();
 	}
 	
 	public void setUpShield(boolean aiBlock, GameObject[] toBlock, GameObject go) {
 		AIBlock = aiBlock;
 		whoToBlock = toBlock;
 		parent = go;
+	}
+	public void setDuration(int duration) {
+		this.duration = duration;
+		hasDuration = true;
 	}
 	
 	public void render(Graphics g) {
