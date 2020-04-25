@@ -34,6 +34,7 @@ public class Game extends JPanel implements MouseListener{
 
 	public static JLabel scoreDisplay, Warning;
 	private BufferedImage WarningSign;
+	private BufferedImage bg;
 	protected int score = 0;
 	private boolean ShowScore;
 	public static int currentScreenWidth;
@@ -89,6 +90,12 @@ public class Game extends JPanel implements MouseListener{
 	    
 	    try {
 			WarningSign = ImageIO.read(new File("src/Icons/Warning.png"));
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+	    try {
+			bg = ImageIO.read(new File("src/BG/SpaceShooterBG.png"));
 		} catch (IOException e) {
 			
 			e.printStackTrace();
@@ -624,6 +631,7 @@ public class Game extends JPanel implements MouseListener{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		renderAll(g2);
+//		g2.drawImage(bg,(int)((-600*Game.camera.toMultiply()) + Game.camera.toAddX()), (int)((-600*Game.camera.toMultiply()) + Game.camera.toAddY()),1920,1200,null);
 		if(p.checkIfOutsideRect(0, 0, mainWidth, mainHeight)) {
 			g2.drawImage(WarningSign,currentScreenWidth/2-260, currentScreenHeight/2-200,100,100, null);
 			g2.drawImage(WarningSign,currentScreenWidth/2+150, currentScreenHeight/2-200,100,100, null);

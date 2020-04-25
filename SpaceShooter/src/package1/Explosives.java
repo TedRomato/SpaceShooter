@@ -97,4 +97,8 @@ public class Explosives extends LivingObject{
 		setCurrentSpeed(getMaxSpeed());
 		setNewVels();
 	}
+	
+	public void startStun(int stunLenght) {
+		setHP(0);
+	}
 }
