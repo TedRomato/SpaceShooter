@@ -32,7 +32,7 @@ public class Player extends LivingObject{
 	int stunLenght = 300;
 	double pulseRange = 900;
 
-	int  berserkModeCooldown = 1800, berserkModeTimer = berserkModeCooldown, costInLives = 3;
+	int  berserkModeCooldown = 1800, berserkModeTimer = berserkModeCooldown, costInLives = 5;
 	int exploWave = 10, exploWaveCounter = 0,  exploTimer = 0,  exploLenght = 20;
 	double berserkSpeed = 12;
 	int chunks = 20;
@@ -213,6 +213,12 @@ public class Player extends LivingObject{
 		}
 	}
 	
+	public void upgradeShield() {
+		shieldHP ++;
+		shieldDuration += 60;
+		shieldCooldown -= 15;  
+	}
+	
 
 	public void usePulse(GameObject[] obs) {
 
@@ -240,6 +246,11 @@ public class Player extends LivingObject{
 		if(pulseCooldownTimer < pulseCooldown) {
 			pulseCooldownTimer++;
 		}
+	}
+	
+	public void upgradePulse() {
+		stunLenght++;
+		pulseRange += 50;
 	}
 		
 	private void handleZoneTimer() {
@@ -276,7 +287,7 @@ public class Player extends LivingObject{
 	
 	private void fireMG() {
 		if(machinegun != -1) {
-			if(((MagazineAttachment) getAttachments()[machinegun]).getMagazineReloadTimer() >= ((MagazineAttachment) getAttachments()[machinegun]).getMagazineReloadLenght()) {
+			if(((MagazineAttachment) getAttachments()[machinegun]).getMagazineReloadTimer() > 0) {
 				fireMG = false;
 			}
 			if(fireMG == false) {
@@ -317,7 +328,12 @@ public class Player extends LivingObject{
 			berserkModeTimer++;
 		}
 		return null;
-
+	}
+	
+	public void upgradeBerserkMode() {
+		exploWave ++;
+		chunks ++;
+		
 	}
 	
 	public void updatePlayer() {
@@ -531,13 +547,13 @@ public class Player extends LivingObject{
 	    p.setReflectedSpeed(6);
 	    p.addAttachment(canon);
 	    p.setReflectedLenght(20);
-	   //p.addFrontCanon();
-//	    p.addFrontMachineGun();
+//		p.addFrontCanon();
+	    p.addFrontMachineGun();
 //	    p.setDashUnlocked(true);
 //      p.setPulseUnlocked(true);
 //	    p.setBerserkModeUnlocked(true);
+//	    p.shieldIsUnlocked = true;
 //	    p.addAttachment(straightLine);
-
 //	    Shield s = Shield.makeShield(new Corner(rp), 150);
 //	    p.addAttachment(s);
 
@@ -548,6 +564,7 @@ public class Player extends LivingObject{
 	
 
 	public void render(Graphics g) {
+
 		super.render(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);

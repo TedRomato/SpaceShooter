@@ -99,4 +99,6 @@ public class Explosives extends LivingObject{
 		setCurrentSpeed(getMaxSpeed());
 		setNewVels();
 	}
+	
+
 }
