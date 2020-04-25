@@ -30,26 +30,26 @@ public class GameModeTower extends Game{
 
 	private LivingObject Tower;
 	private Hunter ht;
+	private Grenader gr;
 	private HuntingMine hm;
 	private Mothership mp;
 	private SpaceCanon sca;
 	private SpaceCruiser scr;
 	private JLabel waveDisplay, PlayerHPDisplay, PlayerAmmoDisplay, GameOver, PowerUpDisplay, MachineGunAmmoDisplay, RocketAmmoDisplay;
 	private Corner spawnCorner;
-	private JProgressBar TowerHPDisplay, PlayerReloadTime, MachineGunReload, FaceCannonReload, DashRefill;
-	private JButton Power1, Power2, Power3, Power4, Power5, Power6, Power7;
+	private JProgressBar TowerHPDisplay, PlayerReloadTime, MachineGunReload, FaceCannonReload, DashRefill, ShieldStatus, BerserkReloadTime, PulseReloadTime;
+	private JButton Power1, Power2, Power3, Power4, Power5, Power6, Power7, Power8;
 	private BufferedImage HealthIcon, AmmoIcon , Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, DashRefillIcon;
 	private Font font = new Font("josef", Font.PLAIN, 25);
-	private Container PowerContainer;
 	private int AIcount = 90;
 	private int wave = 1;
 	private int waveCount = 0;
 	private int PowerLevel = 0;
 	private int TowerBaseHP=1000;
-	private int NumberOfPowerUps = 5;
-	private int[] PowerLevelAr = new int[] {1,2,4,6,3};
+	private int NumberOfPowerUps = 6;
+	private int[] PowerLevelAr = new int[] {1,2,4,6,3,4};
 	private int AIrnd, PUrnd1, PUrnd2;
-	private boolean AIneeded = true, waveEnd = false, PUpicked = false;
+	private boolean AIneeded = true, waveEnd = false, PUpicked = false, ULTpicked = false;
 	
 	public GameModeTower(int sw, int sh) {
 		super(sw, sh, true);
@@ -201,8 +201,89 @@ public class GameModeTower extends Game{
 				
 			}
 		});
-		
-		
+		Power6 = new JButton("Shield");
+		Power6.addMouseListener(this);
+		Power6.setName("Power6");
+		Power6.setFocusable(false);
+		//Power6.setIcon(new ImageIcon(DashIcon));
+		Power6.setBackground(Color.WHITE);
+		Power6.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				removeButtons();
+				invalidate();
+				revalidate();
+				if(!p.isShieldIsUnlocked()) {	
+					p.setShieldIsUnlocked(true);
+					ShieldStatus.setMaximum(p.getShieldCooldown());
+					ShieldStatus.setValue(p.getShieldCooldown());
+					add(ShieldStatus);
+				} 
+				else {
+					//p.upgradeShield();
+				}
+				running = true;
+				PUpicked = true;
+				
+			}
+		});
+		Power7 = new JButton("Pulse");
+		Power7.addMouseListener(this);
+		Power7.setName("Power7");
+		Power7.setFocusable(false);
+		//Power7.setIcon(new ImageIcon(DashIcon));
+		Power7.setBackground(Color.WHITE);
+		Power7.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				removeButtons();
+				invalidate();
+				revalidate();
+				if(!p.pulseIsUnlocked) {	
+					p.setPulseUnlocked(true);
+					PulseReloadTime.setMaximum(p.getPulseCooldown());
+					PulseReloadTime.setValue(p.getPulseCooldown());
+					add(PulseReloadTime);
+				} 
+				else {
+					//p.upgradePulse();
+				}
+				running = true;
+				ULTpicked = true;
+				PUpicked = true;
+				
+			}
+		});
+		Power8 = new JButton("BerserkMode");
+		Power8.addMouseListener(this);
+		Power8.setName("Power8");
+		Power8.setFocusable(false);
+		//Power8.setIcon(new ImageIcon(DashIcon));
+		Power8.setBackground(Color.WHITE);
+		Power8.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				removeButtons();
+				invalidate();
+				revalidate();
+				if(!p.isBerserkModeUnlocked()) {	
+					p.setBerserkModeUnlocked(true);
+					BerserkReloadTime.setMaximum(p.getBerserkModeCooldown());
+					BerserkReloadTime.setValue(p.getBerserkModeCooldown());
+					add(BerserkReloadTime);
+				} 
+				else {
+					//p.upgradeBerserkMode();
+				}
+				running = true;
+				ULTpicked = true;
+				PUpicked = true;
+				
+			}
+		});
 		PowerUpDisplay = new JLabel("");
 		PowerUpDisplay.setFont(font);
 		PowerUpDisplay.setHorizontalAlignment(SwingConstants.CENTER);
@@ -256,6 +337,18 @@ public class GameModeTower extends Game{
 		FaceCannonReload.setBounds(0, 151, 80, 10);
 		FaceCannonReload.setForeground(Color.BLACK);
 		
+		ShieldStatus = new JProgressBar(0,0);
+		ShieldStatus.setBounds(0,201,80,10);
+		ShieldStatus.setForeground(Color.BLUE);
+		
+		BerserkReloadTime = new JProgressBar(0,0);
+		BerserkReloadTime.setBounds(0, 211, 80, 10);
+		BerserkReloadTime.setForeground(Color.RED);
+		
+		PulseReloadTime = new JProgressBar(0,0);
+		PulseReloadTime.setBounds(0,221,80,10);
+		PulseReloadTime.setForeground(new Color(39,0,139));
+		
 		TowerHPDisplay = new JProgressBar(0, TowerBaseHP);
 		TowerHPDisplay.setBounds(0, currentScreenHeight-50, currentScreenWidth, 50);
 		TowerHPDisplay.setUI(new BasicProgressBarUI() {
@@ -280,7 +373,7 @@ public class GameModeTower extends Game{
 	}
 	public void handleWaves() {
 		if(AIneeded && AIcount == 90) {	
-			AIrnd = (int) (Math.random() * ((4-0)+1)) + 0;
+			AIrnd = (int) (Math.random() * ((5-0)+1)) + 0;
 			if(PowerLevelAr[AIrnd] + PowerLevel> wave) {	
 				return;
 			}
@@ -333,6 +426,15 @@ public class GameModeTower extends Game{
 		if(p.isDashUnlocked()) {
 			DashRefill.setValue(p.getDashCooldownTimer());
 		}
+		if(p.isShieldIsUnlocked()) {
+			ShieldStatus.setValue(p.getShieldTimer());
+		}
+		if(p.isBerserkModeUnlocked()) {
+			BerserkReloadTime.setValue(p.getBerserkModeTimer());
+		}
+		if(p.isPulseUnlocked()) {
+			PulseReloadTime.setValue(p.getPulseCooldownTimer());
+		}
 	}
 	public void nextWave() {
 		if(ais.length == 0 && wave != waveCount+1 && waveEnd) {
@@ -346,6 +448,7 @@ public class GameModeTower extends Game{
 	public void endGame() {
 		if(Tower.getHP()<=0 || p.getHP() <=0) {
 			stop();
+			remove(Warning);
 			add(GameOver);
 			add(Window.MainMenu);
 		}
@@ -354,15 +457,22 @@ public class GameModeTower extends Game{
 		if(wave%2==0) {
 			PUpicked = false;
 		}
-		if((wave-1)%2==0 && !PUpicked&&wave!=1) {
-
+		if(wave%5==0) {
+			ULTpicked = false;
+		}
+		if((wave-1)%2==0 && !PUpicked&&wave!=1||(wave-1)%5==0 && !ULTpicked&&wave!=1) {
+			
 			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;	
-
-			choosePowerUps(PUrnd1,125,250); 
+			
 			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			while(PUrnd1 == PUrnd2) {	
 				PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			}
+			if((wave-1)%5==0) {
+				PUrnd1 = 7;
+				PUrnd2 = 8;
+			}
+			choosePowerUps(PUrnd1,125,250); 
 			choosePowerUps(PUrnd2, currentScreenWidth/2+125, 250);
 			}
 			
@@ -399,6 +509,24 @@ public class GameModeTower extends Game{
 			add(Power5);
 			repaint();
 			break;
+		case 6:
+			stop();
+			Power6.setBounds(x,y, currentScreenWidth/2-250, currentScreenHeight-500);
+			add(Power6);
+			repaint();
+			break;
+		case 7:
+			stop();
+			Power7.setBounds(x,y, currentScreenWidth/2-250, currentScreenHeight-500);
+			add(Power7);
+			repaint();
+			break;
+		case 8:
+			stop();
+			Power8.setBounds(x,y, currentScreenWidth/2-250, currentScreenHeight-500);
+			add(Power8);
+			repaint();
+			break;
 		default: 
 		}
 	}
@@ -419,7 +547,10 @@ public class GameModeTower extends Game{
 			break;
 			
 			case 4 : ht = Hunter.makeNewHunter(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys()); addObToGame(ht, new int[] {4,7,9,10,11}); 
+			break;
 			
+			case 5 : gr = Grenader.makeNewGrenader(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys()); addObToGame(gr, new int[] {4,7,9,10,11}); 
+			break;
 			default : 
 		}
 	}
@@ -428,7 +559,10 @@ public class GameModeTower extends Game{
 		remove(Power2);
 		remove(Power3);
 		remove(Power4);
-		remove(Power5); 
+		remove(Power5);
+		remove(Power6); 
+		remove(Power7);
+		remove(Power8);
 	}
 	 @Override
 	protected void paintComponent(Graphics g) {

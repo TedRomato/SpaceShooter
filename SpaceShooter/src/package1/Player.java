@@ -24,7 +24,7 @@ public class Player extends LivingObject{
 	int zoneDamagedTimer = 0;
 	
 	int shieldHP = 5, shieldDuration = 300, shieldCooldown = 600, shieldTimer = shieldCooldown;
-	boolean activateShield = false, shieldIsUnlocked = true;
+	boolean activateShield = false, shieldIsUnlocked = false;
 	
 	
 	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
@@ -534,7 +534,7 @@ public class Player extends LivingObject{
 	   //p.addFrontCanon();
 //	    p.addFrontMachineGun();
 //	    p.setDashUnlocked(true);
-//	    p.setPulseUnlocked(true);
+//      p.setPulseUnlocked(true);
 //	    p.setBerserkModeUnlocked(true);
 //	    p.addAttachment(straightLine);
 
@@ -620,6 +620,114 @@ public class Player extends LivingObject{
 	}
 
 
+
+	public boolean isShieldIsUnlocked() {
+		return shieldIsUnlocked;
+	}
+
+
+
+	public void setShieldIsUnlocked(boolean shieldIsUnlocked) {
+		this.shieldIsUnlocked = shieldIsUnlocked;
+	}
+
+
+
+	public int getShieldHP() {
+		return shieldHP;
+	}
+
+
+
+	public void setShieldHP(int shieldHP) {
+		this.shieldHP = shieldHP;
+	}
+
+
+
+	public int getShieldDuration() {
+		return shieldDuration;
+	}
+
+
+
+	public void setShieldDuration(int shieldDuration) {
+		this.shieldDuration = shieldDuration;
+	}
+
+
+
+	public int getShieldCooldown() {
+		return shieldCooldown;
+	}
+
+
+
+	public void setShieldCooldown(int shieldCooldown) {
+		this.shieldCooldown = shieldCooldown;
+	}
+
+
+	
+	public int getShieldTimer() {
+		return shieldTimer;
+	}
+
+
+
+	public void setShieldTimer(int shieldTimer) {
+		this.shieldTimer = shieldTimer;
+	}
+
+
+
+	public int getPulseCooldown() {
+		return pulseCooldown;
+	}
+
+
+
+	public void setPulseCooldown(int pulseCooldown) {
+		this.pulseCooldown = pulseCooldown;
+	}
+
+
+
+	public int getPulseCooldownTimer() {
+		return pulseCooldownTimer;
+	}
+
+
+
+	public void setPulseCooldownTimer(int pulseCooldownTimer) {
+		this.pulseCooldownTimer = pulseCooldownTimer;
+	}
+
+
+
+	public int getBerserkModeCooldown() {
+		return berserkModeCooldown;
+	}
+
+
+
+	public void setBerserkModeCooldown(int berserkModeCooldown) {
+		this.berserkModeCooldown = berserkModeCooldown;
+	}
+
+
+
+	public int getBerserkModeTimer() {
+		return berserkModeTimer;
+	}
+
+
+
+	public void setBerserkModeTimer(int berserkModeTimer) {
+		this.berserkModeTimer = berserkModeTimer;
+	}
+
+	
 
 
 

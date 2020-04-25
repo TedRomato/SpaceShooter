@@ -22,7 +22,9 @@ public class Explosives extends LivingObject{
 		setHP(0);
 		return null;
 	}
-	
+	public void startStun(int stunLenght) {
+        setHP(0);
+    }
 	public void updateExplosive() {
 		if(getHP() <= 0) {
 			shouldExplode = true;
