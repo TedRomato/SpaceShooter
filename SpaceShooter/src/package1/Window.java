@@ -60,7 +60,7 @@ public class Window extends JFrame implements KeyListener{
 				getContentPane().add(menu);
 				menu.repaint();
 			}
-		});
+		}); 
 		
 		startClassic = new JButton("Classic");
 		startClassic.setBounds(screenWidth/2-100, screenHeight/2-275, 200, 100);
