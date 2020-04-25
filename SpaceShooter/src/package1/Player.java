@@ -546,7 +546,7 @@ public class Player extends LivingObject{
 	    p.addAttachment(canon);
 	    p.setReflectedLenght(20);
 //		p.addFrontCanon();
-	    p.addFrontMachineGun();
+//	    p.addFrontMachineGun();
 //	    p.setDashUnlocked(true);
 //	    p.setPulseUnlocked(true);
 //	    p.setBerserkModeUnlocked(true);
