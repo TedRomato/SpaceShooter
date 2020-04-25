@@ -2,13 +2,15 @@ package package1;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
 
 import javax.imageio.ImageIO;
 
@@ -16,13 +18,13 @@ import javax.imageio.ImageIO;
 
 public class Player extends LivingObject{
 	
-	
+
 	boolean wasDamagedByZone = false;
 	int zoneDamagedTimerLenght = 60;
 	int zoneDamagedTimer = 0;
 	
 	int shieldHP = 5, shieldDuration = 300, shieldCooldown = 600, shieldTimer = shieldCooldown;
-	boolean activateShield = false, shieldIsUnlocked = true;
+	boolean activateShield = false, shieldIsUnlocked = false;
 	
 	
 	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
@@ -335,6 +337,7 @@ public class Player extends LivingObject{
 	}
 	
 	public void updatePlayer() {
+		System.out.println(this.getHP());
 		handleZoneTimer();
 		fireMG();
 		handleDashCooldown();
@@ -548,7 +551,7 @@ public class Player extends LivingObject{
 //		p.addFrontCanon();
 //	    p.addFrontMachineGun();
 //	    p.setDashUnlocked(true);
-//	    p.setPulseUnlocked(true);
+//      p.setPulseUnlocked(true);
 //	    p.setBerserkModeUnlocked(true);
 //	    p.shieldIsUnlocked = true;
 //	    p.addAttachment(straightLine);
@@ -557,21 +560,19 @@ public class Player extends LivingObject{
 
 	    
 	    return p;
+
 	}
-  
+	
+
 	public void render(Graphics g) {
+
 		super.render(g);
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		AffineTransform trans1 = new AffineTransform();
-		trans1.rotate(Math.toRadians(this.getRotatedAngle()),(this.getRotationPoint().getX()*Game.camera.toMultiply() + Game.camera.toAddX()),(int)(this.getRotationPoint().getY()*Game.camera.toMultiply() + Game.camera.toAddY()));
-		AffineTransform old1 = g2.getTransform();
-		g2.transform(trans1);
-	//	g2.drawImage(PlayerSkin,(int)((this.getRotationPoint().getX()-41)*Game.camera.toMultiply() + Game.camera.toAddX()),(int)((this.getRotationPoint().getY()-47)*Game.camera.toMultiply() + Game.camera.toAddY()),(int)(90*Game.screenRatio),(int)(115*Game.screenRatio),null);
-		//g2.drawImage(PlayerCannon,(int)((this.getAttachments()[2].getAttachmentRP().getX()-5)*Game.camera.toMultiply() + Game.camera.toAddX()),(int) ((this.getAttachments()[2].getAttachmentRP().getY()+2)*Game.camera.toMultiply() + Game.camera.toAddY()), (int)(14*Game.screenRatio),(int)(40*Game.screenRatio),null);
-
-		g2.setTransform(old1);
+		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		rotateImage(g2, PlayerSkin, this.getRotatedAngle(),this.getRotationPoint(),90,115,41,50);		
+		rotateImage(g2, PlayerCannon, this.getAttachments()[2].getAttachmentAngleRotated() ,this.getAttachments()[2].getAttachmentRP(),14,40,5,2);
 	}
+
 
 	public boolean isBerserkModeUnlocked() {
 		return berserkModeUnlocked;
@@ -637,6 +638,114 @@ public class Player extends LivingObject{
 	}
 
 
+
+	public boolean isShieldIsUnlocked() {
+		return shieldIsUnlocked;
+	}
+
+
+
+	public void setShieldIsUnlocked(boolean shieldIsUnlocked) {
+		this.shieldIsUnlocked = shieldIsUnlocked;
+	}
+
+
+
+	public int getShieldHP() {
+		return shieldHP;
+	}
+
+
+
+	public void setShieldHP(int shieldHP) {
+		this.shieldHP = shieldHP;
+	}
+
+
+
+	public int getShieldDuration() {
+		return shieldDuration;
+	}
+
+
+
+	public void setShieldDuration(int shieldDuration) {
+		this.shieldDuration = shieldDuration;
+	}
+
+
+
+	public int getShieldCooldown() {
+		return shieldCooldown;
+	}
+
+
+
+	public void setShieldCooldown(int shieldCooldown) {
+		this.shieldCooldown = shieldCooldown;
+	}
+
+
+	
+	public int getShieldTimer() {
+		return shieldTimer;
+	}
+
+
+
+	public void setShieldTimer(int shieldTimer) {
+		this.shieldTimer = shieldTimer;
+	}
+
+
+
+	public int getPulseCooldown() {
+		return pulseCooldown;
+	}
+
+
+
+	public void setPulseCooldown(int pulseCooldown) {
+		this.pulseCooldown = pulseCooldown;
+	}
+
+
+
+	public int getPulseCooldownTimer() {
+		return pulseCooldownTimer;
+	}
+
+
+
+	public void setPulseCooldownTimer(int pulseCooldownTimer) {
+		this.pulseCooldownTimer = pulseCooldownTimer;
+	}
+
+
+
+	public int getBerserkModeCooldown() {
+		return berserkModeCooldown;
+	}
+
+
+
+	public void setBerserkModeCooldown(int berserkModeCooldown) {
+		this.berserkModeCooldown = berserkModeCooldown;
+	}
+
+
+
+	public int getBerserkModeTimer() {
+		return berserkModeTimer;
+	}
+
+
+
+	public void setBerserkModeTimer(int berserkModeTimer) {
+		this.berserkModeTimer = berserkModeTimer;
+	}
+
+	
 
 
 

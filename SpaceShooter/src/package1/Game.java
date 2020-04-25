@@ -31,7 +31,7 @@ public class Game extends JPanel implements MouseListener{
 
 	int mainHeight = 1908,mainWidth = 3392;
 	protected Player p;
-
+ 
 	public static JLabel scoreDisplay, Warning;
 	private BufferedImage WarningSign;
 	private BufferedImage bg;
