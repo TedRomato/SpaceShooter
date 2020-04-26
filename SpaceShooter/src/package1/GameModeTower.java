@@ -457,13 +457,13 @@ public class GameModeTower extends Game{
 		if(wave%2==0) {
 			PUpicked = false;
 		}
+		
 		if(wave%5==0) {
 			ULTpicked = false;
 		}
 		if((wave-1)%2==0 && !PUpicked&&wave!=1||(wave-1)%5==0 && !ULTpicked&&wave!=1) {
 			
 			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;	
-			
 			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			while(PUrnd1 == PUrnd2) {	
 				PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;

@@ -24,7 +24,7 @@ public class Player extends LivingObject{
 	int zoneDamagedTimer = 0;
 	
 	int shieldHP = 5, shieldDuration = 300, shieldCooldown = 600, shieldTimer = shieldCooldown;
-	boolean activateShield = false, shieldIsUnlocked = false;
+	boolean activateShield = false, shieldIsUnlocked = false, shieldIsUp = false;;
 	
 	
 	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
@@ -204,6 +204,7 @@ public class Player extends LivingObject{
 		s.setHP(shieldHP);
 		s.setDuration(shieldDuration);
 		s.setUpShield(true, new GameObject[] {}, this);
+		setShieldIsUp(true);
 		return s;
 	}
 	
@@ -212,11 +213,12 @@ public class Player extends LivingObject{
 		s.setHP(shieldHP);
 		s.setDuration(shieldDuration);
 		s.setUpShield(true, friendlys, this);
+		setShieldIsUp(true);
 		return s;
 	}
 	
 	public void handleShieldCooldown() {
-		if(shieldTimer < shieldCooldown) {
+		if(shieldTimer < shieldCooldown && !shieldIsUp) {
 			shieldTimer++;
 		}
 	}
@@ -751,6 +753,10 @@ public class Player extends LivingObject{
 
 	public void setBerserkModeTimer(int berserkModeTimer) {
 		this.berserkModeTimer = berserkModeTimer;
+	}
+	
+	public void setShieldIsUp(boolean b) {
+		shieldIsUp = b;
 	}
 
 	

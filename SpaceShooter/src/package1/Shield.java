@@ -21,6 +21,9 @@ public class Shield extends GameObject{
 			durationTimer++;
 			if(durationTimer >= duration) {
 				this.setHP(0);
+				if(parent instanceof Player) {
+					((Player) parent).setShieldIsUp(false);
+				}
 			}
 		}
 	}
@@ -113,6 +116,9 @@ public class Shield extends GameObject{
 			getCollisionSquare().setToRP(getRotationPoint());
 		}
 		updateDuration();
+		if(parent instanceof Player && getHP() == 0) {
+			((Player) parent).setShieldIsUp(false);
+		}
 	}
 	
 	public void setUpShield(boolean aiBlock, GameObject[] toBlock, LivingObject go) {
