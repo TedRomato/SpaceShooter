@@ -96,6 +96,10 @@ public class Missile extends MovingObject{
 		}
 		return false;
 	}
+
+	public void setImune(GameObject[] gameObjects) {
+		immune = gameObjects;
+	}
 	
 	
 }
