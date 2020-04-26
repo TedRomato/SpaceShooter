@@ -44,6 +44,8 @@ public class Explosives extends LivingObject{
 		if(go instanceof LivingObject && explodesOnImpact && b) {
 			setHP(0);
 			return true;
+		}else if(go instanceof Shield && explodesOnImpact && b) {
+			return true;
 		}else if(b){
 			return true;
 		}else {

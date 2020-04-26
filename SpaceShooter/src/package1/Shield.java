@@ -8,7 +8,7 @@ public class Shield extends GameObject{
 		// TODO Auto-generated constructor stub
 	}
 
-	GameObject parent;
+	LivingObject parent;
 	boolean AIBlock = false;
 	GameObject[] whoToBlock = new GameObject[0];
 	
@@ -62,16 +62,48 @@ public class Shield extends GameObject{
 	}
 	
 	public boolean checkCollision(GameObject go) {
-		if(go instanceof LivingObject) {
+		if(!AIBlock) {
+			if(go instanceof AI) {
+				return false;
+			}
+		}
+		
+		if(isFriendly(go)) {
 			return false;
 		}
-		if(go instanceof Missile) {
+		
+		if(go instanceof Explosives || go instanceof HuntingMine) {
+			if(super.checkCollision(go)) {
+				go.setHP(0);
+			}
+		}
+		else if(go instanceof Missile) {
 			if(!friendlyMissile((Missile) go)) {
 				return super.checkCollision(go);
 			}
 			
+		}else {
+			if(super.checkCollision(go)) {
+				parent.startStun(30);
+				parent.setCurrentSpeed(0);
+			}
 		}
 		return false;
+	}
+	
+	public boolean isFriendly(GameObject go) {
+		if(AIBlock) {
+			if(go instanceof AI) {
+				return false;
+			}
+		}
+		boolean amFriendly = true;
+		for(GameObject toBlock : whoToBlock) {
+			if(toBlock == go) {
+				amFriendly = false;
+			}
+		}
+		return amFriendly;
 	}
 	
 	public void updateOb() {
@@ -83,7 +115,7 @@ public class Shield extends GameObject{
 		updateDuration();
 	}
 	
-	public void setUpShield(boolean aiBlock, GameObject[] toBlock, GameObject go) {
+	public void setUpShield(boolean aiBlock, GameObject[] toBlock, LivingObject go) {
 		AIBlock = aiBlock;
 		whoToBlock = toBlock;
 		parent = go;

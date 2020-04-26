@@ -24,7 +24,7 @@ public class Player extends LivingObject{
 	int zoneDamagedTimer = 0;
 	
 	int shieldHP = 5, shieldDuration = 300, shieldCooldown = 600, shieldTimer = shieldCooldown;
-	boolean activateShield = false, shieldIsUnlocked = false;
+	boolean activateShield = false, shieldIsUnlocked = true;
 	
 	
 	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
@@ -207,6 +207,14 @@ public class Player extends LivingObject{
 		return s;
 	}
 	
+	public Shield useShield(GameObject[] friendlys) {
+		Shield s = Shield.makeShield(this.getRotationPoint(), 150);
+		s.setHP(shieldHP);
+		s.setDuration(shieldDuration);
+		s.setUpShield(true, friendlys, this);
+		return s;
+	}
+	
 	public void handleShieldCooldown() {
 		if(shieldTimer < shieldCooldown) {
 			shieldTimer++;
@@ -337,7 +345,6 @@ public class Player extends LivingObject{
 	}
 	
 	public void updatePlayer() {
-		System.out.println(this.getHP());
 		handleZoneTimer();
 		fireMG();
 		handleDashCooldown();
@@ -569,8 +576,8 @@ public class Player extends LivingObject{
 		super.render(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		rotateImage(g2, PlayerSkin, this.getRotatedAngle(),this.getRotationPoint(),90,115,41,50);		
-		rotateImage(g2, PlayerCannon, this.getAttachments()[2].getAttachmentAngleRotated() ,this.getAttachments()[2].getAttachmentRP(),14,40,5,2);
+	//	rotateImage(g2, PlayerSkin, this.getRotatedAngle(),this.getRotationPoint(),90,115,41,50);		
+	//	rotateImage(g2, PlayerCannon, this.getAttachments()[2].getAttachmentAngleRotated() ,this.getAttachments()[2].getAttachmentRP(),14,40,5,2);
 	}
 
 
