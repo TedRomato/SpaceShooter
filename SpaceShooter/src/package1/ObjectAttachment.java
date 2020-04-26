@@ -48,6 +48,7 @@ public class ObjectAttachment extends GameObject{
 		}
 		getRotationPoint().moveCorner(velX, velY);
 		attachmentRP.moveCorner(velX, velY);	
+		getCollisionSquare().moveSquare(velX, velY);
 		}
 	
 	public Corner getAttachmentRP() {

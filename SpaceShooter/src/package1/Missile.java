@@ -84,6 +84,7 @@ public class Missile extends MovingObject{
 		Missile m = new Missile(new Corner[] {TopLeft, BotLeft, BotRight, TopRight}, new Corner(new double[] {rp.getX(), rp.getY()}), 0,mdN,12,whoShot);
 		m.getNewRatios();
 		m.setNewVels();
+		m.setDmg(dmg);
 		return m;
 	}
 	
@@ -94,6 +95,10 @@ public class Missile extends MovingObject{
 			}
 		}
 		return false;
+	}
+
+	public void setImune(GameObject[] gameObjects) {
+		immune = gameObjects;
 	}
 	
 	

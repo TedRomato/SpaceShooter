@@ -69,13 +69,25 @@ public class GameObject {
 					if(((LivingObject) go).getAttachments() != null) {
 						if(((LivingObject) go).getAttachments().length > 0) {
 							for(ObjectAttachment att : ((LivingObject) go).getAttachments()) {
-								if(checkCollisionInside(att) || getCrossedLineCorners(att).length == 2 ) {
+								if(checkCollisionPlain(att)) {
 									return true;
 								}
 							}
 						}
 					}
 				}
+				if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2 ) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			return false;
+		}
+		
+		public boolean checkCollisionPlain(GameObject go) {
+			if(this.getCollisionSquare().squareCollision(go.getCollisionSquare())) {
 				if(checkCollisionInside(go) || getCrossedLineCorners(go).length == 2 ) {
 					return true;
 				}

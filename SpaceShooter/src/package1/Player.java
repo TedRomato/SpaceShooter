@@ -24,7 +24,7 @@ public class Player extends LivingObject{
 	int zoneDamagedTimer = 0;
 	
 	int shieldHP = 5, shieldDuration = 300, shieldCooldown = 600, shieldTimer = shieldCooldown;
-	boolean activateShield = false, shieldIsUnlocked = false;
+	boolean activateShield = false, shieldIsUnlocked = false, shieldIsUp = false;;
 	
 	
 	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
@@ -204,11 +204,21 @@ public class Player extends LivingObject{
 		s.setHP(shieldHP);
 		s.setDuration(shieldDuration);
 		s.setUpShield(true, new GameObject[] {}, this);
+		setShieldIsUp(true);
+		return s;
+	}
+	
+	public Shield useShield(GameObject[] friendlys) {
+		Shield s = Shield.makeShield(this.getRotationPoint(), 150);
+		s.setHP(shieldHP);
+		s.setDuration(shieldDuration);
+		s.setUpShield(true, friendlys, this);
+		setShieldIsUp(true);
 		return s;
 	}
 	
 	public void handleShieldCooldown() {
-		if(shieldTimer < shieldCooldown) {
+		if(shieldTimer < shieldCooldown && !shieldIsUp) {
 			shieldTimer++;
 		}
 	}
@@ -232,6 +242,7 @@ public class Player extends LivingObject{
 				}else if(go instanceof Missile) {
 					if(go.getRotationPoint().getPointDistance(getRotationPoint()) < pulseRange) {
 						((MovingObject) go).pushFromObject(this, ((MovingObject) go).getCurrentSpeed());
+						((Missile) go).setImune(new GameObject[] {});
 					}
 				}
 				
@@ -548,7 +559,7 @@ public class Player extends LivingObject{
 	    p.addAttachment(canon);
 	    p.setReflectedLenght(20);
 //		p.addFrontCanon();
-	    p.addFrontMachineGun();
+//	    p.addFrontMachineGun();
 //	    p.setDashUnlocked(true);
 //      p.setPulseUnlocked(true);
 //	    p.setBerserkModeUnlocked(true);
@@ -568,8 +579,8 @@ public class Player extends LivingObject{
 		super.render(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		rotateImage(g2, PlayerSkin, this.getRotatedAngle(),this.getRotationPoint(),90,115,41,50);		
-		rotateImage(g2, PlayerCannon, this.getAttachments()[2].getAttachmentAngleRotated() ,this.getAttachments()[2].getAttachmentRP(),14,40,5,2);
+	//	rotateImage(g2, PlayerSkin, this.getRotatedAngle(),this.getRotationPoint(),90,115,41,50);		
+	//	rotateImage(g2, PlayerCannon, this.getAttachments()[2].getAttachmentAngleRotated() ,this.getAttachments()[2].getAttachmentRP(),14,40,5,2);
 	}
 
 
@@ -742,6 +753,10 @@ public class Player extends LivingObject{
 
 	public void setBerserkModeTimer(int berserkModeTimer) {
 		this.berserkModeTimer = berserkModeTimer;
+	}
+	
+	public void setShieldIsUp(boolean b) {
+		shieldIsUp = b;
 	}
 
 	

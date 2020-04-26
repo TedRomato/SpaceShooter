@@ -46,7 +46,7 @@ public class Game extends JPanel implements MouseListener{
 	private GameObject[] borders;
 	private GameObject[] objects;
 	private MovingObject[] reflectableObs;
-	private MovingObject[] reflectingObs;
+	private GameObject[] reflectingObs;
 	private LivingObject[] livingObsReflectUpdate;
 	private LivingObject[] shootingObs; 
 	private MovingObject[] borderSensitive;
@@ -222,10 +222,11 @@ public class Game extends JPanel implements MouseListener{
 		addObToGame(s, new int[] {1,2,3,4,5,6,7,8,9,10,11});
 	}
 	*/
+	
+	//Overload  tower modu
 	public void handleShields() {
 		if(p.activateShield) {
-			System.out.println("jsem tu");
-			addObToGame(p.useShield(), new int[] {1,2,3,4,5,6,7,8,9,10,11});
+			addObToGame(p.useShield(), new int[] {1,3,4,5,6,7,8,9,10,11});
 			p.activateShield = false;
 		}
 	}
@@ -373,7 +374,7 @@ public class Game extends JPanel implements MouseListener{
 	//handle reflections from objects with attachments
 	private void checkAndHandleAllRefs() {
 		for(MovingObject mob : reflectableObs) {
-			for(MovingObject ob : reflectingObs) {
+			for(GameObject ob : reflectingObs) {
 				if(mob != ob) {
 					mob.checkAndHandleReflect(ob);
 					
@@ -492,7 +493,7 @@ public class Game extends JPanel implements MouseListener{
 	private void fixGameArrays() {
 		objects = arrayList[0];
 	    reflectableObs = makeGameObArMovingArr(arrayList[1]);
-	    reflectingObs = makeGameObArMovingArr(arrayList[2]);
+	    reflectingObs = arrayList[2];
 	    livingObsReflectUpdate = makeGameObArLivingArr(arrayList[3]);
 	    borderSensitive = makeGameObArMovingArr(arrayList[4]);
 	    aiVisible = arrayList[5];
