@@ -91,7 +91,7 @@ public class Hunter extends AI{
 			    ai.addAttachment(att2);
 			    ai.setHP(4);
 			    ai.setReflectedSpeed(7);
-			    ai.getClosestEnemy(gameObjects);
+			    ai.findAndSetToClosestEnemy(gameObjects);
 			    ai.setPlayerFocus(true);
 			    ai.setStoppingDistance(250);
 			    return ai;

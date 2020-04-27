@@ -94,7 +94,7 @@ public class Grenader extends LongRangeAI{
 	    ai.addAttachment(k1);
 	    ai.addAttachment(k2);
 	    ai.setHP(8);
-	    ai.getClosestEnemy(enemys);
+	    ai.findAndSetToClosestEnemy(enemys);
 	    ai.setGoingDistance(600);	   
 	    return ai;
 	}

@@ -194,8 +194,21 @@ public class GameObject {
 			setHP(getHP() - 1);
 			startInvulnurability();
 		}
-
+	}
 	
+	public GameObject getClosestEnemy(GameObject[] enemys) {
+		GameObject closestEnemy = null;
+		double closest = 100000;
+		double newDistance = 0;
+		
+		for(GameObject gob : enemys) {
+			newDistance = this.getRotationPoint().getPointDistance(gob.getRotationPoint());
+			if(newDistance < closest) {
+				closestEnemy = gob;
+				closest = newDistance;
+			}
+		}
+		return closestEnemy;
 	}
 	
 	protected boolean checkCollisionInside(GameObject go) {

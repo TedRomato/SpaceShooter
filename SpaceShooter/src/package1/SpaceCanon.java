@@ -56,7 +56,7 @@ public class SpaceCanon extends AI{
 	    ai.setReflectedSpeed(6);
 	    ai.setStoppingDistance(900);
 	    ai.setShootForInteractiveAtts(true);
-	    ai.getClosestEnemy(gameObjects);
+	    ai.findAndSetToClosestEnemy(gameObjects);
 	    return ai;
 	}
 	
