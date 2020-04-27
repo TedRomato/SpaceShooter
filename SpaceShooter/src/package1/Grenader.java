@@ -82,21 +82,20 @@ public class Grenader extends LongRangeAI{
 	    canon.setInaccuracy(200);
 	    canon.setMagazineParameters(4, 240);
 	    canon.setReloadLenght(100);
+	    canon.setDmg(2);
 
 	    
-		ai = new Grenader(body, new double[] {x,y}, 10, md, gd, wp);
+		ai = new Grenader(body, new double[] {x,y}, 2, md, gd, wp);
 	    ai.addAttachment(canon);
 		ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
 	    ai.setMaxSpeed(4.2);
 	    ai.setReflectedSpeed(6);
-	    ai.setStoppingDistance(1000);
+	    ai.setStoppingDistance(800);
 	    ai.addAttachment(k1);
 	    ai.addAttachment(k2);
 	    ai.setHP(8);
 	    ai.getClosestEnemy(enemys);
-	    ai.setGoingDistance(700);
-
-	   
+	    ai.setGoingDistance(600);	   
 	    return ai;
 	}
 }

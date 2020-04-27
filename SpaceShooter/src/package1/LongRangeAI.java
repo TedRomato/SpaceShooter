@@ -48,14 +48,17 @@ public class LongRangeAI extends AI{
 		if(collisionDanger == true) {
 			movePointAndDlsTransition(180);
 			if(goingLeft) {
+				setRotationAngle(-0.6);
 				goingLeft = false;
 			}else {
+				setRotationAngle(0.6);
 				goingLeft = true;
 				}		
 			}
 		
 	}
 	public void turnBack() {
+		setRotationAngle(0.6);
 		if(goingLeft) {
 			movePointAndDlsTransition(90);
 		}else {

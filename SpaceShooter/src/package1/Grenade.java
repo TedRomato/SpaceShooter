@@ -31,4 +31,8 @@ public class Grenade extends Explosives{
 		nade.setHP(5);
 		return nade;
 	}
+	
+	public void setDMG(int dmg) {
+		this.dmg = dmg;
+	}
 }

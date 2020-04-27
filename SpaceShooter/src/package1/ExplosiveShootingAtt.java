@@ -16,6 +16,7 @@ public class ExplosiveShootingAtt extends MagazineAttachment {
 		if(fireGrenade) { 
 			Grenade nade = Grenade.makeNewGrenade(getSP().getX(), getSP().getY(), getSD());
 			nade.addShotImunes(imunes);
+			nade.setDMG(dmg);
 			return nade;
 		}
 		if(fireSideShooter) {
@@ -35,7 +36,10 @@ public class ExplosiveShootingAtt extends MagazineAttachment {
 
 	public Explosives Fire() {
 		if(fireGrenade) { 
-			return Grenade.makeNewGrenade(getSP().getX(), getSP().getY(), getSD());
+			Grenade nade =  Grenade.makeNewGrenade(getSP().getX(), getSP().getY(), getSD());
+			nade.setDMG(dmg);
+			return nade;
+
 		}
 		if(fireSideShooter) {
 			return SideShootingCharge.makeNewSideShootingCharge(getSP().getX(), getSP().getY(), getSD());
