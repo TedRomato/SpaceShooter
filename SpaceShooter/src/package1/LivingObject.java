@@ -221,29 +221,31 @@ public class LivingObject extends MovingObject{
 			}
 		}
 		if(go instanceof Shield) {
-			return false;
+			if(((Shield) go).isFriendly(this)) {
+				return false;
+			}
 		}
 		if(super.checkCollision(go)) {
 			return true;
 		} 
 		if(attachments != null) {
 			for(ObjectAttachment att : attachments) {
-				if(att.checkCollisionInside(go) || att.getCrossedLineCorners(go).length == 2) { //TODO prepsat na check collision
+				if(att.checkCollisionPlain(go)) { 
 					return true;
 				}
 			}
 		}
-		
+		/*
 		if(go instanceof LivingObject){
 		    if(((LivingObject) go).getAttachments() != null) {
 		    	for(ObjectAttachment att : ((LivingObject) go).getAttachments()) {
-					if(att.checkCollisionInside(this) || att.getCrossedLineCorners(this).length == 2) {
+					if(att.checkCollisionPlain(this)) {
 						return true;
 					}
 				}
 		    }
 		}
-	
+	*/
 		return false;
 		
 	}
@@ -311,7 +313,7 @@ public class LivingObject extends MovingObject{
 					biggest = at.getFurthestDistance();
 				}
 			}
-		}
+		} 
 		super.makeSquare(biggest);
 	}
 	

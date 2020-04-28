@@ -93,11 +93,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 	
 	
 	public void moveAttachment(double velX, double velY) {
-		for(Corner c : getCorners()) {
-			c.moveCorner(velX, velY);
-			}
-		getRotationPoint().moveCorner(velX, velY);
-		attachmentRP.moveCorner(velX, velY);	
+		super.moveAttachment(velX, velY);
 		wayPoint.moveCorner(velX, velY);
 		shootDirection.moveCorner(velX, velY);
 		shootPoint.moveCorner(velX, velY);
