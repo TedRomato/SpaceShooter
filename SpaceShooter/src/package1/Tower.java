@@ -7,9 +7,21 @@ public class Tower extends LivingObject{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Tower makeNewTower(int x, int y){
-		Tower tower = new Tower(GameObject.generatePeriodicObject(50, 8, new Corner(new double[] {x,y})).getCorners(), new Corner(new double[] {x,y}),0.0, new Corner(new double[] {x,y}));
+	public static Tower makeNewTower(double x, double y){
+		Tower tower = new Tower(GameObject.generatePeriodicObject(120, 8, new Corner(new double[] {x,y})).getCorners(), new Corner(new double[] {x,y}),0.0, new Corner(new double[] {x,y}));
+		tower.addAttachment(AutomaticTurret.test(x, y));
 		return tower;
 	}
+	
+	public void updateAllTurrets(GameObject[] enemys) {
+		if(getAttachments()!=null) {
+			for(ObjectAttachment att : getAttachments()) {
+				if(att instanceof AutomaticTurret) {
+					((AutomaticTurret) att).updateAutoTurert(enemys);
+				}
+			}
+		}
+	}
+
 	
 }

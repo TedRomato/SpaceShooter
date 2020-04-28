@@ -151,6 +151,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 		if(moo.getCurrentSpeed() >= 12) {
 			return new Corner(moo.getRotationPoint(), moo.getRotationPoint());
 		}
+		
 		double mooSpeed = moo.getCurrentSpeed();
 		double missileSpeed = 12;
 		double ratio = missileSpeed/mooSpeed;
@@ -161,7 +162,11 @@ public class InteractiveAttachment extends ObjectAttachment{
 		double distance = aiCorner.getPointDistance(moo.getRotationPoint());
 		double prefirePointDistance = distance/Math.sqrt(((1+ratio*ratio)-2*(Math.sin(Math.toRadians(aiMooMdangle))*Math.sin(Math.toRadians(aiMooMdangle)))));
 		return Corner.makeCornerUsinAngle(prefirePointDistance, mdAngle, moo.getRotationPoint());
+		
+	//	return new Corner(moo.getRotationPoint(), moo.getRotationPoint());
+
 	}
+	
 	
 	private double decideSmaller(double[] ab) {
 		if(ab[0] <= ab[1]) {
@@ -285,11 +290,11 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	
 	public void render(Graphics g) {
-//		shootDirection.renderCorner(g, 4);
-//		shootPoint.renderCorner(g, 4);
-//		shotTrajectory.render(g);
-//		aimCorner.renderCorner(g, 10);
-//		wayPoint.renderCorner(g, 10);
+	//	shootDirection.renderCorner(g, 4);
+	//	shootPoint.renderCorner(g, 4);
+	//	shotTrajectory.render(g);
+	//	aimCorner.renderCorner(g, 10);
+	//	wayPoint.renderCorner(g, 10);
 		super.render(g);
 		
 	}
