@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +40,7 @@ public class GameModeTower extends Game{
 	private Corner spawnCorner;
 	private JProgressBar TowerHPDisplay, PlayerReloadTime, MachineGunReload, FaceCannonReload, DashRefill, ShieldStatus, BerserkReloadTime, PulseReloadTime;
 	private JButton Power1, Power2, Power3, Power4, Power5, Power6, Power7, Power8;
-	private BufferedImage HealthIcon, AmmoIcon , Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, DashRefillIcon;
+	private BufferedImage ShieldIcon, HealthIcon, AmmoIcon , Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, DashRefillIcon,BerserkModeIcon,PulseIcon;
 	private Font font = new Font("josef", Font.PLAIN, 25);
 	private int AIcount = 90;
 	private int wave = 1;
@@ -74,6 +75,9 @@ public class GameModeTower extends Game{
 			RocketLauncher = ImageIO.read(new File("src/Icons/RocketLauncher.png"));
 			MachineGun = ImageIO.read(new File("src/Icons/MachineGun.png"));
 			DashRefillIcon = ImageIO.read(new File("src/Icons/DashRefillIcon.png"));
+			ShieldIcon = ImageIO.read(new File("src/Icons/ShieldIcon.png"));
+			BerserkModeIcon = ImageIO.read(new File("src/Icons/BerserkModeIcon.png"));
+			PulseIcon = ImageIO.read(new File("src/Icons/PulseIcon.png"));
 
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -326,7 +330,7 @@ public class GameModeTower extends Game{
 		add(PlayerReloadTime);
 		
 		DashRefill = new JProgressBar(0,0);
-		DashRefill.setBounds(0, 191, 80, 10);
+		DashRefill.setBounds(0, 231, 80, 10);
 		DashRefill.setForeground(new Color(225,174,19));
 		
 		MachineGunReload = new JProgressBar(0,0);
@@ -338,16 +342,16 @@ public class GameModeTower extends Game{
 		FaceCannonReload.setForeground(Color.BLACK);
 		
 		ShieldStatus = new JProgressBar(0,0);
-		ShieldStatus.setBounds(0,201,80,10);
-		ShieldStatus.setForeground(Color.BLUE);
+		ShieldStatus.setBounds(0,191,80,10);
+		ShieldStatus.setForeground(new Color(0,191,255));
 		
 		BerserkReloadTime = new JProgressBar(0,0);
-		BerserkReloadTime.setBounds(0, 211, 80, 10);
+		BerserkReloadTime.setBounds(0, 271, 80, 10);
 		BerserkReloadTime.setForeground(Color.RED);
 		
 		PulseReloadTime = new JProgressBar(0,0);
-		PulseReloadTime.setBounds(0,221,80,10);
-		PulseReloadTime.setForeground(new Color(39,0,139));
+		PulseReloadTime.setBounds(0,311,80,10);
+		PulseReloadTime.setForeground(Color.MAGENTA);
 		
 		TowerHPDisplay = new JProgressBar(0, TowerBaseHP);
 		TowerHPDisplay.setBounds(0, currentScreenHeight-50, currentScreenWidth, 50);
@@ -463,7 +467,7 @@ public class GameModeTower extends Game{
 		if((wave-1)%2==0 && !PUpicked&&wave!=1||(wave-1)%5==0 && !ULTpicked&&wave!=1) {
 			
 			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;	
-			
+			PUrnd1 = 6;
 			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			while(PUrnd1 == PUrnd2) {	
 				PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
@@ -579,7 +583,22 @@ public class GameModeTower extends Game{
 			g2.drawImage(RocketIcon, 0, 121, 30, 30,null);
 		}
 		if(p.isDashUnlocked()) {
-			g2.drawImage(DashRefillIcon, 20, 161, 40, 30,null);
+			g2.drawImage(DashRefillIcon, 20, 201, 40, 30,null);
+		}
+		if(p.isShieldIsUnlocked()) {
+			g2.drawImage(ShieldIcon, 0,161,30,30,null);
+		}
+		if(p.isBerserkModeUnlocked()) {
+			Image tmp = BerserkModeIcon.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	        BufferedImage resized = new BufferedImage(30, 30, BufferedImage.TYPE_INT_ARGB);
+	        Graphics2D g2d = resized.createGraphics();
+	        g2d.drawImage(tmp, 0, 0, null);
+	        g2d.dispose();
+			g2.drawImage(resized,25,241,30,30,null);
+		}
+		if(p.isPulseUnlocked()) {
+			
+			g2.drawImage(PulseIcon, 25,281,30,30,null);
 		}
 	}
 
