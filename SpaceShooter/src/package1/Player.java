@@ -18,20 +18,27 @@ import javax.imageio.ImageIO;
 
 public class Player extends LivingObject{
 	
-
+	//Zone variables
 	boolean wasDamagedByZone = false;
 	int zoneDamagedTimerLenght = 60;
 	int zoneDamagedTimer = 0;
 	
+	//Shield variables
 	int shieldHP = 5, shieldDuration = 300, shieldCooldown = 600, shieldTimer = shieldCooldown;
-	boolean activateShield = false, shieldIsUnlocked = false, shieldIsUp = false;;
-	
-	
+
+	boolean activateShield = false, shieldIsUnlocked = true, shieldIsUp = false;;
+	Shield shield;
+
+	//pulse variables
 	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
 	boolean pulse = false, pulseIsUnlocked = false;
 	int stunLenght = 300;
 	double pulseRange = 900;
+
  
+
+	//berserkMode variables
+
 	int  berserkModeCooldown = 1800, berserkModeTimer = berserkModeCooldown, costInLives = 5;
 	int exploWave = 10, exploWaveCounter = 0,  exploTimer = 0,  exploLenght = 20;
 	double berserkSpeed = 12;
@@ -39,20 +46,20 @@ public class Player extends LivingObject{
 	boolean berserkMode = false;
 	boolean berserkModeUnlocked = false;
 	 
-
+	//dash variables
 	int dashCooldown = 300, dashCooldownTimer = dashCooldown;
-
 	double baseSpeed, dashSpeed = 20;
+	boolean dashUnlocked = false;
 	
+	//
 	int moveChar = 87, turnLeftChar = 65, turnRightChar = 68, dashChar = 16, reloadChar = 82, abilityChar = 32, berserkChar = 67, pushChar = 81, shieldChar = 70;
+	
+	//Canon indexes
 	int faceCanon = -1;
 	int machinegun = -1;
 	int baseCanon = 2;
 	
-	boolean dashUnlocked = false;
-	
-	BufferedImage PlayerCannon, PlayerSkin;
-	
+	//canon booleans 
 	boolean usingBC = true;
 	boolean usingFC = false;
 	boolean usingMG = false;
@@ -61,6 +68,8 @@ public class Player extends LivingObject{
 	
 	boolean cameraAttached = true;
 	
+	BufferedImage PlayerCannon, PlayerSkin;
+
 	
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
@@ -205,6 +214,7 @@ public class Player extends LivingObject{
 		s.setDuration(shieldDuration);
 		s.setUpShield(true, new GameObject[] {}, this);
 		setShieldIsUp(true);
+		shield = s;
 		return s;
 	}
 	
@@ -348,6 +358,8 @@ public class Player extends LivingObject{
 	}
 	
 	public void updatePlayer() {
+		if(shield != null) {
+		}
 		handleZoneTimer();
 		fireMG();
 		handleDashCooldown();
@@ -807,7 +819,18 @@ public class Player extends LivingObject{
 		shieldIsUp = b;
 	}
 
+	public void setShield(Shield s) {
+		shield = s;
+	}
 	
+	public Shield getShield() {
+		return shield;
+	}
+	
+	public int getCurrentShieldHP() {
+		return shield.getHP();
+		
+	}
 
 
 

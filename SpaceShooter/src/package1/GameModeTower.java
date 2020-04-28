@@ -57,7 +57,7 @@ public class GameModeTower extends Game{
 		Corner[] corners  = GameObject.generatePeriodicObject(100,8,new Corner(new double[] {mainWidth/2,mainHeight/2-50})).getCorners();
 		tower = Tower.makeNewTower(currentScreenWidth/2/screenRatio, currentScreenHeight/2/screenRatio);
 		tower.setHP(TowerBaseHP);
-
+		tower.addShotImune(p);
 		addObToGame(tower, new int[] {1,3,4,6,7,9,11});
 		p.addShotImune(tower);
 
