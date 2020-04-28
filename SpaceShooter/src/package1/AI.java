@@ -76,7 +76,7 @@ public class AI extends LivingObject{
 		aiUpdateTimer++;
 		if(aiUpdateTimer >= aiUpdateLenght) {
 			aiUpdateTimer = 0;
-			getClosestEnemy(aiEnemys);
+			findAndSetToClosestEnemy(aiEnemys);
 			updateAllAimCorners(getTargetedEnemy());
 			checkAndHandleTrack(aiVisible);
 			updateIsInStoppingDistance(getTargetedEnemy());
@@ -320,10 +320,7 @@ public class AI extends LivingObject{
 	
 	//Behavioral methods
 	
-	public void getClosestEnemy(GameObject[] aiEnemys) {
-		if(aiEnemys.length <= 0 ) {
-			targetedEnemy = null;
-		}
+	public GameObject getClosestEnemy(GameObject[] aiEnemys) {
 		GameObject closestEnemy = null;
 		double closest = 100000;
 
@@ -341,11 +338,15 @@ public class AI extends LivingObject{
 					closest = newDistance;
 				}
 			}
-		targetedEnemy = closestEnemy;
 		}
-		
-		
+		return closestEnemy;
 	}
+	
+	public void findAndSetToClosestEnemy(GameObject[] aiEnemys) {
+		targetedEnemy = getClosestEnemy(aiEnemys);
+	}
+	
+	
 	
 	/*
 	public void setGoalToClosestEnemy(GameObject[] enemys) {

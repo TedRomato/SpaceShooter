@@ -166,7 +166,7 @@ public class SpaceCruiser extends LongRangeAI{
 	    ai.addAttachment(canon1);
 	    ai.addAttachment(canon2);
 	    ai.setHP(20);
-	    ai.getClosestEnemy(gameObjects);
+	    ai.findAndSetToClosestEnemy(gameObjects);
 	    ai.setGoingDistance(400);
 
 	   

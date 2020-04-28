@@ -24,7 +24,7 @@ public class Player extends LivingObject{
 	int zoneDamagedTimer = 0;
 	
 	int shieldHP = 5, shieldDuration = 300, shieldCooldown = 600, shieldTimer = shieldCooldown;
-	boolean activateShield = false, shieldIsUnlocked = false, shieldIsUp = false;;
+	boolean activateShield = false, shieldIsUnlocked = true, shieldIsUp = false;;
 	
 	
 	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;

@@ -46,7 +46,7 @@ public class HuntingMine extends AI{
 	    ai.setMaxSpeed(8);
 	    ai.addAttachment(att);
 	    ai.setHP(1);
-	    ai.getClosestEnemy(gameObjects);
+	    ai.findAndSetToClosestEnemy(gameObjects);
 	    ai.setPlayerFocus(true);
 	    return ai;
 	}

@@ -28,7 +28,7 @@ public class LongRangeAI extends AI{
 			}
 			turnIfCollisionDanger();
 			updateInSD(enemys, gos, ais);
-			getClosestEnemy(enemys);
+			findAndSetToClosestEnemy(enemys);
 
 		
 		}else {
@@ -48,14 +48,17 @@ public class LongRangeAI extends AI{
 		if(collisionDanger == true) {
 			movePointAndDlsTransition(180);
 			if(goingLeft) {
+				setRotationAngle(-0.6);
 				goingLeft = false;
 			}else {
+				setRotationAngle(0.6);
 				goingLeft = true;
 				}		
 			}
 		
 	}
 	public void turnBack() {
+		setRotationAngle(0.6);
 		if(goingLeft) {
 			movePointAndDlsTransition(90);
 		}else {
@@ -80,7 +83,7 @@ public class LongRangeAI extends AI{
 	}
 	
 	public void updateInSD(GameObject[] enemys, GameObject[] gos, AI[] ais) {
-		getClosestEnemy(enemys);
+		findAndSetToClosestEnemy(enemys);
 		updateAllAimCorners(getTargetedEnemy());
 		checkAndHandleTrack(gos);
 		if(collisionDanger == false) {
