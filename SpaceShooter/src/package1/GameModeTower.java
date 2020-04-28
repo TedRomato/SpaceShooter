@@ -448,7 +448,6 @@ public class GameModeTower extends Game{
 			if(p.shieldIsUp) {
 				add(ShieldHPDisplay);
 				ShieldStatus.setMaximum(p.getShieldDuration());
-				//ShieldStatus.setValue();
 			}
 			else {
 				remove(ShieldHPDisplay);
@@ -499,7 +498,6 @@ public class GameModeTower extends Game{
 
 			
 			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;	
-			PUrnd1 = 6;
 			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			while(PUrnd1 == PUrnd2) {	
 				PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
