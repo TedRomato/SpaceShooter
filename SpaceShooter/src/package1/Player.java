@@ -755,6 +755,54 @@ public class Player extends LivingObject{
 		this.berserkModeTimer = berserkModeTimer;
 	}
 	
+	public int getExploTimer() {
+		return exploTimer;
+	}
+	
+
+
+	public void setExploTimer(int exploTimer) {
+		this.exploTimer = exploTimer;
+	}
+
+
+
+	public int getExploLenght() {
+		return exploLenght;
+	}
+
+
+
+	public void setExploLenght(int exploLenght) {
+		this.exploLenght = exploLenght;
+	}
+	
+
+
+	public int getExploWave() {
+		return exploWave;
+	}
+
+
+
+	public void setExploWave(int exploWave) {
+		this.exploWave = exploWave;
+	}
+
+
+
+	public int getExploWaveCounter() {
+		return exploWaveCounter;
+	}
+
+
+
+	public void setExploWaveCounter(int exploWaveCounter) {
+		this.exploWaveCounter = exploWaveCounter;
+	}
+
+
+
 	public void setShieldIsUp(boolean b) {
 		shieldIsUp = b;
 	}

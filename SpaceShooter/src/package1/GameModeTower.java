@@ -36,11 +36,11 @@ public class GameModeTower extends Game{
 	private Mothership mp;
 	private SpaceCanon sca;
 	private SpaceCruiser scr;
-	private JLabel waveDisplay, PlayerHPDisplay, PlayerAmmoDisplay, GameOver, PowerUpDisplay, MachineGunAmmoDisplay, RocketAmmoDisplay;
+	private JLabel waveDisplay,ShieldHPDisplay, PlayerHPDisplay, PlayerAmmoDisplay, GameOver, PowerUpDisplay, MachineGunAmmoDisplay, RocketAmmoDisplay;
 	private Corner spawnCorner;
 	private JProgressBar TowerHPDisplay, PlayerReloadTime, MachineGunReload, FaceCannonReload, DashRefill, ShieldStatus, BerserkReloadTime, PulseReloadTime;
 	private JButton Power1, Power2, Power3, Power4, Power5, Power6, Power7, Power8;
-	private BufferedImage ShieldIcon, HealthIcon, AmmoIcon , Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, DashRefillIcon,BerserkModeIcon,PulseIcon;
+	private BufferedImage Shield, BerserkMode, Pulse,ShieldIcon, HealthIcon, AmmoIcon , Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, DashRefillIcon,BerserkModeIcon,PulseIcon;
 	private Font font = new Font("josef", Font.PLAIN, 25);
 	private int AIcount = 90;
 	private int wave = 1;
@@ -78,6 +78,9 @@ public class GameModeTower extends Game{
 			ShieldIcon = ImageIO.read(new File("src/Icons/ShieldIcon.png"));
 			BerserkModeIcon = ImageIO.read(new File("src/Icons/BerserkModeIcon.png"));
 			PulseIcon = ImageIO.read(new File("src/Icons/PulseIcon.png"));
+			Shield = ImageIO.read(new File("src/Icons/Shield.png"));
+			BerserkMode = ImageIO.read(new File("src/Icons/BerserkMode.png"));
+			Pulse = ImageIO.read(new File("src/Icons/Pulse.png"));
 
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -205,11 +208,11 @@ public class GameModeTower extends Game{
 				
 			}
 		});
-		Power6 = new JButton("Shield");
+		Power6 = new JButton("");
 		Power6.addMouseListener(this);
 		Power6.setName("Power6");
 		Power6.setFocusable(false);
-		//Power6.setIcon(new ImageIcon(DashIcon));
+		Power6.setIcon(new ImageIcon(Shield));
 		Power6.setBackground(Color.WHITE);
 		Power6.addActionListener(new ActionListener() {
 			
@@ -225,18 +228,19 @@ public class GameModeTower extends Game{
 					add(ShieldStatus);
 				} 
 				else {
-					//p.upgradeShield();
+					ShieldStatus.setMaximum(p.getShieldCooldown());
+					p.upgradeShield();
 				}
 				running = true;
 				PUpicked = true;
 				
 			}
 		});
-		Power7 = new JButton("Pulse");
+		Power7 = new JButton("");
 		Power7.addMouseListener(this);
 		Power7.setName("Power7");
 		Power7.setFocusable(false);
-		//Power7.setIcon(new ImageIcon(DashIcon));
+		Power7.setIcon(new ImageIcon(Pulse));
 		Power7.setBackground(Color.WHITE);
 		Power7.addActionListener(new ActionListener() {
 			
@@ -252,7 +256,8 @@ public class GameModeTower extends Game{
 					add(PulseReloadTime);
 				} 
 				else {
-					//p.upgradePulse();
+					PulseReloadTime.setMaximum(p.getPulseCooldown());
+					p.upgradePulse();
 				}
 				running = true;
 				ULTpicked = true;
@@ -260,11 +265,11 @@ public class GameModeTower extends Game{
 				
 			}
 		});
-		Power8 = new JButton("BerserkMode");
+		Power8 = new JButton("");
 		Power8.addMouseListener(this);
 		Power8.setName("Power8");
 		Power8.setFocusable(false);
-		//Power8.setIcon(new ImageIcon(DashIcon));
+		Power8.setIcon(new ImageIcon(BerserkMode));
 		Power8.setBackground(Color.WHITE);
 		Power8.addActionListener(new ActionListener() {
 			
@@ -280,7 +285,8 @@ public class GameModeTower extends Game{
 					add(BerserkReloadTime);
 				} 
 				else {
-					//p.upgradeBerserkMode();
+					BerserkReloadTime.setMaximum(p.getBerserkModeCooldown());
+					p.upgradeBerserkMode();
 				}
 				running = true;
 				ULTpicked = true;
@@ -296,6 +302,11 @@ public class GameModeTower extends Game{
 		PlayerAmmoDisplay.setBounds(30,40,50,30);
 		PlayerAmmoDisplay.setFont(font);
 		add(PlayerAmmoDisplay);
+		
+		ShieldHPDisplay = new JLabel("");
+		ShieldHPDisplay.setFont(font);
+		ShieldHPDisplay.setBounds(30,161,50,30);
+		ShieldHPDisplay.setForeground(new Color(0,191,255));
 		
 		MachineGunAmmoDisplay = new JLabel("");
 		MachineGunAmmoDisplay.setBounds(30,80,50,30);
@@ -404,6 +415,7 @@ public class GameModeTower extends Game{
 		TowerHPDisplay.setValue(Tower.getHP());
 		TowerHPDisplay.setString(Tower.getHP() + "/" + TowerBaseHP);
 		PlayerHPDisplay.setText(""+p.getHP());
+		ShieldHPDisplay.setText(""+p.getShieldHP());
 		PlayerAmmoDisplay.setText("" + ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize());
 		if(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getReloadingMag()) {
 			PlayerReloadTime.setValue(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadTimer());
@@ -431,10 +443,26 @@ public class GameModeTower extends Game{
 			DashRefill.setValue(p.getDashCooldownTimer());
 		}
 		if(p.isShieldIsUnlocked()) {
-			ShieldStatus.setValue(p.getShieldTimer());
+			if(p.shieldIsUp) {
+				add(ShieldHPDisplay);
+				ShieldStatus.setMaximum(p.getShieldDuration());
+				//ShieldStatus.setValue();
+			}
+			else {
+				remove(ShieldHPDisplay);
+				ShieldStatus.setMaximum(p.getShieldCooldown());
+				ShieldStatus.setValue(p.getShieldTimer());
+			}
 		}
 		if(p.isBerserkModeUnlocked()) {
-			BerserkReloadTime.setValue(p.getBerserkModeTimer());
+			if(p.berserkMode) {
+				BerserkReloadTime.setMaximum(p.getExploWave());
+				BerserkReloadTime.setValue(p.getExploWave()-p.getExploWaveCounter());
+			}
+			else {
+				BerserkReloadTime.setMaximum(p.getBerserkModeCooldown());
+				BerserkReloadTime.setValue(p.getBerserkModeTimer());
+			}
 		}
 		if(p.isPulseUnlocked()) {
 			PulseReloadTime.setValue(p.getPulseCooldownTimer());
