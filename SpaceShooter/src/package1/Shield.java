@@ -23,6 +23,7 @@ public class Shield extends GameObject{
 				this.setHP(0);
 				if(parent instanceof Player) {
 					((Player) parent).setShieldIsUp(false);
+					((Player) parent).setShield(null);
 				}
 			}
 		}
@@ -83,12 +84,14 @@ public class Shield extends GameObject{
 		else if(go instanceof Explosives || go instanceof HuntingMine) {
 			if(super.checkCollision(go)) {
 				go.setHP(0);
+				return true;
 			}
 		}
 		else {
 			if(super.checkCollision(go)) {
 				parent.startStun(30);
 				parent.setCurrentSpeed(0);
+				return true;
 			}
 		}
 		return false;
