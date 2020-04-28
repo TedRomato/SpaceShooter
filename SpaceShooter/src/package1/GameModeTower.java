@@ -86,6 +86,7 @@ public class GameModeTower extends Game{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		BerserkModeIcon = resize(BerserkModeIcon, 30, 30);
 		
 		Power1 = new JButton("");
 		Power1.addMouseListener(this);
@@ -598,6 +599,14 @@ public class GameModeTower extends Game{
 		remove(Power7);
 		remove(Power8);
 	}
+	private static BufferedImage resize(BufferedImage img, int width, int height) {
+        Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = resized.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+        return resized;
+    }
 	 @Override
 	protected void paintComponent(Graphics g) {
 		// TODO Auto-generated method stub
@@ -619,12 +628,7 @@ public class GameModeTower extends Game{
 			g2.drawImage(ShieldIcon, 0,161,30,30,null);
 		}
 		if(p.isBerserkModeUnlocked()) {
-			Image tmp = BerserkModeIcon.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	        BufferedImage resized = new BufferedImage(30, 30, BufferedImage.TYPE_INT_ARGB);
-	        Graphics2D g2d = resized.createGraphics();
-	        g2d.drawImage(tmp, 0, 0, null);
-	        g2d.dispose();
-			g2.drawImage(resized,25,241,30,30,null);
+			g2.drawImage(BerserkModeIcon,25,241,30,30,null);
 		}
 		if(p.isPulseUnlocked()) {
 			
