@@ -215,7 +215,8 @@ public class GameModeTower extends Game{
 		Power6.setIcon(new ImageIcon(Shield));
 		Power6.setBackground(Color.WHITE);
 		Power6.addActionListener(new ActionListener() {
-			
+			 
+		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				removeButtons();
