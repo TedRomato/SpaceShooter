@@ -77,6 +77,7 @@ public class LivingObject extends MovingObject{
 		}
 	}
 	
+	
 	public void updateRotatedAngsForAtts() {
 		if(getAttachments() != null) {
 			for(ObjectAttachment att : getAttachments()) {
@@ -247,7 +248,6 @@ public class LivingObject extends MovingObject{
 		}
 	*/
 		return false;
-		
 	}
 	
 	public void checkAndHandleReflect(GameObject otherOb) {

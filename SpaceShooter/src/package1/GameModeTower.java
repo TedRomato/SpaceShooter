@@ -28,7 +28,7 @@ import javax.swing.plaf.basic.BasicProgressBarUI;
 
 public class GameModeTower extends Game{
 
-	private LivingObject Tower;
+	private Tower tower;
 	private Hunter ht;
 	private Grenader gr;
 	private HuntingMine hm;
@@ -54,11 +54,11 @@ public class GameModeTower extends Game{
 	public GameModeTower(int sw, int sh) {
 		super(sw, sh, true);
 		Corner[] corners  = GameObject.generatePeriodicObject(100,8,new Corner(new double[] {mainWidth/2,mainHeight/2-50})).getCorners();
-		Tower = new LivingObject(corners,new double[] {mainWidth/2,mainHeight/2},0,new Corner(new double[] {mainWidth/2,mainHeight/2}, new double[] {mainWidth/2,mainHeight/2}));
-		Tower.setHP(TowerBaseHP);
+		tower = Tower.makeNewTower(currentScreenWidth/2/screenRatio, currentScreenHeight/2/screenRatio);
+		tower.setHP(TowerBaseHP);
 
-		addObToGame(Tower, new int[] {1,3,4,6,7,8,9,11});
-		p.addShotImune(Tower);
+		addObToGame(tower, new int[] {1,3,4,6,7,9,11});
+		p.addShotImune(tower);
 
 		setLayout(null); 
 		setName("TowerMode");
@@ -365,6 +365,7 @@ public class GameModeTower extends Game{
 	}
 	public void tick() {
 		super.tick();
+		tower.updateAllTurrets(getAIS());
 		handleWaves();
 		nextWave();
 		updateDisplay();
@@ -397,8 +398,8 @@ public class GameModeTower extends Game{
 	public void updateDisplay() { 
 		super.updateDisplay();
 		waveDisplay.setText("Wave: " + wave);
-		TowerHPDisplay.setValue(Tower.getHP());
-		TowerHPDisplay.setString(Tower.getHP() + "/" + TowerBaseHP);
+		TowerHPDisplay.setValue(tower.getHP());
+		TowerHPDisplay.setString(tower.getHP() + "/" + TowerBaseHP);
 		PlayerHPDisplay.setText(""+p.getHP());
 		PlayerAmmoDisplay.setText("" + ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize());
 		if(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getReloadingMag()) {
@@ -446,7 +447,7 @@ public class GameModeTower extends Game{
 		}
 	}
 	public void endGame() {
-		if(Tower.getHP()<=0 || p.getHP() <=0) {
+		if(tower.getHP()<=0 || p.getHP() <=0) {
 			stop();
 			remove(Warning);
 			add(GameOver);

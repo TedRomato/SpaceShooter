@@ -70,22 +70,22 @@ public class Shield extends GameObject{
 				return false;
 			}
 		}
-		
-		if(isFriendly(go)) {
-			return false;
-		}
-		
-		if(go instanceof Explosives || go instanceof HuntingMine) {
-			if(super.checkCollision(go)) {
-				go.setHP(0);
-			}
-		}
 		else if(go instanceof Missile) {
 			if(!friendlyMissile((Missile) go)) {
 				return super.checkCollision(go);
 			}
-			
-		}else {
+		}
+		
+		else if(isFriendly(go)) {
+			return false;
+		}
+		
+		else if(go instanceof Explosives || go instanceof HuntingMine) {
+			if(super.checkCollision(go)) {
+				go.setHP(0);
+			}
+		}
+		else {
 			if(super.checkCollision(go)) {
 				parent.startStun(30);
 				parent.setCurrentSpeed(0);
