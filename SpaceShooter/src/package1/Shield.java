@@ -19,7 +19,7 @@ public class Shield extends GameObject{
 	public void updateDuration() {
 		if(hasDuration) {
 			durationTimer++;
-			if(durationTimer >= duration) {
+			if(durationTimer >= duration) { 
 				this.setHP(0);
 				if(parent instanceof Player) {
 					((Player) parent).setShieldIsUp(false);
@@ -28,6 +28,8 @@ public class Shield extends GameObject{
 			}
 		}
 	}
+	
+
 	
 
 	public static Shield makeShield(Corner rp, int radius) {
@@ -138,5 +140,15 @@ public class Shield extends GameObject{
 		super.render(g);
 	//	getCollisionSquare().render(g);
 	}
+	public int getDurationTimer() {
+		return durationTimer;
+	}
+	public void setDurationTimer(int durationTimer) {
+		this.durationTimer = durationTimer;
+	}
 
+	public int getDuration() {
+		return duration;
+	}
+	
 }

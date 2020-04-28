@@ -190,7 +190,7 @@ public class GameModeTower extends Game{
 		Power5.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) { 
 				removeButtons();
 				invalidate();
 				revalidate();
@@ -418,7 +418,6 @@ public class GameModeTower extends Game{
 		TowerHPDisplay.setValue(tower.getHP());
 		TowerHPDisplay.setString(tower.getHP() + "/" + TowerBaseHP);
 		PlayerHPDisplay.setText(""+p.getHP());
-		ShieldHPDisplay.setText(""+p.getShieldHP());
 		PlayerAmmoDisplay.setText("" + ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize());
 		if(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getReloadingMag()) {
 			PlayerReloadTime.setValue(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadTimer());
@@ -447,8 +446,10 @@ public class GameModeTower extends Game{
 		}
 		if(p.isShieldIsUnlocked()) {
 			if(p.shieldIsUp) {
+				ShieldHPDisplay.setText(""+p.getCurrentShieldHP());
 				add(ShieldHPDisplay);
-				ShieldStatus.setMaximum(p.getShieldDuration());
+				ShieldStatus.setMaximum(p.getShield().getDuration());
+				ShieldStatus.setValue(p.getShield().getDuration()-p.getShield().getDurationTimer());
 			}
 			else {
 				remove(ShieldHPDisplay);
@@ -498,7 +499,8 @@ public class GameModeTower extends Game{
 		if((wave-1)%2==0 && !PUpicked&&wave!=1||(wave-1)%5==0 && !ULTpicked&&wave!=1) {
 
 			
-			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;	
+			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
+			PUrnd1=6;
 			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			while(PUrnd1 == PUrnd2) {	
 				PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
