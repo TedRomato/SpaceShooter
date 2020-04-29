@@ -343,7 +343,7 @@ public class GameModeTower extends Game{
 		add(PlayerReloadTime);
 		
 		DashRefill = new JProgressBar(0,0);
-		DashRefill.setBounds(0, 231, 80, 10);
+		DashRefill.setBounds(0, 230, 80, 10);
 		DashRefill.setForeground(new Color(225,174,19));
 		
 		MachineGunReload = new JProgressBar(0,0);
@@ -624,7 +624,7 @@ public class GameModeTower extends Game{
 			g2.drawImage(RocketIcon, 0, 121, 30, 30,null);
 		}
 		if(p.isDashUnlocked()) {
-			g2.drawImage(DashRefillIcon, 20, 201, 40, 30,null);
+			g2.drawImage(DashRefillIcon, 20, 200, 40, 30,null);
 		}
 		if(p.isShieldIsUnlocked()) {
 			g2.drawImage(ShieldIcon, 0,161,30,30,null);
