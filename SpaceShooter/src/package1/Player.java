@@ -25,7 +25,6 @@ public class Player extends LivingObject{
 	
 	//Shield variables
 	int shieldHP = 5, shieldDuration = 300, shieldCooldown = 600, shieldTimer = shieldCooldown;
-
 	boolean activateShield = false, shieldIsUnlocked = false, shieldIsUp = false;;
 	Shield shield;
 
