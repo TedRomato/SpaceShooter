@@ -149,86 +149,72 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	//TODO Improve missle speed (take it as argument)
 	public Corner getAimCornerForMovingOb(MovingObject moo) {
-	/*	if(moo.getCurrentSpeed() >= 12) {
-			return new Corner(moo.getRotationPoint(), moo.getRotationPoint());
-		}
-		
-		double mooSpeed = moo.getCurrentSpeed();
-		double missileSpeed = 12;
-		double ratio = missileSpeed/mooSpeed;
-		double mdAngle = moo.getMoveDirection().getAngle(moo.getRotationPoint());
-		Corner aiCorner = new Corner(this.getSP(), moo.getRotationPoint());
-		double aiAngle = aiCorner.getAngle(moo.getRotationPoint());
-		double aiMooMdangle = decideSmaller(Corner.getAngleDifferencRL(mdAngle, aiAngle));
-		double distance = aiCorner.getPointDistance(moo.getRotationPoint());
-		double prefirePointDistance = distance/Math.sqrt(((1+ratio*ratio)-2*(Math.sin(Math.toRadians(aiMooMdangle))*Math.sin(Math.toRadians(aiMooMdangle)))));
-		getNewAimCorner(moo);
-		return Corner.makeCornerUsinAngle(prefirePointDistance, mdAngle, moo.getRotationPoint());*/
-	//	return getNewAimCorner(moo);
-		return getAimCornerNew(moo);
-		
-	//	return new Corner(moo.getRotationPoint(), moo.getRotationPoint());
 
+		return getNewAimCorner(moo);
+		
 	}
 	
 	private Corner getNewAimCorner(MovingObject moo) {
-		getAimCornerNew(moo);
+
 		Corner temp = new Corner(this.getSP(), moo.getRotationPoint());
 		double sdAngle = temp.getAngle(moo.getRotationPoint());
 		double mdAngle = moo.getMoveDirection().getAngle(moo.getRotationPoint());
 		double distance = this.getSP().getPointDistance(moo.getRotationPoint());
 		double angleDifference = decideSmaller(Corner.getAngleDifferencRL(mdAngle, sdAngle));			//gets angle between moo move direction and moo / this.getSP distance
+
 		double a = Math.pow(moo.getCurrentSpeed()/missileSpeed, 2) - 1;
-//		System.out.println( "rads : " + Math.toRadians(angleDifference) + "  " + angleDifference);
-		double b = moo.getCurrentSpeed() * distance / Math.pow(missileSpeed, 2) * Math.cos(Math.toRadians(angleDifference));
+		double b = -2*moo.getCurrentSpeed() * distance / Math.pow(missileSpeed, 2) * Math.cos(Math.toRadians(angleDifference));
 		double c = Math.pow(distance / missileSpeed, 2);
+		
 		double[] roots = countQuadraticFunction(a,b,c);
 		
-//		System.out.println(roots[0] + " " + roots[1]);
 		Corner corner = Corner.makeCornerUsinAngle(roots[0]*moo.getCurrentSpeed(), moo.getMoveDirection().getAngle(moo.getRotationPoint()), moo.getRotationPoint());
-		System.out.println("vektory : " +corner.getX() + "  " + corner.getY());
 		return corner;
 	}
 	
 	private Corner getAimCornerNew(MovingObject moo) {
+		
 		Corner temp = new Corner(this.getSP(), moo.getRotationPoint());
 		double sdAngle = temp.getAngle(moo.getRotationPoint());
-		double mdAngle = moo.getMoveDirection().getAngle(moo.getRotationPoint());
+		double mdAngle =  moo.getMoveDirection().getAngle(moo.getRotationPoint());
 		double distance = this.getSP().getPointDistance(moo.getRotationPoint());
-		double angleDifference = Math.toRadians(decideSmaller(Corner.getAngleDifferencRL(mdAngle, sdAngle)));
-		double r = missileSpeed/moo.getCurrentSpeed();
-		double a = (1-r*r)/Math.tan(angleDifference)*Math.tan(angleDifference);
-//		System.out.println( "rads : " + Math.toRadians(angleDifference) + "  " + angleDifference);
-		double b = -2*distance/Math.tan(angleDifference);
-		double c = distance*distance;
-		double[] roots = countQuadraticFunction(a,b,c);
-		double mooTrack = roots[0]/Math.sin(angleDifference);
-		Corner corner = Corner.makeCornerUsinAngle(mooTrack, mdAngle, moo.getRotationPoint());
-		System.out.println("Vyska : "+corner.getX() + "  " + corner.getY());
+		double angleDifference = Math.toRadians(decideSmaller(Corner.getAngleDifferencRL(mdAngle, sdAngle)));		
+	
+		double r2 = moo.getCurrentSpeed()/missileSpeed;
+		double a2 = (1-Math.pow(r2, 2))/Math.pow(Math.tan(angleDifference), 2)-Math.pow(r2, 2)+1;
+		double b2 = r2*r2*distance*2/Math.tan(angleDifference);
+		double c2 = -r2*r2*Math.pow(distance, 2);
+		
+		double[] roots2 = countQuadraticFunction(a2,b2,c2);
+		
+		double mooTrack2 = roots2[1]/Math.sin(angleDifference);
+		
+		Corner corner = Corner.makeCornerUsinAngle(mooTrack2, mdAngle, moo.getRotationPoint());
 		return corner;
 	}
 	
-	public double getDiscriminant(double a, double b, double c) {
-		return b*b - 4*a*c;
+	public long getDiscriminant(double a, double b, double c) {
+		return (long) (b*b - 4*a*c);
 	}
 	
 	public double[] countQuadraticFunction(double a, double b, double c) {
-		double discriminant = getDiscriminant(a,b,c);
-		if(discriminant > 0) {
+		long discriminant = getDiscriminant(a,b,c);
+		if(discriminant >= 0) {
 			double num1 = countQuadraticFormula(a, b, c, discriminant, '-');
 			double num2 = countQuadraticFormula(a, b, c, discriminant, '+');
 			return new double[] {num1, num2};
 		}
+		System.out.println("discriminant < 0");
 		return null;
 		
 	}
 	
 	public double countQuadraticFormula(double a, double b, double c, double discriminant, char character) {
 		if(character == '-') {
-			return (-b - Math.sqrt(discriminant))/2*a;
+			return (-b - Math.sqrt(discriminant))/(2*a);
 			
 		}else {
-			return (-b + Math.sqrt(discriminant))/2*a;
+			return (-b + Math.sqrt(discriminant))/(2*a);
 		}
 	}
 	
