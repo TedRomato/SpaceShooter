@@ -116,13 +116,16 @@ public class Game extends JPanel implements MouseListener{
 		    
 		    borders = new GameObject[] {botBorder,leftBorder,topBorder,rightBorder};
 	    }	    	    
-	    
+	    screenRatio = (double)currentScreenWidth/(double)mainWidth;
+		camera = new Camera(currentScreenWidth,currentScreenHeight,1);
+		camera.setCameraToCorner(new Corner(new double[] {0,0}));
+		
 	    p = Player.makeNewPlayer(new double[] {100,100});
 		addObToGame(p, new int[] {5,6,7,9,11}); 
-
-		screenRatio = (double)currentScreenWidth/(double)mainWidth;
-		camera = new Camera(currentScreenWidth,currentScreenHeight,1);
+		
 		camera.setCameraToCorner(p.getRotationPoint());
+
+		
 	}
 	public int getScore() {
 		return score;

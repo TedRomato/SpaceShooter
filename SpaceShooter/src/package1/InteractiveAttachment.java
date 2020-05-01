@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.List;
 
+
+//specialni render obrazku pro interactive attachmenty, ktery rotujou s parentem attRangle + parentRangle
 public class InteractiveAttachment extends ObjectAttachment{
 
 	Corner wayPoint;
@@ -340,11 +342,11 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	
 	public void render(Graphics g) {
-	//	shootDirection.renderCorner(g, 4);
-	//	shootPoint.renderCorner(g, 4);
-	//	shotTrajectory.render(g);
-	//	aimCorner.renderCorner(g, 10);
-	//	wayPoint.renderCorner(g, 10);
+//		shootDirection.renderCorner(g, 4);
+//		shootPoint.renderCorner(g, 4);
+//		shotTrajectory.render(g);
+//		aimCorner.renderCorner(g, 10);
+//		wayPoint.renderCorner(g, 10);
 		super.render(g);
 		
 	}
