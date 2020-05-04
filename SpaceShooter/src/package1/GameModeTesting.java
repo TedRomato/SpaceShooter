@@ -8,8 +8,8 @@ public class GameModeTesting extends Game{
 
 	public GameModeTesting(int sw, int sh) {
 		super(sw, sh, true);
-	//	spawnBunchOfCanons(2);
-		spawnBunchOfMines(50);
+		spawnBunchOfCanons(2);
+	//	spawnBunchOfMines(50);
 	//	SpaceCanon ai12 = SpaceCanon.makeNewSpaceCanon(1000,800, getAiEnemys());
 	//	SpaceCanon ai13 = SpaceCanon.makeNewSpaceCanon(1200,860,getAiEnemys());
 	//	SpaceCanon ai14 = SpaceCanon.makeNewSpaceCanon(900,750,getAiEnemys());
@@ -27,7 +27,7 @@ public class GameModeTesting extends Game{
 	//	addObToGame(ai1, new int[] {4,7,9,10,11}); 
 		//addObToGame(ai1, new int[] {4,7,9,10}); 
 
-		//addObToGame(ai3, new int[] {4,7,10}); 
+	//	addObToGame(ai3, new int[] {4,7,10,11}); 
 		
 //		addObToGame(ai12, new int[] {4,7,9,10}); 
 //		addObToGame(ai13, new int[] {4,7,9,10});

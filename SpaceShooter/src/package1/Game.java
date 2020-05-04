@@ -66,6 +66,7 @@ public class Game extends JPanel implements MouseListener{
 	private int Count = 0;
 	
 	public Game(int sw,int sh,boolean softBorder) {
+		this.setBackground(Color.black);
 		this.currentScreenHeight = sh;
 		this.currentScreenWidth = sw;
 		this.softBorders = softBorder;
@@ -590,7 +591,7 @@ public class Game extends JPanel implements MouseListener{
 	
 	private void renderAll(Graphics g) {
 		if(softBorders) {
-			renderDangerZone(g);
+		//	renderDangerZone(g);
 		}
 		if(objects != null) {
 			if(objects.length > 0) {
@@ -634,8 +635,8 @@ public class Game extends JPanel implements MouseListener{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.drawImage(bg,(int)((-1920*Game.camera.toMultiply()) + Game.camera.toAddX()), (int)((-3000*Game.camera.toMultiply()) + Game.camera.toAddY()),5760,3240,null);
 		renderAll(g2);
-//		g2.drawImage(bg,(int)((-600*Game.camera.toMultiply()) + Game.camera.toAddX()), (int)((-600*Game.camera.toMultiply()) + Game.camera.toAddY()),1920,1200,null);
 		if(p.checkIfOutsideRect(0, 0, mainWidth, mainHeight)) {
 			g2.drawImage(WarningSign,currentScreenWidth/2-260, currentScreenHeight/2-200,100,100, null);
 			g2.drawImage(WarningSign,currentScreenWidth/2+150, currentScreenHeight/2-200,100,100, null);
