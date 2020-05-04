@@ -40,6 +40,7 @@ public class Window extends JFrame implements KeyListener{
 		setVisible(true);
 		addKeyListener(this);
 		
+		
 		game = new Game(screenWidth,screenHeight,false);
 		game.setLayout(null);
 		

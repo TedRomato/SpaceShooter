@@ -58,6 +58,7 @@ public class GameModeTower extends Game{
 		tower = Tower.makeNewTower(currentScreenWidth/2/screenRatio, currentScreenHeight/2/screenRatio);
 		tower.setHP(TowerBaseHP);
 		tower.addShotImune(p);
+		tower.addTurret();
 		addObToGame(tower, new int[] {1,3,4,6,7,9,11});
 		p.addShotImune(tower);
 
@@ -378,11 +379,12 @@ public class GameModeTower extends Game{
 		TowerHPDisplay.setStringPainted(true);
 		TowerHPDisplay.setValue(TowerBaseHP);
 		add(TowerHPDisplay);
-		
 	}
 	public void tick() {
 		super.tick();
-		tower.updateAllTurrets(getAIS());
+		if(tower.getAttachments().length!=0) {
+			tower.updateAllTurrets(getAIS());
+		}
 		handleWaves();
 		nextWave();
 		updateDisplay();
@@ -601,14 +603,7 @@ public class GameModeTower extends Game{
 		remove(Power7);
 		remove(Power8);
 	}
-	private static BufferedImage resize(BufferedImage img, int width, int height) {
-        Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = resized.createGraphics();
-        g2d.drawImage(tmp, 0, 0, null);
-        g2d.dispose();
-        return resized;
-    }
+	
 	 @Override
 	protected void paintComponent(Graphics g) {
 		// TODO Auto-generated method stub
