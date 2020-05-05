@@ -17,16 +17,13 @@ import javax.imageio.ImageIO;
 
 
 public class Player extends LivingObject{
+	//Shield
+	boolean shieldIsUnlocked = false;
 	
 	//Zone variables
 	boolean wasDamagedByZone = false;
 	int zoneDamagedTimerLenght = 60;
 	int zoneDamagedTimer = 0;
-	
-	//Shield variables
-	int shieldHP = 5, shieldDuration = 300, shieldCooldown = 600, shieldTimer = shieldCooldown;
-	boolean activateShield = false, shieldIsUnlocked = false, shieldIsUp = false;;
-	Shield shield;
 	
 	//pulse variables
 	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
@@ -111,6 +108,7 @@ public class Player extends LivingObject{
 		if(Game.keyChecker.checkIfkeyIsPressed(shieldChar)) {
 			
 			if(shieldTimer >= shieldCooldown && shieldIsUnlocked) {
+				System.out.println("jsem tady");
 				activateShield = true;
 				shieldTimer=0;
 			}
@@ -214,8 +212,9 @@ public class Player extends LivingObject{
 			}
 		}
 	
+	
 	public Shield useShield() {
-		Shield s = Shield.makeShield(this.getRotationPoint(), 150);
+		Shield s = Shield.makeShield(this.getRotationPoint(), shieldRadius);
 		s.setHP(shieldHP);
 		s.setDuration(shieldDuration);
 		s.setUpShield(true, new GameObject[] {}, this);
@@ -223,28 +222,6 @@ public class Player extends LivingObject{
 		shield = s;
 		return s;
 	}
-	
-	public Shield useShield(GameObject[] friendlys) {
-		Shield s = Shield.makeShield(this.getRotationPoint(), 150);
-		s.setHP(shieldHP);
-		s.setDuration(shieldDuration);
-		s.setUpShield(true, friendlys, this);
-		setShieldIsUp(true);
-		return s;
-	}
-	
-	public void handleShieldCooldown() {
-		if(shieldTimer < shieldCooldown && !shieldIsUp) {
-			shieldTimer++;
-		}
-	}
-	
-	public void upgradeShield() {
-		shieldHP ++;
-		shieldDuration += 60;
-		shieldCooldown -= 15;  
-	}
-	
 
 	public void usePulse(GameObject[] obs) {
 
@@ -578,6 +555,7 @@ public class Player extends LivingObject{
 	    p.setReflectedSpeed(6);
 	    p.addAttachment(canon);
 	    p.setReflectedLenght(20);
+
 //		p.addFrontCanon();
 //	    p.addFrontMachineGun();
 //	    p.setDashUnlocked(true);
@@ -596,8 +574,8 @@ public class Player extends LivingObject{
 
 	public void render(Graphics g) {
 
-//		super.render(g);
-		Graphics2D g2 = (Graphics2D) g;
+		super.render(g);
+/*		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 //player skin 2 
 		rotateImage(g2, PlayerSkin, this.getRotatedAngle(),this.getRotationPoint(),50,50);		
@@ -614,7 +592,7 @@ public class Player extends LivingObject{
 			rotateImage(g2, MachineGun1, this.getAttachments()[machinegun].getAttachmentAngleRotated() + this.getRotatedAngle(),this.getAttachments()[machinegun].getAttachmentRP(),68,20);
 			rotateImage(g2, MachineGun2, this.getAttachments()[machinegun+1].getAttachmentAngleRotated() + this.getRotatedAngle(),this.getAttachments()[machinegun+1].getAttachmentRP(),70,20);
 
-		}
+		}*/
 	}
 
 
@@ -675,13 +653,52 @@ public class Player extends LivingObject{
 	}
 
 
-
 	public void setDashCooldown(int dashCooldown) {
 		this.dashCooldown = dashCooldown;
 	}
 
 
+	public int getPulseCooldown() {
+		return pulseCooldown;
+	}
 
+
+	public void setPulseCooldown(int pulseCooldown) {
+		this.pulseCooldown = pulseCooldown;
+	}
+
+
+	public int getPulseCooldownTimer() {
+		return pulseCooldownTimer;
+	}
+
+
+	public void setPulseCooldownTimer(int pulseCooldownTimer) {
+		this.pulseCooldownTimer = pulseCooldownTimer;
+	}
+
+
+	public int getBerserkModeCooldown() {
+		return berserkModeCooldown;
+	}
+
+
+	public void setBerserkModeCooldown(int berserkModeCooldown) {
+		this.berserkModeCooldown = berserkModeCooldown;
+	}
+
+
+	public int getBerserkModeTimer() {
+		return berserkModeTimer;
+	}
+
+
+	public void setBerserkModeTimer(int berserkModeTimer) {
+		this.berserkModeTimer = berserkModeTimer;
+	}
+	
+	//SHIELD
+	
 	public boolean isShieldIsUnlocked() {
 		return shieldIsUnlocked;
 	}
@@ -691,122 +708,6 @@ public class Player extends LivingObject{
 	public void setShieldIsUnlocked(boolean shieldIsUnlocked) {
 		this.shieldIsUnlocked = shieldIsUnlocked;
 	}
-
-
-
-	public int getShieldHP() {
-		return shieldHP;
-	}
-
-
-
-	public void setShieldHP(int shieldHP) {
-		this.shieldHP = shieldHP;
-	}
-
-
-
-	public int getShieldDuration() {
-		return shieldDuration;
-	}
-
-
-
-	public void setShieldDuration(int shieldDuration) {
-		this.shieldDuration = shieldDuration;
-	}
-
-
-
-	public int getShieldCooldown() {
-		return shieldCooldown;
-	}
-
-
-
-	public void setShieldCooldown(int shieldCooldown) {
-		this.shieldCooldown = shieldCooldown;
-	}
-
-
 	
-	public int getShieldTimer() {
-		return shieldTimer;
-	}
-
-
-
-	public void setShieldTimer(int shieldTimer) {
-		this.shieldTimer = shieldTimer;
-	}
-
-
-
-	public int getPulseCooldown() {
-		return pulseCooldown;
-	}
-
-
-
-	public void setPulseCooldown(int pulseCooldown) {
-		this.pulseCooldown = pulseCooldown;
-	}
-
-
-
-	public int getPulseCooldownTimer() {
-		return pulseCooldownTimer;
-	}
-
-
-
-	public void setPulseCooldownTimer(int pulseCooldownTimer) {
-		this.pulseCooldownTimer = pulseCooldownTimer;
-	}
-
-
-
-	public int getBerserkModeCooldown() {
-		return berserkModeCooldown;
-	}
-
-
-
-	public void setBerserkModeCooldown(int berserkModeCooldown) {
-		this.berserkModeCooldown = berserkModeCooldown;
-	}
-
-
-
-	public int getBerserkModeTimer() {
-		return berserkModeTimer;
-	}
-
-
-
-	public void setBerserkModeTimer(int berserkModeTimer) {
-		this.berserkModeTimer = berserkModeTimer;
-	}
-	
-	public void setShieldIsUp(boolean b) {
-		shieldIsUp = b;
-	}
-
-	public void setShield(Shield s) {
-		shield = s;
-	}
-	
-	public Shield getShield() {
-		return shield;
-	}
-	
-	public int getCurrentShieldHP() {
-		return shield.getHP();
-		
-	}
-
-
-
-		
 	
 }

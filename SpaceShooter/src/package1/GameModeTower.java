@@ -221,7 +221,7 @@ public class GameModeTower extends Game{
 					add(ShieldStatus);
 				} 
 				else {
-					//p.upgradeShield();
+					p.upgradeShield();
 				}
 				running = true;
 				PUpicked = true;
@@ -395,6 +395,11 @@ public class GameModeTower extends Game{
 			AIcount++;
 		}
 	}
+	
+	public GameObject[] getAIEnemys() {
+		return new GameObject[] {p,tower};
+	}
+	
 	public void updateDisplay() { 
 		super.updateDisplay();
 		waveDisplay.setText("Wave: " + wave);
@@ -466,6 +471,7 @@ public class GameModeTower extends Game{
 			
 			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;	
 			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
+			PUrnd2 = 6;
 			while(PUrnd1 == PUrnd2) {	
 				PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			}

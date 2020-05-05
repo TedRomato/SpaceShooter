@@ -106,12 +106,12 @@ public class SpaceCanon extends AI{
 	}
 	
 	public void render(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
+/*		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		rotateImage(g2, Body, 0,this.getRotationPoint(),159,143);		
 	
 		rotateImage(g2, Canon, ((InteractiveAttachment) getAttachments()[0]).getAttachmentAngleRotated(),((InteractiveAttachment) getAttachments()[0]).getRotationPoint(),109,70);		
-//		super.render(g);
+*/		super.render(g);
 
 	}
 }

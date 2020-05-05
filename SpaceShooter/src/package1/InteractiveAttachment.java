@@ -169,8 +169,12 @@ public class InteractiveAttachment extends ObjectAttachment{
 		double c = Math.pow(distance / missileSpeed, 2);
 		
 		double[] roots = countQuadraticFunction(a,b,c);
-		
-		Corner corner = Corner.makeCornerUsinAngle(roots[0]*moo.getCurrentSpeed(), moo.getMoveDirection().getAngle(moo.getRotationPoint()), moo.getRotationPoint());
+		Corner corner;
+		try {
+			corner = Corner.makeCornerUsinAngle(roots[0]*moo.getCurrentSpeed(), moo.getMoveDirection().getAngle(moo.getRotationPoint()), moo.getRotationPoint());
+		}catch(NullPointerException ex){
+			corner = new Corner(moo.getRotationPoint(), moo.getRotationPoint());
+		}
 		return corner;
 	}
 	

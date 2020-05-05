@@ -82,11 +82,11 @@ public class HuntingMine extends AI{
 	}
 	
 	public void render(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
+	/*	Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		rotateImage(g2, Body, 0,this.getRotationPoint(),58,55);		
-		rotateImage(g2, Att,  getAttachments()[0].getAttachmentAngleRotated(), getAttachments()[0].getRotationPoint(),90,80);		
-	//	super.render(g);
+		rotateImage(g2, Att,  getAttachments()[0].getAttachmentAngleRotated(), getAttachments()[0].getRotationPoint(),90,80);		*/
+		super.render(g);
 	}
 	
 	

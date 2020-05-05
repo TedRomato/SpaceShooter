@@ -91,6 +91,6 @@ public class Mothership extends Summoner{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		rotateImage(g2, Body, 0,this.getRotationPoint(),80,80);		
-	//	super.render(g);
+		super.render(g);
 	}
 }

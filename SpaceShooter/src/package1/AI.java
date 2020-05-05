@@ -397,6 +397,16 @@ public class AI extends LivingObject{
 			}
 		}
 	}
+	
+	public Shield useShield(GameObject[] enemys) {
+		Shield s = Shield.makeShield(this.getRotationPoint(), shieldRadius);
+		s.setHP(shieldHP);
+	//	s.setDuration(shieldDuration);
+		s.setUpShield(false, enemys, this);
+		setShieldIsUp(true);
+		shield = s;
+		return s;
+	}
 
 	
 	public void render(Graphics g) {
