@@ -372,9 +372,10 @@ public class GameModeTower extends Game{
 		DisplayPowerUps();
 		endGame();
 	}
+	
 	public void handleWaves() {
 		if(AIneeded && AIcount == 90) {	
-			AIrnd = (int) (Math.random() * ((5-0)+1)) + 0;
+			AIrnd = (int) (Math.random() * ((5+1)));
 			if(PowerLevelAr[AIrnd] + PowerLevel> wave) {	
 				return;
 			}
@@ -541,22 +542,22 @@ public class GameModeTower extends Game{
 		spawnCorner = GameObject.generateCornerOutsideMapInRange(mainWidth, mainHeight, new int[] {600,1000});
 		switch(PL){
 
-			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys()); addObToGame(hm, new int[] {4,7,9,10,11}); 
+			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),1); addObToGame(hm, new int[] {4,7,9,10,11}); 
 			break;
 
-			case 1 : sca = SpaceCanon.makeNewSpaceCanon(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys()); addObToGame(sca, new int[] {4,7,9,10,11}); 
+			case 1 : sca = SpaceCanon.makeNewSpaceCanon(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),1); addObToGame(sca, new int[] {4,7,9,10,11}); 
 			break;
 
-			case 2 : mp = Mothership.makeNewMothership(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys()); addObToGame(mp, new int[] {4,7,10,11}); 
+			case 2 : mp = Mothership.makeNewMothership(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),1); addObToGame(mp, new int[] {4,7,10,11}); 
 			break;
 
-			case 3 : scr = SpaceCruiser.makeNewSpaceCruiser(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys()); addObToGame(scr, new int[] {4,7,9,10,11}); 
+			case 3 : scr = SpaceCruiser.makeNewSpaceCruiser(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),1); addObToGame(scr, new int[] {4,7,9,10,11}); 
 			break;
 			
-			case 4 : ht = Hunter.makeNewHunter(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys()); addObToGame(ht, new int[] {4,7,9,10,11}); 
+			case 4 : ht = Hunter.makeNewHunter(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),1); addObToGame(ht, new int[] {4,7,9,10,11}); 
 			break;
 			
-			case 5 : gr = Grenader.makeNewGrenader(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys()); addObToGame(gr, new int[] {4,7,9,10,11}); 
+			case 5 : gr = Grenader.makeNewGrenader(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),1); addObToGame(gr, new int[] {4,7,9,10,11}); 
 			break;
 			default : 
 		}

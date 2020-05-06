@@ -10,8 +10,8 @@ public class Summoner extends AI{
 	Corner[] summoningDestinations;
 	double runningDistance = 550;
 
-	public Summoner(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination) {
-		super(corners, rotationPoint, rotationAngle, md, goalDestination);
+	public Summoner(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, int powerLvl) {
+		super(corners, rotationPoint, rotationAngle, md, goalDestination,powerLvl);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -49,7 +49,7 @@ public class Summoner extends AI{
 	
 	public AI summonAI(GameObject[] enemys) {
 		int whichOne = (int) (Math.floor(Math.random()*4));
-		HuntingMine ai = HuntingMine.makeNewHuntingMine(summoningDestinations[whichOne].getX(), summoningDestinations[whichOne].getY(), enemys);
+		HuntingMine ai = HuntingMine.makeNewHuntingMine(summoningDestinations[whichOne].getX(), summoningDestinations[whichOne].getY(), enemys, getPowerLvl());
 		return ai;
 	}
 	

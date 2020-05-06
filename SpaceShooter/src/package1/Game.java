@@ -185,6 +185,7 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void tick() {
+	
 		updatePlayer();
 		handleShooting();	
 		checkAndHandleCollision();
@@ -260,6 +261,7 @@ public class Game extends JPanel implements MouseListener{
 	
 	public void handleExplosives() {
 		for(Explosives explo : explosives) {
+
 			explo.updateExplosive();
 			if(explo.getShouldExplode()) {
 				Missile[] m = explo.explode();
@@ -335,6 +337,7 @@ public class Game extends JPanel implements MouseListener{
 						if(att instanceof ExplosiveShootingAtt) {
 							if(sob instanceof Player) {
 								if(att.getReloadTimer() >= att.getReloadLenght() &&  att.shouldShoot()) {
+									
 									addObToGame(((ExplosiveShootingAtt) att).Fire(sob.getShotImunes()),new int[] {5,6,7,9,10});
 									att.setReloadTimer(0);
 								}

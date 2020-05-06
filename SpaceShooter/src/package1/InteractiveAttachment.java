@@ -147,7 +147,12 @@ public class InteractiveAttachment extends ObjectAttachment{
 				return addInaccuracy(this.getAimCornerForMovingOb((MovingObject) go));
 			}
 		}		
-		return addInaccuracy(new Corner(go.getRotationPoint(), go.getRotationPoint()));
+		try {
+			return addInaccuracy(new Corner(go.getRotationPoint(), go.getRotationPoint()));
+		}catch(NullPointerException ex) {
+			return new Corner(new double[] {0,0});
+
+		}
 	}
 	//TODO Improve missle speed (take it as argument)
 	public Corner getAimCornerForMovingOb(MovingObject moo) {

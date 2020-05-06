@@ -13,9 +13,9 @@ import java.math.RoundingMode;
 //PRESUNOUT METODY LIVING OBJECTU Z HRACE 
 public class LivingObject extends MovingObject{
 	
-	//is able to change its move direction based on move point 
-	//does have acceleration and max Speed
-	//can have attachments 
+	//is able to change its move direction based on move point	 
+	//does have acceleration and max Speed						
+	//can have attachments 					
 	//other than that same methods, but work for attachment as well
 	GameObject[] shotImunes = new GameObject[] {};
 	private boolean forward = false, turnRight = false, turnLeft = false;
@@ -465,12 +465,22 @@ public class LivingObject extends MovingObject{
 	public void addShotImunes(GameObject[] toAdds) {
 		GameObject[] arr = shotImunes;
 		shotImunes = new GameObject[arr.length+toAdds.length];
-		for(int i = 0; i < arr.length; i++) {
-			shotImunes[i] = arr[i];
-			if(i < toAdds.length) {
-				shotImunes[i+arr.length] = toAdds[i];
+		if(arr.length >= toAdds.length) {
+			for(int i = 0; i < arr.length; i++) {
+				shotImunes[i] = arr[i];
+				if(i < toAdds.length) {
+					shotImunes[i+arr.length] = toAdds[i];
+				}
+			}
+		}else {
+			for(int i = 0; i < toAdds.length; i++) {
+				shotImunes[i] = toAdds[i];
+				if(i < arr.length) {
+					shotImunes[i+toAdds.length] = arr[i];
+				}
 			}
 		}
+		
 	}
 	
 	public Missile[] makePeriodicExplosion(int distance, Corner rp, int chunks, GameObject[] im, int dmg){

@@ -18,7 +18,7 @@ public class GameModeTesting extends Game{
 	//	HuntingMine ai2 = HuntingMine.makeNewHuntingMine(1000,200);
 	//	Mothership ai3 = Mothership.makeNewMothership(200,600,getAiEnemys());
 	//	Grenader g = Grenader.makeNewGrenader(600, 600, getAiEnemys());
-		Shielder s = Shielder.makeShielder(-100,-100, getAiEnemys());
+		Shielder s = Shielder.makeShielder(-100,-100, getAiEnemys(),1);
 		addObToGame(s,new int[] {4,7,9,10,11});
 	//	addObToGame(hu, new int[] {4,7,9,10}); 
 
@@ -63,9 +63,9 @@ public class GameModeTesting extends Game{
 	public void spawnBunchOfMines(int amount) {
 		for(int i = 0; i < amount; i++) {
 			if(i % 2 == 0) {
-				addObToGame(HuntingMine.makeNewHuntingMine(i*50+500, i*80+600, getAiEnemys()),new int[] {4,7,9,10,11});
+				addObToGame(HuntingMine.makeNewHuntingMine(i*50+500, i*80+600, getAiEnemys(),1),new int[] {4,7,9,10,11});
 			}else {
-				addObToGame(HuntingMine.makeNewHuntingMine(i*80+200, i*50+300, getAiEnemys()),new int[] {4,7,9,10,11});
+				addObToGame(HuntingMine.makeNewHuntingMine(i*80+200, i*50+300, getAiEnemys(),1),new int[] {4,7,9,10,11});
 			}
 		}
 	}
@@ -73,9 +73,9 @@ public class GameModeTesting extends Game{
 	public void spawnBunchOfCanons(int amount) {
 		for(int i = 0; i < amount; i++) {
 			if(i % 2 == 0) {
-				addObToGame(SpaceCanon.makeNewSpaceCanon(i*80+500, i*100+600, getAiEnemys()),new int[] {4,7,9,10,11});
+				addObToGame(SpaceCanon.makeNewSpaceCanon(i*80+500, i*100+600, getAiEnemys(),1),new int[] {4,7,9,10,11});
 			}else {
-				addObToGame(SpaceCanon.makeNewSpaceCanon(i*100+200, i*80+300, getAiEnemys()),new int[] {4,7,9,10,11});
+				addObToGame(SpaceCanon.makeNewSpaceCanon(i*100+200, i*80+300, getAiEnemys(),1),new int[] {4,7,9,10,11});
 			}
 		}
 	}

@@ -20,10 +20,12 @@ public class AI extends LivingObject{
 	boolean playerFocus = false;
 	int aiUpdateLenght = 5;
 	int aiUpdateTimer = aiUpdateLenght;
+	int powerLVL;
 
 
-	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
+	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination, int powerLvl) {
 		super(corners, rotationPoint, rotationAngle, md);
+		powerLVL = powerLvl;
 		this.goalDestination = goalDestination;
 		this.goalDestination.setToNewRP(rotationPoint);
 		setForward(true);
@@ -38,7 +40,7 @@ public class AI extends LivingObject{
 		aiUpdateLenght = (int) Math.round(Math.random() * 5 + 3);
 	}
 	
-	public static AI makeNewAI(double x, double y) {
+	public static AI makeNewAI(double x, double y, int powerLvl) {
 		//ai
 		Corner peakAI = new Corner(new double[] {x,y + 25}, new double[] {x ,y});
 	    Corner rightCornerAI = new Corner(new double[] {x-25,y-25}, new double[] {x ,y});
@@ -61,7 +63,7 @@ public class AI extends LivingObject{
 	    DetectionLine rdl = new DetectionLine(base3, rightP, new double[] {x ,y}, 0.5);
 	    DetectionLine ldl2 = new DetectionLine(base4, leftP2, new double[] {x ,y}, 0.5);
 	    DetectionLine rdl2 = new DetectionLine(base5, rightP2, new double[] {x ,y}, 0.5);
-	    AI ai = new AI(new Corner[] {peakAI, rightCornerAI, leftCornerAI}, new double[] {x,y}, 0.5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner);
+	    AI ai = new AI(new Corner[] {peakAI, rightCornerAI, leftCornerAI}, new double[] {x,y}, 0.5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner, powerLvl);
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
 
 	    ai.setMaxSpeed(0);
@@ -514,6 +516,9 @@ public class AI extends LivingObject{
 		return targetedEnemy;
 	}
 	
+	public int getPowerLvl() {
+		return powerLVL;
+	}
 	
 	
 

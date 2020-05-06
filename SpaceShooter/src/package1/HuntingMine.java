@@ -14,8 +14,8 @@ public class HuntingMine extends AI{
 	
 	BufferedImage Att, Body;
 	
-	public HuntingMine(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
-		super(corners,rotationPoint,rotationAngle,md,goalDestination);
+	public HuntingMine(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination, int powerLvl) {
+		super(corners,rotationPoint,rotationAngle,md,goalDestination, powerLvl);
 		
 		try {
 			Att = ImageIO.read(new File("src/Icons/HuntingMineAtt.png"));
@@ -29,7 +29,7 @@ public class HuntingMine extends AI{
 		}
 	}
 	
-	public static HuntingMine makeNewHuntingMine(double x, double y, GameObject[] gameObjects) {
+	public static HuntingMine makeNewHuntingMine(double x, double y, GameObject[] gameObjects, int powerLvl) {
 		//ai
 		Corner peakAI = new Corner(new double[] {x,y - 22}, new double[] {x ,y});
 		Corner botAI = new Corner(new double[] {x,y + 22}, new double[] {x ,y});
@@ -61,9 +61,9 @@ public class HuntingMine extends AI{
 	    DetectionLine ldl2 = new DetectionLine(base4, leftP2, new double[] {x ,y}, 4);
 	    DetectionLine rdl2 = new DetectionLine(base5, rightP2, new double[] {x ,y}, 4);
 	    Corner goalCorner = new Corner(new double[] {1000,600} );
-		HuntingMine ai = new HuntingMine(new Corner[] {peakAI, rightCornerAI,botAI, leftCornerAI}, new double[] {x,y}, 4, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner);
+		HuntingMine ai = new HuntingMine(new Corner[] {peakAI, rightCornerAI,botAI, leftCornerAI}, new double[] {x,y}, 4, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner, powerLvl);
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
-	    ai.setMaxSpeed(8);
+	    ai.setMaxSpeed(5+powerLvl);
 	    ai.addAttachment(att);
 	    ai.setHP(1);
 	    ai.findAndSetToClosestEnemy(gameObjects);
