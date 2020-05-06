@@ -400,7 +400,7 @@ public class GameModeTower extends Game{
 	public int determinePowerLvl() {
 		double rand = Math.random();
 		int difficulty = (int) Math.floor(wave/3)+1;
-		double chunkSize = 1/difficulty;
+		double chunkSize = 1.0/difficulty;
 		for(int powerLvl = 1; powerLvl <= difficulty; powerLvl++) {
 			if(rand > (powerLvl-1)*chunkSize && rand < (powerLvl)*chunkSize) {
 				return powerLvl;
