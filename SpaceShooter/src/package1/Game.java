@@ -185,7 +185,7 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void tick() {
-	
+	//	respawnMeteorsToAmount(5);
 		updatePlayer();
 		handleShooting();	
 		checkAndHandleCollision();

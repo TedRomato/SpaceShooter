@@ -12,6 +12,8 @@ public class Summoner extends AI{
 	public Summoner(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, int powerLvl) {
 		super(corners, rotationPoint, rotationAngle, md, goalDestination,powerLvl);
 		// TODO Auto-generated constructor stub
+		strenght = 4;
+
 	}
 	
 	public void updateAI(GameObject[] enemys, GameObject[] gos, AI[] ais) {

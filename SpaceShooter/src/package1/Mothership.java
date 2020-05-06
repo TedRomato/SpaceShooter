@@ -18,6 +18,8 @@ public class Mothership extends Summoner{
 	public Mothership(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,
 			Corner goalDestination, int PowerLvl) {
 		super(corners, rotationPoint, rotationAngle, md, goalDestination, PowerLvl);
+		strenght = 4;
+
 		try {
 
 			Body = ImageIO.read(new File("src/Icons/MothershipBody.png"));

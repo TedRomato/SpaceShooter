@@ -397,6 +397,20 @@ public class GameModeTower extends Game{
 		}
 	}
 	
+	public int determinePowerLvl() {
+		double rand = Math.random();
+		int difficulty = (int) Math.floor(wave/3)+1;
+		double chunkSize = 1/difficulty;
+		for(int powerLvl = 1; powerLvl <= difficulty; powerLvl++) {
+			if(rand > (powerLvl-1)*chunkSize && rand < (powerLvl)*chunkSize) {
+				return powerLvl;
+			}
+		}
+		
+		System.out.println("determinePowerLvl fucked up");
+		return 1;
+	}
+	
 	public GameObject[] getAIEnemys() {
 		return new GameObject[] {p,tower};
 	}

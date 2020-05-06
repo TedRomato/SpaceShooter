@@ -16,6 +16,8 @@ public class HuntingMine extends AI{
 	
 	public HuntingMine(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination, int powerLvl) {
 		super(corners,rotationPoint,rotationAngle,md,goalDestination, powerLvl);
+		strenght = 1;
+
 		
 		try {
 			Att = ImageIO.read(new File("src/Icons/HuntingMineAtt.png"));

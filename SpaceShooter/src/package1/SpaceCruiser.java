@@ -8,6 +8,8 @@ public class SpaceCruiser extends LongRangeAI{
 			Corner goalDestination, Corner wayPoint, int powerLvl) {
 		super(corners, rotationPoint, rotationAngle, md, goalDestination, wayPoint, powerLvl);
 		// TODO Auto-generated constructor stub
+		strenght = 5;
+
 	}
 	
 	public void updateInSD(GameObject[] enemys, GameObject[] gos, AI[] ais) {

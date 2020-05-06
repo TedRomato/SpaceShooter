@@ -6,6 +6,8 @@ public class Grenader extends LongRangeAI{
 	public Grenader(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, Corner wayPoint, int powerLvl) {
 		super(corners, rotationPoint, rotationAngle, md, goalDestination, wayPoint,powerLvl);
 		// TODO Auto-generated constructor stub
+		strenght = 6;
+
 	}
 	
 	public void updateInSD(GameObject[] enemys, GameObject[] gos, AI[] ais) {

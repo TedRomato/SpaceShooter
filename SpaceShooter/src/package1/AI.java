@@ -23,6 +23,7 @@ public class AI extends LivingObject{
 	int aiUpdateLenght = 5;
 	int aiUpdateTimer = aiUpdateLenght;
 	int powerLVL;
+	int strenght;
 
 
 	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination, int powerLvl) {
@@ -532,6 +533,18 @@ public class AI extends LivingObject{
 		return powerLVL;
 	}
 	
+	public void setPowerLvl(int d) {
+		powerLVL = d;
+	}
+	
+	public int getStrenght() {
+		return strenght;
+	}
+	
+	public void setStrenght(int s) {
+		strenght = s;
+	}
+	
 	public void setRunIfTooClose(boolean b) {
 		runIfTooClose = b;
 	}
@@ -539,7 +552,4 @@ public class AI extends LivingObject{
 	public void setRunningDistance(double d) {
 		runningDistance = d;
 	}
-	
-	
-
 }

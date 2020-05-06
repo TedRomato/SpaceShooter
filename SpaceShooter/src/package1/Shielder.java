@@ -8,6 +8,7 @@ public class Shielder extends AI{
 
 	public Shielder(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, int PowerLvl) {
 		super(corners, rotationPoint, rotationAngle, md, goalDestination, PowerLvl);
+		strenght = 4;
 		
 	}
 	

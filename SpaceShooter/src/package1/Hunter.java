@@ -7,6 +7,8 @@ public class Hunter extends AI{
 	public Hunter(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, int powerLvl) {
 		super(corners, rotationPoint, rotationAngle, md, goalDestination, powerLvl);
 		// TODO Auto-generated constructor stub
+		strenght = 3;
+
 	}
 	
 	public static Hunter  makeNewHunter(double x, double y, GameObject[] gameObjects, int powerLvl) {

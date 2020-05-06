@@ -16,6 +16,8 @@ public class SpaceCanon extends AI{
 	
 	public SpaceCanon(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination, int powerLvl) {
 		super(corners,rotationPoint,rotationAngle,md,goalDestination, powerLvl);
+		strenght = 2;
+
 		try {
 			Canon = ImageIO.read(new File("src/Icons/CanonCanon.png"));
 			Canon = resize(Canon,210, 210);
