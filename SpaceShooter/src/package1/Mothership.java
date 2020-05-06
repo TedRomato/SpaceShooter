@@ -72,13 +72,14 @@ public class Mothership extends Summoner{
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
 	    ai.setMaxSpeed(1.5+powerLvl);
 	    ai.setReflectedSpeed(6);
-	    ai.setStoppingDistance(800);
 
-	    ai.setStoppingDistance(600);
+	    ai.setStoppingDistance(650);
 	    ai.setHP(8+powerLvl*2);
 	    ai.findAndSetToClosestEnemy(gameObjects);
 	    ai.setSummoningSpeed(200-powerLvl*5);
 	    ai.setPlayerFocus(true);
+	    ai.setRunIfTooClose(true);
+	    ai.setRunningDistance(600);
 	    return ai;
 	}
 	

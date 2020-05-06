@@ -18,6 +18,8 @@ public class AI extends LivingObject{
 	boolean isInStoppingDistance = false;
 	GameObject targetedEnemy;
 	boolean playerFocus = false;
+	double runningDistance = 550;
+	boolean runIfTooClose = false;
 	int aiUpdateLenght = 5;
 	int aiUpdateTimer = aiUpdateLenght;
 	int powerLVL;
@@ -90,6 +92,16 @@ public class AI extends LivingObject{
 		}
 		handleAllFriendlyFire(ais);
 		
+	}
+	
+	public void runIfTooClose(GameObject p) {
+		if(runIfTooClose) {
+			if(p.getRotationPoint().getPointDistance(getRotationPoint()) < runningDistance) {
+				Corner newGD = new Corner(p.getRotationPoint(), p.getRotationPoint());
+				newGD.turnAround('b', getRotationPoint());
+				setGoalDestination(newGD);
+			}
+		}
 	}
 	
 	public void handleAllFriendlyFire(AI[] ais) {
@@ -518,6 +530,14 @@ public class AI extends LivingObject{
 	
 	public int getPowerLvl() {
 		return powerLVL;
+	}
+	
+	public void setRunIfTooClose(boolean b) {
+		runIfTooClose = b;
+	}
+	
+	public void setRunningDistance(double d) {
+		runningDistance = d;
 	}
 	
 	

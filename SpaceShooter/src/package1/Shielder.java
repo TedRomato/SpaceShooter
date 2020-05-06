@@ -8,6 +8,7 @@ public class Shielder extends AI{
 
 	public Shielder(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, int PowerLvl) {
 		super(corners, rotationPoint, rotationAngle, md, goalDestination, PowerLvl);
+		
 	}
 	
 	
@@ -38,6 +39,7 @@ public class Shielder extends AI{
 		}if(getHP() <= 0) {
 			endShieldForAIS(ais);
 		}
+		runIfTooClose(this.getClosestEnemy(aiEnemys));
 	}
 	
 	public static Shielder makeShielder(int x, int y, GameObject[] gos, int powerLvl) {
@@ -88,6 +90,8 @@ public class Shielder extends AI{
 			    ai.setStoppingDistance(900);
 			    ai.setShootForInteractiveAtts(true);
 			    ai.findAndSetToClosestEnemy(gos);
+			    ai.setRunIfTooClose(true);
+				ai.setRunningDistance(800);
 			    return ai;
 		
 	}

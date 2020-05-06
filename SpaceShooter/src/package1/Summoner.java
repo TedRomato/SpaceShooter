@@ -8,7 +8,6 @@ public class Summoner extends AI{
 	double summonTimer = w8Length;
 	boolean onCooldown = false;
 	Corner[] summoningDestinations;
-	double runningDistance = 550;
 
 	public Summoner(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, int powerLvl) {
 		super(corners, rotationPoint, rotationAngle, md, goalDestination,powerLvl);
@@ -29,13 +28,7 @@ public class Summoner extends AI{
 		}
 	}
 	
-	public void runIfTooClose(GameObject p) {
-		if(p.getRotationPoint().getPointDistance(getRotationPoint()) < 500) {
-			Corner newGD = new Corner(p.getRotationPoint(), p.getRotationPoint());
-			newGD.turnAround('b', getRotationPoint());
-			setGoalDestination(newGD);
-		}
-	}
+	
 	
 	public AI handleSummoner(GameObject[] gameObjects) {
 		updateTimer();

@@ -8,7 +8,7 @@ public class GameModeTesting extends Game{
 
 	public GameModeTesting(int sw, int sh) {
 		super(sw, sh, true);
-		spawnBunchOfCanons(10);
+	//	spawnBunchOfCanons(10);
 	//	spawnBunchOfMines(10);
 	//	SpaceCanon ai12 = SpaceCanon.makeNewSpaceCanon(1000,800, getAiEnemys());
 	//	SpaceCanon ai13 = SpaceCanon.makeNewSpaceCanon(1200,860,getAiEnemys());
@@ -16,10 +16,10 @@ public class GameModeTesting extends Game{
 	//	SpaceCanon ai15 = SpaceCanon.makeNewSpaceCanon(950,700,getAiEnemys());
 	//	SpaceCanon ai16 = SpaceCanon.makeNewSpaceCanon(1200,800,getAiEnemys());
 	//	HuntingMine ai2 = HuntingMine.makeNewHuntingMine(1000,200);
-	//	Mothership ai3 = Mothership.makeNewMothership(200,600,getAiEnemys());
+		Mothership ai3 = Mothership.makeNewMothership(200,600,getAiEnemys(),1);
 	//	Grenader g = Grenader.makeNewGrenader(600, 600, getAiEnemys());
-		Shielder s = Shielder.makeShielder(-100,-100, getAiEnemys(),1);
-		addObToGame(s,new int[] {4,7,9,10,11});
+	//	Shielder s = Shielder.makeShielder(-100,-100, getAiEnemys(),1);
+	//	addObToGame(s,new int[] {4,7,9,10,11});
 	//	addObToGame(hu, new int[] {4,7,9,10}); 
 
 	//	addObToGame(ai, new int[] {4,7,9,10}); 
@@ -29,7 +29,7 @@ public class GameModeTesting extends Game{
 	//	addObToGame(ai1, new int[] {4,7,9,10,11}); 
 		//addObToGame(ai1, new int[] {4,7,9,10}); 
 
-	//	addObToGame(ai3, new int[] {4,7,10,11}); 
+		addObToGame(ai3, new int[] {4,7,10,11}); 
 		
 //		addObToGame(ai12, new int[] {4,7,9,10}); 
 //		addObToGame(ai13, new int[] {4,7,9,10});
