@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.List;
 
+
+//specialni render obrazku pro interactive attachmenty, ktery rotujou s parentem attRangle + parentRangle
 public class InteractiveAttachment extends ObjectAttachment{
 
 	Corner wayPoint;
@@ -167,8 +169,12 @@ public class InteractiveAttachment extends ObjectAttachment{
 		double c = Math.pow(distance / missileSpeed, 2);
 		
 		double[] roots = countQuadraticFunction(a,b,c);
-		
-		Corner corner = Corner.makeCornerUsinAngle(roots[0]*moo.getCurrentSpeed(), moo.getMoveDirection().getAngle(moo.getRotationPoint()), moo.getRotationPoint());
+		Corner corner;
+		try {
+			corner = Corner.makeCornerUsinAngle(roots[0]*moo.getCurrentSpeed(), moo.getMoveDirection().getAngle(moo.getRotationPoint()), moo.getRotationPoint());
+		}catch(NullPointerException ex){
+			corner = new Corner(moo.getRotationPoint(), moo.getRotationPoint());
+		}
 		return corner;
 	}
 	
@@ -340,11 +346,11 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	
 	public void render(Graphics g) {
-	//	shootDirection.renderCorner(g, 4);
-	//	shootPoint.renderCorner(g, 4);
-	//	shotTrajectory.render(g);
-	//	aimCorner.renderCorner(g, 10);
-	//	wayPoint.renderCorner(g, 10);
+//		shootDirection.renderCorner(g, 4);
+//		shootPoint.renderCorner(g, 4);
+//		shotTrajectory.render(g);
+//		aimCorner.renderCorner(g, 10);
+//		wayPoint.renderCorner(g, 10);
 		super.render(g);
 		
 	}

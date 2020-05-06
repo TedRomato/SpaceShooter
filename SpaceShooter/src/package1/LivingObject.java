@@ -26,6 +26,13 @@ public class LivingObject extends MovingObject{
 	boolean isStunned = false;
 	int stunTimer;
 	
+	//Shield variables
+	
+	int shieldHP = 7, shieldDuration = 300, shieldCooldown = 600, shieldTimer = shieldCooldown, shieldRadius;
+	boolean activateShield = false, shieldIsUp = false;
+	Shield shield;
+	
+	
 	public LivingObject(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md) {
 		super(corners, rotationPoint, rotationAngle, md);
 		movePoint = new Corner(md, rotationPoint);
@@ -33,6 +40,7 @@ public class LivingObject extends MovingObject{
 		setHP(10);
 		makeSquare();
 		addShotImune(this); 
+		setShiedlRadius();
 	}
 	
 	public LivingObject(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md) {
@@ -42,7 +50,12 @@ public class LivingObject extends MovingObject{
 		setHP(10);
 		makeSquare();	
 		addShotImune(this);
-		}
+		setShiedlRadius();
+	}
+	
+	public void setShiedlRadius() {
+		shieldRadius = (int) (getCollisionSquare().getSide()/2+80);
+	}
 
 	public void setMaxSpeed(double maxSpeed) {
 		this.maxSpeed = maxSpeed;
@@ -75,6 +88,30 @@ public class LivingObject extends MovingObject{
 			getNewRatios();
 			setNewVels();
 		}
+	}
+	
+	public Shield useShield() {
+		Shield s = Shield.makeShield(this.getRotationPoint(), shieldRadius);
+		s.setHP(shieldHP);
+		s.setDuration(shieldDuration);
+		s.setUpShield(false, new GameObject[] {}, this);
+		setShieldIsUp(true);
+		shield = s;
+		return s;
+	}
+	
+	
+	
+	public void handleShieldCooldown() {
+		if(shieldTimer < shieldCooldown && !shieldIsUp) {
+			shieldTimer++;
+		}
+	}
+	
+	public void upgradeShield() {
+		shieldHP ++;
+		shieldDuration += 60;
+		shieldCooldown -= 15;  
 	}
 	
 	
@@ -253,6 +290,13 @@ public class LivingObject extends MovingObject{
 	public void checkAndHandleReflect(GameObject otherOb) {
 		if(otherOb instanceof Explosives) {
 			if(((Explosives) otherOb).isShotImune(this)) {
+				return;
+			}
+		}
+		
+		
+		if(otherOb instanceof Shield) {
+			if(((Shield) otherOb).isFriendly(this)) {
 				return;
 			}
 		}
@@ -464,5 +508,72 @@ public class LivingObject extends MovingObject{
 	
 	public boolean getIsStunned() {
 		return isStunned;
+	}
+	
+	
+//Shield
+
+	public int getShieldHP() {
+		return shieldHP;
+	}
+
+
+
+	public void setShieldHP(int shieldHP) {
+		this.shieldHP = shieldHP;
+	}
+
+
+
+	public int getShieldDuration() {
+		return shieldDuration;
+	}
+
+
+
+	public void setShieldDuration(int shieldDuration) {
+		this.shieldDuration = shieldDuration;
+	}
+
+
+
+	public int getShieldCooldown() {
+		return shieldCooldown;
+	}
+
+
+
+	public void setShieldCooldown(int shieldCooldown) {
+		this.shieldCooldown = shieldCooldown;
+	}
+
+
+	
+	public int getShieldTimer() {
+		return shieldTimer;
+	}
+
+
+
+	public void setShieldTimer(int shieldTimer) {
+		this.shieldTimer = shieldTimer;
+	}
+	
+
+	public void setShieldIsUp(boolean b) {
+		shieldIsUp = b;
+	}
+
+	public void setShield(Shield s) {
+		shield = s;
+	}
+	
+	public Shield getShield() {
+		return shield;
+	}
+	
+	public int getCurrentShieldHP() {
+		return shield.getHP();
+		
 	}
 } 

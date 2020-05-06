@@ -1,13 +1,32 @@
 package package1;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 public class Mothership extends Summoner{
 	
-
+	
+	BufferedImage Body;
+	
 	public Mothership(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,
 			Corner goalDestination) {
 		super(corners, rotationPoint, rotationAngle, md, goalDestination);
+		try {
+
+			Body = ImageIO.read(new File("src/Icons/MothershipBody.png"));
+			Body = Game.resize(Body,180, 180);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -47,41 +66,14 @@ public class Mothership extends Summoner{
 	    DetectionLine rdl = new DetectionLine(base3, rightP, new double[] {x ,y}, 1);
 	    DetectionLine ldl2 = new DetectionLine(base4, leftP2, new double[] {x ,y}, 1);
 	    DetectionLine rdl2 = new DetectionLine(base5, rightP2, new double[] {x ,y}, 1);
-	    
-	    Corner[] attBody = GameObject.generatePeriodicObject(15, 4, new Corner(new double[] {x ,y-25})).getCorners();
-	    Corner[] attBody1 = GameObject.generatePeriodicObject(15, 4, new Corner(new double[] {x ,y+25})).getCorners();
-	    Corner[] attBody2 = GameObject.generatePeriodicObject(15, 4, new Corner(new double[] {x-25 ,y})).getCorners();
-	    Corner[] attBody3 = GameObject.generatePeriodicObject(15, 4, new Corner(new double[] {x+25 ,y})).getCorners();
-	    
-	    for(Corner c : attBody) {
-	    	c.setToNewRP(new double[] {x ,y});
-	    }
-	    for(Corner c : attBody1) {
-	    	c.setToNewRP(new double[] {x ,y});
-	    }
-	    for(Corner c : attBody2) {
-	    	c.setToNewRP(new double[] {x ,y});
-	    }
-	    for(Corner c : attBody3) {
-	    	c.setToNewRP(new double[] {x ,y});
-	    }
-	    
-	    ObjectAttachment att = new ObjectAttachment(attBody,new Corner(new double[] {x ,y}), new double[] {x ,y-25} ,0);
-	    ObjectAttachment att1 = new ObjectAttachment(attBody1,new Corner(new double[] {x,y}),new double[] {x ,y+25} ,0);
-	    ObjectAttachment att2 = new ObjectAttachment(attBody2,new Corner(new double[] {x,y}),new double[] {x-25 ,y} ,0);
-	    ObjectAttachment att3 = new ObjectAttachment(attBody3,new Corner(new double[] {x,y}),new double[] {x+25 ,y} ,0);
-	   
-	   
+	     
 		ai = new Mothership(body, new double[] {x,y}, 1, md, gd);
 		ai.setSummoningPoint(new Corner[] {summoningPoint1,summoningPoint2,summoningPoint3,summoningPoint4});
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
 	    ai.setMaxSpeed(1.5);
 	    ai.setReflectedSpeed(6);
 	    ai.setStoppingDistance(800);
-	    ai.addAttachment(att);
-	    ai.addAttachment(att1);
-	    ai.addAttachment(att2);
-	    ai.addAttachment(att3);
+
 	    ai.setStoppingDistance(600);
 	    ai.setHP(12);
 	    ai.findAndSetToClosestEnemy(gameObjects);
@@ -95,4 +87,10 @@ public class Mothership extends Summoner{
 		
 	}
 	
+	public void render(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		//Game.rotateImage(g2, Body, 0,this.getRotationPoint(),80,80);		
+		super.render(g);
+	}
 }

@@ -59,8 +59,10 @@ public class Shield extends GameObject{
 				}
 			}
 		}
-		for(GameObject toBlock : whoToBlock) {
-			if(ms.isImune(toBlock)) {
+		for(GameObject go : whoToBlock) {
+
+			if(ms.isImune(go)) {
+		//		System.out.println(this.getParent() + " " + ms.getImunne()[0]);
 				return false;
 			}
 		}
@@ -68,50 +70,63 @@ public class Shield extends GameObject{
 	}
 	
 	public boolean checkCollision(GameObject go) {
+		
 		if(!AIBlock) {
 			if(go instanceof AI) {
 				return false;
 			}
+			if(go instanceof Shield) {
+				if(((Shield) go).getParent() instanceof AI) {
+					return false;
+				}
+			}
 		}
-		else if(go instanceof Missile) {
+
+		if(go instanceof Missile) {
+			
 			if(!friendlyMissile((Missile) go)) {
+				
 				return super.checkCollision(go);
 			}
 		}
+
 		
-		else if(isFriendly(go)) {
+		if(isFriendly(go)) {
 			return false;
 		}
 		
-		else if(go instanceof Explosives || go instanceof HuntingMine) {
+		if(go instanceof Explosives || go instanceof HuntingMine) {
 			if(super.checkCollision(go)) {
 				go.setHP(0);
 				return true;
 			}
 		}
-		else {
-			if(super.checkCollision(go)) {
-				parent.startStun(30);
-				parent.setCurrentSpeed(0);
-				return true;
-			}
+		 
+		if(super.checkCollision(go)) {
+			parent.startStun(30);
+			parent.setCurrentSpeed(0);
+			return true;
 		}
+		
 		return false;
 	}
 	
 	public boolean isFriendly(GameObject go) {
+		if(go instanceof Shield) {
+			go = ((Shield) go).getParent();
+		}
 		if(AIBlock) {
 			if(go instanceof AI) {
 				return false;
 			}
 		}
-		boolean amFriendly = true;
+
 		for(GameObject toBlock : whoToBlock) {
 			if(toBlock == go) {
-				amFriendly = false;
+				return false;
 			}
 		}
-		return amFriendly;
+		return true;
 	}
 	
 	public void updateOb() {
@@ -140,11 +155,16 @@ public class Shield extends GameObject{
 		super.render(g);
 	//	getCollisionSquare().render(g);
 	}
+
 	public int getDurationTimer() {
 		return durationTimer;
 	}
 	public void setDurationTimer(int durationTimer) {
 		this.durationTimer = durationTimer;
+	}
+	
+	public LivingObject getParent() {
+		return parent;
 	}
 
 	public int getDuration() {

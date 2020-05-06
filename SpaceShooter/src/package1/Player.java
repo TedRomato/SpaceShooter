@@ -23,10 +23,12 @@ public class Player extends LivingObject{
 	int zoneDamagedTimerLenght = 60;
 	int zoneDamagedTimer = 0;
 	
+
 	//Shield variables
 	int shieldHP = 5, shieldDuration = 300, shieldCooldown = 600, shieldTimer = shieldCooldown;
 	boolean activateShield = false, shieldIsUnlocked = false, shieldIsUp = false;;
 	Shield shield;
+
 
 	//pulse variables
 	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
@@ -67,7 +69,7 @@ public class Player extends LivingObject{
 	
 	boolean cameraAttached = true;
 	
-	BufferedImage PlayerCannon, PlayerSkin;
+	BufferedImage PlayerCannon, PlayerSkin, FaceCanon, MachineGun1, MachineGun2;
 
 	
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
@@ -78,8 +80,18 @@ public class Player extends LivingObject{
 		setAcceleration(getMaxSpeed() / 45);
 		baseSpeed = getMaxSpeed();
 		try {
+			MachineGun1 = ImageIO.read(new File("src/Icons/mg.png"));
+			MachineGun1 = Game.resize(MachineGun1,200, 200);
+			MachineGun2 = ImageIO.read(new File("src/Icons/mg.png"));
+			MachineGun2 = Game.resize(MachineGun2,200, 200);
+			
+			FaceCanon = ImageIO.read(new File("src/Icons/FrontCanon.png"));
+			FaceCanon = Game.resize(FaceCanon,100,100);
 			PlayerCannon = ImageIO.read(new File("src/Icons/PlayerCannon.png"));
+			PlayerCannon = Game.resize(PlayerCannon,14,40);
 			PlayerSkin = ImageIO.read(new File("src/Icons/PlayerSkin.png"));
+	//		PlayerSkin = resize(PlayerSkin,360,380);
+			PlayerSkin = Game.resize(PlayerSkin,360,380);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -104,6 +116,7 @@ public class Player extends LivingObject{
 		if(Game.keyChecker.checkIfkeyIsPressed(shieldChar)) {
 			
 			if(shieldTimer >= shieldCooldown && shieldIsUnlocked) {
+				System.out.println("jsem tady");
 				activateShield = true;
 				shieldTimer=0;
 			}
@@ -207,8 +220,9 @@ public class Player extends LivingObject{
 			}
 		}
 	
+	
 	public Shield useShield() {
-		Shield s = Shield.makeShield(this.getRotationPoint(), 150);
+		Shield s = Shield.makeShield(this.getRotationPoint(), shieldRadius);
 		s.setHP(shieldHP);
 		s.setDuration(shieldDuration);
 		s.setUpShield(true, new GameObject[] {}, this);
@@ -216,28 +230,6 @@ public class Player extends LivingObject{
 		shield = s;
 		return s;
 	}
-	
-	public Shield useShield(GameObject[] friendlys) {
-		Shield s = Shield.makeShield(this.getRotationPoint(), 150);
-		s.setHP(shieldHP);
-		s.setDuration(shieldDuration);
-		s.setUpShield(true, friendlys, this);
-		setShieldIsUp(true);
-		return s;
-	}
-	
-	public void handleShieldCooldown() {
-		if(shieldTimer < shieldCooldown && !shieldIsUp) {
-			shieldTimer++;
-		}
-	}
-	
-	public void upgradeShield() {
-		shieldHP ++;
-		shieldDuration += 60;
-		shieldCooldown -= 15;  
-	}
-	
 
 	public void usePulse(GameObject[] obs) {
 
@@ -418,30 +410,30 @@ public class Player extends LivingObject{
 			
 			MagazineAttachment mg1;
 			
-			Corner c11 = new Corner(new double[] {rp[0]+27,rp[1]+18},getRotationPoint());
-			Corner c12 = new Corner(new double[] {rp[0]+27,rp[1]+50},getRotationPoint());		
-			Corner c13 = new Corner(new double[] {rp[0]+34,rp[1]+50},getRotationPoint());
-			Corner c14 = new Corner(new double[] {rp[0]+34,rp[1]-12},getRotationPoint());
+			Corner c11 = new Corner(new double[] {rp[0]+34,rp[1]+18},getRotationPoint());
+			Corner c12 = new Corner(new double[] {rp[0]+34,rp[1]+50},getRotationPoint());		
+			Corner c13 = new Corner(new double[] {rp[0]+41,rp[1]+50},getRotationPoint());
+			Corner c14 = new Corner(new double[] {rp[0]+41,rp[1]-12},getRotationPoint());
 			
 			Corner[] corners1 = new Corner[] {c11,c12,c13,c14};
 			
-			Corner wp1 = new Corner(new double[] {rp[0]+30,rp[1]+35},getRotationPoint());
+			Corner wp1 = new Corner(new double[] {rp[0]+38,rp[1]+35},getRotationPoint());
 			
-			mg1 = new MagazineAttachment(corners1, new Corner(getRotationPoint(),getRotationPoint()), new double[] {rp[0]+30,rp[1]-11}, 0, wp1, 0, 0);
+			mg1 = new MagazineAttachment(corners1, new Corner(getRotationPoint(),getRotationPoint()), new double[] {rp[0]+38,rp[1]-11}, 0, wp1, 0, 0);
 		
 			mg1.setRotateWithParentOb(true);
 			
 			MagazineAttachment mg2;
-			Corner c21 = new Corner(new double[] {rp[0]-27,rp[1]+18},getRotationPoint());
-			Corner c22 = new Corner(new double[] {rp[0]-27,rp[1]+50},getRotationPoint());		
-			Corner c23 = new Corner(new double[] {rp[0]-34,rp[1]+50},getRotationPoint());
-			Corner c24 = new Corner(new double[] {rp[0]-34,rp[1]-12},getRotationPoint());
+			Corner c21 = new Corner(new double[] {rp[0]-34,rp[1]+18},getRotationPoint());
+			Corner c22 = new Corner(new double[] {rp[0]-34,rp[1]+50},getRotationPoint());		
+			Corner c23 = new Corner(new double[] {rp[0]-41,rp[1]+50},getRotationPoint());
+			Corner c24 = new Corner(new double[] {rp[0]-41,rp[1]-12},getRotationPoint());
 			
 			Corner[] corners2 = new Corner[] {c21,c22,c23,c24};
 			
-			Corner wp2 = new Corner(new double[] {rp[0]-30,rp[1]+35},getRotationPoint());
+			Corner wp2 = new Corner(new double[] {rp[0]-38,rp[1]+35},getRotationPoint());
 			
-			mg2 = new MagazineAttachment(corners2, new Corner(getRotationPoint(), getRotationPoint()), new double[] {rp[0] - 30,rp[1] - 11}, 0, wp2, 0, 0);
+			mg2 = new MagazineAttachment(corners2, new Corner(getRotationPoint(), getRotationPoint()), new double[] {rp[0] - 38,rp[1] - 11}, 0, wp2, 0, 0);
 		
 			mg2.setRotateWithParentOb(true);
 			
@@ -480,10 +472,10 @@ public class Player extends LivingObject{
 			this.rotateOb(180 - ang);
 			double[] rp = new double[]{getRotationPoint().getX(), getRotationPoint().getY()};
 			MagazineAttachment canon;
-			Corner c11 = new Corner(new double[] {rp[0]+10,rp[1]+50},getRotationPoint());
+			Corner c11 = new Corner(new double[] {rp[0]+10,rp[1]+70},getRotationPoint());
 			Corner c12 = new Corner(new double[] {rp[0]+9,rp[1]+80},getRotationPoint());		
 			Corner c13 = new Corner(new double[] {rp[0]-9,rp[1]+80},getRotationPoint());
-			Corner c14 = new Corner(new double[] {rp[0]-10,rp[1]+50},getRotationPoint());
+			Corner c14 = new Corner(new double[] {rp[0]-10,rp[1]+70},getRotationPoint());
 			
 			Corner[] corners1 = new Corner[] {c11,c12,c13,c14};
 			
@@ -524,24 +516,26 @@ public class Player extends LivingObject{
 		Corner wp = new Corner(new double[] {rp[0] ,rp[1] + 10}, rp);
 
 		
-		Corner peakA1 = new Corner(new double[] {rp[0]-40,rp[1]-40}, rp);
+		Corner peakA1 = new Corner(new double[] {rp[0]-50,rp[1]-45}, rp);
 	    Corner rightCornerA1 = new Corner(new double[] {rp[0] - 20, rp[1]+50}, rp);
-	    Corner leftCornerA1 = new Corner(new double[] {rp[0] - 20,  rp[1]-50}, rp);
+	    Corner leftCornerA1 = new Corner(new double[] {rp[0] - 20,  rp[1]-40}, rp);
+	    
 	    
 	    attachment1 = new ObjectAttachment(new Corner[] {peakA1, rightCornerA1, leftCornerA1}, rp,new double[] {rp[0],rp[1]},-5);
 	    
-	    Corner peakA2 = new Corner(new double[] {rp[0]+40,rp[1]-40}, rp);
-	    Corner rightCornerA2 = new Corner(new double[] {rp[0] + 20, rp[1]-50}, rp);
+	    
+	    Corner peakA2 = new Corner(new double[] {rp[0]+50,rp[1]-45}, rp);
+	    Corner rightCornerA2 = new Corner(new double[] {rp[0] + 20, rp[1]-40}, rp);
 	    Corner leftCornerA2 = new Corner(new double[] {rp[0] + 20,  rp[1]+50}, rp);
 	    
+	    
 	    attachment2 = new ObjectAttachment(new Corner[] {peakA2, rightCornerA2, leftCornerA2}, rp,new double[] {rp[0],rp[1]},-5);
+	    
 	    
 	    Corner l2 = new Corner(new double[] {rp[0] - 10, rp[1]+65}, rp);
 	    Corner r2 = new Corner(new double[] {rp[0] + 10,  rp[1]+65}, rp);
 	    
 	    
-	    
-
 //	    straightLine = new ObjectAttachment(new Corner[] {new Corner(new double[] {rp[0] ,rp[1] + 25}, rp), new Corner(new double[] {rp[0] ,rp[1] + 350}, rp),}, rp,new double[] {rp[0],rp[1]-25},-5);
 	    Corner b1 = new Corner(new double[] {rp[0] - 6,rp[1] + 5}, rp);
 	    Corner b2 =	new Corner(new double[] {rp[0] + 6,rp[1] + 5}, rp);
@@ -551,24 +545,25 @@ public class Player extends LivingObject{
 		
 	    canon = new MagazineAttachment(new Corner[] {b1,b2,b3,b4}, new Corner(rp) , new double[] {rp[0], rp[1] + 5}, 0, wp, 0,0);
 	    canon.setMagazineParameters(5, 60);
-	    canon.setAttRangle(25);
+	    canon.setAttRangle(60);
 	    canon.setRotateWithParentOb(false);
 	//    canon.setRotationSegment(new double[] {-220,220});
 	    
-	    
-	    Corner rightTCorner = new Corner(new double[] {rp[0] - 20, rp[1] - 50}, rp);
-	    Corner leftTCorner = new Corner(new double[] {rp[0] + 20, rp[1] - 50}, rp);
+
+	    Corner rightTCorner = new Corner(new double[] {rp[0] - 20, rp[1] - 40}, rp);
+	    Corner leftTCorner = new Corner(new double[] {rp[0] + 20, rp[1] - 40}, rp);
 	    Corner rightBCorner = new Corner(new double[] {rp[0] - 20, rp[1] + 50}, rp);
 	    Corner leftBCorner = new Corner(new double[] {rp[0] + 20, rp[1] + 50}, rp);
-	   
+
+	    
 	    p = new Player(new Corner[] {leftTCorner,leftBCorner,r2,l2,rightBCorner,rightTCorner},rp, 1, new Corner(new double[] {rp[0],rp[1]+25}, rp));
 	    p.addAttachment(attachment1);	    
 	    p.addAttachment(attachment2);	  
-	 //   p.addAttachment(attachment3);
 	    p.setHP(50);
 	    p.setReflectedSpeed(6);
 	    p.addAttachment(canon);
 	    p.setReflectedLenght(20);
+
 //		p.addFrontCanon();
 //	    p.addFrontMachineGun();
 //	    p.setDashUnlocked(true);
@@ -579,7 +574,7 @@ public class Player extends LivingObject{
 //	    Shield s = Shield.makeShield(new Corner(rp), 150);
 //	    p.addAttachment(s);
 
-	    
+	  
 	    return p;
 
 	}
@@ -588,16 +583,29 @@ public class Player extends LivingObject{
 	public void render(Graphics g) {
 
 		super.render(g);
-		Graphics2D g2 = (Graphics2D) g;
+/*		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-	//	rotateImage(g2, PlayerSkin, this.getRotatedAngle(),this.getRotationPoint(),90,115,41,50);		
-	//	rotateImage(g2, PlayerCannon, this.getAttachments()[2].getAttachmentAngleRotated() ,this.getAttachments()[2].getAttachmentRP(),14,40,5,2);
+//player skin 2 
+		rotateImage(g2, PlayerSkin, this.getRotatedAngle(),this.getRotationPoint(),50,50);		
+//player skin 1
+//		rotateImage(g2, PlayerSkin, this.getRotatedAngle(),this.getRotationPoint(),90,115,41,50);		
+//canon		
+		rotateImage(g2, PlayerCannon, this.getAttachments()[2].getAttachmentAngleRotated() ,this.getAttachments()[2].getAttachmentRP(),5,0);
+//frontCanon
+		if(faceCanon != -1) {
+		rotateImage(g2, FaceCanon, this.getAttachments()[faceCanon].getAttachmentAngleRotated() + this.getRotatedAngle(),this.getAttachments()[faceCanon].getAttachmentRP(),45,5);
+		}
+		
+		if(machinegun != -1) {
+			rotateImage(g2, MachineGun1, this.getAttachments()[machinegun].getAttachmentAngleRotated() + this.getRotatedAngle(),this.getAttachments()[machinegun].getAttachmentRP(),68,20);
+			rotateImage(g2, MachineGun2, this.getAttachments()[machinegun+1].getAttachmentAngleRotated() + this.getRotatedAngle(),this.getAttachments()[machinegun+1].getAttachmentRP(),70,20);
+
+		}*/
 	}
 
 
 	public boolean isBerserkModeUnlocked() {
 		return berserkModeUnlocked;
-
 	}
 	
 	public void setBerserkModeUnlocked(boolean b) {
@@ -653,13 +661,14 @@ public class Player extends LivingObject{
 	}
 
 
-
 	public void setDashCooldown(int dashCooldown) {
 		this.dashCooldown = dashCooldown;
 	}
 
 
-
+	
+	//SHIELD
+	
 	public boolean isShieldIsUnlocked() {
 		return shieldIsUnlocked;
 	}
@@ -669,44 +678,6 @@ public class Player extends LivingObject{
 	public void setShieldIsUnlocked(boolean shieldIsUnlocked) {
 		this.shieldIsUnlocked = shieldIsUnlocked;
 	}
-
-
-
-	public int getShieldHP() {
-		return shieldHP;
-	}
-
-
-
-	public void setShieldHP(int shieldHP) {
-		this.shieldHP = shieldHP;
-	}
-
-
-
-	public int getShieldDuration() {
-		return shieldDuration;
-	}
-
-
-
-	public void setShieldDuration(int shieldDuration) {
-		this.shieldDuration = shieldDuration;
-	}
-
-
-
-	public int getShieldCooldown() {
-		return shieldCooldown;
-	}
-
-
-
-	public void setShieldCooldown(int shieldCooldown) {
-		this.shieldCooldown = shieldCooldown;
-	}
-
-
 	
 	public int getShieldTimer() {
 		return shieldTimer;
@@ -833,6 +804,5 @@ public class Player extends LivingObject{
 
 
 
-		
 	
 }

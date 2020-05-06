@@ -1,12 +1,32 @@
 package package1;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
 public class HuntingMine extends AI{
+	
+	BufferedImage Att, Body;
 	
 	public HuntingMine(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
 		super(corners,rotationPoint,rotationAngle,md,goalDestination);
 		
+		try {
+			Att = ImageIO.read(new File("src/Icons/HuntingMineAtt.png"));
+			Att = Game.resize(Att,210, 210);
+			Body = ImageIO.read(new File("src/Icons/HuntingMineBody.png"));
+			Body = Game.resize(Body,125, 125);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static HuntingMine makeNewHuntingMine(double x, double y, GameObject[] gameObjects) {
@@ -22,7 +42,7 @@ public class HuntingMine extends AI{
 	    Corner rightCornerAIAt = new Corner(new double[] {x-12,y}, new double[] {x ,y});
 	    Corner leftCornerAIAt = new Corner(new double[] {x+12,y}, new double[] {x ,y});
 	    ObjectAttachment att = new ObjectAttachment(new Corner[] {peakAIAt,rightCornerAIAt,botAIAt,leftCornerAIAt}, new double[] {x ,y}, new double[] {x ,y}, 4);
-	    att.setRotateWithParentOb(true);
+	    att.setRotateWithParentOb(false);
 	    //Hmatove vousky
 	    Corner base1 = new Corner(new double[] {x,y + 40}, new double[] {x ,y});
 	    Corner base2 = new Corner(new double[] {x-25,y+30}, new double[] {x ,y});
@@ -58,7 +78,15 @@ public class HuntingMine extends AI{
 	
 	public void moveOb() {
 		super.moveOb();
-		rotateAttachments();		
+		getAttachments()[0].rotateAttachmentAroundItsCorner(4);		
+	}
+	
+	public void render(Graphics g) {
+	/*	Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		rotateImage(g2, Body, 0,this.getRotationPoint(),58,55);		
+		rotateImage(g2, Att,  getAttachments()[0].getAttachmentAngleRotated(), getAttachments()[0].getRotationPoint(),90,80);		*/
+		super.render(g);
 	}
 	
 	

@@ -31,7 +31,7 @@ import javax.swing.SwingConstants;
 
 public class Game extends JPanel implements MouseListener{
 
-	int mainHeight = 1908,mainWidth = 3392;
+	static int mainHeight = 1908, mainWidth = 3392;
 	protected Player p;
  
 	public static JLabel scoreDisplay, Warning;
@@ -68,6 +68,7 @@ public class Game extends JPanel implements MouseListener{
 	private int Count = 0;
 	
 	public Game(int sw,int sh,boolean softBorder) {
+	//	this.setBackground(Color.white);
 		this.currentScreenHeight = sh;
 		this.currentScreenWidth = sw;
 		this.softBorders = softBorder;
@@ -118,13 +119,16 @@ public class Game extends JPanel implements MouseListener{
 		    
 		    borders = new GameObject[] {botBorder,leftBorder,topBorder,rightBorder};
 	    }	    	    
-	    
+	    screenRatio = (double)currentScreenWidth/(double)mainWidth;
+		camera = new Camera(currentScreenWidth,currentScreenHeight,1);
+		camera.setCameraToCorner(new Corner(new double[] {0,0}));
+		
 	    p = Player.makeNewPlayer(new double[] {100,100});
 		addObToGame(p, new int[] {5,6,7,9,11}); 
-
-		screenRatio = (double)currentScreenWidth/(double)mainWidth;
-		camera = new Camera(currentScreenWidth,currentScreenHeight,1);
+		
 		camera.setCameraToCorner(p.getRotationPoint());
+
+		
 	}
 	public int getScore() {
 		return score;
@@ -227,10 +231,23 @@ public class Game extends JPanel implements MouseListener{
 	
 	//Overload  tower modu
 	public void handleShields() {
-		if(p.activateShield) {
+		for(AI ai : ais) {
+			if(ai.activateShield == true && ai.getShield() == null) {
+				addObToGame(ai.useShield(getAIEnemys()), new int[] {1,3,4,5,6,7,8,9,10,11});
+				ai.activateShield = false;
+			}
+			
+		}
+		if(p.activateShield && p.getShield() == null) {
 			addObToGame(p.useShield(), new int[] {1,3,4,5,6,7,8,9,10,11});
 			p.activateShield = false;
 		}
+	}
+	
+	
+	
+	public GameObject[] getAIEnemys() {
+		return new GameObject[] {p};
 	}
 	
 	public void handleBerserkModes() {
@@ -417,6 +434,12 @@ public class Game extends JPanel implements MouseListener{
 	private void deleteNoHpObs() {
 		for(GameObject ob : objects) {
 			if(ob.getHP() <= 0) {
+				if(ob instanceof LivingObject) {
+					if(((LivingObject) ob).getShield() != null) {
+						removeObFromGame(((LivingObject) ob).getShield());
+					}
+				}
+					
 				removeObFromGame(ob);
 			}
 		}
@@ -649,8 +672,8 @@ public class Game extends JPanel implements MouseListener{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//		g2.drawImage(bg,(int)((-1920*Game.camera.toMultiply()) + Game.camera.toAddX()), (int)((-3000*Game.camera.toMultiply()) + Game.camera.toAddY()),5760,3240,null);
 		renderAll(g2);
-//		g2.drawImage(bg,(int)((-600*Game.camera.toMultiply()) + Game.camera.toAddX()), (int)((-600*Game.camera.toMultiply()) + Game.camera.toAddY()),1920,1200,null);
 		if(p.checkIfOutsideRect(0, 0, mainWidth, mainHeight)) {
 			g2.drawImage(WarningSign,currentScreenWidth/2-260, currentScreenHeight/2-200,100,100, null);
 			g2.drawImage(WarningSign,currentScreenWidth/2+150, currentScreenHeight/2-200,100,100, null);

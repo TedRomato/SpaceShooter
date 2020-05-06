@@ -1,13 +1,33 @@
 package package1;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
 public class SpaceCanon extends AI{
+	BufferedImage Canon, Body;
+
+	
 	public SpaceCanon(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
 		super(corners,rotationPoint,rotationAngle,md,goalDestination);
-		
+		try {
+			Canon = ImageIO.read(new File("src/Icons/CanonCanon.png"));
+			Canon = Game.resize(Canon,210, 210);
+			Body = ImageIO.read(new File("src/Icons/CanonBody.png"));
+			Body = Game.resize(Body,320, 320);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	
 	
 	public static SpaceCanon makeNewSpaceCanon(double x, double y, GameObject[] gameObjects) {
 		//ai
@@ -83,7 +103,15 @@ public class SpaceCanon extends AI{
 	public void moveOb() {
 		super.moveOb();
 				
-
+	}
+	
+	public void render(Graphics g) {
+/*		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		rotateImage(g2, Body, 0,this.getRotationPoint(),159,143);		
+	
+		rotateImage(g2, Canon, ((InteractiveAttachment) getAttachments()[0]).getAttachmentAngleRotated(),((InteractiveAttachment) getAttachments()[0]).getRotationPoint(),109,70);		
+*/		super.render(g);
 
 	}
 }
