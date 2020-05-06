@@ -19,11 +19,14 @@ public class Tower extends LivingObject{
 				if(att instanceof AutomaticTurret) {
 					((AutomaticTurret) att).updateAutoTurert(enemys);
 				}
+				if(att instanceof AutomaticExplosiveTurret) {
+					((AutomaticExplosiveTurret) att).updateAutoTurret(enemys);
+				}
 			}
 		}
 	}
 	public void addTurret() {
-		this.addAttachment(AutomaticTurret.test(this.getRotationPoint().getX(), this.getRotationPoint().getY()));
+		this.addAttachment(AutomaticExplosiveTurret.MakeTurret(this.getRotationPoint().getX(), this.getRotationPoint().getY()));
 	}
 
 	
