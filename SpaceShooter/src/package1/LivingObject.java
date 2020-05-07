@@ -444,15 +444,25 @@ public class LivingObject extends MovingObject{
 	}
 	
 	public void addShotImunes(GameObject[] toAdds) {
-		GameObject[] arr = shotImunes;
-		shotImunes = new GameObject[arr.length+toAdds.length];
-		for(int i = 0; i < arr.length; i++) {
-			shotImunes[i] = arr[i];
-			if(i < toAdds.length) {
-				shotImunes[i+arr.length] = toAdds[i];
-			}
-		}
-	}
+        GameObject[] arr = shotImunes;
+        shotImunes = new GameObject[arr.length+toAdds.length];
+        if(arr.length >= toAdds.length) {
+            for(int i = 0; i < arr.length; i++) {
+                shotImunes[i] = arr[i];
+                if(i < toAdds.length) {
+                    shotImunes[i+arr.length] = toAdds[i];
+                }
+            }
+        }else {
+            for(int i = 0; i < toAdds.length; i++) {
+                shotImunes[i] = toAdds[i];
+                if(i < arr.length) {
+                    shotImunes[i+toAdds.length] = arr[i];
+                }
+            }
+        }
+
+    }
 	
 	public Missile[] makePeriodicExplosion(int distance, Corner rp, int chunks, GameObject[] im, int dmg){
 		Missile[] m = new Missile[chunks];

@@ -59,6 +59,7 @@ public class GameModeTower extends Game{
 		tower.setHP(TowerBaseHP);
 		tower.addShotImune(p);
 		tower.addTurret();
+		tower.upgradeToGranadeLauncher();
 		addObToGame(tower, new int[] {1,3,4,6,7,9,11});
 		p.addShotImune(tower);
 
