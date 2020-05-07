@@ -1,8 +1,6 @@
 package package1;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.util.List;
 import java.util.Random;
 
 public class AI extends LivingObject{
@@ -18,12 +16,17 @@ public class AI extends LivingObject{
 	boolean isInStoppingDistance = false;
 	GameObject targetedEnemy;
 	boolean playerFocus = false;
+	double runningDistance = 550;
+	boolean runIfTooClose = false;
 	int aiUpdateLenght = 5;
 	int aiUpdateTimer = aiUpdateLenght;
+	int powerLVL;
+	int strenght;
 
 
-	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
+	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination, int powerLvl) {
 		super(corners, rotationPoint, rotationAngle, md);
+		powerLVL = powerLvl;
 		this.goalDestination = goalDestination;
 		this.goalDestination.setToNewRP(rotationPoint);
 		setForward(true);
@@ -38,7 +41,7 @@ public class AI extends LivingObject{
 		aiUpdateLenght = (int) Math.round(Math.random() * 5 + 3);
 	}
 	
-	public static AI makeNewAI(double x, double y) {
+	public static AI makeNewAI(double x, double y, int powerLvl) {
 		//ai
 		Corner peakAI = new Corner(new double[] {x,y + 25}, new double[] {x ,y});
 	    Corner rightCornerAI = new Corner(new double[] {x-25,y-25}, new double[] {x ,y});
@@ -61,7 +64,7 @@ public class AI extends LivingObject{
 	    DetectionLine rdl = new DetectionLine(base3, rightP, new double[] {x ,y}, 0.5);
 	    DetectionLine ldl2 = new DetectionLine(base4, leftP2, new double[] {x ,y}, 0.5);
 	    DetectionLine rdl2 = new DetectionLine(base5, rightP2, new double[] {x ,y}, 0.5);
-	    AI ai = new AI(new Corner[] {peakAI, rightCornerAI, leftCornerAI}, new double[] {x,y}, 0.5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner);
+	    AI ai = new AI(new Corner[] {peakAI, rightCornerAI, leftCornerAI}, new double[] {x,y}, 0.5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner, powerLvl);
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
 
 	    ai.setMaxSpeed(0);
@@ -88,6 +91,16 @@ public class AI extends LivingObject{
 		}
 		handleAllFriendlyFire(ais);
 		
+	}
+	
+	public void runIfTooClose(GameObject p) {
+		if(runIfTooClose) {
+			if(p.getRotationPoint().getPointDistance(getRotationPoint()) < runningDistance) {
+				Corner newGD = new Corner(p.getRotationPoint(), p.getRotationPoint());
+				newGD.turnAround('b', getRotationPoint());
+				setGoalDestination(newGD);
+			}
+		}
 	}
 	
 	public void handleAllFriendlyFire(AI[] ais) {
@@ -183,17 +196,7 @@ public class AI extends LivingObject{
 	}
 
 	
-	private void setRotationRight() {
-		setRight(true);
-		setLeft(false);
-		makePositiveRotation();
-	}
-	
-	private void setRotationLeft() {
-		setLeft(true);
-		setRight(false);
-		makeNegativeRotation();
-	}
+
 	
 	protected void setGoalToGameObject(GameObject p) {
 		goalDestination.setX(p.getRotationPoint().getX());
@@ -409,7 +412,7 @@ public class AI extends LivingObject{
 	}
 
 	
-	public void render(Graphics g) {
+	public void render(@SuppressWarnings("exports") Graphics g) {
 		super.render(g);
 		
 	//	g.setColor(Color.red);
@@ -514,7 +517,27 @@ public class AI extends LivingObject{
 		return targetedEnemy;
 	}
 	
+	public int getPowerLvl() {
+		return powerLVL;
+	}
 	
+	public void setPowerLvl(int d) {
+		powerLVL = d;
+	}
 	
-
+	public int getStrenght() {
+		return strenght;
+	}
+	
+	public void setStrenght(int s) {
+		strenght = s;
+	}
+	
+	public void setRunIfTooClose(boolean b) {
+		runIfTooClose = b;
+	}
+	
+	public void setRunningDistance(double d) {
+		runningDistance = d;
+	}
 }

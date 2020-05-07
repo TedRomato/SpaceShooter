@@ -6,7 +6,6 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -16,8 +15,10 @@ public class Mothership extends Summoner{
 	BufferedImage Body;
 	
 	public Mothership(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,
-			Corner goalDestination) {
-		super(corners, rotationPoint, rotationAngle, md, goalDestination);
+			Corner goalDestination, int PowerLvl) {
+		super(corners, rotationPoint, rotationAngle, md, goalDestination, PowerLvl);
+		strenght = 4;
+
 		try {
 
 			Body = ImageIO.read(new File("src/Icons/MothershipBody.png"));
@@ -30,7 +31,7 @@ public class Mothership extends Summoner{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public static Mothership  makeNewMothership(double x, double y, GameObject[] gameObjects) {
+	public static Mothership  makeNewMothership(double x, double y, GameObject[] gameObjects, int powerLvl) {
 		Mothership ai;
 		
 		Corner summoningPoint1 = new Corner(new double[] {x-65,y+65}, new double[] {x,y});
@@ -67,18 +68,19 @@ public class Mothership extends Summoner{
 	    DetectionLine ldl2 = new DetectionLine(base4, leftP2, new double[] {x ,y}, 1);
 	    DetectionLine rdl2 = new DetectionLine(base5, rightP2, new double[] {x ,y}, 1);
 	     
-		ai = new Mothership(body, new double[] {x,y}, 1, md, gd);
+		ai = new Mothership(body, new double[] {x,y}, 1, md, gd,powerLvl);
 		ai.setSummoningPoint(new Corner[] {summoningPoint1,summoningPoint2,summoningPoint3,summoningPoint4});
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
-	    ai.setMaxSpeed(1.5);
+	    ai.setMaxSpeed(1.5+powerLvl);
 	    ai.setReflectedSpeed(6);
-	    ai.setStoppingDistance(800);
 
-	    ai.setStoppingDistance(600);
-	    ai.setHP(12);
+	    ai.setStoppingDistance(650);
+	    ai.setHP(8+powerLvl*2);
 	    ai.findAndSetToClosestEnemy(gameObjects);
-	    ai.setSummoningSpeed(200);
+	    ai.setSummoningSpeed(200-powerLvl*5);
 	    ai.setPlayerFocus(true);
+	    ai.setRunIfTooClose(true);
+	    ai.setRunningDistance(600);
 	    return ai;
 	}
 	

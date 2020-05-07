@@ -1,8 +1,6 @@
 package package1;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -11,15 +9,12 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -392,9 +387,10 @@ public class GameModeTower extends Game{
 		DisplayPowerUps();
 		endGame();
 	}
+	
 	public void handleWaves() {
 		if(AIneeded && AIcount == 90) {	
-			AIrnd = (int) (Math.random() * ((5-0)+1)) + 0;
+			AIrnd = (int) (Math.random() * ((5+1)));
 			if(PowerLevelAr[AIrnd] + PowerLevel> wave) {	
 				return;
 			}
@@ -414,6 +410,20 @@ public class GameModeTower extends Game{
 		else {
 			AIcount++;
 		}
+	}
+	
+	public int determinePowerLvl() {
+		double rand = Math.random();
+		int difficulty = (int) Math.floor(wave/3)+1;
+		double chunkSize = 1.0/difficulty;
+		for(int powerLvl = 1; powerLvl <= difficulty; powerLvl++) {
+			if(rand > (powerLvl-1)*chunkSize && rand < (powerLvl)*chunkSize) {
+				return powerLvl;
+			}
+		}
+		
+		System.out.println("determinePowerLvl fucked up");
+		return 1;
 	}
 	
 	public GameObject[] getAIEnemys() {
@@ -578,22 +588,22 @@ public class GameModeTower extends Game{
 		spawnCorner = GameObject.generateCornerOutsideMapInRange(mainWidth, mainHeight, new int[] {600,1000});
 		switch(PL){
 
-			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys()); addObToGame(hm, new int[] {4,7,9,10,11}); 
+			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),1); addObToGame(hm, new int[] {4,7,9,10,11}); 
 			break;
 
-			case 1 : sca = SpaceCanon.makeNewSpaceCanon(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys()); addObToGame(sca, new int[] {4,7,9,10,11}); 
+			case 1 : sca = SpaceCanon.makeNewSpaceCanon(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),1); addObToGame(sca, new int[] {4,7,9,10,11}); 
 			break;
 
-			case 2 : mp = Mothership.makeNewMothership(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys()); addObToGame(mp, new int[] {4,7,10,11}); 
+			case 2 : mp = Mothership.makeNewMothership(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),1); addObToGame(mp, new int[] {4,7,10,11}); 
 			break;
 
-			case 3 : scr = SpaceCruiser.makeNewSpaceCruiser(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys()); addObToGame(scr, new int[] {4,7,9,10,11}); 
+			case 3 : scr = SpaceCruiser.makeNewSpaceCruiser(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),1); addObToGame(scr, new int[] {4,7,9,10,11}); 
 			break;
 			
-			case 4 : ht = Hunter.makeNewHunter(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys()); addObToGame(ht, new int[] {4,7,9,10,11}); 
+			case 4 : ht = Hunter.makeNewHunter(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),1); addObToGame(ht, new int[] {4,7,9,10,11}); 
 			break;
 			
-			case 5 : gr = Grenader.makeNewGrenader(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys()); addObToGame(gr, new int[] {4,7,9,10,11}); 
+			case 5 : gr = Grenader.makeNewGrenader(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),1); addObToGame(gr, new int[] {4,7,9,10,11}); 
 			break;
 			default : 
 		}

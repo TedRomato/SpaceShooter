@@ -1,7 +1,5 @@
 package package1;
 
-import java.awt.event.KeyEvent;
-
 public class GameModeClassic extends Game{
 
 	private Player p = super.p;

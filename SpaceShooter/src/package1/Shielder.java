@@ -6,8 +6,10 @@ public class Shielder extends AI{
 	int chargeLenght = 600, chargeTimer;
 
 
-	public Shielder(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination) {
-		super(corners, rotationPoint, rotationAngle, md, goalDestination);
+	public Shielder(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, int PowerLvl) {
+		super(corners, rotationPoint, rotationAngle, md, goalDestination, PowerLvl);
+		strenght = 4;
+		
 	}
 	
 	
@@ -15,7 +17,7 @@ public class Shielder extends AI{
 		if(!abilityUsed) {
 			abilityUsed = true;
 			for(AI ai : ais) {
-				if(ai.getShield()==null) {
+				if(ai.getShield()==null && ai != this) {
 					ai.activateShield = true;
 				}
 			}
@@ -38,9 +40,10 @@ public class Shielder extends AI{
 		}if(getHP() <= 0) {
 			endShieldForAIS(ais);
 		}
+		runIfTooClose(this.getClosestEnemy(aiEnemys));
 	}
 	
-	public static Shielder makeShielder(int x, int y, GameObject[] gos) {
+	public static Shielder makeShielder(int x, int y, GameObject[] gos, int powerLvl) {
 		//ai
 				Corner[] corners = GameObject.generatePeriodicObject(30, 3, new Corner(new double[] {x,y})).getCorners();
 			    
@@ -78,7 +81,7 @@ public class Shielder extends AI{
 			    DetectionLine ldl2 = new DetectionLine(base4, leftP2, new double[] {x ,y}, 4);
 			    DetectionLine rdl2 = new DetectionLine(base5, rightP2, new double[] {x ,y}, 4);
 			    Corner goalCorner = new Corner(new double[] {1000,600} );
-			    Shielder ai = new Shielder(corners, new double[] {x,y}, 5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner);
+			    Shielder ai = new Shielder(corners, new double[] {x,y}, 5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner, powerLvl);
 			    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
 			    ai.setMaxSpeed(3.5);
 		//	    ai.addAttachment(att);
@@ -88,6 +91,8 @@ public class Shielder extends AI{
 			    ai.setStoppingDistance(900);
 			    ai.setShootForInteractiveAtts(true);
 			    ai.findAndSetToClosestEnemy(gos);
+			    ai.setRunIfTooClose(true);
+				ai.setRunningDistance(800);
 			    return ai;
 		
 	}

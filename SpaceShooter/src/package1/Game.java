@@ -2,9 +2,7 @@
 package package1;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -15,7 +13,6 @@ import java.awt.Point;
 import java.awt.PointerInfo;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
@@ -26,7 +23,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 
 public class Game extends JPanel implements MouseListener{
@@ -61,6 +57,9 @@ public class Game extends JPanel implements MouseListener{
 	private Summoner[] summoners;
 	private Explosives[] explosives;
 	boolean softBorders = false;
+	Corner bordersTLCorner = new Corner(new double[] {0,0});
+	int safeZoneWidth = mainWidth;
+	int safeZoneHeight = mainHeight;
 	
 	private boolean wasCalled = false;
 	//public static JPanel gp = new GamePanel();
@@ -68,7 +67,7 @@ public class Game extends JPanel implements MouseListener{
 	private int Count = 0;
 	
 	public Game(int sw,int sh,boolean softBorder) {
-	//	this.setBackground(Color.white);
+		this.setBackground(Color.pink);
 		this.currentScreenHeight = sh;
 		this.currentScreenWidth = sw;
 		this.softBorders = softBorder;
@@ -174,7 +173,7 @@ public class Game extends JPanel implements MouseListener{
                 if(System.currentTimeMillis() - timer > 1000)
                 { 
                 	timer += 1000;
-              //      System.out.println("FPS: "+ frames);
+           //         System.out.println("FPS: "+ frames);
 
                     frames = 0;
                     }
@@ -187,6 +186,7 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void tick() {
+	//	respawnMeteorsToAmount(5);
 		updatePlayer();
 		handleShooting();	
 		checkAndHandleCollision();
@@ -262,6 +262,7 @@ public class Game extends JPanel implements MouseListener{
 	
 	public void handleExplosives() {
 		for(Explosives explo : explosives) {
+
 			explo.updateExplosive();
 			if(explo.getShouldExplode()) {
 				Missile[] m = explo.explode();
@@ -276,7 +277,7 @@ public class Game extends JPanel implements MouseListener{
 	}
 	 
 	public void updateDisplay() {
-		if(p.checkIfOutsideRect(0, 0, mainWidth, mainHeight)) {
+		if(p.checkIfOutsideRect((int)bordersTLCorner.getX(), (int)bordersTLCorner.getY(), safeZoneWidth, safeZoneHeight)) {
 			Warning.setText("WARNING!");
 			add(Warning);
 		}
@@ -286,29 +287,29 @@ public class Game extends JPanel implements MouseListener{
 	}
 	protected void handlePlayerOutsideSafeZone() {
 		if(p.wasDamagedByZone == false) {
-			if(p.getRotationPoint().getY() < 0) {
-				p.setHP(p.getHP() - getHPToSubtract(getDifferenceFromZero(p.getRotationPoint().getY())));
+			if(p.getRotationPoint().getY() < bordersTLCorner.getY()) {
+				p.setHP(p.getHP() - getHPToSubtract(getDifference(p.getRotationPoint().getY(), bordersTLCorner.getY())));
 				p.wasDamagedByZone = true;
-			}else if(p.getRotationPoint().getY() > mainHeight) {
-				p.setHP(p.getHP() - getHPToSubtract(getDownOrRightDifference(p.getRotationPoint().getY(),mainHeight)));
+			}else if(p.getRotationPoint().getY() > bordersTLCorner.getY() + safeZoneHeight) {
+				p.setHP(p.getHP() - getHPToSubtract(getDifference(p.getRotationPoint().getY(),bordersTLCorner.getY() + safeZoneHeight)));
 				p.wasDamagedByZone = true;
 			}
-			if(p.getRotationPoint().getX() < 0) {
-				p.setHP(p.getHP() - getHPToSubtract(getDifferenceFromZero(p.getRotationPoint().getX())));
+			if(p.getRotationPoint().getX() <  bordersTLCorner.getX()) {
+				p.setHP(p.getHP() - getHPToSubtract(getDifference(p.getRotationPoint().getX(), bordersTLCorner.getX())));
 				p.wasDamagedByZone = true;
-			}else if(p.getRotationPoint().getX() > mainWidth) {
-				p.setHP(p.getHP() - getHPToSubtract(getDownOrRightDifference(p.getRotationPoint().getX(),mainWidth)));
+
+			}else if(p.getRotationPoint().getX() > bordersTLCorner.getX() + safeZoneWidth) {
+				p.setHP(p.getHP() - getHPToSubtract(getDifference(p.getRotationPoint().getX(),bordersTLCorner.getX() + safeZoneWidth)));
 				p.wasDamagedByZone = true;
+
 			}
 		}
 	}
 	
-	private double getDownOrRightDifference(double xy, double widthHeight) {
-		return xy-widthHeight;
+	protected double getDifference(double xy, double widthHeight) {
+		return Math.abs(xy-widthHeight);
 	}
-	private double getDifferenceFromZero(double xy) {
-		return Math.abs(xy);
-	}
+	
 	private int getHPToSubtract(double i) {
 		return (int) (i/50);
 	}
@@ -337,6 +338,7 @@ public class Game extends JPanel implements MouseListener{
 						if(att instanceof ExplosiveShootingAtt) {
 							if(sob instanceof Player) {
 								if(att.getReloadTimer() >= att.getReloadLenght() &&  att.shouldShoot()) {
+									
 									addObToGame(((ExplosiveShootingAtt) att).Fire(sob.getShotImunes()),new int[] {5,6,7,9,10});
 									att.setReloadTimer(0);
 								}
@@ -373,7 +375,7 @@ public class Game extends JPanel implements MouseListener{
 
 	protected void removeObsOut() {
 		for(GameObject ob : objects) {
-			if(ob.checkIfOutsideRect(-3000, -3000,mainWidth + 6000, mainHeight + 6000)) {
+			if(ob.checkIfOutsideRect((int)bordersTLCorner.getX()-3000,(int)bordersTLCorner.getY() -3000,safeZoneWidth + 6000, safeZoneHeight + 6000)) {
 				removeObFromGame(ob);
 			}
 		}
@@ -472,7 +474,7 @@ public class Game extends JPanel implements MouseListener{
 		}
 	}
 	
-	
+	//TODO FIXNOUT PRO POHYBUJIICII SE SAFE ZONE
 	protected void respawnMeteorsToAmount(int amount) {
 		if(meteors.length < amount) {
 			addObToGame(randomMeteorGenerator.generateRandomMeteorOutside(mainWidth, mainHeight), new int[] {3,6,4,8,9,11});
@@ -629,12 +631,8 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	private void renderDangerZone(Graphics g) {
-		int width = 2000;
-		g.setColor(Color.pink);
-		fillRect(g,0-width, 1 - width, currentScreenWidth + 2*width, width );
-		fillRect(g,0 - width, -10, width, currentScreenHeight+20);
-		fillRect(g,0-width, currentScreenHeight-1, currentScreenWidth + 2*width, width );
-		fillRect(g,currentScreenWidth,-10,width,currentScreenHeight+20);
+		g.setColor(Color.white);
+		g.fillRect((int) Math.round(bordersTLCorner.getX()*Game.camera.toMultiply() + Game.camera.toAddX()), (int)Math.round(bordersTLCorner.getY()*Game.camera.toMultiply() + Game.camera.toAddY()),(int)Math.round(safeZoneWidth*Game.camera.toMultiply()),(int) Math.round(safeZoneHeight*Game.camera.toMultiply()));
 		g.setColor(Color.black);
 
 	}
@@ -669,12 +667,13 @@ public class Game extends JPanel implements MouseListener{
     }
 	@Override
 	protected void paintComponent(Graphics g) {
+		renderDangerZone(g);
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 //		g2.drawImage(bg,(int)((-1920*Game.camera.toMultiply()) + Game.camera.toAddX()), (int)((-3000*Game.camera.toMultiply()) + Game.camera.toAddY()),5760,3240,null);
 		renderAll(g2);
-		if(p.checkIfOutsideRect(0, 0, mainWidth, mainHeight)) {
+		if(p.checkIfOutsideRect((int)bordersTLCorner.getX(), (int)bordersTLCorner.getY(), safeZoneWidth, safeZoneHeight)) {
 			g2.drawImage(WarningSign,currentScreenWidth/2-260, currentScreenHeight/2-200,100,100, null);
 			g2.drawImage(WarningSign,currentScreenWidth/2+150, currentScreenHeight/2-200,100,100, null);
 		}

@@ -1,16 +1,9 @@
 package package1;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -567,7 +560,7 @@ public class Player extends LivingObject{
 //		p.addFrontCanon();
 //	    p.addFrontMachineGun();
 //	    p.setDashUnlocked(true);
-//      p.setPulseUnlocked(true);
+//	    p.setPulseUnlocked(true);
 //	    p.setBerserkModeUnlocked(true);
 //	    p.shieldIsUnlocked = true;
 //	    p.addAttachment(straightLine);
