@@ -1,13 +1,10 @@
 package package1;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 
 //PRESUNOUT METODY LIVING OBJECTU Z HRACE 

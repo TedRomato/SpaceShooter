@@ -1,7 +1,6 @@
 package package1;
 
 import java.awt.Graphics;
-import java.util.List;
 
 public class Summoner extends AI{
 	double w8Length = 50;

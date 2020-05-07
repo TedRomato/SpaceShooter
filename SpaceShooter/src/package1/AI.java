@@ -1,8 +1,6 @@
 package package1;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.util.List;
 import java.util.Random;
 
 public class AI extends LivingObject{
@@ -198,17 +196,7 @@ public class AI extends LivingObject{
 	}
 
 	
-	private void setRotationRight() {
-		setRight(true);
-		setLeft(false);
-		makePositiveRotation();
-	}
-	
-	private void setRotationLeft() {
-		setLeft(true);
-		setRight(false);
-		makeNegativeRotation();
-	}
+
 	
 	protected void setGoalToGameObject(GameObject p) {
 		goalDestination.setX(p.getRotationPoint().getX());
@@ -424,7 +412,7 @@ public class AI extends LivingObject{
 	}
 
 	
-	public void render(Graphics g) {
+	public void render(@SuppressWarnings("exports") Graphics g) {
 		super.render(g);
 		
 	//	g.setColor(Color.red);

@@ -1,8 +1,6 @@
 package package1;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.util.List;
 
 
 //specialni render obrazku pro interactive attachmenty, ktery rotujou s parentem attRangle + parentRangle

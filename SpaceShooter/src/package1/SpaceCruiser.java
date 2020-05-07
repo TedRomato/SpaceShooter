@@ -1,7 +1,5 @@
 package package1;
 
-import java.util.List;
-
 public class SpaceCruiser extends LongRangeAI{
 
 	public SpaceCruiser(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,

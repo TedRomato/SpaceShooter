@@ -1,7 +1,5 @@
 package package1;
 
-import java.util.List;
-
 public class Grenader extends LongRangeAI{
 	public Grenader(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, Corner wayPoint, int powerLvl) {
 		super(corners, rotationPoint, rotationAngle, md, goalDestination, wayPoint,powerLvl);

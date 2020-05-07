@@ -1,7 +1,5 @@
 package package1;
 
-import java.awt.event.KeyEvent;
-
 public class GameModeTesting extends Game{
 	private Player p;
 

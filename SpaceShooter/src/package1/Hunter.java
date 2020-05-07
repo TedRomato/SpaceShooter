@@ -1,7 +1,5 @@
 package package1;
 
-import java.util.List;
-
 public class Hunter extends AI{
 
 	public Hunter(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, int powerLvl) {
