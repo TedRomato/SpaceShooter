@@ -170,7 +170,7 @@ public class Game extends JPanel implements MouseListener{
                 if(System.currentTimeMillis() - timer > 1000)
                 { 
                 	timer += 1000;
-              //      System.out.println("FPS: "+ frames);
+           //         System.out.println("FPS: "+ frames);
 
                     frames = 0;
                     }
@@ -283,27 +283,21 @@ public class Game extends JPanel implements MouseListener{
 		}
 	}
 	protected void handlePlayerOutsideSafeZone() {
-		System.out.println(bordersTLCorner.getY());
-		System.out.println(p.getRotationPoint().getY());
 		if(p.wasDamagedByZone == false) {
 			if(p.getRotationPoint().getY() < bordersTLCorner.getY()) {
 				p.setHP(p.getHP() - getHPToSubtract(getDifference(p.getRotationPoint().getY(), bordersTLCorner.getY())));
-				System.out.println("dmg1");
 				p.wasDamagedByZone = true;
 			}else if(p.getRotationPoint().getY() > bordersTLCorner.getY() + safeZoneHeight) {
 				p.setHP(p.getHP() - getHPToSubtract(getDifference(p.getRotationPoint().getY(),bordersTLCorner.getY() + safeZoneHeight)));
 				p.wasDamagedByZone = true;
-				System.out.println("dmg2");
 			}
 			if(p.getRotationPoint().getX() <  bordersTLCorner.getX()) {
 				p.setHP(p.getHP() - getHPToSubtract(getDifference(p.getRotationPoint().getX(), bordersTLCorner.getX())));
 				p.wasDamagedByZone = true;
-				System.out.println("dmg3");
 
 			}else if(p.getRotationPoint().getX() > bordersTLCorner.getX() + safeZoneWidth) {
 				p.setHP(p.getHP() - getHPToSubtract(getDifference(p.getRotationPoint().getX(),bordersTLCorner.getX() + safeZoneWidth)));
 				p.wasDamagedByZone = true;
-				System.out.println("dmg4");
 
 			}
 		}
