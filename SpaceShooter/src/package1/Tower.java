@@ -1,7 +1,7 @@
 package package1;
 
 public class Tower extends LivingObject{
-	private boolean SniperOn = false, MachineGunOn = false, GranadeLauncherOn = false, TurretOn = false; 
+	private boolean SniperOn = false, MachineGunOn = false, GrenadeLauncherOn = false, TurretOn = false; 
 	private MagazineAttachment turret;
 	
 	public Tower(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md) {
@@ -33,32 +33,38 @@ public class Tower extends LivingObject{
 		turret.setMagazineParameters(1, 150);
 		TurretOn = true;
 	}
-	public void upgradeToGranadeLauncher() {
+	public void upgradeToGrenadeLauncher() {
 		this.getAttachments()[0] = (AutomaticExplosiveTurret.MakeTurret(this.getRotationPoint().getX(), this.getRotationPoint().getY()));
 		turret = (MagazineAttachment) this.getAttachments()[0];
 		turret.setMagazineParameters(1, 350);
-		GranadeLauncherOn = true;
+		turret.setInaccuracy(200);
+		GrenadeLauncherOn = true;
 	}
 	public void upgradeToSniper() {
 		turret.setDmg(3);
 		turret.setReloadLenght(250);
+		turret.setInaccuracy(25);
 		SniperOn = true;
 	}
 	public void upgradeToMachineGun() {
 		turret.setMagazineParameters(3, 200);
+		turret.setInaccuracy(50);
 		MachineGunOn = true;
 	}
 	public void UpgradeReloadTime() {		
 		turret.setReloadLenght(turret.getReloadLenght()-10);
 	}
 	public void UpgradeDMG() {
-		turret.setDmg(turret.getDmg()+1);
+		turret.setDmg((turret.getDmg())+1);
 	}
 	public void UpgradeMagazineSize() {
 		turret.setMagazineSize(turret.getMagazineSize()+1);
 	}
 	public void UpgradeAccuracy() {
-		turret.setInaccuracy(turret.getInaccuracy()-25);
+		turret.setInaccuracy(turret.getInaccuracy()-5);
+	}
+	public void UpgradeGrenadeChunks() {
+		((ExplosiveShootingAtt)turret).setGrenadeChunks(((ExplosiveShootingAtt)turret).getGrenadeChunks()+2);
 	}
 
 	public boolean isSniperOn() {
@@ -77,12 +83,12 @@ public class Tower extends LivingObject{
 		MachineGunOn = machineGunOn;
 	}
 
-	public boolean isGranadeLauncherOn() {
-		return GranadeLauncherOn;
+	public boolean isGrenadeLauncherOn() {
+		return GrenadeLauncherOn;
 	}
 
-	public void setGranadeLauncherOn(boolean granadeLauncherOn) {
-		GranadeLauncherOn = granadeLauncherOn;
+	public void setGrenadeLauncherOn(boolean grenadeLauncherOn) {
+		GrenadeLauncherOn = grenadeLauncherOn;
 	}
 
 	public boolean isTurretOn() {

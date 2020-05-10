@@ -60,7 +60,7 @@ public class Game extends JPanel implements MouseListener{
 	Corner bordersTLCorner = new Corner(new double[] {0,0});
 	int safeZoneWidth = mainWidth;
 	int safeZoneHeight = mainHeight;
-	
+	boolean GameOver = false;
 	private boolean wasCalled = false;
 	//public static JPanel gp = new GamePanel();
 	public static boolean running = false;
@@ -673,7 +673,7 @@ public class Game extends JPanel implements MouseListener{
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 //		g2.drawImage(bg,(int)((-1920*Game.camera.toMultiply()) + Game.camera.toAddX()), (int)((-3000*Game.camera.toMultiply()) + Game.camera.toAddY()),5760,3240,null);
 		renderAll(g2);
-		if(p.checkIfOutsideRect((int)bordersTLCorner.getX(), (int)bordersTLCorner.getY(), safeZoneWidth, safeZoneHeight)) {
+		if(p.checkIfOutsideRect((int)bordersTLCorner.getX(), (int)bordersTLCorner.getY(), safeZoneWidth, safeZoneHeight)&&!GameOver) {
 			g2.drawImage(WarningSign,currentScreenWidth/2-260, currentScreenHeight/2-200,100,100, null);
 			g2.drawImage(WarningSign,currentScreenWidth/2+150, currentScreenHeight/2-200,100,100, null);
 		}
