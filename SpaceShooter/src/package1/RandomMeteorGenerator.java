@@ -10,14 +10,15 @@ public class RandomMeteorGenerator {
 	int layer;
 	double clearSpace;
 	double distanceChunk;
+	double[] speedRange = new double[] {1.5,4};
 	
 	public RandomMeteorGenerator() {
 		
 	}
 	
-	public Meteor generateRandomMeteorOutside(int width, int height) {
-		Corner rp = GameObject.generateCornerOutsideMapInRange(width, height, new int[] {70,100});
-		Corner md = GameObject.generateCornerInRect(616, 338, width-616, height-338 );
+	public Meteor generateRandomMeteorOutside(int width, int height, Corner spawnCorner, int[] range) {
+		Corner rp = GameObject.generateCornerOutsideMapInRange(spawnCorner,width, height, range);
+		Corner md = GameObject.generateCornerInRect(spawnCorner.getX() + width / 4, spawnCorner.getY() + height / 4, width-width/4, height-height/4 );
 		md.setToNewRP(rp);
 		Meteor m;
 		double[] atribs = generateRandomAtributes();
@@ -34,7 +35,7 @@ public class RandomMeteorGenerator {
 	//size, vel, cAmount
 	private double[] generateRandomAtributes() {
 		double size = pickSize();
-		double vel = generateNumInRange(new double[] {0.6,4})*2.5/size;
+		double vel = generateNumInRange(speedRange)*2.5/size;
 		double cornerAmount = (int) Math.floor(generateNumInRange(new double[] {13,18}));
 		double rotationAngle = generateNumInRange(new double[] {0.4,2.5})*2/size;
 		if(Math.random() > 0.5) {
@@ -188,6 +189,10 @@ public class RandomMeteorGenerator {
 	
 	private void getNewClearSpace() {
 		clearSpace = chunkSize / 4;
+	}
+	
+	public void setSpeedRange(double[] d){
+		speedRange = d;
 	}
 	
 	

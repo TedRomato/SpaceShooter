@@ -16,23 +16,14 @@ public class Player extends LivingObject{
 	int zoneDamagedTimerLenght = 60;
 	int zoneDamagedTimer = 0;
 	
-
-	//Shield variables
-	int shieldHP = 5, shieldDuration = 300, shieldCooldown = 600, shieldTimer = shieldCooldown;
-	boolean activateShield = false, shieldIsUnlocked = false, shieldIsUp = false;;
-	Shield shield;
-
-
+	boolean shieldIsUnlocked = false;
 	//pulse variables
 	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
 	boolean pulse = false, pulseIsUnlocked = false;
 	int stunLenght = 300;
 	double pulseRange = 900;
 
- 
-
 	//berserkMode variables
-
 	int  berserkModeCooldown = 1800, berserkModeTimer = berserkModeCooldown, costInLives = 5;
 	int exploWave = 10, exploWaveCounter = 0,  exploTimer = 0,  exploLenght = 20;
 	double berserkSpeed = 12;
@@ -342,8 +333,7 @@ public class Player extends LivingObject{
 	}
 	
 	public void updatePlayer() {
-		if(shield != null) {
-		}
+		System.out.println();
 		handleZoneTimer();
 		fireMG();
 		handleDashCooldown();
@@ -662,6 +652,7 @@ public class Player extends LivingObject{
 	
 	//SHIELD
 	
+
 	public boolean isShieldIsUnlocked() {
 		return shieldIsUnlocked;
 	}
@@ -754,6 +745,7 @@ public class Player extends LivingObject{
 	
 
 
+
 	public int getExploWave() {
 		return exploWave;
 	}
@@ -778,14 +770,7 @@ public class Player extends LivingObject{
 
 
 
-	public void setShieldIsUp(boolean b) {
-		shieldIsUp = b;
-	}
 
-	public void setShield(Shield s) {
-		shield = s;
-	}
-	
 	public Shield getShield() {
 		return shield;
 	}
@@ -796,6 +781,5 @@ public class Player extends LivingObject{
 	}
 
 
+}	
 
-	
-}

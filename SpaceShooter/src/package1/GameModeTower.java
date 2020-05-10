@@ -3,8 +3,10 @@ package package1;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
@@ -31,7 +33,7 @@ public class GameModeTower extends Game{
 	private BufferedImage Shield, BerserkMode, Pulse,ShieldIcon, HealthIcon, AmmoIcon , Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, DashRefillIcon,BerserkModeIcon,PulseIcon;
 	private Font font = new Font("josef", Font.PLAIN, 25);
 	private int AIcount = 90;
-	private int wave = 1;
+	private int wave = 15;
 	private int waveCount = 0;
 	private int AIStrength = 0;
 	private int TowerBaseHP=1000;
@@ -264,6 +266,7 @@ public class GameModeTower extends Game{
 					ShieldStatus.setValue(p.getShieldCooldown());
 					add(ShieldStatus);
 				} 
+
 				else {
 					ShieldStatus.setMaximum(p.getShieldCooldown());
 					p.upgradeShield();
@@ -563,6 +566,7 @@ public class GameModeTower extends Game{
 		}
 		if((wave-1)%2==0 && !PUpicked&&wave!=1||(wave-1)%5==0 && !ULTpicked&&wave!=1) {
 
+
 			
 			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
@@ -632,6 +636,7 @@ public class GameModeTower extends Game{
 		default: 
 		}
 	}
+
 	public void removeButtons() {
 		remove(Power1);
 		remove(Power2);
