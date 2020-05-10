@@ -25,14 +25,7 @@ import javax.swing.plaf.basic.BasicProgressBarUI;
 public class GameModeTower extends Game{
 
 	private Tower tower;
-	private Hunter ht;
-	private Grenader gr;
-	private HuntingMine hm;
-	private Mothership mp;
-	private SpaceCanon sca;
-	private SpaceCruiser scr;
 	private JLabel waveDisplay,MoneyDisplay,ShieldHPDisplay, PlayerHPDisplay, PlayerAmmoDisplay, GameOverDisplay, PowerUpDisplay, MachineGunAmmoDisplay, RocketAmmoDisplay;
-	private Corner spawnCorner;
 	private JProgressBar TowerHPDisplay, PlayerReloadTime, MachineGunReload, FaceCannonReload, DashRefill, ShieldStatus, BerserkReloadTime, PulseReloadTime;
 	private JButton Power1, Power2, Power3, Power4, Power5, Power6, Power7, Power8, Shop, Resume, TurretUpgrade1, TurretUpgrade2,TurretUpgrade3;
 	private BufferedImage Shield, BerserkMode, Pulse,ShieldIcon, HealthIcon, AmmoIcon , Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, DashRefillIcon,BerserkModeIcon,PulseIcon;
@@ -637,30 +630,6 @@ public class GameModeTower extends Game{
 			repaint();
 			break;
 		default: 
-		}
-	}
-	public void spawnAI(int AI, int PL) {
-		spawnCorner = GameObject.generateCornerOutsideMapInRange(mainWidth, mainHeight, new int[] {600,1000});
-		switch(AI){
-
-			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(hm, new int[] {4,7,9,10,11}); 
-			break;
-
-			case 1 : sca = SpaceCanon.makeNewSpaceCanon(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(sca, new int[] {4,7,9,10,11}); 
-			break;
-
-			case 2 : mp = Mothership.makeNewMothership(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(mp, new int[] {4,7,10,11}); 
-			break;
-
-			case 3 : scr = SpaceCruiser.makeNewSpaceCruiser(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(scr, new int[] {4,7,9,10,11}); 
-			break;
-			
-			case 4 : ht = Hunter.makeNewHunter(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),PL); addObToGame(ht, new int[] {4,7,9,10,11}); 
-			break;
-			
-			case 5 : gr = Grenader.makeNewGrenader(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),PL); addObToGame(gr, new int[] {4,7,9,10,11}); 
-			break;
-			default : 
 		}
 	}
 	public void removeButtons() {

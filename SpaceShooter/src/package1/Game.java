@@ -29,12 +29,18 @@ public class Game extends JPanel implements MouseListener{
 
 	static int mainHeight = 1908, mainWidth = 3392;
 	protected Player p;
- 
+	private Hunter ht;
+	private Grenader gr;
+	private HuntingMine hm;
+	private Mothership mp;
+	private SpaceCanon sca;
+	private SpaceCruiser scr;
 	public static JLabel scoreDisplay, Warning;
 	private BufferedImage WarningSign;
 	private BufferedImage bg;
 	protected int score = 0;
 	private boolean ShowScore;
+	private Corner spawnCorner;
 	public static int currentScreenWidth;
 	public static int currentScreenHeight;
 	public static double screenRatio;
@@ -381,7 +387,30 @@ public class Game extends JPanel implements MouseListener{
 		}
 	}
 	
+	public void spawnAI(int AI, int PL) {
+		spawnCorner = GameObject.generateCornerOutsideMapInRange(mainWidth, mainHeight, new int[] {600,1000});
+		switch(AI){
 
+			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(hm, new int[] {4,7,9,10,11}); 
+			break;
+
+			case 1 : sca = SpaceCanon.makeNewSpaceCanon(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(sca, new int[] {4,7,9,10,11}); 
+			break;
+
+			case 2 : mp = Mothership.makeNewMothership(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(mp, new int[] {4,7,10,11}); 
+			break;
+
+			case 3 : scr = SpaceCruiser.makeNewSpaceCruiser(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(scr, new int[] {4,7,9,10,11}); 
+			break;
+			
+			case 4 : ht = Hunter.makeNewHunter(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),PL); addObToGame(ht, new int[] {4,7,9,10,11}); 
+			break;
+			
+			case 5 : gr = Grenader.makeNewGrenader(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),PL); addObToGame(gr, new int[] {4,7,9,10,11}); 
+			break;
+			default : 
+		}
+	}
 	
 	private void updateLivingObsReflect() {
 		if(livingObsReflectUpdate != null) {	 
