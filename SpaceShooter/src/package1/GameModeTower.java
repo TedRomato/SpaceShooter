@@ -3,9 +3,10 @@ package package1;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
@@ -26,26 +27,19 @@ import javax.swing.plaf.basic.BasicProgressBarUI;
 public class GameModeTower extends Game{
 
 	private Tower tower;
-	private Hunter ht;
-	private Grenader gr;
-	private HuntingMine hm;
-	private Mothership mp;
-	private SpaceCanon sca;
-	private SpaceCruiser scr;
-	private JLabel waveDisplay,ShieldHPDisplay, PlayerHPDisplay, PlayerAmmoDisplay, GameOver, PowerUpDisplay, MachineGunAmmoDisplay, RocketAmmoDisplay;
-	private Corner spawnCorner;
+	private JLabel waveDisplay,MoneyDisplay,ShieldHPDisplay, PlayerHPDisplay, PlayerAmmoDisplay, GameOverDisplay, PowerUpDisplay, MachineGunAmmoDisplay, RocketAmmoDisplay;
 	private JProgressBar TowerHPDisplay, PlayerReloadTime, MachineGunReload, FaceCannonReload, DashRefill, ShieldStatus, BerserkReloadTime, PulseReloadTime;
-	private JButton Power1, Power2, Power3, Power4, Power5, Power6, Power7, Power8;
+	private JButton Power1, Power2, Power3, Power4, Power5, Power6, Power7, Power8, Shop, Resume, TurretUpgrade1, TurretUpgrade2,TurretUpgrade3;
 	private BufferedImage Shield, BerserkMode, Pulse,ShieldIcon, HealthIcon, AmmoIcon , Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, DashRefillIcon,BerserkModeIcon,PulseIcon;
 	private Font font = new Font("josef", Font.PLAIN, 25);
 	private int AIcount = 90;
 	private int wave = 15;
 	private int waveCount = 0;
-	private int PowerLevel = 0;
+	private int AIStrength = 0;
 	private int TowerBaseHP=1000;
 	private int NumberOfPowerUps = 6;
-	private int[] PowerLevelAr = new int[] {1,2,4,6,3,4};
-	private int AIrnd, PUrnd1, PUrnd2;
+	private int[] StrenghtAr = new int[] {1,2,4,6,3,4};
+	private int AIrnd, PUrnd1, PUrnd2, AIPowerLevel;
 	private boolean AIneeded = true, waveEnd = false, PUpicked = false, ULTpicked = false;
 	
 	public GameModeTower(int sw, int sh) {
@@ -84,6 +78,52 @@ public class GameModeTower extends Game{
 		}
 		BerserkModeIcon = resize(BerserkModeIcon, 30, 30);
 		
+		Shop = new JButton("Shop");
+		Shop.setName("Shop");
+		Shop.setFocusable(false);
+		Shop.setBounds(currentScreenWidth-100, 0, 100, 50);
+		Shop.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				stop();
+				remove(Shop);
+				add(Resume);
+				invalidate();
+				revalidate();
+				DisplayShop();
+			}
+		});
+		Shop.setEnabled(false);
+		add(Shop);
+		
+		TurretUpgrade1 = new JButton("");
+		TurretUpgrade1.setFocusable(false);
+		
+		TurretUpgrade2 = new JButton("");
+		TurretUpgrade2.setFocusable(false);
+		
+		TurretUpgrade3 = new JButton("");
+		TurretUpgrade3.setFocusable(false);
+		
+		Resume = new JButton("Resume");
+		Resume.setName("Resume");
+		Resume.setFocusable(false);
+		Resume.setBounds(currentScreenWidth-100, 0, 100, 50);
+		Resume.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				running = true;
+				remove(Resume);
+				RemoveShop();
+				add(Shop);
+				invalidate();
+				revalidate();
+			}
+		});
+		
 		Power1 = new JButton("");
 		Power1.addMouseListener(this);
 		Power1.setName("Power1");
@@ -100,6 +140,7 @@ public class GameModeTower extends Game{
 				p.setHP(50);
 				running = true;
 				PUpicked = true;
+				Shop.setEnabled(true);
 				
 			}
 		});
@@ -119,7 +160,7 @@ public class GameModeTower extends Game{
 				((MagazineAttachment)p.getAttachments()[p.baseCanon]).upgradeMag(1);
 				running = true;
 				PUpicked = true;
-				
+				Shop.setEnabled(true);
 			}
 		});
 		Power3 = new JButton("");
@@ -146,7 +187,7 @@ public class GameModeTower extends Game{
 				}
 				running = true;
 				PUpicked = true;
-				
+				Shop.setEnabled(true);
 			}
 		});
 		Power4 = new JButton("");
@@ -173,7 +214,7 @@ public class GameModeTower extends Game{
 				}
 				running = true;
 				PUpicked = true;
-				
+				Shop.setEnabled(true);
 			}
 		});
 		
@@ -202,7 +243,7 @@ public class GameModeTower extends Game{
 				}
 				running = true;
 				PUpicked = true;
-				
+				Shop.setEnabled(true);
 			}
 		});
 		Power6 = new JButton("");
@@ -225,14 +266,14 @@ public class GameModeTower extends Game{
 					ShieldStatus.setValue(p.getShieldCooldown());
 					add(ShieldStatus);
 				} 
-				else {
 
+				else {
 					ShieldStatus.setMaximum(p.getShieldCooldown());
 					p.upgradeShield();
 				}
 				running = true;
 				PUpicked = true;
-				
+				Shop.setEnabled(true);
 			}
 		});
 		Power7 = new JButton("");
@@ -261,7 +302,7 @@ public class GameModeTower extends Game{
 				running = true;
 				ULTpicked = true;
 				PUpicked = true;
-				
+				Shop.setEnabled(true);
 			}
 		});
 		Power8 = new JButton("");
@@ -290,9 +331,15 @@ public class GameModeTower extends Game{
 				running = true;
 				ULTpicked = true;
 				PUpicked = true;
-				
+				Shop.setEnabled(true);
 			}
 		});
+		
+		MoneyDisplay = new JLabel("Money: ");
+		MoneyDisplay.setFont(new Font("jesus", font.BOLD, 14));
+		MoneyDisplay.setBounds(currentScreenWidth-100, 30, 150, 50);
+		add(MoneyDisplay);
+		
 		PowerUpDisplay = new JLabel("");
 		PowerUpDisplay.setFont(font);
 		PowerUpDisplay.setHorizontalAlignment(SwingConstants.CENTER);
@@ -317,10 +364,10 @@ public class GameModeTower extends Game{
 		RocketAmmoDisplay.setFont(font);
 		add(RocketAmmoDisplay);
 		
-		GameOver = new JLabel("GAME OVER");
-		GameOver.setForeground(Color.RED);
-		GameOver.setFont(new Font("Karel",Font.BOLD,150));
-		GameOver.setBounds(currentScreenHeight/2-50,currentScreenHeight/2-300,1000,300);
+		GameOverDisplay = new JLabel("GAME OVER");
+		GameOverDisplay.setForeground(Color.RED);
+		GameOverDisplay.setFont(new Font("Karel",Font.BOLD,150));
+		GameOverDisplay.setBounds(currentScreenHeight/2-50,currentScreenHeight/2-300,1000,300);
 		
 		PlayerHPDisplay = new JLabel(""+ p.getHP());
 		PlayerHPDisplay.setBounds(40,0,30,30);
@@ -375,11 +422,12 @@ public class GameModeTower extends Game{
 		TowerHPDisplay.setStringPainted(true);
 		TowerHPDisplay.setValue(TowerBaseHP);
 		add(TowerHPDisplay);
-		
 	}
 	public void tick() {
 		super.tick();
-		tower.updateAllTurrets(getAIS());
+		if(tower.getAttachments() != null) {
+			tower.updateAllTurrets(getAIS());
+		}
 		handleWaves();
 		nextWave();
 		updateDisplay();
@@ -390,16 +438,17 @@ public class GameModeTower extends Game{
 	public void handleWaves() {
 		if(AIneeded && AIcount == 90) {	
 			AIrnd = (int) (Math.random() * ((5+1)));
-			if(PowerLevelAr[AIrnd] + PowerLevel> wave) {	
+			AIPowerLevel = determinePowerLvl();
+			if(StrenghtAr[AIrnd]*AIPowerLevel + AIStrength> wave) {	
 				return;
 			}
-			if(PowerLevel + PowerLevelAr[AIrnd] < wave) {
-				spawnAI(AIrnd);
-				PowerLevel += PowerLevelAr[AIrnd];
+			if(AIStrength*AIPowerLevel + StrenghtAr[AIrnd] < wave) {
+				spawnAI(AIrnd,AIPowerLevel);
+				AIStrength += StrenghtAr[AIrnd]*AIPowerLevel;
 			}
-			if(PowerLevel + PowerLevelAr[AIrnd] == wave && AIneeded|| PowerLevel == wave && AIneeded) {
-				spawnAI(AIrnd);
-				PowerLevel = wave;
+			if(AIStrength*AIPowerLevel + StrenghtAr[AIrnd] == wave && AIneeded|| AIStrength == wave && AIneeded) {
+				spawnAI(AIrnd,AIPowerLevel);
+				AIStrength = wave;
 				AIneeded = false;
 				waveEnd = true;
 			}
@@ -492,7 +541,7 @@ public class GameModeTower extends Game{
 		if(ais.length == 0 && wave != waveCount+1 && waveEnd) {
 			wave++;
 			AIneeded = true;
-			PowerLevel=0;
+			AIStrength=0;
 			AIcount=90;
 			waveEnd = false;
 		}
@@ -501,7 +550,9 @@ public class GameModeTower extends Game{
 		if(tower.getHP()<=0 || p.getHP() <=0) {
 			stop();
 			remove(Warning);
-			add(GameOver);
+			remove(Shop);
+			super.GameOver = true;
+			add(GameOverDisplay);
 			add(Window.MainMenu);
 		}
 	}
@@ -515,11 +566,10 @@ public class GameModeTower extends Game{
 		}
 		if((wave-1)%2==0 && !PUpicked&&wave!=1||(wave-1)%5==0 && !ULTpicked&&wave!=1) {
 
+
 			
 			PUrnd1 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
-			PUrnd1=6;
 			PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
-			PUrnd2 = 6;
 			while(PUrnd1 == PUrnd2) {	
 				PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			}
@@ -527,6 +577,7 @@ public class GameModeTower extends Game{
 				PUrnd1 = 7;
 				PUrnd2 = 8;
 			}
+			Shop.setEnabled(false);
 			choosePowerUps(PUrnd1,125,250); 
 			choosePowerUps(PUrnd2, currentScreenWidth/2+125, 250);
 			}
@@ -585,30 +636,7 @@ public class GameModeTower extends Game{
 		default: 
 		}
 	}
-	public void spawnAI(int PL) {
-		spawnCorner = GameObject.generateCornerOutsideMapInRange(spawnBlockCorner,spawnBlockWidth, spawnBlockHeight, spawnBlockRange);
-		switch(PL){
 
-			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),1); addObToGame(hm, new int[] {4,7,9,10,11}); 
-			break;
-
-			case 1 : sca = SpaceCanon.makeNewSpaceCanon(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),1); addObToGame(sca, new int[] {4,7,9,10,11}); 
-			break;
-
-			case 2 : mp = Mothership.makeNewMothership(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),1); addObToGame(mp, new int[] {4,7,10,11}); 
-			break;
-
-			case 3 : scr = SpaceCruiser.makeNewSpaceCruiser(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),1); addObToGame(scr, new int[] {4,7,9,10,11}); 
-			break;
-			
-			case 4 : ht = Hunter.makeNewHunter(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),1); addObToGame(ht, new int[] {4,7,9,10,11}); 
-			break;
-			
-			case 5 : gr = Grenader.makeNewGrenader(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),1); addObToGame(gr, new int[] {4,7,9,10,11}); 
-			break;
-			default : 
-		}
-	}
 	public void removeButtons() {
 		remove(Power1);
 		remove(Power2);
@@ -619,14 +647,166 @@ public class GameModeTower extends Game{
 		remove(Power7);
 		remove(Power8);
 	}
-	private static BufferedImage resize(BufferedImage img, int width, int height) {
-        Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = resized.createGraphics();
-        g2d.drawImage(tmp, 0, 0, null);
-        g2d.dispose();
-        return resized;
-    }
+	public void DisplayShop(){
+		ActionListener NewTurret = new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tower.addTurret();
+				tower.setTurretOn(true);
+				DisplayShop();
+			}
+		};
+		ActionListener GrenadeLauncherTurret = new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tower.upgradeToGrenadeLauncher();
+				tower.setGrenadeLauncherOn(true);
+				DisplayShop();
+			}
+		};
+		ActionListener SniperTurret = new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tower.upgradeToSniper();
+				tower.setSniperOn(true);
+				DisplayShop();
+			}
+		};
+		ActionListener MachineGunTurret = new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tower.upgradeToMachineGun();
+				tower.setMachineGunOn(true);
+				DisplayShop();
+			}
+		};
+		ActionListener UpgradeDMG = new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tower.UpgradeDMG();
+				DisplayShop();
+			}
+		};
+		ActionListener UpgradeAccuracy = new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tower.UpgradeAccuracy();
+				DisplayShop();
+			}
+		};
+		ActionListener UpgradeChunks = new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tower.UpgradeGrenadeChunks();
+				DisplayShop();
+			}
+		};
+		ActionListener UpgradeMag = new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tower.UpgradeMagazineSize();
+				DisplayShop();
+			}
+		};
+		ActionListener UpgradeReload = new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tower.UpgradeReloadTime();
+				DisplayShop();
+			}
+		};
+		if(!tower.isTurretOn()) {
+			removeActionListeners(TurretUpgrade1);
+			TurretUpgrade1.setText("Buy Turret");
+			TurretUpgrade1.setBounds(currentScreenWidth/2-75, currentScreenHeight/2-75, 150, 150);
+			TurretUpgrade1.addActionListener(NewTurret);
+			add(TurretUpgrade1);
+		
+		}
+		if(tower.isTurretOn()&&!tower.isGrenadeLauncherOn()&&!tower.isSniperOn()&&!tower.isMachineGunOn()) {
+			removeActionListeners(TurretUpgrade1);
+			TurretUpgrade1.setText("Buy GrenadeLauncher");
+			TurretUpgrade1.setBounds(currentScreenWidth/2-225, currentScreenHeight/2-75, 150, 150);
+			TurretUpgrade1.addActionListener(GrenadeLauncherTurret);
+			add(TurretUpgrade1);
+			
+			removeActionListeners(TurretUpgrade2);
+			TurretUpgrade2.setText("Buy MachineGun");
+			TurretUpgrade2.setBounds(currentScreenWidth/2-75, currentScreenHeight/2-75, 150, 150);
+			TurretUpgrade2.addActionListener(MachineGunTurret);
+			add(TurretUpgrade2);
+			
+			removeActionListeners(TurretUpgrade3);
+			TurretUpgrade3.setText("Buy Sniper");
+			TurretUpgrade3.setBounds(currentScreenWidth/2+75, currentScreenHeight/2-75, 150, 150);
+			TurretUpgrade3.addActionListener(SniperTurret);
+			add(TurretUpgrade3);
+			
+		}
+		if(tower.isGrenadeLauncherOn()) {
+			removeActionListeners(TurretUpgrade1);
+			TurretUpgrade1.setText("Upgrade GrenadeChunks");
+			TurretUpgrade1.addActionListener(UpgradeChunks);
+			add(TurretUpgrade1);
+			
+			removeActionListeners(TurretUpgrade2);
+			TurretUpgrade2.setText("Upgrade ReloadTime");
+			TurretUpgrade2.addActionListener(UpgradeReload);
+			add(TurretUpgrade2);
+			
+			removeActionListeners(TurretUpgrade3);
+			TurretUpgrade3.setText("Upgrade DMG");
+			TurretUpgrade3.addActionListener(UpgradeDMG);
+			add(TurretUpgrade3);
+			
+			
+		}
+		if(tower.isSniperOn()) {
+			removeActionListeners(TurretUpgrade1);
+			TurretUpgrade1.setText("Upgrade Accuracy");
+			TurretUpgrade1.addActionListener(UpgradeAccuracy);
+			add(TurretUpgrade1);
+			
+			removeActionListeners(TurretUpgrade2);
+			TurretUpgrade2.setText("Upgrade ReloadTime");
+			TurretUpgrade2.addActionListener(UpgradeReload);
+			add(TurretUpgrade2);
+			
+			removeActionListeners(TurretUpgrade3);
+			TurretUpgrade3.setText("Upgrade DMG");
+			TurretUpgrade3.addActionListener(UpgradeDMG);
+			add(TurretUpgrade3);
+			
+		}
+		if(tower.isMachineGunOn()) {
+			removeActionListeners(TurretUpgrade1);
+			TurretUpgrade1.setText("Upgrade Magazine size");
+			TurretUpgrade1.addActionListener(UpgradeMag);
+			add(TurretUpgrade1);
+			
+			removeActionListeners(TurretUpgrade2);
+			TurretUpgrade2.setText("Upgrade ReloadTime");
+			TurretUpgrade2.addActionListener(UpgradeReload);
+			add(TurretUpgrade2);
+			
+			removeActionListeners(TurretUpgrade3);
+			TurretUpgrade3.setText("Upgrade DMG");
+			TurretUpgrade3.addActionListener(UpgradeDMG);
+			add(TurretUpgrade3);
+		
+		}
+	}
+	public void removeActionListeners(JButton b) {
+		    for( ActionListener al : b.getActionListeners() ) {
+		        b.removeActionListener( al );
+		    }
+	}
+	public void RemoveShop() {
+		remove(TurretUpgrade1);
+		remove(TurretUpgrade2);
+		remove(TurretUpgrade3);
+	}
+	
 	 @Override
 	protected void paintComponent(Graphics g) {
 		// TODO Auto-generated method stub

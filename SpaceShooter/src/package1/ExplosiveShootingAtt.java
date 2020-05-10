@@ -77,6 +77,10 @@ public class ExplosiveShootingAtt extends MagazineAttachment {
 	}
 	
 	public void setGrenadeChunks(int i) {
-		grenadeChunks = i;
+		this.grenadeChunks = i;
+	}
+	
+	public int getGrenadeChunks(){
+		return this.grenadeChunks;
 	}
 }

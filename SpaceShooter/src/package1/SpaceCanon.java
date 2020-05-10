@@ -17,9 +17,9 @@ public class SpaceCanon extends AI{
 
 		try {
 			Canon = ImageIO.read(new File("src/Icons/CanonCanon.png"));
-			Canon = resize(Canon,210, 210);
+			Canon = Game.resize(Canon,210, 210);
 			Body = ImageIO.read(new File("src/Icons/CanonBody.png"));
-			Body = resize(Body,320, 320);
+			Body = Game.resize(Body,320, 320);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

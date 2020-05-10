@@ -10,14 +10,13 @@ import javax.imageio.ImageIO;
 
 
 public class Player extends LivingObject{
-	//Shield
-	boolean shieldIsUnlocked = false;
 	
 	//Zone variables
 	boolean wasDamagedByZone = false;
 	int zoneDamagedTimerLenght = 60;
 	int zoneDamagedTimer = 0;
 	
+	boolean shieldIsUnlocked = false;
 	//pulse variables
 	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
 	boolean pulse = false, pulseIsUnlocked = false;
@@ -66,17 +65,17 @@ public class Player extends LivingObject{
 		baseSpeed = getMaxSpeed();
 		try {
 			MachineGun1 = ImageIO.read(new File("src/Icons/mg.png"));
-			MachineGun1 = resize(MachineGun1,200, 200);
+			MachineGun1 = Game.resize(MachineGun1,200, 200);
 			MachineGun2 = ImageIO.read(new File("src/Icons/mg.png"));
-			MachineGun2 = resize(MachineGun2,200, 200);
+			MachineGun2 = Game.resize(MachineGun2,200, 200);
 			
 			FaceCanon = ImageIO.read(new File("src/Icons/FrontCanon.png"));
-			FaceCanon = resize(FaceCanon,100,100);
+			FaceCanon = Game.resize(FaceCanon,100,100);
 			PlayerCannon = ImageIO.read(new File("src/Icons/PlayerCannon.png"));
-			PlayerCannon = resize(PlayerCannon,14,40);
+			PlayerCannon = Game.resize(PlayerCannon,14,40);
 			PlayerSkin = ImageIO.read(new File("src/Icons/PlayerSkin.png"));
 	//		PlayerSkin = resize(PlayerSkin,360,380);
-			PlayerSkin = resize(PlayerSkin,360,380);
+			PlayerSkin = Game.resize(PlayerSkin,360,380);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -650,9 +649,36 @@ public class Player extends LivingObject{
 	}
 
 
+	
+	//SHIELD
+	
+
+	public boolean isShieldIsUnlocked() {
+		return shieldIsUnlocked;
+	}
+
+
+
+	public void setShieldIsUnlocked(boolean shieldIsUnlocked) {
+		this.shieldIsUnlocked = shieldIsUnlocked;
+	}
+	
+	public int getShieldTimer() {
+		return shieldTimer;
+	}
+
+
+
+	public void setShieldTimer(int shieldTimer) {
+		this.shieldTimer = shieldTimer;
+	}
+
+
+
 	public int getPulseCooldown() {
 		return pulseCooldown;
 	}
+
 
 
 	public void setPulseCooldown(int pulseCooldown) {
@@ -660,9 +686,11 @@ public class Player extends LivingObject{
 	}
 
 
+
 	public int getPulseCooldownTimer() {
 		return pulseCooldownTimer;
 	}
+
 
 
 	public void setPulseCooldownTimer(int pulseCooldownTimer) {
@@ -670,9 +698,11 @@ public class Player extends LivingObject{
 	}
 
 
+
 	public int getBerserkModeCooldown() {
 		return berserkModeCooldown;
 	}
+
 
 
 	public void setBerserkModeCooldown(int berserkModeCooldown) {
@@ -680,17 +710,42 @@ public class Player extends LivingObject{
 	}
 
 
+
 	public int getBerserkModeTimer() {
 		return berserkModeTimer;
 	}
+
 
 
 	public void setBerserkModeTimer(int berserkModeTimer) {
 		this.berserkModeTimer = berserkModeTimer;
 	}
 	
-	//SHIELD
+	public int getExploTimer() {
+		return exploTimer;
+	}
 	
+
+
+	public void setExploTimer(int exploTimer) {
+		this.exploTimer = exploTimer;
+	}
+
+
+
+	public int getExploLenght() {
+		return exploLenght;
+	}
+
+
+
+	public void setExploLenght(int exploLenght) {
+		this.exploLenght = exploLenght;
+	}
+	
+
+
+
 	public int getExploWave() {
 		return exploWave;
 	}
@@ -715,18 +770,16 @@ public class Player extends LivingObject{
 
 
 
-	public boolean isShieldIsUnlocked() {
-		return shieldIsUnlocked;
+
+	public Shield getShield() {
+		return shield;
+	}
+	
+	public int getCurrentShieldHP() {
+		return shield.getHP();
+		
 	}
 
 
+}	
 
-	public void setShieldIsUnlocked(boolean shieldIsUnlocked) {
-		this.shieldIsUnlocked = shieldIsUnlocked;
-	}
-
-
-
-	
-	
-}

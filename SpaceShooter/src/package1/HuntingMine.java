@@ -18,9 +18,9 @@ public class HuntingMine extends AI{
 		
 		try {
 			Att = ImageIO.read(new File("src/Icons/HuntingMineAtt.png"));
-			Att = resize(Att,210, 210);
+			Att = Game.resize(Att,210, 210);
 			Body = ImageIO.read(new File("src/Icons/HuntingMineBody.png"));
-			Body = resize(Body,125, 125);
+			Body = Game.resize(Body,125, 125);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

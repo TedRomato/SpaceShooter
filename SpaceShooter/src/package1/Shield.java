@@ -159,12 +159,17 @@ public class Shield extends GameObject{
 	public LivingObject getParent() {
 		return parent;
 	}
+
+
 	public int getDurationTimer() {
 		return durationTimer;
 	}
 	public void setDurationTimer(int durationTimer) {
 		this.durationTimer = durationTimer;
+
 	}
+	
+	
 
 	public int getDuration() {
 		return duration;

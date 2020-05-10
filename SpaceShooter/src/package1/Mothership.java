@@ -22,7 +22,7 @@ public class Mothership extends Summoner{
 		try {
 
 			Body = ImageIO.read(new File("src/Icons/MothershipBody.png"));
-			Body = resize(Body,180, 180);
+			Body = Game.resize(Body,180, 180);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -92,7 +92,7 @@ public class Mothership extends Summoner{
 	public void render(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		rotateImage(g2, Body, 0,this.getRotationPoint(),80,80);		
+		//Game.rotateImage(g2, Body, 0,this.getRotationPoint(),80,80);		
 		super.render(g);
 	}
 }

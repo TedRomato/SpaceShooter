@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.LayoutManager;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
@@ -13,6 +15,7 @@ import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,12 +29,19 @@ public class Game extends JPanel implements MouseListener{
 
 	static int mainHeight = 1908, mainWidth = 3392;
 	protected Player p;
- 
+	private Hunter ht;
+	private Grenader gr;
+	private HuntingMine hm;
+	private Mothership mp;
+	private SpaceCanon sca;
+	private SpaceCruiser scr;
 	public static JLabel scoreDisplay, Warning;
 	 BufferedImage WarningSign;
 	 BufferedImage bg;
 	protected int score = 0;
-	 boolean ShowScore;
+
+	private boolean ShowScore;
+	private Corner spawnCorner;
 	public static int currentScreenWidth;
 	public static int currentScreenHeight;
 	public static double screenRatio;
@@ -64,6 +74,7 @@ public class Game extends JPanel implements MouseListener{
 	int[] spawnBlockRange = new int[] {600,800};
 	
 	
+	boolean GameOver = false;
 	private boolean wasCalled = false;
 	//public static JPanel gp = new GamePanel();
 	public static boolean running = false;
@@ -383,7 +394,30 @@ public class Game extends JPanel implements MouseListener{
 		}
 	}
 	
+	public void spawnAI(int AI, int PL) {
+		spawnCorner = GameObject.generateCornerOutsideMapInRange(spawnBlockCorner,mainWidth, mainHeight, new int[] {600,1000});
+		switch(AI){
 
+			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(hm, new int[] {4,7,9,10,11}); 
+			break;
+
+			case 1 : sca = SpaceCanon.makeNewSpaceCanon(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(sca, new int[] {4,7,9,10,11}); 
+			break;
+
+			case 2 : mp = Mothership.makeNewMothership(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(mp, new int[] {4,7,10,11}); 
+			break;
+
+			case 3 : scr = SpaceCruiser.makeNewSpaceCruiser(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(scr, new int[] {4,7,9,10,11}); 
+			break;
+			
+			case 4 : ht = Hunter.makeNewHunter(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),PL); addObToGame(ht, new int[] {4,7,9,10,11}); 
+			break;
+			
+			case 5 : gr = Grenader.makeNewGrenader(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),PL); addObToGame(gr, new int[] {4,7,9,10,11}); 
+			break;
+			default : 
+		}
+	}
 	
 	private void updateLivingObsReflect() {
 		if(livingObsReflectUpdate != null) {	 
@@ -679,6 +713,22 @@ public class Game extends JPanel implements MouseListener{
 	public Dimension getPreferredSize() {
 		return new Dimension(1920,1080);
 	}
+	public static void rotateImage(Graphics2D g,BufferedImage img,double ra, Corner rp, int width, int height, int rpX, int rpY) {
+		AffineTransform trans = new AffineTransform();
+		trans.rotate(Math.toRadians(ra),(rp.getX()*Game.camera.toMultiply() + Game.camera.toAddX()),(int)(rp.getY()*Game.camera.toMultiply() + Game.camera.toAddY()));
+		AffineTransform old = g.getTransform();
+		g.transform(trans);
+		g.drawImage(resize(img,(int)(width*Game.screenRatio),(int)(height*Game.screenRatio)),(int)((rp.getX()-rpX)*Game.camera.toMultiply() + Game.camera.toAddX()),(int)((rp.getY()-rpY)*Game.camera.toMultiply() + Game.camera.toAddY()),null);
+		g.setTransform(old);
+	}
+	public static BufferedImage resize(BufferedImage img, int width, int height) {
+        Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = resized.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+        return resized;
+    }
 	@Override
 	protected void paintComponent(Graphics g) {
 		renderDangerZone(g);
@@ -687,7 +737,8 @@ public class Game extends JPanel implements MouseListener{
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 //		g2.drawImage(bg,(int)((-1920*Game.camera.toMultiply()) + Game.camera.toAddX()), (int)((-3000*Game.camera.toMultiply()) + Game.camera.toAddY()),5760,3240,null);
 		renderAll(g2);
-		if(p.checkIfOutsideRect((int)safeZoneCorner.getX(), (int)safeZoneCorner.getY(), safeZoneWidth, safeZoneHeight)) {
+
+		if(p.checkIfOutsideRect((int)safeZoneCorner.getX(), (int)safeZoneCorner.getY(), safeZoneWidth, safeZoneHeight)&&!GameOver) {
 			g2.drawImage(WarningSign,currentScreenWidth/2-260, currentScreenHeight/2-200,100,100, null);
 			g2.drawImage(WarningSign,currentScreenWidth/2+150, currentScreenHeight/2-200,100,100, null);
 		}

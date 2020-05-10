@@ -412,26 +412,7 @@ public class LivingObject extends MovingObject{
 		return maxSpeed;
 	}
 	
-	
-	protected static BufferedImage resize(BufferedImage img, int width, int height) {
-        Image tmp = img.getScaledInstance((int)(width*Game.screenRatio), (int)(height*Game.screenRatio), Image.SCALE_SMOOTH);
-        BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = resized.createGraphics();
-        g2d.drawImage(tmp, 0, 0, null);
-        g2d.dispose();
-        return resized;
-    }
-	
-	
-	public void rotateImage(Graphics2D g,BufferedImage img,double ra, Corner rp, int rpX, int rpY) {
-		AffineTransform trans = new AffineTransform();
-		trans.rotate(Math.toRadians(ra),(rp.getX()*Game.camera.toMultiply() + Game.camera.toAddX()),(int)(rp.getY()*Game.camera.toMultiply() + Game.camera.toAddY()));
-		AffineTransform old = g.getTransform();
-		g.transform(trans);
-		g.drawImage(img,(int)((rp.getX()-rpX)*Game.camera.toMultiply() + Game.camera.toAddX()),(int)((rp.getY()-rpY)*Game.camera.toMultiply() + Game.camera.toAddY()),null);
-		g.setTransform(old);
-	}
-	
+
 	
 	public void render(Graphics g) {
 		super.render(g);
@@ -485,6 +466,7 @@ public class LivingObject extends MovingObject{
 		}
 		
 	}
+
 	
 	public Missile[] makePeriodicExplosion(int distance, Corner rp, int chunks, GameObject[] im, int dmg){
 		Missile[] m = new Missile[chunks];
