@@ -334,8 +334,6 @@ public class Player extends LivingObject{
 	}
 	
 	public void updatePlayer() {
-		if(shield != null) {
-		}
 		handleZoneTimer();
 		fireMG();
 		handleDashCooldown();

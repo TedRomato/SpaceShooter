@@ -61,10 +61,12 @@ public class LivingObject extends MovingObject{
 	
 	
 	public void updateOb() {
+		
+		deleteBrokenShield();
 
 		fixRotatedAngle();
+		
 		updateRotatedAngsForAtts();
-
 		
 		updateStun();
 		
@@ -605,5 +607,13 @@ public class LivingObject extends MovingObject{
 	public int getCurrentShieldHP() {
 		return shield.getHP();
 		
+	}
+	
+	public void deleteBrokenShield() {
+		if(getShield() != null) {
+			if(getShield().getHP() <= 0) {
+				setShield(null);
+			}
+		}
 	}
 } 
