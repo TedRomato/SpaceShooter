@@ -1,22 +1,16 @@
 package package1;
 
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferStrategy;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 public class Window extends JFrame implements KeyListener{
 	private JButton exit, startTower, startClassic, startTest;
@@ -39,6 +33,7 @@ public class Window extends JFrame implements KeyListener{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		addKeyListener(this);
+		
 		
 		game = new Game(screenWidth,screenHeight,false);
 		game.setLayout(null);
@@ -106,7 +101,7 @@ public class Window extends JFrame implements KeyListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				game = new GameModeTesting(screenWidth,screenHeight);
+				game = new GameModeRun(screenWidth,screenHeight, true);
 				getContentPane().removeAll();
 				getContentPane().invalidate();
 				getContentPane().add(game);

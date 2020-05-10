@@ -1,18 +1,18 @@
 package package1;
 
 import java.awt.Graphics;
-import java.util.List;
 
 public class Summoner extends AI{
 	double w8Length = 50;
 	double summonTimer = w8Length;
 	boolean onCooldown = false;
 	Corner[] summoningDestinations;
-	double runningDistance = 550;
 
-	public Summoner(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination) {
-		super(corners, rotationPoint, rotationAngle, md, goalDestination);
+	public Summoner(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, int powerLvl) {
+		super(corners, rotationPoint, rotationAngle, md, goalDestination,powerLvl);
 		// TODO Auto-generated constructor stub
+		strenght = 4;
+
 	}
 	
 	public void updateAI(GameObject[] enemys, GameObject[] gos, AI[] ais) {
@@ -29,13 +29,7 @@ public class Summoner extends AI{
 		}
 	}
 	
-	public void runIfTooClose(GameObject p) {
-		if(p.getRotationPoint().getPointDistance(getRotationPoint()) < 500) {
-			Corner newGD = new Corner(p.getRotationPoint(), p.getRotationPoint());
-			newGD.turnAround('b', getRotationPoint());
-			setGoalDestination(newGD);
-		}
-	}
+	
 	
 	public AI handleSummoner(GameObject[] gameObjects) {
 		updateTimer();
@@ -49,7 +43,7 @@ public class Summoner extends AI{
 	
 	public AI summonAI(GameObject[] enemys) {
 		int whichOne = (int) (Math.floor(Math.random()*4));
-		HuntingMine ai = HuntingMine.makeNewHuntingMine(summoningDestinations[whichOne].getX(), summoningDestinations[whichOne].getY(), enemys);
+		HuntingMine ai = HuntingMine.makeNewHuntingMine(summoningDestinations[whichOne].getX(), summoningDestinations[whichOne].getY(), enemys, getPowerLvl());
 		return ai;
 	}
 	

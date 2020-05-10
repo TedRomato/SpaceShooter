@@ -24,7 +24,7 @@ public class DetectionLine extends GameObject{
 		if(getTriggered()) {
 			g.setColor(Color.red);
 		}
-		g.drawLine((int) Math.round(getCorners()[0].getX()*Game.screenRatio), (int) Math.round(getCorners()[0].getY()*Game.screenRatio), (int) Math.round(getCorners()[1].getX()*Game.screenRatio), (int) Math.round(getCorners()[1].getY()*Game.screenRatio));
+		g.drawLine((int) Math.round(getCorners()[0].getX()*Game.camera.toMultiply() + Game.camera.toAddX()), (int) Math.round(getCorners()[0].getY()*Game.camera.toMultiply() + Game.camera.toAddY()), (int) Math.round(getCorners()[1].getX()*Game.camera.toMultiply() + Game.camera.toAddX()), (int) Math.round(getCorners()[1].getY()*Game.camera.toMultiply() + Game.camera.toAddY()));
 		g.setColor(Color.black);
 	}
 	

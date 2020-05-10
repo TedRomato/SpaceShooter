@@ -1,8 +1,6 @@
 package package1;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.util.List;
 
 public class LongRangeAI extends AI{
 	Corner wayPoint;
@@ -12,8 +10,8 @@ public class LongRangeAI extends AI{
 
 
 	
-	public LongRangeAI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, Corner wP) {
-		super(corners, rotationPoint, rotationAngle, md, goalDestination);
+	public LongRangeAI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, Corner wP, int powerLvl) {
+		super(corners, rotationPoint, rotationAngle, md, goalDestination, powerLvl);
 		this.wayPoint = wP;
 	}
 	

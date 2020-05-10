@@ -15,7 +15,7 @@ public class AutomaticTurret extends MagazineAttachment{
 		}
 	}
 	
-	public static AutomaticTurret test(double x, double y) {
+	public static AutomaticTurret MakeTurret(double x, double y) {
 		Corner c1 = new Corner(new double[] {x + 10, y}, new double[] {x ,y });
 		Corner c2 = new Corner(new double[] {x - 10 ,y }, new double[] {x ,y });
 		Corner c3 = new Corner(new double[] {x - 10,y + 40}, new double[] {x ,y });

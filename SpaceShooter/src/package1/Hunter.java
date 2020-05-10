@@ -1,15 +1,15 @@
 package package1;
 
-import java.util.List;
-
 public class Hunter extends AI{
 
-	public Hunter(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination) {
-		super(corners, rotationPoint, rotationAngle, md, goalDestination);
+	public Hunter(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, int powerLvl) {
+		super(corners, rotationPoint, rotationAngle, md, goalDestination, powerLvl);
 		// TODO Auto-generated constructor stub
+		strenght = 3;
+
 	}
 	
-	public static Hunter  makeNewHunter(double x, double y, GameObject[] gameObjects) {
+	public static Hunter  makeNewHunter(double x, double y, GameObject[] gameObjects, int powerLvl) {
 				//ai
 				Corner leftTop = new Corner(new double[] {x-20,y - 45}, new double[] {x ,y});
 				Corner	peak= new Corner(new double[] {x,y + 70}, new double[] {x ,y});
@@ -47,7 +47,7 @@ public class Hunter extends AI{
 			    DetectionLine ldl2 = new DetectionLine(base4, leftP2, new double[] {x ,y}, 4);
 			    DetectionLine rdl2 = new DetectionLine(base5, rightP2, new double[] {x ,y}, 4);
 			    Corner goalCorner = new Corner(new double[] {1000,600} );
-			    Hunter ai = new Hunter(new Corner[] {rightBot, rightTop, leftTop, leftBot,peak}, new double[] {x,y}, 1.7, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner);
+			    Hunter ai = new Hunter(new Corner[] {rightBot, rightTop, leftTop, leftBot,peak}, new double[] {x,y}, 1.7, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner, powerLvl);
 			    
 			    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
 			    
@@ -58,7 +58,7 @@ public class Hunter extends AI{
 			    Corner mc4 = new Corner(new double[] {x-6,y - 10}, new double[] {x ,y});
 			    Corner wp = new Corner(new double[] {x,y + 20}, new double[] {x ,y});
 			    InteractiveAttachment mc = new InteractiveAttachment(new Corner[] {mc1,mc2,mc3,mc4}, new Corner(new double[] {x,y}), new double[] {x ,y}, 0.0, wp, 800.0, 60.0);
-			    mc.setDmg(2);
+			    mc.setDmg(2+powerLvl/3);
 			    mc.setRotationSegment(new double[] {-20,20});
 			    //sideCanon1
 			    Corner sc11 =new Corner(new double[] {x+25,y + 30}, new double[] {x ,y});
@@ -89,7 +89,7 @@ public class Hunter extends AI{
 			    ai.setMaxSpeed(5.5);
 			    ai.addAttachment(att);
 			    ai.addAttachment(att2);
-			    ai.setHP(4);
+			    ai.setHP(4+powerLvl);
 			    ai.setReflectedSpeed(7);
 			    ai.findAndSetToClosestEnemy(gameObjects);
 			    ai.setPlayerFocus(true);

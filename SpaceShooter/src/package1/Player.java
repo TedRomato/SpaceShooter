@@ -1,16 +1,9 @@
 package package1;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -23,18 +16,23 @@ public class Player extends LivingObject{
 	int zoneDamagedTimerLenght = 60;
 	int zoneDamagedTimer = 0;
 	
+
 	//Shield variables
 	int shieldHP = 5, shieldDuration = 300, shieldCooldown = 600, shieldTimer = shieldCooldown;
 	boolean activateShield = false, shieldIsUnlocked = false, shieldIsUp = false;;
 	Shield shield;
-	
+
+
 	//pulse variables
 	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
 	boolean pulse = false, pulseIsUnlocked = false;
 	int stunLenght = 300;
 	double pulseRange = 900;
 
+ 
+
 	//berserkMode variables
+
 	int  berserkModeCooldown = 1800, berserkModeTimer = berserkModeCooldown, costInLives = 5;
 	int exploWave = 10, exploWaveCounter = 0,  exploTimer = 0,  exploLenght = 20;
 	double berserkSpeed = 12;
@@ -76,17 +74,17 @@ public class Player extends LivingObject{
 		baseSpeed = getMaxSpeed();
 		try {
 			MachineGun1 = ImageIO.read(new File("src/Icons/mg.png"));
-			MachineGun1 = resize(MachineGun1,200, 200);
+			MachineGun1 = Game.resize(MachineGun1,200, 200);
 			MachineGun2 = ImageIO.read(new File("src/Icons/mg.png"));
-			MachineGun2 = resize(MachineGun2,200, 200);
+			MachineGun2 = Game.resize(MachineGun2,200, 200);
 			
 			FaceCanon = ImageIO.read(new File("src/Icons/FrontCanon.png"));
-			FaceCanon = resize(FaceCanon,100,100);
+			FaceCanon = Game.resize(FaceCanon,100,100);
 			PlayerCannon = ImageIO.read(new File("src/Icons/PlayerCannon.png"));
-			PlayerCannon = resize(PlayerCannon,14,40);
+			PlayerCannon = Game.resize(PlayerCannon,14,40);
 			PlayerSkin = ImageIO.read(new File("src/Icons/PlayerSkin.png"));
 	//		PlayerSkin = resize(PlayerSkin,360,380);
-			PlayerSkin = resize(PlayerSkin,360,380);
+			PlayerSkin = Game.resize(PlayerSkin,360,380);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -111,6 +109,7 @@ public class Player extends LivingObject{
 		if(Game.keyChecker.checkIfkeyIsPressed(shieldChar)) {
 			
 			if(shieldTimer >= shieldCooldown && shieldIsUnlocked) {
+				System.out.println("jsem tady");
 				activateShield = true;
 				shieldTimer=0;
 			}
@@ -214,8 +213,9 @@ public class Player extends LivingObject{
 			}
 		}
 	
+	
 	public Shield useShield() {
-		Shield s = Shield.makeShield(this.getRotationPoint(), 150);
+		Shield s = Shield.makeShield(this.getRotationPoint(), shieldRadius);
 		s.setHP(shieldHP);
 		s.setDuration(shieldDuration);
 		s.setUpShield(true, new GameObject[] {}, this);
@@ -223,28 +223,6 @@ public class Player extends LivingObject{
 		shield = s;
 		return s;
 	}
-	
-	public Shield useShield(GameObject[] friendlys) {
-		Shield s = Shield.makeShield(this.getRotationPoint(), 150);
-		s.setHP(shieldHP);
-		s.setDuration(shieldDuration);
-		s.setUpShield(true, friendlys, this);
-		setShieldIsUp(true);
-		return s;
-	}
-	
-	public void handleShieldCooldown() {
-		if(shieldTimer < shieldCooldown && !shieldIsUp) {
-			shieldTimer++;
-		}
-	}
-	
-	public void upgradeShield() {
-		shieldHP ++;
-		shieldDuration += 60;
-		shieldCooldown -= 15;  
-	}
-	
 
 	public void usePulse(GameObject[] obs) {
 
@@ -578,10 +556,11 @@ public class Player extends LivingObject{
 	    p.setReflectedSpeed(6);
 	    p.addAttachment(canon);
 	    p.setReflectedLenght(20);
+
 //		p.addFrontCanon();
 //	    p.addFrontMachineGun();
 //	    p.setDashUnlocked(true);
-//      p.setPulseUnlocked(true);
+//	    p.setPulseUnlocked(true);
 //	    p.setBerserkModeUnlocked(true);
 //	    p.shieldIsUnlocked = true;
 //	    p.addAttachment(straightLine);
@@ -596,8 +575,8 @@ public class Player extends LivingObject{
 
 	public void render(Graphics g) {
 
-//		super.render(g);
-		Graphics2D g2 = (Graphics2D) g;
+		super.render(g);
+/*		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 //player skin 2 
 		rotateImage(g2, PlayerSkin, this.getRotatedAngle(),this.getRotationPoint(),50,50);		
@@ -614,7 +593,7 @@ public class Player extends LivingObject{
 			rotateImage(g2, MachineGun1, this.getAttachments()[machinegun].getAttachmentAngleRotated() + this.getRotatedAngle(),this.getAttachments()[machinegun].getAttachmentRP(),68,20);
 			rotateImage(g2, MachineGun2, this.getAttachments()[machinegun+1].getAttachmentAngleRotated() + this.getRotatedAngle(),this.getAttachments()[machinegun+1].getAttachmentRP(),70,20);
 
-		}
+		}*/
 	}
 
 
@@ -675,13 +654,14 @@ public class Player extends LivingObject{
 	}
 
 
-
 	public void setDashCooldown(int dashCooldown) {
 		this.dashCooldown = dashCooldown;
 	}
 
 
-
+	
+	//SHIELD
+	
 	public boolean isShieldIsUnlocked() {
 		return shieldIsUnlocked;
 	}
@@ -691,44 +671,6 @@ public class Player extends LivingObject{
 	public void setShieldIsUnlocked(boolean shieldIsUnlocked) {
 		this.shieldIsUnlocked = shieldIsUnlocked;
 	}
-
-
-
-	public int getShieldHP() {
-		return shieldHP;
-	}
-
-
-
-	public void setShieldHP(int shieldHP) {
-		this.shieldHP = shieldHP;
-	}
-
-
-
-	public int getShieldDuration() {
-		return shieldDuration;
-	}
-
-
-
-	public void setShieldDuration(int shieldDuration) {
-		this.shieldDuration = shieldDuration;
-	}
-
-
-
-	public int getShieldCooldown() {
-		return shieldCooldown;
-	}
-
-
-
-	public void setShieldCooldown(int shieldCooldown) {
-		this.shieldCooldown = shieldCooldown;
-	}
-
-
 	
 	public int getShieldTimer() {
 		return shieldTimer;
@@ -788,6 +730,54 @@ public class Player extends LivingObject{
 		this.berserkModeTimer = berserkModeTimer;
 	}
 	
+	public int getExploTimer() {
+		return exploTimer;
+	}
+	
+
+
+	public void setExploTimer(int exploTimer) {
+		this.exploTimer = exploTimer;
+	}
+
+
+
+	public int getExploLenght() {
+		return exploLenght;
+	}
+
+
+
+	public void setExploLenght(int exploLenght) {
+		this.exploLenght = exploLenght;
+	}
+	
+
+
+	public int getExploWave() {
+		return exploWave;
+	}
+
+
+
+	public void setExploWave(int exploWave) {
+		this.exploWave = exploWave;
+	}
+
+
+
+	public int getExploWaveCounter() {
+		return exploWaveCounter;
+	}
+
+
+
+	public void setExploWaveCounter(int exploWaveCounter) {
+		this.exploWaveCounter = exploWaveCounter;
+	}
+
+
+
 	public void setShieldIsUp(boolean b) {
 		shieldIsUp = b;
 	}
@@ -807,6 +797,5 @@ public class Player extends LivingObject{
 
 
 
-		
 	
 }

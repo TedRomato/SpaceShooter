@@ -1,8 +1,6 @@
 package package1;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.util.List;
 
 
 //specialni render obrazku pro interactive attachmenty, ktery rotujou s parentem attRangle + parentRangle
@@ -147,7 +145,12 @@ public class InteractiveAttachment extends ObjectAttachment{
 				return addInaccuracy(this.getAimCornerForMovingOb((MovingObject) go));
 			}
 		}		
-		return addInaccuracy(new Corner(go.getRotationPoint(), go.getRotationPoint()));
+		try {
+			return addInaccuracy(new Corner(go.getRotationPoint(), go.getRotationPoint()));
+		}catch(NullPointerException ex) {
+			return new Corner(new double[] {0,0});
+
+		}
 	}
 	//TODO Improve missle speed (take it as argument)
 	public Corner getAimCornerForMovingOb(MovingObject moo) {
@@ -169,8 +172,12 @@ public class InteractiveAttachment extends ObjectAttachment{
 		double c = Math.pow(distance / missileSpeed, 2);
 		
 		double[] roots = countQuadraticFunction(a,b,c);
-		
-		Corner corner = Corner.makeCornerUsinAngle(roots[0]*moo.getCurrentSpeed(), moo.getMoveDirection().getAngle(moo.getRotationPoint()), moo.getRotationPoint());
+		Corner corner;
+		try {
+			corner = Corner.makeCornerUsinAngle(roots[0]*moo.getCurrentSpeed(), moo.getMoveDirection().getAngle(moo.getRotationPoint()), moo.getRotationPoint());
+		}catch(NullPointerException ex){
+			corner = new Corner(moo.getRotationPoint(), moo.getRotationPoint());
+		}
 		return corner;
 	}
 	

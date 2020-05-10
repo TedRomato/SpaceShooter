@@ -1,12 +1,9 @@
 package package1;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -14,13 +11,15 @@ public class SpaceCanon extends AI{
 	BufferedImage Canon, Body;
 
 	
-	public SpaceCanon(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
-		super(corners,rotationPoint,rotationAngle,md,goalDestination);
+	public SpaceCanon(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination, int powerLvl) {
+		super(corners,rotationPoint,rotationAngle,md,goalDestination, powerLvl);
+		strenght = 2;
+
 		try {
 			Canon = ImageIO.read(new File("src/Icons/CanonCanon.png"));
-			Canon = resize(Canon,210, 210);
+			Canon = Game.resize(Canon,210, 210);
 			Body = ImageIO.read(new File("src/Icons/CanonBody.png"));
-			Body = resize(Body,320, 320);
+			Body = Game.resize(Body,320, 320);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -29,7 +28,7 @@ public class SpaceCanon extends AI{
 	}
 	
 	
-	public static SpaceCanon makeNewSpaceCanon(double x, double y, GameObject[] gameObjects) {
+	public static SpaceCanon makeNewSpaceCanon(double x, double y, GameObject[] gameObjects, int powerLvl) {
 		//ai
 		Corner[] corners = GameObject.generatePeriodicObject(30, 8, new Corner(new double[] {x,y})).getCorners();
 	    
@@ -47,8 +46,8 @@ public class SpaceCanon extends AI{
 	    att.setRotateWithParentOb(false);
 	    att.setAttRangle(2);
 	    att.setReloadLenght(120);
-	    att.setDmg(2);
-	    att.setInaccuracy(100);
+	    att.setDmg(2+powerLvl/3);
+	    att.setInaccuracy(100-powerLvl*5);
 	    //Hmatove vousky
 	    Corner base1 = new Corner(new double[] {x,y + 40}, new double[] {x ,y});
 	    Corner base2 = new Corner(new double[] {x-25,y+30}, new double[] {x ,y});
@@ -67,11 +66,11 @@ public class SpaceCanon extends AI{
 	    DetectionLine ldl2 = new DetectionLine(base4, leftP2, new double[] {x ,y}, 4);
 	    DetectionLine rdl2 = new DetectionLine(base5, rightP2, new double[] {x ,y}, 4);
 	    Corner goalCorner = new Corner(new double[] {1000,600} );
-	    SpaceCanon ai = new SpaceCanon(corners, new double[] {x,y}, 5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner);
+	    SpaceCanon ai = new SpaceCanon(corners, new double[] {x,y}, 5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner,powerLvl);
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
 	    ai.setMaxSpeed(3.5);
 	    ai.addAttachment(att);
-	    ai.setHP(5);
+	    ai.setHP(5+powerLvl);
 	    ai.setAcceleration(0.1);
 	    ai.setReflectedSpeed(6);
 	    ai.setStoppingDistance(900);
@@ -106,12 +105,12 @@ public class SpaceCanon extends AI{
 	}
 	
 	public void render(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
+/*		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		rotateImage(g2, Body, 0,this.getRotationPoint(),160,143);		
+		rotateImage(g2, Body, 0,this.getRotationPoint(),159,143);		
 	
-		rotateImage(g2, Canon, ((InteractiveAttachment) getAttachments()[0]).getAttachmentAngleRotated(),((InteractiveAttachment) getAttachments()[0]).getRotationPoint(),108,72);		
-	//	super.render(g);
+		rotateImage(g2, Canon, ((InteractiveAttachment) getAttachments()[0]).getAttachmentAngleRotated(),((InteractiveAttachment) getAttachments()[0]).getRotationPoint(),109,70);		
+*/		super.render(g);
 
 	}
 }

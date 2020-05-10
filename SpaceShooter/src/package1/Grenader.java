@@ -1,11 +1,11 @@
 package package1;
 
-import java.util.List;
-
 public class Grenader extends LongRangeAI{
-	public Grenader(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, Corner wayPoint) {
-		super(corners, rotationPoint, rotationAngle, md, goalDestination, wayPoint);
+	public Grenader(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, Corner wayPoint, int powerLvl) {
+		super(corners, rotationPoint, rotationAngle, md, goalDestination, wayPoint,powerLvl);
 		// TODO Auto-generated constructor stub
+		strenght = 6;
+
 	}
 	
 	public void updateInSD(GameObject[] enemys, GameObject[] gos, AI[] ais) {
@@ -19,7 +19,7 @@ public class Grenader extends LongRangeAI{
 		}
 	}
 	
-	public static Grenader makeNewGrenader(double x, double y, GameObject[] enemys) {
+	public static Grenader makeNewGrenader(double x, double y, GameObject[] enemys, int powerLvl) {
 		Grenader ai;
 		ExplosiveShootingAtt canon;
 		//H1
@@ -79,21 +79,21 @@ public class Grenader extends LongRangeAI{
 	    canon = new ExplosiveShootingAtt(corners, new Corner(new double[] {x ,y}),new double[] {x ,y}, 5, new Corner(new double[] {x, y + 50},new double[] {x, y}),1200,200);
 	    canon.setRotationSegment(new double[] {-60,60});
 	    canon.setFireGrenade(true);
-	    canon.setInaccuracy(200);
+	    canon.setInaccuracy(200-powerLvl*15);
 	    canon.setMagazineParameters(4, 240);
 	    canon.setReloadLenght(100);
-	    canon.setDmg(2);
+	    canon.setDmg(2+powerLvl/3);
 
 	    
-		ai = new Grenader(body, new double[] {x,y}, 2, md, gd, wp);
+		ai = new Grenader(body, new double[] {x,y}, 2, md, gd, wp,powerLvl);
 	    ai.addAttachment(canon);
 		ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
-	    ai.setMaxSpeed(4.2);
+	    ai.setMaxSpeed(4.2+powerLvl/3);
 	    ai.setReflectedSpeed(6);
 	    ai.setStoppingDistance(800);
 	    ai.addAttachment(k1);
 	    ai.addAttachment(k2);
-	    ai.setHP(8);
+	    ai.setHP(8+powerLvl);
 	    ai.findAndSetToClosestEnemy(enemys);
 	    ai.setGoingDistance(600);	   
 	    return ai;

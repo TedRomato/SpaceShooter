@@ -1,13 +1,13 @@
 package package1;
 
-import java.util.List;
-
 public class SpaceCruiser extends LongRangeAI{
 
 	public SpaceCruiser(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,
-			Corner goalDestination, Corner wayPoint) {
-		super(corners, rotationPoint, rotationAngle, md, goalDestination, wayPoint);
+			Corner goalDestination, Corner wayPoint, int powerLvl) {
+		super(corners, rotationPoint, rotationAngle, md, goalDestination, wayPoint, powerLvl);
 		// TODO Auto-generated constructor stub
+		strenght = 5;
+
 	}
 	
 	public void updateInSD(GameObject[] enemys, GameObject[] gos, AI[] ais) {
@@ -52,7 +52,7 @@ public class SpaceCruiser extends LongRangeAI{
 		}
 	}
 	
-	public static SpaceCruiser makeNewSpaceCruiser(double x, double y, GameObject[] gameObjects) {
+	public static SpaceCruiser makeNewSpaceCruiser(double x, double y, GameObject[] gameObjects, int powerLvl) {
 		SpaceCruiser ai;
 		//H1
 		Corner h11 = new Corner(new double[] {x + -50, y + -10}, new double[] {x,y});
@@ -117,7 +117,7 @@ public class SpaceCruiser extends LongRangeAI{
 	    Corner c6 = new Corner(new double[] {x-5, y+2},new double[] {x ,y});
 	    Corner[] corners = new Corner[] {c1,c2,c3,c4,c5,c6}; 
 	    mc = new InteractiveAttachment(corners, new Corner(new double[] {x ,y}),new double[] {x ,y}, 5, new Corner(new double[] {x, y + 50},new double[] {x, y}),1000,70);
-	    mc.setDmg(4);
+	    mc.setDmg(4+powerLvl*2);
 	    mc.setReloadLenght(90);
 	    mc.setRotationSegment(new double[] {-60,60});
 	    //Side canons 
@@ -153,19 +153,19 @@ public class SpaceCruiser extends LongRangeAI{
 //	    double[] segment1 = new double[] {-40,200};
 //	    double[] segment2 = new double[] {-200,40};
 //	    canon2.setRotationSegment(segment2);
-	    canon1.setMagazineParameters(10,90);
-	    canon2.setMagazineParameters(10,90);
+	    canon1.setMagazineParameters(10+powerLvl*2,90);
+	    canon2.setMagazineParameters(10+powerLvl*2,90);
 
 	    
-		ai = new SpaceCruiser(body, new double[] {x,y}, 2.5, md, gd, wp);
+		ai = new SpaceCruiser(body, new double[] {x,y}, 2.5, md, gd, wp, powerLvl);
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
-	    ai.setMaxSpeed(3.3);
+	    ai.setMaxSpeed(3.3+powerLvl/3);
 	    ai.setReflectedSpeed(6);
 	    ai.setStoppingDistance(650);
 	    ai.addAttachment(mc);
 	    ai.addAttachment(canon1);
 	    ai.addAttachment(canon2);
-	    ai.setHP(20);
+	    ai.setHP(20+powerLvl*2);
 	    ai.findAndSetToClosestEnemy(gameObjects);
 	    ai.setGoingDistance(400);
 

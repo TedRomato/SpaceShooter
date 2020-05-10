@@ -5,6 +5,7 @@ public class ExplosiveShootingAtt extends MagazineAttachment {
 	boolean fireGrenade=false;;
 	boolean fireSideShooter=false;
 	boolean fireRotatingCharge=false;
+	int grenadeChunks = 16;
 
 	public ExplosiveShootingAtt(Corner[] corners, Corner rp, double[] attachmentRP, double rotationAngle,
 			Corner wayPoint, double lenght, double width) {
@@ -17,6 +18,7 @@ public class ExplosiveShootingAtt extends MagazineAttachment {
 			Grenade nade = Grenade.makeNewGrenade(getSP().getX(), getSP().getY(), getSD());
 			nade.addShotImunes(imunes);
 			nade.setDMG(dmg);
+			nade.setChunks(grenadeChunks);
 			return nade;
 		}
 		if(fireSideShooter) {
@@ -74,4 +76,10 @@ public class ExplosiveShootingAtt extends MagazineAttachment {
 		this.fireRotatingCharge = fireRotatingCharge;
 	}
 	
+	public void setGrenadeChunks(int i) {
+		this.grenadeChunks = i;
+	}
+	public int getGrenadeChunks(){
+		return this.grenadeChunks;
+	}
 }

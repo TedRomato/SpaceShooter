@@ -1,12 +1,9 @@
 package package1;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -14,14 +11,16 @@ public class HuntingMine extends AI{
 	
 	BufferedImage Att, Body;
 	
-	public HuntingMine(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination) {
-		super(corners,rotationPoint,rotationAngle,md,goalDestination);
+	public HuntingMine(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination, int powerLvl) {
+		super(corners,rotationPoint,rotationAngle,md,goalDestination, powerLvl);
+		strenght = 1;
+
 		
 		try {
 			Att = ImageIO.read(new File("src/Icons/HuntingMineAtt.png"));
-			Att = resize(Att,210, 210);
+			Att = Game.resize(Att,210, 210);
 			Body = ImageIO.read(new File("src/Icons/HuntingMineBody.png"));
-			Body = resize(Body,125, 125);
+			Body = Game.resize(Body,125, 125);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -29,7 +28,7 @@ public class HuntingMine extends AI{
 		}
 	}
 	
-	public static HuntingMine makeNewHuntingMine(double x, double y, GameObject[] gameObjects) {
+	public static HuntingMine makeNewHuntingMine(double x, double y, GameObject[] gameObjects, int powerLvl) {
 		//ai
 		Corner peakAI = new Corner(new double[] {x,y - 22}, new double[] {x ,y});
 		Corner botAI = new Corner(new double[] {x,y + 22}, new double[] {x ,y});
@@ -61,9 +60,9 @@ public class HuntingMine extends AI{
 	    DetectionLine ldl2 = new DetectionLine(base4, leftP2, new double[] {x ,y}, 4);
 	    DetectionLine rdl2 = new DetectionLine(base5, rightP2, new double[] {x ,y}, 4);
 	    Corner goalCorner = new Corner(new double[] {1000,600} );
-		HuntingMine ai = new HuntingMine(new Corner[] {peakAI, rightCornerAI,botAI, leftCornerAI}, new double[] {x,y}, 4, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner);
+		HuntingMine ai = new HuntingMine(new Corner[] {peakAI, rightCornerAI,botAI, leftCornerAI}, new double[] {x,y}, 4, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner, powerLvl);
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
-	    ai.setMaxSpeed(8);
+	    ai.setMaxSpeed(5+powerLvl);
 	    ai.addAttachment(att);
 	    ai.setHP(1);
 	    ai.findAndSetToClosestEnemy(gameObjects);
@@ -82,11 +81,11 @@ public class HuntingMine extends AI{
 	}
 	
 	public void render(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
+	/*	Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		rotateImage(g2, Body, 0,this.getRotationPoint(),58,55);		
-		rotateImage(g2, Att,  getAttachments()[0].getAttachmentAngleRotated(), getAttachments()[0].getRotationPoint(),90,80);		
-	//	super.render(g);
+		rotateImage(g2, Att,  getAttachments()[0].getAttachmentAngleRotated(), getAttachments()[0].getRotationPoint(),90,80);		*/
+		super.render(g);
 	}
 	
 	
