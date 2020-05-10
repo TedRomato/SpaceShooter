@@ -117,20 +117,18 @@ public class GameObject {
 	//generates corner is range from random side;	
 	//inRange = minimum distance of rp - maximum distance of rp (from side)
 	//sides = bot - y,right - x,top - y,left - x 
-	public static Corner generateCornerOutsideMapInRange(int width, int height, int[] range) {
-		Corner c = null;
+	public static Corner generateCornerOutsideMapInRange(Corner c,int width, int height, int[] range) {
 		int side = pickRandomSide();
-		double x;
-		double y;
+
 		switch(side) {
 		case 0:
-			return generateCornerInRect(0 - range[1],height + range[0], 2*range[1] + width, range[1] - range[0]);			
+			return generateCornerInRect(c.getX() - range[1],c.getY() + height + range[0], 2*range[1] + width, range[1] - range[0]);			
 		case 1:
-			return generateCornerInRect(width + range[0], 0 - range[1],range[1] - range[0],height + 2*range[1]);	
+			return generateCornerInRect(c.getX() + width + range[0], c.getY() - range[1],range[1] - range[0],height + 2*range[1]);	
 		case 2:	
-			return generateCornerInRect(0 - range[1], 0 - range[1], 2*range[1] + width, range[1] - range[0]);			
+			return generateCornerInRect(c.getX() - range[1], c.getY() - range[1], 2*range[1] + width, range[1] - range[0]);			
 		case 3:
-			return generateCornerInRect(0 - range[1], 0 - range[1],range[1] - range[0],height + 2*range[1]);			
+			return generateCornerInRect(c.getX() - range[1], c.getY() - range[1],range[1] - range[0],height + 2*range[1]);			
 			
 		}
 		System.out.println("Side : " + side);
@@ -364,8 +362,19 @@ public class GameObject {
 			
 		}
 		corners = gettingNewCornerHandle(go.getCorners()[0],go.getCorners()[go.getCorners().length-1],getCorners()[0],getCorners()[getCorners().length-1], corners);
-	
-		
+
+		if(corners.length == 0 && go instanceof LivingObject) {
+			if(((LivingObject) go).getAttachments() != null) {
+				for(ObjectAttachment att : ((LivingObject) go).getAttachments()) {
+					corners = att.getCrossedLineCorners(this);
+					if(corners.length != 0) {
+						return corners;
+					}
+					
+				}
+			}
+			
+		}
 		return corners;
 	}
 	
@@ -466,6 +475,14 @@ public class GameObject {
 		for(Corner corner : corners) {
 			corner.moveCorner(getVelX(),getVelY());
 		}
+		collisionSquare.moveSquare(velX, velY);
+	}
+	
+	public void moveOb(int velX, int velY) {
+		for(Corner corner : corners) {
+			corner.moveCorner(velX,velY);
+		}
+		getRotationPoint().moveCorner(velX,velY);
 		collisionSquare.moveSquare(velX, velY);
 	}
 	

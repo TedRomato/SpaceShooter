@@ -201,8 +201,13 @@ public class MovingObject extends GameObject{
 		super.moveOb();
 
 		moveDirection.moveCorner(getVelX(),getVelY());
-
+	}
 	
+	public void moveOb(int velX, int velY) {
+		super.moveOb(velX, velY);
+
+		moveDirection.moveCorner(velX,velY);
+
 	}
 	
 	

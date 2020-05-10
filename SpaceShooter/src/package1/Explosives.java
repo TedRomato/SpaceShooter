@@ -41,10 +41,14 @@ public class Explosives extends LivingObject{
 			return false;
 		}
 		boolean b = super.checkCollision(go);
-		if(go instanceof LivingObject && explodesOnImpact && b) {
+		if(go instanceof Meteor && explodesOnImpact && b) {
+			setHP(0);
+			return true;
+		}else if(go instanceof LivingObject && explodesOnImpact && b) {
 			setHP(0);
 			return true;
 		}else if(go instanceof Shield && explodesOnImpact && b) {
+			setHP(0);
 			return true;
 		}else if(b){
 			return true;

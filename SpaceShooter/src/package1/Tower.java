@@ -7,6 +7,7 @@ public class Tower extends LivingObject{
 		// TODO Auto-generated constructor stub
 	}
 	
+
 	public static Tower makeNewTower(double x, double y){
 		Tower tower = new Tower(GameObject.generatePeriodicObject(120, 8, new Corner(new double[] {x,y})).getCorners(), new Corner(new double[] {x,y}),0.0, new Corner(new double[] {x,y}));
 		tower.addAttachment(AutomaticTurret.test(x, y));
@@ -22,6 +23,8 @@ public class Tower extends LivingObject{
 			}
 		}
 	}
+	
+	
 
 	
 }

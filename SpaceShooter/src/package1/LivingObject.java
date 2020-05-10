@@ -173,13 +173,17 @@ public class LivingObject extends MovingObject{
 				att.moveAttachment(getVelX(), getVelY());
 			}
 		}
-		
 		movePoint.moveCorner(getVelX(),getVelY());
+	}
+	public void moveOb(int velX, int velY) {
+		super.moveOb(velX, velY);
 		
-
-
-
-	
+		if(attachments != null) {
+			for(ObjectAttachment att : attachments) {
+				att.moveAttachment(velX,velY);
+			}
+		}
+		movePoint.moveCorner(velX,velY);
 	}
 	
 	public  void rotateAttachments() {
