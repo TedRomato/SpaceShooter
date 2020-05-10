@@ -155,17 +155,15 @@ public class Shield extends GameObject{
 		super.render(g);
 	//	getCollisionSquare().render(g);
 	}
-<<<<<<< HEAD
 	
 	public LivingObject getParent() {
 		return parent;
-=======
+	}
 	public int getDurationTimer() {
 		return durationTimer;
 	}
 	public void setDurationTimer(int durationTimer) {
 		this.durationTimer = durationTimer;
->>>>>>> refs/remotes/origin/Luky-Branch
 	}
 
 	public int getDuration() {

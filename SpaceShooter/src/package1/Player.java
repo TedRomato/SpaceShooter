@@ -18,24 +18,13 @@ public class Player extends LivingObject{
 	int zoneDamagedTimerLenght = 60;
 	int zoneDamagedTimer = 0;
 	
-<<<<<<< HEAD
-=======
-	//Shield variables
-	int shieldHP = 5, shieldDuration = 300, shieldCooldown = 600, shieldTimer = shieldCooldown;
-	boolean activateShield = false, shieldIsUnlocked = false, shieldIsUp = false;;
-	Shield shield;
-
->>>>>>> refs/remotes/origin/Luky-Branch
 	//pulse variables
 	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
 	boolean pulse = false, pulseIsUnlocked = false;
 	int stunLenght = 300;
 	double pulseRange = 900;
 
- 
-
 	//berserkMode variables
-
 	int  berserkModeCooldown = 1800, berserkModeTimer = berserkModeCooldown, costInLives = 5;
 	int exploWave = 10, exploWaveCounter = 0,  exploTimer = 0,  exploLenght = 20;
 	double berserkSpeed = 12;
@@ -345,6 +334,7 @@ public class Player extends LivingObject{
 	}
 	
 	public void updatePlayer() {
+		System.out.println();
 		handleZoneTimer();
 		fireMG();
 		handleDashCooldown();
@@ -701,100 +691,6 @@ public class Player extends LivingObject{
 	
 	//SHIELD
 	
-	public boolean isShieldIsUnlocked() {
-		return shieldIsUnlocked;
-	}
-
-
-
-	public void setShieldIsUnlocked(boolean shieldIsUnlocked) {
-		this.shieldIsUnlocked = shieldIsUnlocked;
-	}
-	
-<<<<<<< HEAD
-=======
-	public int getShieldTimer() {
-		return shieldTimer;
-	}
-
-
-
-	public void setShieldTimer(int shieldTimer) {
-		this.shieldTimer = shieldTimer;
-	}
-
-
-
-	public int getPulseCooldown() {
-		return pulseCooldown;
-	}
-
-
-
-	public void setPulseCooldown(int pulseCooldown) {
-		this.pulseCooldown = pulseCooldown;
-	}
-
-
-
-	public int getPulseCooldownTimer() {
-		return pulseCooldownTimer;
-	}
-
-
-
-	public void setPulseCooldownTimer(int pulseCooldownTimer) {
-		this.pulseCooldownTimer = pulseCooldownTimer;
-	}
-
-
-
-	public int getBerserkModeCooldown() {
-		return berserkModeCooldown;
-	}
-
-
-
-	public void setBerserkModeCooldown(int berserkModeCooldown) {
-		this.berserkModeCooldown = berserkModeCooldown;
-	}
-
-
-
-	public int getBerserkModeTimer() {
-		return berserkModeTimer;
-	}
-
-
-
-	public void setBerserkModeTimer(int berserkModeTimer) {
-		this.berserkModeTimer = berserkModeTimer;
-	}
-	
-	public int getExploTimer() {
-		return exploTimer;
-	}
-	
-
-
-	public void setExploTimer(int exploTimer) {
-		this.exploTimer = exploTimer;
-	}
-
-
-
-	public int getExploLenght() {
-		return exploLenght;
-	}
-
-
-
-	public void setExploLenght(int exploLenght) {
-		this.exploLenght = exploLenght;
-	}
-	
-
-
 	public int getExploWave() {
 		return exploWave;
 	}
@@ -819,26 +715,18 @@ public class Player extends LivingObject{
 
 
 
-	public void setShieldIsUp(boolean b) {
-		shieldIsUp = b;
+	public boolean isShieldIsUnlocked() {
+		return shieldIsUnlocked;
 	}
 
-	public void setShield(Shield s) {
-		shield = s;
+
+
+	public void setShieldIsUnlocked(boolean shieldIsUnlocked) {
+		this.shieldIsUnlocked = shieldIsUnlocked;
 	}
+
+
+
 	
-	public Shield getShield() {
-		return shield;
-	}
-	
-	public int getCurrentShieldHP() {
-		return shield.getHP();
-		
-	}
-
-
-
-		
->>>>>>> refs/remotes/origin/Luky-Branch
 	
 }
