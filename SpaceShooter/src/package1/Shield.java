@@ -155,17 +155,21 @@ public class Shield extends GameObject{
 		super.render(g);
 	//	getCollisionSquare().render(g);
 	}
+	
+	public LivingObject getParent() {
+		return parent;
+	}
+
 
 	public int getDurationTimer() {
 		return durationTimer;
 	}
 	public void setDurationTimer(int durationTimer) {
 		this.durationTimer = durationTimer;
+
 	}
 	
-	public LivingObject getParent() {
-		return parent;
-	}
+	
 
 	public int getDuration() {
 		return duration;

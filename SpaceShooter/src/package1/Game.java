@@ -36,36 +36,44 @@ public class Game extends JPanel implements MouseListener{
 	private SpaceCanon sca;
 	private SpaceCruiser scr;
 	public static JLabel scoreDisplay, Warning;
-	private BufferedImage WarningSign;
-	private BufferedImage bg;
+	 BufferedImage WarningSign;
+	 BufferedImage bg;
 	protected int score = 0;
+
 	private boolean ShowScore;
 	private Corner spawnCorner;
 	public static int currentScreenWidth;
 	public static int currentScreenHeight;
 	public static double screenRatio;
-	private RandomMeteorGenerator randomMeteorGenerator = new RandomMeteorGenerator();
+	 RandomMeteorGenerator randomMeteorGenerator = new RandomMeteorGenerator();
 	public static KeyChecker keyChecker = new KeyChecker();
 	public static Camera camera;
-	private GameObject[] borders;
-	private GameObject[] objects;
-	private MovingObject[] reflectableObs;
-	private GameObject[] reflectingObs;
-	private LivingObject[] livingObsReflectUpdate;
-	private LivingObject[] shootingObs; 
-	private MovingObject[] borderSensitive;
+	 GameObject[] borders;
+	protected GameObject[] objects;
+	 MovingObject[] reflectableObs;
+	 GameObject[] reflectingObs;
+	 LivingObject[] livingObsReflectUpdate;
+	 LivingObject[] shootingObs; 
+	 MovingObject[] borderSensitive;
 	protected AI[] ais;
-	private GameObject[][] arrayList;
-	private GameObject[] aiVisible;
-	private GameObject[] aiEnemys;
-	private boolean WasCalled = false;
-	private Meteor[] meteors;
-	private Summoner[] summoners;
-	private Explosives[] explosives;
+	protected GameObject[][] arrayList;
+	 GameObject[] aiVisible;
+	 GameObject[] aiEnemys;
+	 boolean WasCalled = false;
+	 Meteor[] meteors;
+	 Summoner[] summoners;
+	 Explosives[] explosives;
 	boolean softBorders = false;
-	Corner bordersTLCorner = new Corner(new double[] {0,0});
+	Corner safeZoneCorner = new Corner(new double[] {0,0});
 	int safeZoneWidth = mainWidth;
 	int safeZoneHeight = mainHeight;
+	int removeSquareBlock = 1500;
+	int removeSquareCornerX = 0-removeSquareBlock, removeSquareCornerY = 0-removeSquareBlock, removeSquareWidth = safeZoneWidth + (removeSquareBlock * 2), removeSquareHeight = safeZoneHeight + (removeSquareBlock * 2);
+	int  spawnBlockHeight = safeZoneHeight, spawnBlockWidth = safeZoneWidth;
+	Corner spawnBlockCorner = new Corner(new double[] {0,0});;
+	int[] spawnBlockRange = new int[] {600,800};
+	
+	
 	boolean GameOver = false;
 	private boolean wasCalled = false;
 	//public static JPanel gp = new GamePanel();
@@ -192,7 +200,6 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void tick() {
-	//	respawnMeteorsToAmount(5);
 		updatePlayer();
 		handleShooting();	
 		checkAndHandleCollision();
@@ -283,7 +290,7 @@ public class Game extends JPanel implements MouseListener{
 	}
 	 
 	public void updateDisplay() {
-		if(p.checkIfOutsideRect((int)bordersTLCorner.getX(), (int)bordersTLCorner.getY(), safeZoneWidth, safeZoneHeight)) {
+		if(p.checkIfOutsideRect((int)safeZoneCorner.getX(), (int)safeZoneCorner.getY(), safeZoneWidth, safeZoneHeight)) {
 			Warning.setText("WARNING!");
 			add(Warning);
 		}
@@ -293,19 +300,19 @@ public class Game extends JPanel implements MouseListener{
 	}
 	protected void handlePlayerOutsideSafeZone() {
 		if(p.wasDamagedByZone == false) {
-			if(p.getRotationPoint().getY() < bordersTLCorner.getY()) {
-				p.setHP(p.getHP() - getHPToSubtract(getDifference(p.getRotationPoint().getY(), bordersTLCorner.getY())));
+			if(p.getRotationPoint().getY() < safeZoneCorner.getY()) {
+				p.setHP(p.getHP() - getHPToSubtract(getDifference(p.getRotationPoint().getY(), safeZoneCorner.getY())));
 				p.wasDamagedByZone = true;
-			}else if(p.getRotationPoint().getY() > bordersTLCorner.getY() + safeZoneHeight) {
-				p.setHP(p.getHP() - getHPToSubtract(getDifference(p.getRotationPoint().getY(),bordersTLCorner.getY() + safeZoneHeight)));
+			}else if(p.getRotationPoint().getY() > safeZoneCorner.getY() + safeZoneHeight) {
+				p.setHP(p.getHP() - getHPToSubtract(getDifference(p.getRotationPoint().getY(),safeZoneCorner.getY() + safeZoneHeight)));
 				p.wasDamagedByZone = true;
 			}
-			if(p.getRotationPoint().getX() <  bordersTLCorner.getX()) {
-				p.setHP(p.getHP() - getHPToSubtract(getDifference(p.getRotationPoint().getX(), bordersTLCorner.getX())));
+			if(p.getRotationPoint().getX() <  safeZoneCorner.getX()) {
+				p.setHP(p.getHP() - getHPToSubtract(getDifference(p.getRotationPoint().getX(), safeZoneCorner.getX())));
 				p.wasDamagedByZone = true;
 
-			}else if(p.getRotationPoint().getX() > bordersTLCorner.getX() + safeZoneWidth) {
-				p.setHP(p.getHP() - getHPToSubtract(getDifference(p.getRotationPoint().getX(),bordersTLCorner.getX() + safeZoneWidth)));
+			}else if(p.getRotationPoint().getX() > safeZoneCorner.getX() + safeZoneWidth) {
+				p.setHP(p.getHP() - getHPToSubtract(getDifference(p.getRotationPoint().getX(),safeZoneCorner.getX() + safeZoneWidth)));
 				p.wasDamagedByZone = true;
 
 			}
@@ -381,14 +388,14 @@ public class Game extends JPanel implements MouseListener{
 
 	protected void removeObsOut() {
 		for(GameObject ob : objects) {
-			if(ob.checkIfOutsideRect((int)bordersTLCorner.getX()-3000,(int)bordersTLCorner.getY() -3000,safeZoneWidth + 6000, safeZoneHeight + 6000)) {
+			if(ob.checkIfOutsideRect(removeSquareCornerX, removeSquareCornerY,removeSquareWidth, removeSquareHeight)) {
 				removeObFromGame(ob);
 			}
 		}
 	}
 	
 	public void spawnAI(int AI, int PL) {
-		spawnCorner = GameObject.generateCornerOutsideMapInRange(mainWidth, mainHeight, new int[] {600,1000});
+		spawnCorner = GameObject.generateCornerOutsideMapInRange(spawnBlockCorner,mainWidth, mainHeight, new int[] {600,1000});
 		switch(AI){
 
 			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(hm, new int[] {4,7,9,10,11}); 
@@ -503,11 +510,25 @@ public class Game extends JPanel implements MouseListener{
 		}
 	}
 	
-	//TODO FIXNOUT PRO POHYBUJIICII SE SAFE ZONE
 	protected void respawnMeteorsToAmount(int amount) {
 		if(meteors.length < amount) {
-			addObToGame(randomMeteorGenerator.generateRandomMeteorOutside(mainWidth, mainHeight), new int[] {3,6,4,8,9,11});
+			boolean done = false;
+			Meteor m = null;
+			while(!done) {
+				m = randomMeteorGenerator.generateRandomMeteorOutside(spawnBlockWidth, spawnBlockHeight, spawnBlockCorner, spawnBlockRange);
+				done = checkIfSpawnCollision(m);
+			}
+			addObToGame(m, new int[] {3,6,4,8,9,11});
 		}
+	}
+	
+	public boolean checkIfSpawnCollision(GameObject t) {
+		for(GameObject g : objects) {
+			if(t.checkCollision(g)) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	
@@ -592,7 +613,7 @@ public class Game extends JPanel implements MouseListener{
 		return newArr;
 	}
 	
-	private MovingObject[] makeGameObArMovingArr(GameObject[] arr) {
+	protected MovingObject[] makeGameObArMovingArr(GameObject[] arr) {
 		MovingObject[] newArr = new MovingObject[arr.length];
 		for(int i = 0; i < arr.length; i++) {
 			newArr[i] = (MovingObject) arr[i];
@@ -607,7 +628,23 @@ public class Game extends JPanel implements MouseListener{
 		return newArr;
 	}
 	
-	private GameObject[] makeNewArrayWith(GameObject[] arr, GameObject ob) {
+	protected Grenade[] makeGamObArGrenadeAr(GameObject[] arr) {
+		Grenade[] newArr = new Grenade[arr.length];
+		for(int i = 0; i < arr.length; i++) {
+			newArr[i] = (Grenade) arr[i];
+		}
+		return newArr;
+	}
+	
+	protected Tower[] makeGamObArTowerAr(GameObject[] arr) {
+		Tower[] newArr = new Tower[arr.length];
+		for(int i = 0; i < arr.length; i++) {
+			newArr[i] = (Tower) arr[i];
+		}
+		return newArr;
+	}
+	
+	protected GameObject[] makeNewArrayWith(GameObject[] arr, GameObject ob) {
 		if(ob != null) {
 			GameObject[] newArray = new GameObject[arr.length+1];
 			for(int i = 0; i < arr.length;i++) {
@@ -620,7 +657,7 @@ public class Game extends JPanel implements MouseListener{
 		
 	}
 		
-	private GameObject[] makeNewArrayWithout(GameObject[] array ,int index){
+	protected GameObject[] makeNewArrayWithout(GameObject[] array ,int index){
 		GameObject[] newArray = new GameObject[array.length - 1];
 		
 		int add = 0;
@@ -632,6 +669,7 @@ public class Game extends JPanel implements MouseListener{
 		}
 		return newArray;
 	}
+	
 	
 	private void updateAllObs() {
 		for(GameObject go : objects) {
@@ -661,14 +699,11 @@ public class Game extends JPanel implements MouseListener{
 	
 	private void renderDangerZone(Graphics g) {
 		g.setColor(Color.white);
-		g.fillRect((int) Math.round(bordersTLCorner.getX()*Game.camera.toMultiply() + Game.camera.toAddX()), (int)Math.round(bordersTLCorner.getY()*Game.camera.toMultiply() + Game.camera.toAddY()),(int)Math.round(safeZoneWidth*Game.camera.toMultiply()),(int) Math.round(safeZoneHeight*Game.camera.toMultiply()));
+		g.fillRect((int) Math.round(safeZoneCorner.getX()*Game.camera.toMultiply() + Game.camera.toAddX()), (int)Math.round(safeZoneCorner.getY()*Game.camera.toMultiply() + Game.camera.toAddY()),(int)Math.round(safeZoneWidth*Game.camera.toMultiply()),(int) Math.round(safeZoneHeight*Game.camera.toMultiply()));
 		g.setColor(Color.black);
 
 	}
 	
-	private void fillRect(Graphics g,int x, int y, int width, int height) {
-		g.fillRect((int)Math.round(x*camera.getZoom()+camera.toAddX()), (int)Math.round(y*camera.getZoom()+camera.toAddY()), (int)Math.round(width*camera.getZoom()),(int)Math.round( height*camera.getZoom()));
-	}
 	
 	public GameObject[] getAiEnemys() {
 		return aiEnemys;
@@ -702,7 +737,8 @@ public class Game extends JPanel implements MouseListener{
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 //		g2.drawImage(bg,(int)((-1920*Game.camera.toMultiply()) + Game.camera.toAddX()), (int)((-3000*Game.camera.toMultiply()) + Game.camera.toAddY()),5760,3240,null);
 		renderAll(g2);
-		if(p.checkIfOutsideRect((int)bordersTLCorner.getX(), (int)bordersTLCorner.getY(), safeZoneWidth, safeZoneHeight)&&!GameOver) {
+
+		if(p.checkIfOutsideRect((int)safeZoneCorner.getX(), (int)safeZoneCorner.getY(), safeZoneWidth, safeZoneHeight)&&!GameOver) {
 			g2.drawImage(WarningSign,currentScreenWidth/2-260, currentScreenHeight/2-200,100,100, null);
 			g2.drawImage(WarningSign,currentScreenWidth/2+150, currentScreenHeight/2-200,100,100, null);
 		}
@@ -742,5 +778,63 @@ public class Game extends JPanel implements MouseListener{
 	public AI[] getAIS() {
 		return ais;
 	}
+	
+	public int getRemoveSquareBlock() {
+		return removeSquareBlock;
+	}
+	public void setRemoveSquareBlock(int removeSquareBlock) {
+		this.removeSquareBlock = removeSquareBlock;
+	}
+	public int getRemoveSquareCornerX() {
+		return removeSquareCornerX;
+	}
+	public void setRemoveSquareCornerX(int removeSquareCornerX) {
+		this.removeSquareCornerX = removeSquareCornerX;
+	}
+	public int getRemoveSquareCornerY() {
+		return removeSquareCornerY;
+	}
+	public void setRemoveSquareCornerY(int removeSquareCornerY) {
+		this.removeSquareCornerY = removeSquareCornerY;
+	}
+	public int getRemoveSquareWidth() {
+		return removeSquareWidth;
+	}
+	public void setRemoveSquareWidth(int removeSquareWidth) {
+		this.removeSquareWidth = removeSquareWidth;
+	}
+	public int getRemoveSquareHeight() {
+		return removeSquareHeight;
+	}
+	public void setRemoveSquareHeight(int removeSquareHeight) {
+		this.removeSquareHeight = removeSquareHeight;
+	}
+	
+	public int getSpawnBlockHeight() {
+		return spawnBlockHeight;
+	}
+	public void setSpawnBlockHeight(int spawnBlockHeight) {
+		this.spawnBlockHeight = spawnBlockHeight;
+	}
+	public int getSpawnBlockWidth() {
+		return spawnBlockWidth;
+	}
+	public void setSpawnBlockWidth(int spawnBlockWidth) {
+		this.spawnBlockWidth = spawnBlockWidth;
+	}
+	public Corner getSpawnBlockCorner() {
+		return spawnBlockCorner;
+	}
+	public void setSpawnBlockCorner(Corner spawnBlockCorner) {
+		this.spawnBlockCorner = spawnBlockCorner;
+	}
+	public int[] getSpawnBlockRange() {
+		return spawnBlockRange;
+	}
+	public void setSpawnBlockRange(int[] spawnBlockRange) {
+		this.spawnBlockRange = spawnBlockRange;
+	}
+
+
 	
 }
