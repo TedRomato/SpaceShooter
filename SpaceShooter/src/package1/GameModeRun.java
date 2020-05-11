@@ -7,9 +7,9 @@ public class GameModeRun extends Game{
 	Grenade[] mines = new Grenade[] {};
 	int minesIndex = arrayList.length+1; //13
 	
-	int towerAmount= 15;
-	int aiAmount = 0;
-	int mineAmount = 30;
+	int towerAmount= 4;
+	int aiAmount = 3;
+	int mineAmount = 12;
 	int meteorAmount = 8;
 	
 	int towerTimer = 0;
@@ -18,13 +18,15 @@ public class GameModeRun extends Game{
 	int meteorTimer = 0;
 	int pause = 60;
 	
+	
 	double zoneSpeed = 4*Game.tickMultiply;
 	
 
 	public GameModeRun(int sw, int sh, boolean softBorder) {
 		super(sw, sh, softBorder);
 		
-		
+		aiSpawningRange = new int[] {0,50};
+
 		safeZoneHeight = 3500;
 		safeZoneCorner = new Corner(new double[] {0, - 500});
 		setRemoveSquareHeight(safeZoneHeight + getRemoveSquareBlock() + 200);
@@ -46,7 +48,7 @@ public class GameModeRun extends Game{
 	}
 	
 	public void adjustSpawnBlock() {
-		getSpawnBlockCorner().moveCorner(0, p.getRotationPoint().getY() - 2500 - getSpawnBlockCorner().getY());
+		getSpawnBlockCorner().moveCorner(0, p.getRotationPoint().getY() - 3000 - getSpawnBlockCorner().getY());
 		
 	}
 	
@@ -64,6 +66,7 @@ public class GameModeRun extends Game{
 		adjustSpawnBlock();
 		handleSpawning();
 		updateTimers();
+		handleTowers();
 
 	}
 
@@ -118,7 +121,7 @@ public class GameModeRun extends Game{
 	
 	
 	public void spawnAI() {
-		
+		super.spawnAI((int)GameObject.generateNumInRange(new double[] {1,5}),(int)GameObject.generateNumInRange(new double[] {1,3}));
 	}
 	
 	
@@ -133,9 +136,12 @@ public class GameModeRun extends Game{
 			
 			
 		}
+		t.addTurret();
+		t.applyRandomUpgrade(40);
 		
-		addObToRun(t, new int[] {1,3,6,7,8,9,10,11,13});
+		addObToRun(t, new int[] {1,3,6,7,9,10,11,13});
 	}
+	
 	
 	
 	public void spawnMine() {
@@ -149,6 +155,7 @@ public class GameModeRun extends Game{
 			checkIfSpawnCollision(t);
 			
 		}
+		t.setHP(4);
 		t.setCurrentSpeed(0);
 		addObToRun(t, new int[] {1,3,6,7,8,9,10,12});
 	}

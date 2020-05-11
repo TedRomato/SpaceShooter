@@ -31,6 +31,13 @@ public class Missile extends MovingObject{
 				return false;
 			}
 		}
+		if(go instanceof Tower) {
+			for(GameObject ob : this.getImunne()) {
+				if(ob instanceof Tower) {
+					return false;
+				}
+			}
+		}
 		return super.checkCollision(go);
 	}
 	

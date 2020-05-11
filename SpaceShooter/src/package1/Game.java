@@ -29,7 +29,7 @@ public class Game extends JPanel implements MouseListener{
 
 	static int mainHeight = 1908, mainWidth = 3392;
 	static int baseTicks = 60;
-	static int currentTicks = 120;
+	static int currentTicks = 100;
 	static double tickMultiply = (double)baseTicks/(double)currentTicks;
 	static double tickOne = 1*tickMultiply;
 	protected Player p;
@@ -43,6 +43,7 @@ public class Game extends JPanel implements MouseListener{
 	 BufferedImage WarningSign;
 	 BufferedImage bg;
 	protected int score = 0;
+	int[] aiSpawningRange = new int[] {600,1000};
 
 	private boolean ShowScore;
 	private Corner spawnCorner;
@@ -400,7 +401,7 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	public void spawnAI(int AI, int PL) {
-		spawnCorner = GameObject.generateCornerOutsideMapInRange(spawnBlockCorner,mainWidth, mainHeight, new int[] {600,1000});
+		spawnCorner = GameObject.generateCornerOutsideMapInRange(spawnBlockCorner,mainWidth, mainHeight, aiSpawningRange);
 		switch(AI){
 
 			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(hm, new int[] {4,7,9,10,11}); 

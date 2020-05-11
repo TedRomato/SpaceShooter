@@ -541,7 +541,7 @@ public class Player extends LivingObject{
 	    p.addAttachment(attachment1);	    
 	    p.addAttachment(attachment2);	  
 	    p.setHP(50);
-	    p.setReflectedSpeed(6);
+	    p.initialSetReflectedSpeed(6);
 	    p.addAttachment(canon);
 	    p.setReflectedLenght(20);
 

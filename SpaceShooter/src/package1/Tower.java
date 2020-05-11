@@ -3,13 +3,13 @@ package package1;
 public class Tower extends LivingObject{
 	private boolean SniperOn = false, MachineGunOn = false, GrenadeLauncherOn = false, TurretOn = false; 
 	private MagazineAttachment turret;
+
 	
 	public Tower(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md) {
 		super(corners, rotationPoint, rotationAngle, md);
 		// TODO Auto-generated constructor stub
 	}
 	
-
 	public static Tower makeNewTower(double x, double y){
 		Tower tower = new Tower(GameObject.generatePeriodicObject(120, 8, new Corner(new double[] {x,y})).getCorners(), new Corner(new double[] {x,y}),0.0, new Corner(new double[] {x,y}));
 		
@@ -28,7 +28,25 @@ public class Tower extends LivingObject{
 			}
 		}
 	}
-
+	
+	public void applyRandomUpgrade(int chanceInPercents) {
+		double rand = Math.random()*100;
+		if(rand < chanceInPercents) {
+			changeToRandomTurretType();
+		}	
+	}
+	
+	public void changeToRandomTurretType() {
+		double rand = Math.random();
+		if(rand < 0.33) {
+			this.upgradeToGrenadeLauncher();
+		}else if(rand < 0.66){
+			this.upgradeToMachineGun();
+		}else{
+			this.upgradeToSniper();
+		}
+	}
+	
 	public void addTurret() {
 		this.addAttachment(AutomaticTurret.MakeTurret(this.getRotationPoint().getX(), this.getRotationPoint().getY()));
 		turret = (MagazineAttachment) this.getAttachments()[0];
@@ -100,6 +118,17 @@ public class Tower extends LivingObject{
 	public void setTurretOn(boolean turretOn) {
 		TurretOn = turretOn;
 	}
+	
+	public boolean checkCollision(GameObject go) {
+		if(go instanceof Missile) {
+			for(GameObject ob :((Missile) go).getImunne()) {
+				if(ob instanceof Tower) {
+					return false;
+				}
+			}
+		}
+		return super.checkCollision(go);
 	}
+}
 	
 
