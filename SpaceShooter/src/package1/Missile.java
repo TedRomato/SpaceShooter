@@ -7,7 +7,7 @@ public class Missile extends MovingObject{
 	public Missile(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner movingDirection, double speed, GameObject[] immune) {
 		super(corners, rotationPoint, rotationAngle, movingDirection);
 		setHP(1);
-		setCurrentSpeed(speed);
+		setCurrentSpeed(speed*Game.tickMultiply);
 		this.immune = immune;
 
 		// TODO Auto-generated constructor stub
@@ -16,7 +16,7 @@ public class Missile extends MovingObject{
 	public Missile(Corner[] corners, Corner rp, int rotationAngle, Corner md, int speed, GameObject[] immune) {
 		super(corners, rp, rotationAngle, md);
 		setHP(1);
-		setCurrentSpeed(speed);
+		setCurrentSpeed(speed*Game.tickMultiply);
 		this.immune = immune;
 
 	}

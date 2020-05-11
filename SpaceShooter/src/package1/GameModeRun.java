@@ -18,6 +18,8 @@ public class GameModeRun extends Game{
 	int meteorTimer = 0;
 	int pause = 60;
 	
+	double zoneSpeed = 4*Game.tickMultiply;
+	
 
 	public GameModeRun(int sw, int sh, boolean softBorder) {
 		super(sw, sh, softBorder);
@@ -55,7 +57,7 @@ public class GameModeRun extends Game{
 	
 	public void tick() {
 		super.tick();
-		moveSoftBorders(0,-4);
+		moveSoftBorders(0,-zoneSpeed);
 		returnToOrigin();
 		adjustSafeZone();
 		adjustRemoveSquare();
@@ -92,18 +94,25 @@ public class GameModeRun extends Game{
 			towerTimer= 0;
 			spawnTower();
 		}
+		
+	
 		if(ais.length< aiAmount && aiTimer > pause) {
 			aiTimer = 0;
 			spawnAI();
 		} 
+		
+		
 		if(mines.length < mineAmount && mineTimer > pause) {
 			mineTimer = 0;
 			spawnMine();
 		}
+		
+		
 		if(meteorTimer > pause){
 			meteorTimer = 0;
 			respawnMeteorsToAmount(meteorAmount);
 		}
+		
 		
 	}
 	
@@ -120,8 +129,8 @@ public class GameModeRun extends Game{
 		while(!done) {
 			rp = GameObject.generateCornerInRect(getSpawnBlockCorner().getX(), getSpawnBlockCorner().getY(), getSpawnBlockWidth(), getSpawnBlockHeight());
 			t = Tower.makeNewTower(rp.getX(), rp.getY());
-			done = true;
-			checkIfSpawnCollision(t);
+			done = checkIfSpawnCollision(t);
+			
 			
 		}
 		
@@ -136,7 +145,7 @@ public class GameModeRun extends Game{
 		while(!done) {
 			rp = GameObject.generateCornerInRect(getSpawnBlockCorner().getX(), getSpawnBlockCorner().getY(), getSpawnBlockWidth(), getSpawnBlockHeight());
 			t = Grenade.makeNewGrenade(rp.getX(), rp.getY(), new Corner(new double[] {0,0}));
-			done = true;
+			done = checkIfSpawnCollision(t);
 			checkIfSpawnCollision(t);
 			
 		}

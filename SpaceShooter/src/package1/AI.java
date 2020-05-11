@@ -32,7 +32,7 @@ public class AI extends LivingObject{
 		setForward(true);
 		setHP(100);
 		setReflectedLenght(80);
-		setAcceleration(getMaxSpeed() / 50);
+		initialSetAcceleration(getMaxSpeed() / 50);
 		getRandomUpdateFrequence();
 	}
 	//inRange = minimum distance of rp - maximum distance of rp (from sides); sides = bot - y,right - x,top - y,left - x 

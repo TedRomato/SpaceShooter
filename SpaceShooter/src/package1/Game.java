@@ -28,6 +28,10 @@ import javax.swing.JPanel;
 public class Game extends JPanel implements MouseListener{
 
 	static int mainHeight = 1908, mainWidth = 3392;
+	static int baseTicks = 60;
+	static int currentTicks = 120;
+	static double tickMultiply = (double)baseTicks/(double)currentTicks;
+	static double tickOne = 1*tickMultiply;
 	protected Player p;
 	private Hunter ht;
 	private Grenader gr;
@@ -81,6 +85,7 @@ public class Game extends JPanel implements MouseListener{
 	private int Count = 0;
 	
 	public Game(int sw,int sh,boolean softBorder) {
+		System.out.println("tadyy" + tickMultiply);
 		this.setBackground(Color.pink);
 		this.currentScreenHeight = sh;
 		this.currentScreenWidth = sw;
@@ -134,7 +139,7 @@ public class Game extends JPanel implements MouseListener{
 	    }	    	    
 	    screenRatio = (double)currentScreenWidth/(double)mainWidth;
 		camera = new Camera(currentScreenWidth,currentScreenHeight,1);
-		camera.setCameraToCorner(new Corner(new double[] {0,0}));
+		camera.setCameraToCorner(new Corner(new double[] {mainWidth/2,mainHeight/2}));
 		
 	    p = Player.makeNewPlayer(new double[] {100,100});
 		addObToGame(p, new int[] {5,6,7,9,11}); 
@@ -167,7 +172,7 @@ public class Game extends JPanel implements MouseListener{
 	
 	public void start() {
 		long lastTime = System.nanoTime();
-        double amountOfTicks = 60;
+        double amountOfTicks = currentTicks;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -378,7 +383,7 @@ public class Game extends JPanel implements MouseListener{
 							att.setReloadTimer(0);
 						}
 						if(att.getReloadTimer() != att.getReloadLenght()) { 
-							att.setReloadTimer(att.getReloadTimer()+1);
+							att.setReloadTimer(att.getReloadTimer()+Game.tickOne);
 						}
 					}
 				}
@@ -524,7 +529,7 @@ public class Game extends JPanel implements MouseListener{
 	
 	public boolean checkIfSpawnCollision(GameObject t) {
 		for(GameObject g : objects) {
-			if(t.checkCollision(g)) {
+			if(t.getCollisionSquare().squareCollision(g.getCollisionSquare())) {
 				return false;
 			}
 		}

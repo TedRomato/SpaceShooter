@@ -21,7 +21,7 @@ public class AutomaticExplosiveTurret extends ExplosiveShootingAtt {
 		Corner c4 = new Corner(new double[] {x + 10,y + 40}, new double[] {x ,y });
 		AutomaticExplosiveTurret at = new AutomaticExplosiveTurret(new Corner[] {c1,c2,c3,c4}, new Corner(new double[] {x,y}), new double[] {x,y}, 60, new Corner(new double[] {x, y + 50}, new double[] {x,y}), 2000, 1);
 		at.setFireGrenade(true);
-		at.setAttRangle(60);
+		at.initialSetAttRangle(60);
 		at.setMagazineParameters(1, 100);
 		at.setShoot(true);
 		return at; 

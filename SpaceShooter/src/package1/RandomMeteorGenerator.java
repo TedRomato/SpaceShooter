@@ -23,8 +23,8 @@ public class RandomMeteorGenerator {
 		Meteor m;
 		double[] atribs = generateRandomAtributes();
 		m = generateMeteor((int) atribs[0],(int) atribs[1], atribs[2], atribs[3],rp);
-		m.setCurrentSpeed(atribs[2]);
-		m.setReflectedSpeed(atribs[2]);
+		m.setCurrentSpeed(atribs[2]*Game.tickMultiply);
+		m.setReflectedSpeed(atribs[2]*Game.tickMultiply);
 		m.setMoveDirection(md);
 		m.updateAfterReflect();
 		return m;

@@ -9,8 +9,8 @@ public class MovingObject extends GameObject{
 	private double xyRatio;
 	private double currentSpeed = 0;
 	private boolean reflected = false;
-	private int reflectedTimer = 0;
-	private int reflectedLenght = 80;
+	private double reflectedTimer = 0;
+	private double reflectedLenght = 80*Game.tickMultiply;
 	private double reflectedSpeed;
 	public MovingObject(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md) {
 		super(corners, rotationPoint, rotationAngle);
@@ -267,6 +267,11 @@ public class MovingObject extends GameObject{
 		reflectedSpeed = d;
 	}
 	
+	public void initialSetReflectedSpeed(double d) {
+		reflectedSpeed = d*Game.tickMultiply;
+
+	}
+	
 	
 
 	
@@ -299,14 +304,14 @@ public class MovingObject extends GameObject{
 
 
 
-	public int getReflectedTimer() {
+	public double getReflectedTimer() {
 		return reflectedTimer;
 	}
 
 
 
 
-	public void setReflectedTimer(int reflectedTimer) {
+	public void setReflectedTimer(double reflectedTimer) {
 		this.reflectedTimer = reflectedTimer;
 	}
 
@@ -327,7 +332,7 @@ public class MovingObject extends GameObject{
 
 
 
-	public int getReflectedLenght() {
+	public double getReflectedLenght() {
 		return reflectedLenght;
 	}
 
@@ -337,7 +342,6 @@ public class MovingObject extends GameObject{
 	public void setReflectedLenght(int reflectedLenght) {
 		this.reflectedLenght = reflectedLenght;
 	}
-
 	
 	public double getCurrentSpeed() {
 		return currentSpeed;

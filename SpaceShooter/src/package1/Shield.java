@@ -12,13 +12,13 @@ public class Shield extends GameObject{
 	boolean AIBlock = false;
 	GameObject[] whoToBlock = new GameObject[0];
 	
-	int duration = 600;
-	int durationTimer = 0;
+	double duration = 600;
+	double durationTimer = 0;
 	boolean hasDuration = false;
 	
 	public void updateDuration() {
 		if(hasDuration) {
-			durationTimer++;
+			durationTimer+= Game.tickOne;
 			if(durationTimer >= duration) { 
 				this.setHP(0);
 				if(parent instanceof Player) {
@@ -146,8 +146,8 @@ public class Shield extends GameObject{
 		whoToBlock = toBlock;
 		parent = go;
 	}
-	public void setDuration(int duration) {
-		this.duration = duration;
+	public void setDuration(double shieldDuration) {
+		this.duration = shieldDuration;
 		hasDuration = true;
 	}
 	
@@ -161,7 +161,7 @@ public class Shield extends GameObject{
 	}
 
 
-	public int getDurationTimer() {
+	public double getDurationTimer() {
 		return durationTimer;
 	}
 	public void setDurationTimer(int durationTimer) {
@@ -171,7 +171,7 @@ public class Shield extends GameObject{
 	
 	
 
-	public int getDuration() {
+	public double getDuration() {
 		return duration;
 	}
 	

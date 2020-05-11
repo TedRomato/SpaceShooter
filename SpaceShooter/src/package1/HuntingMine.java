@@ -62,7 +62,7 @@ public class HuntingMine extends AI{
 	    Corner goalCorner = new Corner(new double[] {1000,600} );
 		HuntingMine ai = new HuntingMine(new Corner[] {peakAI, rightCornerAI,botAI, leftCornerAI}, new double[] {x,y}, 4, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner, powerLvl);
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
-	    ai.setMaxSpeed(5+powerLvl);
+	    ai.initialSetMaxSpeed(5+powerLvl);
 	    ai.addAttachment(att);
 	    ai.setHP(1);
 	    ai.findAndSetToClosestEnemy(gameObjects);
