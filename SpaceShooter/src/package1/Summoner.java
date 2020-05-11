@@ -3,7 +3,7 @@ package package1;
 import java.awt.Graphics;
 
 public class Summoner extends AI{
-	double w8Length = 50;
+	double w8Length = 50*Game.tickMultiply;
 	double summonTimer = w8Length;
 	boolean onCooldown = false;
 	Corner[] summoningDestinations;
@@ -70,7 +70,7 @@ public class Summoner extends AI{
 	
 	private void updateTimer() {
 		if(onCooldown) {
-			summonTimer--;
+			summonTimer -= Game.tickOne;
 			if(summonTimer <= 0){
 				summonTimer = w8Length;
 				onCooldown=false;

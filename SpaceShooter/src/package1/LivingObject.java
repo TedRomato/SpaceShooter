@@ -17,15 +17,16 @@ public class LivingObject extends MovingObject{
 	GameObject[] shotImunes = new GameObject[] {};
 	private boolean forward = false, turnRight = false, turnLeft = false;
 	private Corner movePoint;
-	private double maxSpeed = 7;
-	private double acceleration = maxSpeed/200;
+	private double maxSpeed = 7*Game.tickMultiply;
+	private double acceleration = maxSpeed/200*Game.tickMultiply;
 	private ObjectAttachment[] attachments;
 	boolean isStunned = false;
-	int stunTimer;
+	double stunTimer;
 	
 	//Shield variables
 	
-	int shieldHP = 7, shieldDuration = 300, shieldCooldown = 600, shieldTimer = shieldCooldown, shieldRadius;
+	int shieldHP = 7, shieldRadius;
+	double shieldDuration = 300 , shieldCooldown = 600, shieldTimer = shieldCooldown;
 	boolean activateShield = false, shieldIsUp = false;
 	Shield shield;
 	
@@ -33,7 +34,7 @@ public class LivingObject extends MovingObject{
 	public LivingObject(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md) {
 		super(corners, rotationPoint, rotationAngle, md);
 		movePoint = new Corner(md, rotationPoint);
-		setReflectedSpeed(maxSpeed*2);
+		initialSetReflectedSpeed(maxSpeed*2);
 		setHP(10);
 		makeSquare();
 		addShotImune(this); 
@@ -43,7 +44,7 @@ public class LivingObject extends MovingObject{
 	public LivingObject(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md) {
 		super(corners, rotationPoint, rotationAngle, md);
 		movePoint = new Corner(md, rotationPoint);
-		setReflectedSpeed(maxSpeed*2);
+		initialSetReflectedSpeed(maxSpeed*2);
 		setHP(10);
 		makeSquare();	
 		addShotImune(this);
@@ -57,6 +58,10 @@ public class LivingObject extends MovingObject{
 	public void setMaxSpeed(double maxSpeed) {
 		this.maxSpeed = maxSpeed;
 
+	}
+	
+	public void initialSetMaxSpeed(double maxSpeed) {
+		this.maxSpeed = maxSpeed*Game.tickMultiply;
 	}
 	
 	
@@ -103,14 +108,14 @@ public class LivingObject extends MovingObject{
 	
 	public void handleShieldCooldown() {
 		if(shieldTimer < shieldCooldown && !shieldIsUp) {
-			shieldTimer++;
+			shieldTimer += Game.tickOne;
 		}
 	}
 	
 	public void upgradeShield() {
 		shieldHP ++;
-		shieldDuration += 60;
-		shieldCooldown -= 15;  
+		shieldDuration += 60*Game.tickMultiply;
+		shieldCooldown -= 15*Game.tickMultiply;  
 	}
 	
 	
@@ -231,7 +236,7 @@ public class LivingObject extends MovingObject{
 	public void updateReflection() {
 		if(isReflected()) {
 			setForward(false);
-			setReflectedTimer(getReflectedTimer() + 1);
+			setReflectedTimer(getReflectedTimer() + 1*Game.tickMultiply);
 			if(getReflectedTimer() >= getReflectedLenght()) {
 				setReflected(false);
 				setReflectedTimer(0);
@@ -408,6 +413,10 @@ public class LivingObject extends MovingObject{
 		this.acceleration = ac;
 	}
 	
+	public void initialSetAcceleration(double ac) {
+		this.acceleration = ac*Game.tickMultiply;
+	}
+	
 	public double getMaxSpeed() {
 		return maxSpeed;
 	}
@@ -504,7 +513,7 @@ public class LivingObject extends MovingObject{
 	
 	
 	
-	public void startStun(int stunLenght) {
+	public void startStun(double stunLenght) {
 		stunTimer = stunLenght;
 		isStunned = true;
 
@@ -513,7 +522,7 @@ public class LivingObject extends MovingObject{
 	public void updateStun() {
 		if(isStunned == true) {
 			setForward(false);
-			stunTimer--;
+			stunTimer -= 1*Game.tickMultiply;
 			if(stunTimer <= 0) {
 				isStunned = false;
 			}
@@ -539,7 +548,7 @@ public class LivingObject extends MovingObject{
 
 
 
-	public int getShieldDuration() {
+	public double getShieldDuration() {
 		return shieldDuration;
 	}
 
@@ -551,7 +560,7 @@ public class LivingObject extends MovingObject{
 
 
 
-	public int getShieldCooldown() {
+	public double getShieldCooldown() {
 		return shieldCooldown;
 	}
 
@@ -563,7 +572,7 @@ public class LivingObject extends MovingObject{
 
 
 	
-	public int getShieldTimer() {
+	public double getShieldTimer() {
 		return shieldTimer;
 	}
 
@@ -595,6 +604,7 @@ public class LivingObject extends MovingObject{
 		if(getShield() != null) {
 			if(getShield().getHP() <= 0) {
 				setShield(null);
+				shieldIsUp = false;
 			}
 		}
 	}

@@ -7,8 +7,8 @@ public class ObjectAttachment extends GameObject{
 	Corner attachmentRP;
 	double atachmentCurrentAngle = 0;
 	boolean rotateWithParentOb = true;
-	protected int reloadTimer;
-	protected int reloadLenght;
+	protected double reloadTimer;
+	protected double reloadLenght;
 	double attachmentAngleRortated = 0;
 
 	
@@ -107,8 +107,8 @@ public class ObjectAttachment extends GameObject{
 		return attachmentRP;
 	}
 
-	public void setReloadTimer(int i) {
-		reloadTimer = i;
+	public void setReloadTimer(double d) {
+		reloadTimer = d;
 	}
 	
 	public double getAttachmentAngleRotated() {

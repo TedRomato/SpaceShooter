@@ -159,8 +159,8 @@ public class SpaceCruiser extends LongRangeAI{
 	    
 		ai = new SpaceCruiser(body, new double[] {x,y}, 2.5, md, gd, wp, powerLvl);
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
-	    ai.setMaxSpeed(3.3+powerLvl/3);
-	    ai.setReflectedSpeed(6);
+	    ai.initialSetMaxSpeed(3.3+powerLvl/3);
+	    ai.initialSetReflectedSpeed(6);
 	    ai.setStoppingDistance(650);
 	    ai.addAttachment(mc);
 	    ai.addAttachment(canon1);

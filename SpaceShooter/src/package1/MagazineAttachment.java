@@ -4,8 +4,8 @@ public class MagazineAttachment extends InteractiveAttachment{
 	
 	int magazineSize = 1;
 	int magazineMaxSize = 1;
-	int magazineReloadTimer = 60;
-	int magazineReloadLenght = 60;
+	double magazineReloadTimer = 60;
+	double magazineReloadLenght = 60;
 	boolean reloadingMag = false;
 
 	public MagazineAttachment(Corner[] corners, Corner rp, double[] attachmentRP, double rotationAngle, Corner wayPoint,
@@ -38,7 +38,7 @@ public class MagazineAttachment extends InteractiveAttachment{
 	
 	public void handleMagazine() {
 		if(magazineSize <= 0) {
-			magazineReloadTimer++;
+			magazineReloadTimer+= Game.tickOne;
 			reloadingMag = true;
 		}
 		if(magazineReloadTimer >= magazineReloadLenght) {
@@ -54,8 +54,9 @@ public class MagazineAttachment extends InteractiveAttachment{
 		this.magazineReloadTimer = getMagazineReloadLenght();
 	}
 	
-	public void upgradeMagReload(int toSubtract) {
-		if(magazineReloadLenght - toSubtract > 60) {
+	public void upgradeMagReload(double toSubtract) {
+		toSubtract *= Game.tickOne;
+		if(magazineReloadLenght - toSubtract > 60*GameModeTesting.tickMultiply) {
 			magazineReloadLenght -= toSubtract;
 		}
 	} 
@@ -106,7 +107,7 @@ public class MagazineAttachment extends InteractiveAttachment{
 
 
 
-	public int getMagazineReloadTimer() {
+	public double getMagazineReloadTimer() {
 		return magazineReloadTimer;
 	}
 
@@ -118,7 +119,7 @@ public class MagazineAttachment extends InteractiveAttachment{
 
 
 
-	public int getMagazineReloadLenght() {
+	public double getMagazineReloadLenght() {
 		return magazineReloadLenght;
 	}
 

@@ -13,27 +13,27 @@ public class Player extends LivingObject{
 	
 	//Zone variables
 	boolean wasDamagedByZone = false;
-	int zoneDamagedTimerLenght = 60;
-	int zoneDamagedTimer = 0;
+	double zoneDamagedTimerLenght = 60;
+	double zoneDamagedTimer = 0;
 	
 	boolean shieldIsUnlocked = false;
 	//pulse variables
-	int pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
+	double pulseCooldown = 800,pulseCooldownTimer = pulseCooldown;
 	boolean pulse = false, pulseIsUnlocked = false;
-	int stunLenght = 300;
+	double stunLenght = 300;
 	double pulseRange = 900;
 
 	//berserkMode variables
-	int  berserkModeCooldown = 1800, berserkModeTimer = berserkModeCooldown, costInLives = 5;
-	int exploWave = 10, exploWaveCounter = 0,  exploTimer = 0,  exploLenght = 20;
-	double berserkSpeed = 12;
+	double  berserkModeCooldown = 1800, berserkModeTimer = berserkModeCooldown, exploTimer = 0,  exploLenght = 20;
+	int  costInLives = 5,exploWave = 10, exploWaveCounter = 0;
+	double berserkSpeed = 12*Game.tickMultiply;
 	int chunks = 20;
 	boolean berserkMode = false;
 	boolean berserkModeUnlocked = false;
 	 
 	//dash variables
-	int dashCooldown = 300, dashCooldownTimer = dashCooldown;
-	double baseSpeed, dashSpeed = 20;
+	double dashCooldown = 300, dashCooldownTimer = dashCooldown;
+	double baseSpeed, dashSpeed = 20*Game.tickMultiply;
 	boolean dashUnlocked = false;
 	
 	//
@@ -58,10 +58,10 @@ public class Player extends LivingObject{
 	
 	public Player(Corner[] corners, double[] rotationPoint, double d, Corner md) {
 		super(corners, rotationPoint, d, md);
-		setMaxSpeed(7);
+		initialSetMaxSpeed(7);
 		setReflectedLenght(35);
-		setRotationAngle(3.9);
-		setAcceleration(getMaxSpeed() / 45);
+		initialRAngleSet(3.9);
+		initialSetAcceleration(getMaxSpeed() / 45);
 		baseSpeed = getMaxSpeed();
 		try {
 			MachineGun1 = ImageIO.read(new File("src/Icons/mg.png"));
@@ -100,7 +100,6 @@ public class Player extends LivingObject{
 		if(Game.keyChecker.checkIfkeyIsPressed(shieldChar)) {
 			
 			if(shieldTimer >= shieldCooldown && shieldIsUnlocked) {
-				System.out.println("jsem tady");
 				activateShield = true;
 				shieldTimer=0;
 			}
@@ -240,18 +239,18 @@ public class Player extends LivingObject{
 	
 	public void handlePulseCooldown() {
 		if(pulseCooldownTimer < pulseCooldown) {
-			pulseCooldownTimer++;
+			pulseCooldownTimer+= Game.tickOne;
 		}
 	}
 	
 	public void upgradePulse() {
-		stunLenght++;
+		stunLenght+= Game.tickOne;
 		pulseRange += 50;
 	}
 		
 	private void handleZoneTimer() {
 		if(wasDamagedByZone) {
-			zoneDamagedTimer++;
+			zoneDamagedTimer+= Game.tickOne;
 			if(zoneDamagedTimer >= zoneDamagedTimerLenght) {
 				zoneDamagedTimer = 0;
 				wasDamagedByZone = false;
@@ -270,7 +269,7 @@ public class Player extends LivingObject{
 	}
 	public void handleDashCooldown() {
 		if(dashCooldownTimer < dashCooldown) {
-			dashCooldownTimer++;
+			dashCooldownTimer+= Game.tickOne;
 		}
 	}
 	
@@ -305,7 +304,7 @@ public class Player extends LivingObject{
 	public Missile[] handleBereserkMode() {
 		if(berserkMode) {
 			setCurrentSpeed(berserkSpeed);
-			exploTimer++;
+			exploTimer+=Game.tickOne;
 			if(exploTimer >= exploLenght) {
 				exploWaveCounter++;
 				if(exploWaveCounter <= exploWave) {
@@ -321,7 +320,7 @@ public class Player extends LivingObject{
 			}
 		}else if(berserkModeTimer < berserkModeCooldown){
 			berserkMode = false;
-			berserkModeTimer++;
+			berserkModeTimer+=Game.tickOne;
 		}
 		return null;
 	}
@@ -333,7 +332,6 @@ public class Player extends LivingObject{
 	}
 	
 	public void updatePlayer() {
-		System.out.println();
 		handleZoneTimer();
 		fireMG();
 		handleDashCooldown();
@@ -528,7 +526,7 @@ public class Player extends LivingObject{
 		
 	    canon = new MagazineAttachment(new Corner[] {b1,b2,b3,b4}, new Corner(rp) , new double[] {rp[0], rp[1] + 5}, 0, wp, 0,0);
 	    canon.setMagazineParameters(5, 60);
-	    canon.setAttRangle(60);
+	    canon.initialSetAttRangle(60);
 	    canon.setRotateWithParentOb(false);
 	//    canon.setRotationSegment(new double[] {-220,220});
 	    
@@ -615,7 +613,7 @@ public class Player extends LivingObject{
 
 
 
-	public int getDashCooldownTimer() {
+	public double getDashCooldownTimer() {
 		return dashCooldownTimer;
 	}
 
@@ -639,7 +637,7 @@ public class Player extends LivingObject{
 
 
 
-	public int getDashCooldown() {
+	public double getDashCooldown() {
 		return dashCooldown;
 	}
 
@@ -663,7 +661,7 @@ public class Player extends LivingObject{
 		this.shieldIsUnlocked = shieldIsUnlocked;
 	}
 	
-	public int getShieldTimer() {
+	public double getShieldTimer() {
 		return shieldTimer;
 	}
 
@@ -675,7 +673,7 @@ public class Player extends LivingObject{
 
 
 
-	public int getPulseCooldown() {
+	public double getPulseCooldown() {
 		return pulseCooldown;
 	}
 
@@ -687,7 +685,7 @@ public class Player extends LivingObject{
 
 
 
-	public int getPulseCooldownTimer() {
+	public double getPulseCooldownTimer() {
 		return pulseCooldownTimer;
 	}
 
@@ -699,7 +697,7 @@ public class Player extends LivingObject{
 
 
 
-	public int getBerserkModeCooldown() {
+	public double getBerserkModeCooldown() {
 		return berserkModeCooldown;
 	}
 
@@ -711,7 +709,7 @@ public class Player extends LivingObject{
 
 
 
-	public int getBerserkModeTimer() {
+	public double getBerserkModeTimer() {
 		return berserkModeTimer;
 	}
 
@@ -721,7 +719,7 @@ public class Player extends LivingObject{
 		this.berserkModeTimer = berserkModeTimer;
 	}
 	
-	public int getExploTimer() {
+	public double getExploTimer() {
 		return exploTimer;
 	}
 	
@@ -733,7 +731,7 @@ public class Player extends LivingObject{
 
 
 
-	public int getExploLenght() {
+	public double getExploLenght() {
 		return exploLenght;
 	}
 

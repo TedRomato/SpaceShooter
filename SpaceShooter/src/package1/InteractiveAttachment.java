@@ -28,7 +28,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 		super(corners, rp, attachmentRP, rotationAngle);
 		// TODO Auto-generated constructor stub
 		this.wayPoint = wayPoint;
-		attRotationAngle = 1;
+		attRotationAngle = 1*Game.tickMultiply;
 		//Posible error while moving and rotating (shooting transition update)
 		shootPoint = new Corner(new double[] {wayPoint.getX(),wayPoint.getY()+20}, getRotationPoint());
 		shootDirection = new Corner(new double[] {wayPoint.getX(),wayPoint.getY()+40}, getRotationPoint());
@@ -286,15 +286,15 @@ public class InteractiveAttachment extends ObjectAttachment{
 		setDmg(getDmg() + 1);
 	}
 	
-	public int getReloadLenght() {
+	public double getReloadLenght() {
 		return reloadLenght;
 	}
 
-	public void setReloadLenght(int reloadLenght) {
-		this.reloadLenght = reloadLenght;
+	public void setReloadLenght(double d) {
+		this.reloadLenght = d;
 	}
 
-	public int getReloadTimer() {
+	public double getReloadTimer() {
 		return reloadTimer;
 	}
 
@@ -325,6 +325,10 @@ public class InteractiveAttachment extends ObjectAttachment{
 	
 	public void setAttRangle(double d) {
 		attRotationAngle = d;
+	}
+	
+	public void initialSetAttRangle(double d) {
+		attRotationAngle = d*Game.tickMultiply;
 	}
 	
 	protected void setShoot(boolean b) {
