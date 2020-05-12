@@ -18,6 +18,7 @@ public class Mothership extends Summoner{
 			Corner goalDestination, int PowerLvl) {
 		super(corners, rotationPoint, rotationAngle, md, goalDestination, PowerLvl);
 		strenght = 4;
+		setMoneyDropped(80);
 
 		try {
 
@@ -30,6 +31,7 @@ public class Mothership extends Summoner{
 		}
 		// TODO Auto-generated constructor stub
 	}
+
 	
 	public static Mothership  makeNewMothership(double x, double y, GameObject[] gameObjects, int powerLvl) {
 		Mothership ai;

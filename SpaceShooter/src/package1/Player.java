@@ -218,6 +218,12 @@ public class Player extends LivingObject{
 
 		if(pulseCooldownTimer >= pulseCooldown) {
 			for(GameObject go : obs) {
+				if(go instanceof Grenade) {
+					if(go.getRotationPoint().getPointDistance(getRotationPoint()) < pulseRange && !isShotImune(go)) {
+						go.setHP(0);
+					}	
+					
+				}
 				if(go instanceof LivingObject) {
 					if(go.getRotationPoint().getPointDistance(getRotationPoint()) < pulseRange && !isShotImune(go)) {
 						((MovingObject) go).pushFromObject(this, ((LivingObject) go).getVelToGoDistance(pulseRange/2));

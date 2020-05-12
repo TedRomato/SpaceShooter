@@ -11,7 +11,7 @@ public class Tower extends LivingObject{
 	}
 	
 	public static Tower makeNewTower(double x, double y){
-		Tower tower = new Tower(GameObject.generatePeriodicObject(120, 8, new Corner(new double[] {x,y})).getCorners(), new Corner(new double[] {x,y}),0.0, new Corner(new double[] {x,y}));
+		Tower tower = new Tower(GameObject.generatePeriodicObject(120, 8, new Corner(new double[] {x,y})).getCorners(), new Corner(new double[] {x,y}),0.0, new Corner(new double[] {x+1,y+1}));
 		
 		return tower;
 	}

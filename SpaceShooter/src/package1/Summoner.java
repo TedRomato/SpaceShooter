@@ -44,6 +44,7 @@ public class Summoner extends AI{
 	public AI summonAI(GameObject[] enemys) {
 		int whichOne = (int) (Math.floor(Math.random()*4));
 		HuntingMine ai = HuntingMine.makeNewHuntingMine(summoningDestinations[whichOne].getX(), summoningDestinations[whichOne].getY(), enemys, getPowerLvl());
+		ai.summoned = true;
 		return ai;
 	}
 	

@@ -7,6 +7,8 @@ public class SpaceCruiser extends LongRangeAI{
 		super(corners, rotationPoint, rotationAngle, md, goalDestination, wayPoint, powerLvl);
 		// TODO Auto-generated constructor stub
 		strenght = 5;
+		setMoneyDropped(100);
+
 
 	}
 	

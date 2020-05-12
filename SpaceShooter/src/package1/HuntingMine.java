@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 public class HuntingMine extends AI{
 	
 	BufferedImage Att, Body;
+	boolean summoned = false;
 	
 	public HuntingMine(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination, int powerLvl) {
 		super(corners,rotationPoint,rotationAngle,md,goalDestination, powerLvl);
@@ -26,6 +27,7 @@ public class HuntingMine extends AI{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		setMoneyDropped(10);
 	}
 	
 	public static HuntingMine makeNewHuntingMine(double x, double y, GameObject[] gameObjects, int powerLvl) {
@@ -86,6 +88,14 @@ public class HuntingMine extends AI{
 		rotateImage(g2, Body, 0,this.getRotationPoint(),58,55);		
 		rotateImage(g2, Att,  getAttachments()[0].getAttachmentAngleRotated(), getAttachments()[0].getRotationPoint(),90,80);		*/
 		super.render(g);
+	}
+	
+	public int getMoneyDropped() {
+		if(!summoned) {
+			return super.getMoneyDropped();
+		}else {
+			return 0;
+		}
 	}
 	
 	

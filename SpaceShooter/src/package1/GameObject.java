@@ -2,6 +2,8 @@ package package1;
 
 import java.awt.Graphics;
 
+import javax.swing.JProgressBar;
+
 public class GameObject {
 	
 	//Basic object
@@ -21,6 +23,8 @@ public class GameObject {
 	
 	double angleRotated = 0;
 	private Square collisionSquare;
+	
+	
 
 	
 	

@@ -443,11 +443,11 @@ public class GameModeTower extends Game{
 				return;
 			}
 			if(AIStrength*AIPowerLevel + StrenghtAr[AIrnd] < wave) {
-				spawnAI(AIrnd,AIPowerLevel);
+				spawnAI(AIrnd,AIPowerLevel,false);
 				AIStrength += StrenghtAr[AIrnd]*AIPowerLevel;
 			}
 			if(AIStrength*AIPowerLevel + StrenghtAr[AIrnd] == wave && AIneeded|| AIStrength == wave && AIneeded) {
-				spawnAI(AIrnd,AIPowerLevel);
+				spawnAI(AIrnd,AIPowerLevel,false);
 				AIStrength = wave;
 				AIneeded = false;
 				waveEnd = true;

@@ -12,11 +12,18 @@ public class GameModeRun extends Game{
 	int mineAmount = 12;
 	int meteorAmount = 8;
 	
-	int towerTimer = 0;
-	int aiTimer = 0;
-	int mineTimer = 0;
-	int meteorTimer = 0;
+	double towerTimer = 0;
+	double aiTimer = 0;
+	double mineTimer = 0;
+	double meteorTimer = 0;
 	int pause = 60;
+	
+	
+	int bonusSpawnLenght = 400;
+	double bonusSpawnTimer = 0;
+	
+	
+	double timeSurvived = 0;
 	
 	
 	double zoneSpeed = 4*Game.tickMultiply;
@@ -67,7 +74,21 @@ public class GameModeRun extends Game{
 		handleSpawning();
 		updateTimers();
 		handleTowers();
+		updateTime();
+		updateGameAccordingToTimeSurvived();
 
+	}
+	
+	public void updateGameAccordingToTimeSurvived() {
+		towerAmount = (int) (timeSurvived / 2000) + 3;
+		aiAmount = (int) (timeSurvived / 2000);
+		mineAmount = (int) (timeSurvived / 800) + 5;
+		meteorAmount = (int) (timeSurvived / 1000) + 5;
+	}
+			
+	
+	public void updateTime() {
+		timeSurvived += Game.tickOne;
 	}
 
 	public void returnToOrigin() {
@@ -116,14 +137,33 @@ public class GameModeRun extends Game{
 			respawnMeteorsToAmount(meteorAmount);
 		}
 		
+		if(bonusSpawnTimer >= bonusSpawnLenght) {
+			bonusSpawnTimer = 0;
+			spawnBonus();
+		}
+		
 		
 	}
 	
 	
 	public void spawnAI() {
-		super.spawnAI((int)GameObject.generateNumInRange(new double[] {1,5}),(int)GameObject.generateNumInRange(new double[] {1,3}));
+		super.spawnAI((int)GameObject.generateNumInRange(new double[] {1,5}),(int)GameObject.generateNumInRange(new double[] {1,3}),true);
+	
 	}
 	
+	public void spawnBonus() {	
+		Corner rp;
+		PlayerBonus b= null;
+		boolean done = false;
+		while(!done) {
+			rp = GameObject.generateCornerInRect(getSpawnBlockCorner().getX(), getSpawnBlockCorner().getY(), getSpawnBlockWidth(), getSpawnBlockHeight());
+			b = PlayerBonus.makeNewPlayerBonus(rp.getX(), rp.getY());
+			done = checkIfSpawnCollision(b);
+		}
+		
+		
+		addObToRun(b, new int[] {1,2,3,4,5,6,7,8,9,10,11,12,13});
+	}
 	
 	public void spawnTower() {
 		Corner rp;
@@ -133,9 +173,8 @@ public class GameModeRun extends Game{
 			rp = GameObject.generateCornerInRect(getSpawnBlockCorner().getX(), getSpawnBlockCorner().getY(), getSpawnBlockWidth(), getSpawnBlockHeight());
 			t = Tower.makeNewTower(rp.getX(), rp.getY());
 			done = checkIfSpawnCollision(t);
-			
-			
 		}
+		
 		t.addTurret();
 		t.applyRandomUpgrade(40);
 		
@@ -197,11 +236,14 @@ public class GameModeRun extends Game{
 	}
 	
 	public void updateTimers() {
-		towerTimer++;
-		aiTimer++;
-		mineTimer++;
-		meteorTimer++;
+		towerTimer+=Game.tickOne;
+		aiTimer+=Game.tickOne;
+		mineTimer+=Game.tickOne;
+		meteorTimer+=Game.tickOne;
+		bonusSpawnTimer += Game.tickOne;
 	}
+	
+	
 
 	
 	

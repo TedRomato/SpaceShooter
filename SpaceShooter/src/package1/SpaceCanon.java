@@ -25,6 +25,8 @@ public class SpaceCanon extends AI{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		setMoneyDropped(20);
+
 	}
 	
 	
