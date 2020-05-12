@@ -22,6 +22,7 @@ public class AI extends LivingObject{
 	int aiUpdateTimer = aiUpdateLenght;
 	int powerLVL;
 	int strenght;
+	int moneyDropped = 0;
 
 
 	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination, int powerLvl) {
@@ -540,4 +541,13 @@ public class AI extends LivingObject{
 	public void setRunningDistance(double d) {
 		runningDistance = d;
 	}
+	
+	public void setMoneyDropped(int d) {
+		moneyDropped = d*getPowerLvl();
+	}
+	
+	public int getMoneyDropped() {
+		return moneyDropped;
+	}
+	
 }

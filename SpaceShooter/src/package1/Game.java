@@ -43,6 +43,7 @@ public class Game extends JPanel implements MouseListener{
 	 BufferedImage WarningSign;
 	 BufferedImage bg;
 	protected int score = 0;
+	int[] aiSpawningRange = new int[] {600,1000};
 
 	private boolean ShowScore;
 	private Corner spawnCorner;
@@ -399,26 +400,34 @@ public class Game extends JPanel implements MouseListener{
 		}
 	}
 	
-	public void spawnAI(int AI, int PL) {
-		spawnCorner = GameObject.generateCornerOutsideMapInRange(spawnBlockCorner,mainWidth, mainHeight, new int[] {600,1000});
+	public void spawnAI(int AI, int PL, boolean playerFocus) {
+		spawnCorner = GameObject.generateCornerOutsideMapInRange(spawnBlockCorner,mainWidth, mainHeight, aiSpawningRange);
 		switch(AI){
 
-			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(hm, new int[] {4,7,9,10,11}); 
+			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); 
+				addObToGame(hm, new int[] {4,7,9,10,11}); 
 			break;
 
-			case 1 : sca = SpaceCanon.makeNewSpaceCanon(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(sca, new int[] {4,7,9,10,11}); 
+			case 1 : sca = SpaceCanon.makeNewSpaceCanon(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); 
+				sca.setPlayerFocus(playerFocus);
+				addObToGame(sca, new int[] {4,7,9,10,11}); 
 			break;
 
-			case 2 : mp = Mothership.makeNewMothership(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(mp, new int[] {4,7,10,11}); 
+			case 2 : mp = Mothership.makeNewMothership(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL);
+				addObToGame(mp, new int[] {4,7,10,11}); 
 			break;
 
-			case 3 : scr = SpaceCruiser.makeNewSpaceCruiser(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(scr, new int[] {4,7,9,10,11}); 
+			case 3 : scr = SpaceCruiser.makeNewSpaceCruiser(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); 
+				scr.setPlayerFocus(playerFocus);
+				addObToGame(scr, new int[] {4,7,9,10,11}); 
 			break;
 			
 			case 4 : ht = Hunter.makeNewHunter(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),PL); addObToGame(ht, new int[] {4,7,9,10,11}); 
 			break;
 			
-			case 5 : gr = Grenader.makeNewGrenader(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),PL); addObToGame(gr, new int[] {4,7,9,10,11}); 
+			case 5 : gr = Grenader.makeNewGrenader(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),PL); 
+				gr.setPlayerFocus(playerFocus);
+				addObToGame(gr, new int[] {4,7,9,10,11}); 
 			break;
 			default : 
 		}

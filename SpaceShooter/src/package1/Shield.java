@@ -81,6 +81,10 @@ public class Shield extends GameObject{
 				}
 			}
 		}
+		
+		if(go instanceof PlayerBonus) {
+			return false;
+		}
 
 		if(go instanceof Missile) {
 			

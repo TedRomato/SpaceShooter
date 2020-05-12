@@ -6,6 +6,8 @@ public class Hunter extends AI{
 		super(corners, rotationPoint, rotationAngle, md, goalDestination, powerLvl);
 		// TODO Auto-generated constructor stub
 		strenght = 3;
+		setMoneyDropped(60);
+
 
 	}
 	

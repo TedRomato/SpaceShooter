@@ -5,6 +5,8 @@ public class Grenader extends LongRangeAI{
 		super(corners, rotationPoint, rotationAngle, md, goalDestination, wayPoint,powerLvl);
 		// TODO Auto-generated constructor stub
 		strenght = 6;
+		setMoneyDropped(120);
+
 
 	}
 	
