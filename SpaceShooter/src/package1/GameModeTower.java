@@ -27,13 +27,13 @@ import javax.swing.plaf.basic.BasicProgressBarUI;
 public class GameModeTower extends Game{
 
 	private Tower tower;
-	private JLabel waveDisplay,MoneyDisplay,ShieldHPDisplay, PlayerHPDisplay, PlayerAmmoDisplay, GameOverDisplay, PowerUpDisplay, MachineGunAmmoDisplay, RocketAmmoDisplay;
+	private JLabel waveDisplay,MoneyDisplay,CostDisplay,ShieldHPDisplay, PlayerHPDisplay, PlayerAmmoDisplay, GameOverDisplay, PowerUpDisplay, MachineGunAmmoDisplay, RocketAmmoDisplay;
 	private JProgressBar TowerHPDisplay, PlayerReloadTime, MachineGunReload, FaceCannonReload, DashRefill, ShieldStatus, BerserkReloadTime, PulseReloadTime;
 	private JButton Power1, Power2, Power3, Power4, Power5, Power6, Power7, Power8, Shop, Resume, TurretUpgrade1, TurretUpgrade2,TurretUpgrade3;
 	private BufferedImage Shield, BerserkMode, Pulse,ShieldIcon, HealthIcon, AmmoIcon , Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, DashRefillIcon,BerserkModeIcon,PulseIcon;
 	private Font font = new Font("josef", Font.PLAIN, 25);
 	private int AIcount = 90;
-	private int wave = 20;
+	private int wave = 1;
 	private int waveCount = 0;
 	private int AIStrength = 0;
 	private int TowerBaseHP=1000;
@@ -53,6 +53,7 @@ public class GameModeTower extends Game{
 
 		setLayout(null); 
 		setName("TowerMode");
+		super.collectMoney = true;
 
 		try {
 			HealthIcon = ImageIO.read(new File("src/Icons/HealthIcon.png"));
@@ -94,17 +95,19 @@ public class GameModeTower extends Game{
 				DisplayShop();
 			}
 		});
-		Shop.setEnabled(false);
 		add(Shop);
 		
 		TurretUpgrade1 = new JButton("");
 		TurretUpgrade1.setFocusable(false);
+		TurretUpgrade1.addMouseListener(this);
 		
 		TurretUpgrade2 = new JButton("");
 		TurretUpgrade2.setFocusable(false);
+		TurretUpgrade2.addMouseListener(this);
 		
 		TurretUpgrade3 = new JButton("");
 		TurretUpgrade3.setFocusable(false);
+		TurretUpgrade3.addMouseListener(this);
 		
 		Resume = new JButton("Resume");
 		Resume.setName("Resume");
@@ -340,6 +343,10 @@ public class GameModeTower extends Game{
 		MoneyDisplay.setBounds(currentScreenWidth-100, 30, 150, 50);
 		add(MoneyDisplay);
 		
+		CostDisplay = new JLabel();
+		CostDisplay.setFont(new Font("jesus", font.BOLD, 14));
+		CostDisplay.setHorizontalAlignment(SwingConstants.CENTER);
+		
 		PowerUpDisplay = new JLabel("");
 		PowerUpDisplay.setFont(font);
 		PowerUpDisplay.setHorizontalAlignment(SwingConstants.CENTER);
@@ -434,7 +441,7 @@ public class GameModeTower extends Game{
 		DisplayPowerUps();
 		endGame();
 	}
-	
+
 	public void handleWaves() {
 		if(AIneeded && AIcount == 90) {	
 			AIrnd = (int) (Math.random() * ((5+1)));
@@ -480,6 +487,7 @@ public class GameModeTower extends Game{
 	
 	public void updateDisplay() { 
 		super.updateDisplay();
+		MoneyDisplay.setText("Money: "+ super.money);
 		waveDisplay.setText("Wave: " + wave);
 		TowerHPDisplay.setValue(tower.getHP());
 		TowerHPDisplay.setString(tower.getHP() + "/" + TowerBaseHP);
@@ -652,6 +660,7 @@ public class GameModeTower extends Game{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tower.addTurret();
+				money -= tower.getTurretCost();
 				tower.setTurretOn(true);
 				DisplayShop();
 			}
@@ -660,6 +669,7 @@ public class GameModeTower extends Game{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tower.upgradeToGrenadeLauncher();
+				money -= tower.getNextTurretCost();
 				tower.setGrenadeLauncherOn(true);
 				DisplayShop();
 			}
@@ -668,6 +678,7 @@ public class GameModeTower extends Game{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tower.upgradeToSniper();
+				money -= tower.getNextTurretCost();
 				tower.setSniperOn(true);
 				DisplayShop();
 			}
@@ -676,6 +687,7 @@ public class GameModeTower extends Game{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tower.upgradeToMachineGun();
+				money -= tower.getNextTurretCost();
 				tower.setMachineGunOn(true);
 				DisplayShop();
 			}
@@ -684,6 +696,8 @@ public class GameModeTower extends Game{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tower.UpgradeDMG();
+				money -= tower.getUpgradeCost();
+				tower.setUpgradeCost(tower.getUpgradeCost()*2);
 				DisplayShop();
 			}
 		};
@@ -691,6 +705,8 @@ public class GameModeTower extends Game{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tower.UpgradeAccuracy();
+				money -= tower.getUpgradeCost();
+				tower.setUpgradeCost(tower.getUpgradeCost()*2);
 				DisplayShop();
 			}
 		};
@@ -698,6 +714,8 @@ public class GameModeTower extends Game{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tower.UpgradeGrenadeChunks();
+				money -= tower.getUpgradeCost();
+				tower.setUpgradeCost(tower.getUpgradeCost()*2);
 				DisplayShop();
 			}
 		};
@@ -705,6 +723,8 @@ public class GameModeTower extends Game{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tower.UpgradeMagazineSize();
+				money -= tower.getUpgradeCost();
+				tower.setUpgradeCost(tower.getUpgradeCost()*2);
 				DisplayShop();
 			}
 		};
@@ -712,34 +732,45 @@ public class GameModeTower extends Game{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tower.UpgradeReloadTime();
+				money -= tower.getUpgradeCost();
+				tower.setUpgradeCost(tower.getUpgradeCost()*2);
 				DisplayShop();
 			}
 		};
+		MoneyDisplay.setText("Money: "+ super.money);
 		if(!tower.isTurretOn()) {
 			removeActionListeners(TurretUpgrade1);
+			TurretUpgrade1.setName("Turret");
 			TurretUpgrade1.setText("Buy Turret");
 			TurretUpgrade1.setBounds(currentScreenWidth/2-75, currentScreenHeight/2-75, 150, 150);
 			TurretUpgrade1.addActionListener(NewTurret);
+			checkUpgrades(TurretUpgrade1, tower.getTurretCost());
 			add(TurretUpgrade1);
 		
 		}
 		if(tower.isTurretOn()&&!tower.isGrenadeLauncherOn()&&!tower.isSniperOn()&&!tower.isMachineGunOn()) {
 			removeActionListeners(TurretUpgrade1);
+			TurretUpgrade1.setName("NextTurret");
 			TurretUpgrade1.setText("Buy GrenadeLauncher");
 			TurretUpgrade1.setBounds(currentScreenWidth/2-225, currentScreenHeight/2-75, 150, 150);
 			TurretUpgrade1.addActionListener(GrenadeLauncherTurret);
+			checkUpgrades(TurretUpgrade1, tower.getNextTurretCost());
 			add(TurretUpgrade1);
 			
 			removeActionListeners(TurretUpgrade2);
+			TurretUpgrade2.setName("NextTurret");
 			TurretUpgrade2.setText("Buy MachineGun");
 			TurretUpgrade2.setBounds(currentScreenWidth/2-75, currentScreenHeight/2-75, 150, 150);
 			TurretUpgrade2.addActionListener(MachineGunTurret);
+			checkUpgrades(TurretUpgrade2, tower.getNextTurretCost());
 			add(TurretUpgrade2);
 			
 			removeActionListeners(TurretUpgrade3);
+			TurretUpgrade3.setName("NextTurret");
 			TurretUpgrade3.setText("Buy Sniper");
 			TurretUpgrade3.setBounds(currentScreenWidth/2+75, currentScreenHeight/2-75, 150, 150);
 			TurretUpgrade3.addActionListener(SniperTurret);
+			checkUpgrades(TurretUpgrade3, tower.getNextTurretCost());
 			add(TurretUpgrade3);
 			
 		}
@@ -795,6 +826,23 @@ public class GameModeTower extends Game{
 			add(TurretUpgrade3);
 		
 		}
+		if(tower.isTurretOn()&&tower.isSniperOn()||tower.isTurretOn()&&tower.isGrenadeLauncherOn()||tower.isTurretOn()&&tower.isMachineGunOn()) {
+			TurretUpgrade1.setName("Upgrade");
+			TurretUpgrade2.setName("Upgrade");
+			TurretUpgrade3.setName("Upgrade");
+			checkUpgrades(TurretUpgrade1, tower.getUpgradeCost());
+			checkUpgrades(TurretUpgrade2, tower.getUpgradeCost());
+			checkUpgrades(TurretUpgrade3, tower.getUpgradeCost());
+		}
+		repaint();
+	}
+	public void checkUpgrades(JButton b, int cost) {
+		if(money >= cost) {
+			b.setEnabled(true);
+		}
+		else {
+			b.setEnabled(false);
+		}
 	}
 	public void removeActionListeners(JButton b) {
 		    for( ActionListener al : b.getActionListeners() ) {
@@ -843,6 +891,7 @@ public class GameModeTower extends Game{
 		switch(e.getComponent().getName()) {
 			case "TowerMode" : 
 				remove(PowerUpDisplay);
+				remove(CostDisplay);
 				repaint();
 				break;
 			case "Power1" :
@@ -888,6 +937,25 @@ public class GameModeTower extends Game{
 					PowerUpDisplay.setText("<html>Dash upgrade - Slightly reduceses dash charge time<html>");
 				}
 				add(PowerUpDisplay);
+				repaint();
+				break;
+			
+			case "Turret" :
+				CostDisplay.setBounds(e.getComponent().getX(), e.getComponent().getY()+e.getComponent().getHeight(), e.getComponent().getWidth(), 50);
+				CostDisplay.setText("" + tower.getTurretCost());
+				add(CostDisplay);
+				repaint();
+				break;
+			case "NextTurret" :
+				CostDisplay.setBounds(e.getComponent().getX(), e.getComponent().getY()+e.getComponent().getHeight(), e.getComponent().getWidth(), 50);
+				CostDisplay.setText("" + tower.getNextTurretCost());
+				add(CostDisplay);
+				repaint();
+				break;
+			case "Upgrade" :
+				CostDisplay.setBounds(e.getComponent().getX(), e.getComponent().getY()+e.getComponent().getHeight(), e.getComponent().getWidth(), 50);
+				CostDisplay.setText("" + tower.getUpgradeCost());
+				add(CostDisplay);
 				repaint();
 				break;
 			default: 

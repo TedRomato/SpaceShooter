@@ -77,8 +77,8 @@ public class Game extends JPanel implements MouseListener{
 	int  spawnBlockHeight = safeZoneHeight, spawnBlockWidth = safeZoneWidth;
 	Corner spawnBlockCorner = new Corner(new double[] {0,0});;
 	int[] spawnBlockRange = new int[] {600,800};
-	
-	
+	protected int money = 0;
+	protected boolean collectMoney = false;
 	boolean GameOver = false;
 	private boolean wasCalled = false;
 	//public static JPanel gp = new GamePanel();
@@ -491,7 +491,9 @@ public class Game extends JPanel implements MouseListener{
 						removeObFromGame(((LivingObject) ob).getShield());
 					}
 				}
-					
+				if(ob instanceof AI && collectMoney) {
+					money += ((AI)ob).getMoneyDropped();
+				}
 				removeObFromGame(ob);
 			}
 		}
