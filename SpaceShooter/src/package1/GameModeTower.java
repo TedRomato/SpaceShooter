@@ -564,6 +564,22 @@ public class GameModeTower extends Game{
 			add(Window.MainMenu);
 		}
 	}
+	public void deleteNoHpObs() {
+		for(GameObject ob : objects) {
+			if(ob.getHP() <= 0) {
+				if(ob instanceof LivingObject) {
+					if(((LivingObject) ob).getShield() != null) {
+						removeObFromGame(((LivingObject) ob).getShield());
+					}
+				}
+				if(ob instanceof AI && collectMoney) {
+					money += ((AI)ob).getMoneyDropped();
+				}
+				removeObFromGame(ob);
+			}
+		}	
+	}
+	
 	public void DisplayPowerUps() {
 		if(wave%2==0) {
 			PUpicked = false;

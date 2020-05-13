@@ -483,16 +483,13 @@ public class Game extends JPanel implements MouseListener{
 	
 	//Deletes all GameObjects with <= 0 HP
 	
-	private void deleteNoHpObs() {
+	public void deleteNoHpObs() {
 		for(GameObject ob : objects) {
 			if(ob.getHP() <= 0) {
 				if(ob instanceof LivingObject) {
 					if(((LivingObject) ob).getShield() != null) {
 						removeObFromGame(((LivingObject) ob).getShield());
 					}
-				}
-				if(ob instanceof AI && collectMoney) {
-					money += ((AI)ob).getMoneyDropped();
 				}
 				removeObFromGame(ob);
 			}
