@@ -33,7 +33,7 @@ public class GameModeTower extends Game{
 	private BufferedImage Shield, BerserkMode, Pulse,ShieldIcon, HealthIcon, AmmoIcon , Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, DashRefillIcon,BerserkModeIcon,PulseIcon;
 	private Font font = new Font("josef", Font.PLAIN, 25);
 	private int AIcount = 90;
-	private int wave = 15;
+	private int wave = 20;
 	private int waveCount = 0;
 	private int AIStrength = 0;
 	private int TowerBaseHP=1000;
@@ -178,12 +178,12 @@ public class GameModeTower extends Game{
 				revalidate();
 				if(p.faceCanon==-1) {
 					p.addFrontCanon();
-					FaceCannonReload.setMaximum(((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineReloadLenght());
-					FaceCannonReload.setValue(((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineReloadLenght());
+					FaceCannonReload.setMaximum((int) ((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineReloadLenght());
+					FaceCannonReload.setValue((int) ((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineReloadLenght());
 					add(FaceCannonReload);
 				}else {
 					p.upgradeFaceCanon();
-					FaceCannonReload.setMaximum(((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineReloadLenght());
+					FaceCannonReload.setMaximum((int) ((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineReloadLenght());
 				}
 				running = true;
 				PUpicked = true;
@@ -205,12 +205,12 @@ public class GameModeTower extends Game{
 				revalidate();
 				if(p.machinegun==-1) {
 					p.addFrontMachineGun();
-					MachineGunReload.setMaximum(((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineReloadLenght());
-					MachineGunReload.setValue(((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineReloadLenght());
+					MachineGunReload.setMaximum((int) ((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineReloadLenght());
+					MachineGunReload.setValue((int) ((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineReloadLenght());
 					add(MachineGunReload);
 				}else {
 					p.upgradeMG();
-					MachineGunReload.setMaximum(((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineReloadLenght());
+					MachineGunReload.setMaximum((int) ((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineReloadLenght());
 				}
 				running = true;
 				PUpicked = true;
@@ -233,13 +233,13 @@ public class GameModeTower extends Game{
 				revalidate();
 				if(!p.isDashUnlocked()) {	
 					p.setDashUnlocked(true);
-					DashRefill.setMaximum(p.getDashCooldown());
-					DashRefill.setValue(p.getDashCooldown());
+					DashRefill.setMaximum((int) p.getDashCooldown());
+					DashRefill.setValue((int) p.getDashCooldown());
 					add(DashRefill); 
 				} 
 				else {
 					p.upgradeDash(1);
-					DashRefill.setMaximum(p.getDashCooldown());
+					DashRefill.setMaximum((int) p.getDashCooldown());
 				}
 				running = true;
 				PUpicked = true;
@@ -262,13 +262,13 @@ public class GameModeTower extends Game{
 				revalidate();
 				if(!p.isShieldIsUnlocked()) {	
 					p.setShieldIsUnlocked(true);
-					ShieldStatus.setMaximum(p.getShieldCooldown());
-					ShieldStatus.setValue(p.getShieldCooldown());
+					ShieldStatus.setMaximum((int) p.getShieldCooldown());
+					ShieldStatus.setValue((int) p.getShieldCooldown());
 					add(ShieldStatus);
 				} 
 
 				else {
-					ShieldStatus.setMaximum(p.getShieldCooldown());
+					ShieldStatus.setMaximum((int) p.getShieldCooldown());
 					p.upgradeShield();
 				}
 				running = true;
@@ -291,12 +291,12 @@ public class GameModeTower extends Game{
 				revalidate();
 				if(!p.pulseIsUnlocked) {	
 					p.setPulseUnlocked(true);
-					PulseReloadTime.setMaximum(p.getPulseCooldown());
-					PulseReloadTime.setValue(p.getPulseCooldown());
+					PulseReloadTime.setMaximum((int) p.getPulseCooldown());
+					PulseReloadTime.setValue((int) p.getPulseCooldown());
 					add(PulseReloadTime);
 				} 
 				else {
-					PulseReloadTime.setMaximum(p.getPulseCooldown());
+					PulseReloadTime.setMaximum((int) p.getPulseCooldown());
 					p.upgradePulse();
 				}
 				running = true;
@@ -320,12 +320,12 @@ public class GameModeTower extends Game{
 				revalidate();
 				if(!p.isBerserkModeUnlocked()) {	
 					p.setBerserkModeUnlocked(true);
-					BerserkReloadTime.setMaximum(p.getBerserkModeCooldown());
-					BerserkReloadTime.setValue(p.getBerserkModeCooldown());
+					BerserkReloadTime.setMaximum((int) p.getBerserkModeCooldown());
+					BerserkReloadTime.setValue((int) p.getBerserkModeCooldown());
 					add(BerserkReloadTime);
 				} 
 				else {
-					BerserkReloadTime.setMaximum(p.getBerserkModeCooldown());
+					BerserkReloadTime.setMaximum((int) p.getBerserkModeCooldown());
 					p.upgradeBerserkMode();
 				}
 				running = true;
@@ -380,9 +380,9 @@ public class GameModeTower extends Game{
 		waveDisplay.setFont(font);
 		add(waveDisplay);
 		
-		PlayerReloadTime = new JProgressBar(0,((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadLenght());
+		PlayerReloadTime = new JProgressBar(0,(int) ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadLenght());
 		PlayerReloadTime.setBounds(0, 70, 80, 10);
-		PlayerReloadTime.setValue(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadLenght());
+		PlayerReloadTime.setValue((int) ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadLenght());
 		PlayerReloadTime.setForeground(Color.BLACK);
 		add(PlayerReloadTime);
 		
@@ -443,11 +443,11 @@ public class GameModeTower extends Game{
 				return;
 			}
 			if(AIStrength*AIPowerLevel + StrenghtAr[AIrnd] < wave) {
-				spawnAI(AIrnd,AIPowerLevel);
+				spawnAI(AIrnd,AIPowerLevel,false);
 				AIStrength += StrenghtAr[AIrnd]*AIPowerLevel;
 			}
 			if(AIStrength*AIPowerLevel + StrenghtAr[AIrnd] == wave && AIneeded|| AIStrength == wave && AIneeded) {
-				spawnAI(AIrnd,AIPowerLevel);
+				spawnAI(AIrnd,AIPowerLevel,false);
 				AIStrength = wave;
 				AIneeded = false;
 				waveEnd = true;
@@ -486,41 +486,41 @@ public class GameModeTower extends Game{
 		PlayerHPDisplay.setText(""+p.getHP());
 		PlayerAmmoDisplay.setText("" + ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize());
 		if(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getReloadingMag()) {
-			PlayerReloadTime.setValue(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadTimer());
+			PlayerReloadTime.setValue((int) ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadTimer());
 		}else  {
-			PlayerReloadTime.setValue(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadLenght());
+			PlayerReloadTime.setValue((int) ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadLenght());
 		}
 		if(p.machinegun!=-1) {
 			if(((MagazineAttachment)p.getAttachments()[p.machinegun]).getReloadingMag()) {
-				MachineGunReload.setValue(((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineReloadTimer());
+				MachineGunReload.setValue((int) ((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineReloadTimer());
 			}else {
-				MachineGunReload.setValue(((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineReloadLenght());
+				MachineGunReload.setValue((int) ((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineReloadLenght());
 			}
 			MachineGunAmmoDisplay.setText(""+((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.machinegun]).getMagazineMaxSize());
 		}
 		if(p.faceCanon!=-1) {
 			if(((MagazineAttachment)p.getAttachments()[p.faceCanon]).getReloadingMag()) {
-				FaceCannonReload.setValue(((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineReloadTimer());
+				FaceCannonReload.setValue((int) ((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineReloadTimer());
 			}else {
-				FaceCannonReload.setValue(((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineReloadLenght());
+				FaceCannonReload.setValue((int) ((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineReloadLenght());
 
 			}
 			RocketAmmoDisplay.setText(""+((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.faceCanon]).getMagazineMaxSize());
 		}
 		if(p.isDashUnlocked()) {
-			DashRefill.setValue(p.getDashCooldownTimer());
+			DashRefill.setValue((int) p.getDashCooldownTimer());
 		}
 		if(p.isShieldIsUnlocked()) {
 			if(p.shieldIsUp) {
 				ShieldHPDisplay.setText(""+p.getCurrentShieldHP());
 				add(ShieldHPDisplay);
-				ShieldStatus.setMaximum(p.getShield().getDuration());
-				ShieldStatus.setValue(p.getShield().getDuration()-p.getShield().getDurationTimer());
+				ShieldStatus.setMaximum((int) p.getShield().getDuration());
+				ShieldStatus.setValue((int) (p.getShield().getDuration()-p.getShield().getDurationTimer()));
 			}
 			else {
 				remove(ShieldHPDisplay);
-				ShieldStatus.setMaximum(p.getShieldCooldown());
-				ShieldStatus.setValue(p.getShieldTimer());
+				ShieldStatus.setMaximum((int) p.getShieldCooldown());
+				ShieldStatus.setValue((int) p.getShieldTimer());
 			}
 		}
 		if(p.isBerserkModeUnlocked()) {
@@ -529,12 +529,12 @@ public class GameModeTower extends Game{
 				BerserkReloadTime.setValue(p.getExploWave()-p.getExploWaveCounter());
 			}
 			else {
-				BerserkReloadTime.setMaximum(p.getBerserkModeCooldown());
-				BerserkReloadTime.setValue(p.getBerserkModeTimer());
+				BerserkReloadTime.setMaximum((int) p.getBerserkModeCooldown());
+				BerserkReloadTime.setValue((int) p.getBerserkModeTimer());
 			}
 		}
 		if(p.isPulseUnlocked()) {
-			PulseReloadTime.setValue(p.getPulseCooldownTimer());
+			PulseReloadTime.setValue((int) p.getPulseCooldownTimer());
 		}
 	}
 	public void nextWave() {

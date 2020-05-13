@@ -2,6 +2,8 @@ package package1;
 
 import java.awt.Graphics;
 
+import javax.swing.JProgressBar;
+
 public class GameObject {
 	
 	//Basic object
@@ -15,12 +17,14 @@ public class GameObject {
 	private boolean collision;
 	private int HP = 3;
     //can be activated after reflection for other beahaviour
-	private int invulnerabilityLength = 1;
-	private int invulnerabilityTimer = 0;
+	private double invulnerabilityLength = 1*Game.tickMultiply;
+	private double invulnerabilityTimer = 0;
 	private boolean invulnurable = false;
 	
 	double angleRotated = 0;
 	private Square collisionSquare;
+	
+	
 
 	
 	
@@ -31,7 +35,7 @@ public class GameObject {
 		}
 		
 		this.setRotationPoint(rotationPoint2);
-		this.rotationAngle = rotationAngle;
+		initialRAngleSet(rotationAngle);
 		makeSquare(getFurthestDistance());
 		
 	}
@@ -42,6 +46,8 @@ public class GameObject {
 		rotationPoint = rp;
 		this.rotationAngle = rotationAngle;
 		makeSquare(getFurthestDistance());
+		initialRAngleSet(rotationAngle);
+
 
 	}
 	//updates object --> move and rotate
@@ -173,7 +179,7 @@ public class GameObject {
 	
 	public void updateInvulnurability() {
 		if(invulnurable) {
-			invulnerabilityTimer --;
+			invulnerabilityTimer -= Game.tickOne;
 			if(invulnerabilityTimer <= 0) {
 				invulnurable = false;
 			}
@@ -516,7 +522,7 @@ public class GameObject {
 		angleRotated += angle;
 	}
 	
-	public double generateNumInRange(double[] range) {
+	public static double generateNumInRange(double[] range) {
 		return Math.random()*(range[1] - range[0])+range[0];
 	}
 	
@@ -563,7 +569,13 @@ public class GameObject {
 		return rotationAngle;
 	}
 	public void setRotationAngle(double d) {
+
 		this.rotationAngle = d;
+	}
+	
+	public void initialRAngleSet(double d) {
+		this.rotationAngle = d*Game.tickMultiply;
+
 	}
 	
 	public Corner[] getCorners() {
@@ -581,7 +593,7 @@ public class GameObject {
 
 
 	public void render(Graphics g) {
-	//	getCollisionSquare().render(g);
+//		getCollisionSquare().render(g);
 		for(int i = 0;i<corners.length;i++) {
 			if(i<corners.length-1) {
 				g.drawLine((int) Math.round(corners[i].getX()*Game.camera.toMultiply() + Game.camera.toAddX()),(int) Math.round(corners[i].getY()*Game.camera.toMultiply() + Game.camera.toAddY()),(int) Math.round(corners[i+1].getX()*Game.camera.toMultiply() + Game.camera.toAddX()),(int) Math.round(corners[i+1].getY()*Game.camera.toMultiply() + Game.camera.toAddY()));
@@ -592,10 +604,10 @@ public class GameObject {
 		}
 	}
 	
-	public int getReloadLenght() {
+	public double getReloadLenght() {
 		return 0;
 	}
-	public int getReloadTimer() {
+	public double getReloadTimer() {
 		return 0;
 	}
 	

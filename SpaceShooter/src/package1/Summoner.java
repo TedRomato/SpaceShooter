@@ -3,7 +3,7 @@ package package1;
 import java.awt.Graphics;
 
 public class Summoner extends AI{
-	double w8Length = 50;
+	double w8Length = 50*Game.tickMultiply;
 	double summonTimer = w8Length;
 	boolean onCooldown = false;
 	Corner[] summoningDestinations;
@@ -44,6 +44,7 @@ public class Summoner extends AI{
 	public AI summonAI(GameObject[] enemys) {
 		int whichOne = (int) (Math.floor(Math.random()*4));
 		HuntingMine ai = HuntingMine.makeNewHuntingMine(summoningDestinations[whichOne].getX(), summoningDestinations[whichOne].getY(), enemys, getPowerLvl());
+		ai.summoned = true;
 		return ai;
 	}
 	
@@ -70,7 +71,7 @@ public class Summoner extends AI{
 	
 	private void updateTimer() {
 		if(onCooldown) {
-			summonTimer--;
+			summonTimer -= Game.tickOne;
 			if(summonTimer <= 0){
 				summonTimer = w8Length;
 				onCooldown=false;

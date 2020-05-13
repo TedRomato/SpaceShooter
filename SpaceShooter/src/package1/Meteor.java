@@ -10,7 +10,7 @@ public class Meteor extends MovingObject {
 		setReflectedSpeed(speed);
 		this.size = size;
 		setNewHp();
-		setCurrentSpeed(speed);
+		setCurrentSpeed(speed*Game.tickMultiply);
 	}
 	public Meteor(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md, double speed, int size) {
 		super(corners, rotationPoint, rotationAngle, md);
@@ -18,7 +18,7 @@ public class Meteor extends MovingObject {
 		setReflectedSpeed(speed);
 		this.size = size;
 		setNewHp();
-		setCurrentSpeed(speed);
+		setCurrentSpeed(speed*Game.tickMultiply);
 	}
 	
 	

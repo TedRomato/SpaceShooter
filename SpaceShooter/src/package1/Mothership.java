@@ -18,6 +18,7 @@ public class Mothership extends Summoner{
 			Corner goalDestination, int PowerLvl) {
 		super(corners, rotationPoint, rotationAngle, md, goalDestination, PowerLvl);
 		strenght = 4;
+		setMoneyDropped(80);
 
 		try {
 
@@ -30,6 +31,7 @@ public class Mothership extends Summoner{
 		}
 		// TODO Auto-generated constructor stub
 	}
+
 	
 	public static Mothership  makeNewMothership(double x, double y, GameObject[] gameObjects, int powerLvl) {
 		Mothership ai;
@@ -71,8 +73,9 @@ public class Mothership extends Summoner{
 		ai = new Mothership(body, new double[] {x,y}, 1, md, gd,powerLvl);
 		ai.setSummoningPoint(new Corner[] {summoningPoint1,summoningPoint2,summoningPoint3,summoningPoint4});
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
-	    ai.setMaxSpeed(1.5+powerLvl);
+	    ai.initialSetMaxSpeed(1.5+powerLvl);
 	    ai.setReflectedSpeed(6);
+	    ai.initialRAngleSet(1);
 
 	    ai.setStoppingDistance(650);
 	    ai.setHP(8+powerLvl*2);

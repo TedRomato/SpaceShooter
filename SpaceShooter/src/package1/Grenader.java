@@ -5,6 +5,8 @@ public class Grenader extends LongRangeAI{
 		super(corners, rotationPoint, rotationAngle, md, goalDestination, wayPoint,powerLvl);
 		// TODO Auto-generated constructor stub
 		strenght = 6;
+		setMoneyDropped(120);
+
 
 	}
 	
@@ -88,8 +90,8 @@ public class Grenader extends LongRangeAI{
 		ai = new Grenader(body, new double[] {x,y}, 2, md, gd, wp,powerLvl);
 	    ai.addAttachment(canon);
 		ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
-	    ai.setMaxSpeed(4.2+powerLvl/3);
-	    ai.setReflectedSpeed(6);
+	    ai.initialSetMaxSpeed(4.2+powerLvl/3);
+	    ai.initialSetReflectedSpeed(6);
 	    ai.setStoppingDistance(800);
 	    ai.addAttachment(k1);
 	    ai.addAttachment(k2);

@@ -6,6 +6,8 @@ public class Hunter extends AI{
 		super(corners, rotationPoint, rotationAngle, md, goalDestination, powerLvl);
 		// TODO Auto-generated constructor stub
 		strenght = 3;
+		setMoneyDropped(60);
+
 
 	}
 	
@@ -86,11 +88,11 @@ public class Hunter extends AI{
 			    ai.addAttachment(sc2);
 			    ai.rotateOb(6);
 			    
-			    ai.setMaxSpeed(5.5);
+			    ai.initialSetMaxSpeed(5.5);
 			    ai.addAttachment(att);
 			    ai.addAttachment(att2);
 			    ai.setHP(4+powerLvl);
-			    ai.setReflectedSpeed(7);
+			    ai.initialSetReflectedSpeed(7);
 			    ai.findAndSetToClosestEnemy(gameObjects);
 			    ai.setPlayerFocus(true);
 			    ai.setStoppingDistance(250);

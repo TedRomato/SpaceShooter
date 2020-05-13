@@ -9,6 +9,8 @@ public class Shielder extends AI{
 	public Shielder(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md, Corner goalDestination, int PowerLvl) {
 		super(corners, rotationPoint, rotationAngle, md, goalDestination, PowerLvl);
 		strenght = 4;
+		setMoneyDropped(60);
+
 		
 	}
 	
@@ -83,10 +85,11 @@ public class Shielder extends AI{
 			    Corner goalCorner = new Corner(new double[] {1000,600} );
 			    Shielder ai = new Shielder(corners, new double[] {x,y}, 5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner, powerLvl);
 			    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
-			    ai.setMaxSpeed(3.5);
+			    ai.initialSetMaxSpeed(3.5);
 		//	    ai.addAttachment(att);
+			    ai.initialRAngleSet(5);
 			    ai.setHP(5);
-			    ai.setAcceleration(0.1);
+			    ai.initialSetAcceleration(0.1);
 			    ai.setReflectedSpeed(6);
 			    ai.setStoppingDistance(900);
 			    ai.setShootForInteractiveAtts(true);

@@ -22,6 +22,7 @@ public class AI extends LivingObject{
 	int aiUpdateTimer = aiUpdateLenght;
 	int powerLVL;
 	int strenght;
+	int moneyDropped = 0;
 
 
 	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination, int powerLvl) {
@@ -32,7 +33,7 @@ public class AI extends LivingObject{
 		setForward(true);
 		setHP(100);
 		setReflectedLenght(80);
-		setAcceleration(getMaxSpeed() / 50);
+		initialSetAcceleration(getMaxSpeed() / 50);
 		getRandomUpdateFrequence();
 	}
 	//inRange = minimum distance of rp - maximum distance of rp (from sides); sides = bot - y,right - x,top - y,left - x 
@@ -540,4 +541,13 @@ public class AI extends LivingObject{
 	public void setRunningDistance(double d) {
 		runningDistance = d;
 	}
+	
+	public void setMoneyDropped(int d) {
+		moneyDropped = d*getPowerLvl();
+	}
+	
+	public int getMoneyDropped() {
+		return moneyDropped;
+	}
+	
 }

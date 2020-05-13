@@ -9,7 +9,7 @@ public class Explosives extends LivingObject{
 	public Explosives(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md) {
 		super(corners, rotationPoint, rotationAngle, md);
 		setHP(5);
-		setMaxSpeed(5);
+		initialSetMaxSpeed(5);
 		
 		// TODO Auto-generated constructor stub
 	}

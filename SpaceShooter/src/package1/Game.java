@@ -28,6 +28,10 @@ import javax.swing.JPanel;
 public class Game extends JPanel implements MouseListener{
 
 	static int mainHeight = 1908, mainWidth = 3392;
+	static int baseTicks = 60;
+	static int currentTicks = 120;
+	static double tickMultiply = (double)baseTicks/(double)currentTicks;
+	static double tickOne = 1*tickMultiply;
 	protected Player p;
 	private Hunter ht;
 	private Grenader gr;
@@ -39,6 +43,7 @@ public class Game extends JPanel implements MouseListener{
 	 BufferedImage WarningSign;
 	 BufferedImage bg;
 	protected int score = 0;
+	int[] aiSpawningRange = new int[] {600,1000};
 
 	private boolean ShowScore;
 	private Corner spawnCorner;
@@ -81,6 +86,7 @@ public class Game extends JPanel implements MouseListener{
 	private int Count = 0;
 	
 	public Game(int sw,int sh,boolean softBorder) {
+		System.out.println("tadyy" + tickMultiply);
 		this.setBackground(Color.pink);
 		this.currentScreenHeight = sh;
 		this.currentScreenWidth = sw;
@@ -134,7 +140,7 @@ public class Game extends JPanel implements MouseListener{
 	    }	    	    
 	    screenRatio = (double)currentScreenWidth/(double)mainWidth;
 		camera = new Camera(currentScreenWidth,currentScreenHeight,1);
-		camera.setCameraToCorner(new Corner(new double[] {0,0}));
+		camera.setCameraToCorner(new Corner(new double[] {mainWidth/2,mainHeight/2}));
 		
 	    p = Player.makeNewPlayer(new double[] {100,100});
 		addObToGame(p, new int[] {5,6,7,9,11}); 
@@ -167,7 +173,7 @@ public class Game extends JPanel implements MouseListener{
 	
 	public void start() {
 		long lastTime = System.nanoTime();
-        double amountOfTicks = 60;
+        double amountOfTicks = currentTicks;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -378,7 +384,7 @@ public class Game extends JPanel implements MouseListener{
 							att.setReloadTimer(0);
 						}
 						if(att.getReloadTimer() != att.getReloadLenght()) { 
-							att.setReloadTimer(att.getReloadTimer()+1);
+							att.setReloadTimer(att.getReloadTimer()+Game.tickOne);
 						}
 					}
 				}
@@ -394,26 +400,34 @@ public class Game extends JPanel implements MouseListener{
 		}
 	}
 	
-	public void spawnAI(int AI, int PL) {
-		spawnCorner = GameObject.generateCornerOutsideMapInRange(spawnBlockCorner,mainWidth, mainHeight, new int[] {600,1000});
+	public void spawnAI(int AI, int PL, boolean playerFocus) {
+		spawnCorner = GameObject.generateCornerOutsideMapInRange(spawnBlockCorner,mainWidth, mainHeight, aiSpawningRange);
 		switch(AI){
 
-			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(hm, new int[] {4,7,9,10,11}); 
+			case 0 : hm = HuntingMine.makeNewHuntingMine(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); 
+				addObToGame(hm, new int[] {4,7,9,10,11}); 
 			break;
 
-			case 1 : sca = SpaceCanon.makeNewSpaceCanon(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(sca, new int[] {4,7,9,10,11}); 
+			case 1 : sca = SpaceCanon.makeNewSpaceCanon(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); 
+				sca.setPlayerFocus(playerFocus);
+				addObToGame(sca, new int[] {4,7,9,10,11}); 
 			break;
 
-			case 2 : mp = Mothership.makeNewMothership(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(mp, new int[] {4,7,10,11}); 
+			case 2 : mp = Mothership.makeNewMothership(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL);
+				addObToGame(mp, new int[] {4,7,10,11}); 
 			break;
 
-			case 3 : scr = SpaceCruiser.makeNewSpaceCruiser(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); addObToGame(scr, new int[] {4,7,9,10,11}); 
+			case 3 : scr = SpaceCruiser.makeNewSpaceCruiser(spawnCorner.getX(), spawnCorner.getY(),getAiEnemys(),PL); 
+				scr.setPlayerFocus(playerFocus);
+				addObToGame(scr, new int[] {4,7,9,10,11}); 
 			break;
 			
 			case 4 : ht = Hunter.makeNewHunter(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),PL); addObToGame(ht, new int[] {4,7,9,10,11}); 
 			break;
 			
-			case 5 : gr = Grenader.makeNewGrenader(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),PL); addObToGame(gr, new int[] {4,7,9,10,11}); 
+			case 5 : gr = Grenader.makeNewGrenader(spawnCorner.getX(), spawnCorner.getY(), getAiEnemys(),PL); 
+				gr.setPlayerFocus(playerFocus);
+				addObToGame(gr, new int[] {4,7,9,10,11}); 
 			break;
 			default : 
 		}
@@ -524,7 +538,7 @@ public class Game extends JPanel implements MouseListener{
 	
 	public boolean checkIfSpawnCollision(GameObject t) {
 		for(GameObject g : objects) {
-			if(t.checkCollision(g)) {
+			if(t.getCollisionSquare().squareCollision(g.getCollisionSquare())) {
 				return false;
 			}
 		}

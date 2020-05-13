@@ -25,6 +25,8 @@ public class SpaceCanon extends AI{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		setMoneyDropped(20);
+
 	}
 	
 	
@@ -44,7 +46,7 @@ public class SpaceCanon extends AI{
 	    Corner wayPoint = new Corner(new double[] {x,y + 60}, new double[] {x ,y});
 	    InteractiveAttachment att = new InteractiveAttachment(new Corner[] {peakAIAt,botAIAt,canonAt1,canonAt2,canonAt3,canonAt4,rightCornerAIAt,leftCornerAIAt},new Corner(new double[] {x ,y}), new double[] {x ,y}, 0.6, wayPoint, 900, 45);
 	    att.setRotateWithParentOb(false);
-	    att.setAttRangle(2);
+	    att.initialSetAttRangle(2);
 	    att.setReloadLenght(120);
 	    att.setDmg(2+powerLvl/3);
 	    att.setInaccuracy(100-powerLvl*5);
@@ -68,11 +70,11 @@ public class SpaceCanon extends AI{
 	    Corner goalCorner = new Corner(new double[] {1000,600} );
 	    SpaceCanon ai = new SpaceCanon(corners, new double[] {x,y}, 5, new Corner(new double[] {x,y+25}, new double[] {x,y}), goalCorner,powerLvl);
 	    ai.makeDetection(mdl, new DetectionLine[] {rdl2,rdl}, new DetectionLine[] {ldl2,ldl});
-	    ai.setMaxSpeed(3.5);
+	    ai.initialSetMaxSpeed(3.5);
 	    ai.addAttachment(att);
 	    ai.setHP(5+powerLvl);
-	    ai.setAcceleration(0.1);
-	    ai.setReflectedSpeed(6);
+	    ai.initialSetAcceleration(0.1);
+	    ai.initialSetReflectedSpeed(6);
 	    ai.setStoppingDistance(900);
 	    ai.setShootForInteractiveAtts(true);
 	    ai.findAndSetToClosestEnemy(gameObjects);
