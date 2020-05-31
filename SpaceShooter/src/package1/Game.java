@@ -31,7 +31,7 @@ public class Game extends JPanel implements MouseListener{
 
 	static int mainHeight = 1908, mainWidth = 3392;
 	static int baseTicks = 60;
-	static int currentTicks = 120;
+	static int currentTicks = 300;
 	static double tickMultiply = (double)baseTicks/(double)currentTicks;
 	static double tickOne = 1*tickMultiply;
 	protected Player p;
@@ -92,7 +92,6 @@ public class Game extends JPanel implements MouseListener{
 	private int Count = 0;
 	
 	public Game(int sw,int sh,boolean softBorder) {
-		System.out.println("tadyy" + tickMultiply);
 		this.setBackground(Color.black);
 		this.currentScreenHeight = sh;
 		this.currentScreenWidth = sw;

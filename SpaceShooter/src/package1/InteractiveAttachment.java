@@ -18,7 +18,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 	double inaccuracy = 0;
 	double inaccuracyX = 0;
 	double inaccuracyY = 0;
-	double missileSpeed = 12;
+	double missileSpeed = 12*Game.tickMultiply;
 	
 //	double maxShotAngleDifference = 20;
 
@@ -156,11 +156,11 @@ public class InteractiveAttachment extends ObjectAttachment{
 	//TODO Improve missle speed (take it as argument)
 	public Corner getAimCornerForMovingOb(MovingObject moo) {
 
-		return getAimCornerNew(moo);
+		return getNewAimCornerVector(moo);
 		
 	}
 	
-	private Corner getNewAimCorner(MovingObject moo) {
+	private Corner getNewAimCornerVector(MovingObject moo) {
 
 		Corner temp = new Corner(this.getSP(), moo.getRotationPoint());
 		double sdAngle = temp.getAngle(moo.getRotationPoint());
@@ -203,20 +203,18 @@ public class InteractiveAttachment extends ObjectAttachment{
 		return corner;
 	}
 	
-	public long getDiscriminant(double a, double b, double c) {
-		return (long) (b*b - 4*a*c);
+	public double getDiscriminant(double a, double b, double c) {
+		return  (b*b - 4*a*c);
 	}
 	
 	public double[] countQuadraticFunction(double a, double b, double c) {
-		long discriminant = getDiscriminant(a,b,c);
+		double discriminant = getDiscriminant(a,b,c);
 		if(discriminant >= 0) {
 			double num1 = countQuadraticFormula(a, b, c, discriminant, '-');
 			double num2 = countQuadraticFormula(a, b, c, discriminant, '+');
 			return new double[] {num1, num2};
 		}
-		System.out.println("discriminant < 0");
 		return null;
-		
 	}
 	
 	public double countQuadraticFormula(double a, double b, double c, double discriminant, char character) {
@@ -354,12 +352,12 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	
 	public void render(Graphics g) {
-		g.setColor(Color.white);
-//		shootDirection.renderCorner(g, 4);
-//		shootPoint.renderCorner(g, 4);
-//		shotTrajectory.render(g);
-//		aimCorner.renderCorner(g, 10);
-//		wayPoint.renderCorner(g, 10);
+/*		g.setColor(Color.white);
+		shootDirection.renderCorner(g, 4);
+		shootPoint.renderCorner(g, 4);
+		shotTrajectory.render(g);
+		aimCorner.renderCorner(g, 10);
+		wayPoint.renderCorner(g, 10);*/
 		super.render(g);
 		
 	}
