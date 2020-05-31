@@ -3,8 +3,9 @@ package package1;
 public class Tower extends LivingObject{
 	private boolean SniperOn = false, MachineGunOn = false, GrenadeLauncherOn = false, TurretOn = false; 
 	private MagazineAttachment turret;
+	private int TurretCost = 150, NextTurretCost = 400, UpgradeCost = 200;
 
-	
+
 	public Tower(Corner[] corners, Corner rotationPoint, double rotationAngle, Corner md) {
 		super(corners, rotationPoint, rotationAngle, md);
 		// TODO Auto-generated constructor stub
@@ -118,7 +119,29 @@ public class Tower extends LivingObject{
 	public void setTurretOn(boolean turretOn) {
 		TurretOn = turretOn;
 	}
-	
+	public int getTurretCost() {
+		return TurretCost;
+	}
+
+	public void setTurretCost(int turretCost) {
+		TurretCost = turretCost;
+	}
+
+	public int getNextTurretCost() {
+		return NextTurretCost;
+	}
+
+	public void setNextTurretCost(int nextTurretCost) {
+		NextTurretCost = nextTurretCost;
+	}
+
+	public int getUpgradeCost() {
+		return UpgradeCost;
+	}
+
+	public void setUpgradeCost(int upgradeCost) {
+		UpgradeCost = upgradeCost;
+	}
 	public boolean checkCollision(GameObject go) {
 		if(go instanceof Missile) {
 			for(GameObject ob :((Missile) go).getImunne()) {
