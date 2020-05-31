@@ -1,14 +1,18 @@
 package package1;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class Missile extends MovingObject{
 	int dmg = 1;
 	GameObject[] immune;
+	Color colorUsed = Color.red;
 
 	public Missile(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner movingDirection, double speed, GameObject[] immune) {
 		super(corners, rotationPoint, rotationAngle, movingDirection);
 		setHP(1);
 		setCurrentSpeed(speed*Game.tickMultiply);
-		this.immune = immune;
+		setImune(immune);
 
 		// TODO Auto-generated constructor stub
 	}
@@ -17,7 +21,7 @@ public class Missile extends MovingObject{
 		super(corners, rp, rotationAngle, md);
 		setHP(1);
 		setCurrentSpeed(speed*Game.tickMultiply);
-		this.immune = immune;
+		setImune(immune);
 
 	}
 	
@@ -106,6 +110,18 @@ public class Missile extends MovingObject{
 
 	public void setImune(GameObject[] gameObjects) {
 		immune = gameObjects;
+		for(GameObject go : immune) {
+			if(go instanceof Player) {
+				colorUsed = Color.green;
+			}
+		}
+	}
+	
+	
+	
+	public void render(Graphics g) {
+		g.setColor(colorUsed);
+		super.render(g);
 	}
 	
 	

@@ -1,5 +1,8 @@
 package package1;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class Meteor extends MovingObject {
 	//Moving object that reflects differently from borders of screen to make for a more interesting gameplay
 	//comes in three basic types
@@ -74,6 +77,11 @@ public class Meteor extends MovingObject {
 
 	public int getSize() {
 		return size;
+	}
+	
+	public void render(Graphics g) {
+		g.setColor(Color.magenta);
+		super.render(g);
 	}
 	
 }

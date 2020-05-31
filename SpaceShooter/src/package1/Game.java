@@ -31,7 +31,7 @@ public class Game extends JPanel implements MouseListener{
 
 	static int mainHeight = 1908, mainWidth = 3392;
 	static int baseTicks = 60;
-	static int currentTicks = 120;
+	static int currentTicks = 300;
 	static double tickMultiply = (double)baseTicks/(double)currentTicks;
 	static double tickOne = 1*tickMultiply;
 	protected Player p;
@@ -92,8 +92,7 @@ public class Game extends JPanel implements MouseListener{
 	private int Count = 0;
 	
 	public Game(int sw,int sh,boolean softBorder) {
-		System.out.println("tadyy" + tickMultiply);
-		this.setBackground(Color.pink);
+		this.setBackground(Color.black);
 		this.currentScreenHeight = sh;
 		this.currentScreenWidth = sw;
 		this.softBorders = softBorder;
@@ -805,7 +804,13 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	private void renderDangerZone(Graphics g) {
-		g.setColor(Color.white);
+		g.setColor(Color.RED);
+		g.drawRect((int) Math.round(safeZoneCorner.getX()*Game.camera.toMultiply() + Game.camera.toAddX()), (int)Math.round(safeZoneCorner.getY()*Game.camera.toMultiply() + Game.camera.toAddY()),(int)Math.round(safeZoneWidth*Game.camera.toMultiply()),(int) Math.round(safeZoneHeight*Game.camera.toMultiply()));
+		g.drawRect((int) Math.round(safeZoneCorner.getX()*Game.camera.toMultiply() + Game.camera.toAddX()-1), (int)Math.round(safeZoneCorner.getY()*Game.camera.toMultiply() + Game.camera.toAddY()-1),(int)Math.round(safeZoneWidth*Game.camera.toMultiply()+2),(int) Math.round(safeZoneHeight*Game.camera.toMultiply())+2);
+		g.drawRect((int) Math.round(safeZoneCorner.getX()*Game.camera.toMultiply() + Game.camera.toAddX()-2), (int)Math.round(safeZoneCorner.getY()*Game.camera.toMultiply() + Game.camera.toAddY()-2),(int)Math.round(safeZoneWidth*Game.camera.toMultiply()+4),(int) Math.round(safeZoneHeight*Game.camera.toMultiply())+4);
+		g.drawRect((int) Math.round(safeZoneCorner.getX()*Game.camera.toMultiply() + Game.camera.toAddX()-3), (int)Math.round(safeZoneCorner.getY()*Game.camera.toMultiply() + Game.camera.toAddY()-3),(int)Math.round(safeZoneWidth*Game.camera.toMultiply()+6),(int) Math.round(safeZoneHeight*Game.camera.toMultiply())+6);
+
+		g.setColor(Color.BLACK);
 		g.fillRect((int) Math.round(safeZoneCorner.getX()*Game.camera.toMultiply() + Game.camera.toAddX()), (int)Math.round(safeZoneCorner.getY()*Game.camera.toMultiply() + Game.camera.toAddY()),(int)Math.round(safeZoneWidth*Game.camera.toMultiply()),(int) Math.round(safeZoneHeight*Game.camera.toMultiply()));
 		g.setColor(Color.black);
 		Graphics2D g2 = (Graphics2D) g;
