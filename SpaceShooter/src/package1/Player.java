@@ -224,6 +224,9 @@ public class Player extends LivingObject{
 					}	
 					
 				}
+				if(go instanceof Meteor) {
+					((MovingObject) go).pushFromObject(this, ((Meteor) go).getCurrentSpeed());
+				}
 				if(go instanceof LivingObject) {
 					if(go.getRotationPoint().getPointDistance(getRotationPoint()) < pulseRange && !isShotImune(go)) {
 						((MovingObject) go).pushFromObject(this, ((LivingObject) go).getVelToGoDistance(pulseRange/2));

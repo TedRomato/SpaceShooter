@@ -33,7 +33,7 @@ public class GameModeTower extends Game{
 	private BufferedImage Shield, BerserkMode, Pulse,ShieldIcon, HealthIcon, AmmoIcon , Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, DashRefillIcon,BerserkModeIcon,PulseIcon;
 	private Font font = new Font("josef", Font.PLAIN, 25);
 	private int AIcount = 90;
-	private int wave = 20;
+	private int wave = 1;
 	private int waveCount = 0;
 	private int AIStrength = 0;
 	private int TowerBaseHP=1000;
