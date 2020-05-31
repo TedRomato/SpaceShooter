@@ -1,11 +1,17 @@
 package package1;
 
+import java.text.DecimalFormat;
+
+import javax.swing.JLabel;
+
 public class GameModeRun extends Game{
 	
 	Tower[] towers = new Tower[] {};
 	int  towersIndex = arrayList.length; //12
 	Grenade[] mines = new Grenade[] {};
 	int minesIndex = arrayList.length+1; //13
+	JLabel score;
+	DecimalFormat df = new DecimalFormat("#");
 	
 	int towerAmount= 4;
 	int aiAmount = 3;
@@ -31,7 +37,7 @@ public class GameModeRun extends Game{
 
 	public GameModeRun(int sw, int sh, boolean softBorder) {
 		super(sw, sh, softBorder);
-		
+		setLayout(null);
 		aiSpawningRange = new int[] {0,50};
 
 		safeZoneHeight = 3500;
@@ -42,6 +48,13 @@ public class GameModeRun extends Game{
 		setSpawnBlockHeight(safeZoneHeight / 3);
 		setSpawnBlockRange(new int[] {50,60});
 		
+		score = new JLabel("Score");
+		score.setBounds(currentScreenWidth/2-50, 0, 150, 50);
+		score.setFont(font);
+		add(score);
+		
+		MakeHPDisplay(40,0);
+		MakeAmmoDisplay(30,40);
 	}
 	
 	public void moveSoftBorders(double velX, double velY) {
@@ -76,16 +89,29 @@ public class GameModeRun extends Game{
 		handleTowers();
 		updateTime();
 		updateGameAccordingToTimeSurvived();
-
+		CheckBoosts();
+		endGame();
 	}
-	
+	public void CheckBoosts() {
+		MakePulseDisplay(0,150);
+		MakeDashDisplay(0,110);
+	}
+	@Override
+	public void updateDisplay() {
+		super.updateDisplay();
+		score.setText("Score: " + df.format(timeSurvived/60));
+	}
 	public void updateGameAccordingToTimeSurvived() {
 		towerAmount = (int) (timeSurvived / 2000) + 3;
 		aiAmount = (int) (timeSurvived / 2000);
 		mineAmount = (int) (timeSurvived / 800) + 5;
 		meteorAmount = (int) (timeSurvived / 1000) + 5;
 	}
-			
+	public void endGame() {
+		if(p.getHP()<1) {
+			super.endGame();
+		}
+	}
 	
 	public void updateTime() {
 		timeSurvived += Game.tickOne;

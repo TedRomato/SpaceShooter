@@ -21,8 +21,10 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 
 public class Game extends JPanel implements MouseListener{
@@ -33,18 +35,22 @@ public class Game extends JPanel implements MouseListener{
 	static double tickMultiply = (double)baseTicks/(double)currentTicks;
 	static double tickOne = 1*tickMultiply;
 	protected Player p;
+	protected Font font = new Font("josef", Font.PLAIN, 25);
 	private Hunter ht;
 	private Grenader gr;
 	private HuntingMine hm;
 	private Mothership mp;
 	private SpaceCanon sca;
 	private SpaceCruiser scr;
+	private Shielder sh;
 	public static JLabel scoreDisplay, Warning;
 	 BufferedImage WarningSign;
 	 BufferedImage bg;
 	protected int score = 0;
 	int[] aiSpawningRange = new int[] {600,1000};
-
+	private JLabel PlayerHPDisplay, PlayerAmmoDisplay,GameOverDisplay;
+	private JProgressBar PlayerReloadTime, PulseReloadTime, DashRefill;
+	private BufferedImage HealthIcon, AmmoIcon, PulseIcon, DashRefillIcon;
 	private boolean ShowScore;
 	private Corner spawnCorner;
 	public static int currentScreenWidth;
@@ -91,6 +97,15 @@ public class Game extends JPanel implements MouseListener{
 		this.currentScreenHeight = sh;
 		this.currentScreenWidth = sw;
 		this.softBorders = softBorder;
+		try {
+			DashRefillIcon = ImageIO.read(new File("src/Icons/DashRefillIcon.png"));
+			AmmoIcon =  ImageIO.read(new File("src/Icons/AmmoIcon.png"));
+			HealthIcon = ImageIO.read(new File("src/Icons/HealthIcon.png"));
+			PulseIcon = ImageIO.read(new File("src/Icons/PulseIcon.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		objects = new GameObject[] {};
 	    reflectableObs = new MovingObject[] {};
 	    reflectingObs = new MovingObject[] {};
@@ -110,6 +125,14 @@ public class Game extends JPanel implements MouseListener{
 	    Warning.setFont(new Font("Karel",Font.BOLD,60));
 	    Warning.setBounds(currentScreenWidth/2-160, currentScreenHeight/2-200,600,120);
 	    
+	    PulseReloadTime = new JProgressBar(0,0);
+	    DashRefill = new JProgressBar(0,0);
+	    
+	    GameOverDisplay = new JLabel("GAME OVER");
+		GameOverDisplay.setForeground(Color.RED);
+		GameOverDisplay.setFont(new Font("Karel",Font.BOLD,150));
+		GameOverDisplay.setBounds(currentScreenHeight/2-50,currentScreenHeight/2-300,1000,300);
+		
 	    try {
 			WarningSign = ImageIO.read(new File("src/Icons/Warning.png"));
 		} catch (IOException e) {
@@ -219,7 +242,7 @@ public class Game extends JPanel implements MouseListener{
 		handleSummoners();
 		handleExplosives();
         deleteNoHpObs();
-
+        updateDisplay();
 	}
 	
 	public void updatePlayer() {
@@ -294,7 +317,59 @@ public class Game extends JPanel implements MouseListener{
 		
 		}
 	}
-	 
+	public void endGame() {
+		stop();
+		GameOver = true;
+		remove(Warning);
+		add(GameOverDisplay);
+		add(Window.MainMenu);
+	}
+	public void MakePulseDisplay(int x, int y) {
+		if(p.pulseIsUnlocked&&!PulseReloadTime.isShowing()) {
+			PulseReloadTime.setBounds(x,y,80,10);
+			PulseReloadTime.setForeground(Color.MAGENTA);
+		
+			PulseReloadTime.setMaximum((int) p.getPulseCooldown());
+			PulseReloadTime.setValue((int) p.getPulseCooldown());
+			add(PulseReloadTime);
+		} 
+		else{
+			PulseReloadTime.setMaximum((int) p.getPulseCooldown());
+		}
+	}
+	public void MakeDashDisplay(int x, int y) {
+		if(p.dashUnlocked&&!DashRefill.isShowing()) {
+			
+			DashRefill.setBounds(x, y, 80, 10);
+			DashRefill.setForeground(new Color(225,174,19));
+			
+			DashRefill.setMaximum((int) p.getDashCooldown());
+			DashRefill.setValue((int) p.getDashCooldown());
+			add(DashRefill);
+		}
+		else {
+			DashRefill.setMaximum((int) p.getDashCooldown());
+		}
+	}
+	public void MakeHPDisplay(int x, int y) {
+		PlayerHPDisplay = new JLabel(""+ p.getHP());
+		PlayerHPDisplay.setBounds(x,y,30,30);
+		PlayerHPDisplay.setFont(font);
+		PlayerHPDisplay.setForeground(new Color(141,198,63));
+		add(PlayerHPDisplay);
+	}
+	public void MakeAmmoDisplay(int x, int y) {
+		PlayerAmmoDisplay = new JLabel(""+ ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize());
+		PlayerAmmoDisplay.setBounds(x , y,50,30);
+		PlayerAmmoDisplay.setFont(font);
+		add(PlayerAmmoDisplay);
+		
+		PlayerReloadTime = new JProgressBar(0,(int) ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadLenght());
+		PlayerReloadTime.setBounds(x-30, y+30, 80, 10);
+		PlayerReloadTime.setValue((int) ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadLenght());
+		PlayerReloadTime.setForeground(Color.BLACK);
+		add(PlayerReloadTime);
+	}
 	public void updateDisplay() {
 		if(p.checkIfOutsideRect((int)safeZoneCorner.getX(), (int)safeZoneCorner.getY(), safeZoneWidth, safeZoneHeight)) {
 			Warning.setText("WARNING!");
@@ -303,6 +378,19 @@ public class Game extends JPanel implements MouseListener{
 		else {
 			remove(Warning);
 		}
+		if(p.isDashUnlocked()) {
+			DashRefill.setValue((int) p.getDashCooldownTimer());
+		}
+		if(p.isPulseUnlocked()) {
+			PulseReloadTime.setValue((int) p.getPulseCooldownTimer());
+		}
+		PlayerAmmoDisplay.setText("" + ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize());
+		if(((MagazineAttachment)p.getAttachments()[p.baseCanon]).getReloadingMag()) {
+			PlayerReloadTime.setValue((int) ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadTimer());
+		}else  {
+			PlayerReloadTime.setValue((int) ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadLenght());
+		}
+		PlayerHPDisplay.setText(""+p.getHP());
 	}
 	protected void handlePlayerOutsideSafeZone() {
 		if(p.wasDamagedByZone == false) {
@@ -429,6 +517,8 @@ public class Game extends JPanel implements MouseListener{
 				gr.setPlayerFocus(playerFocus);
 				addObToGame(gr, new int[] {4,7,9,10,11}); 
 			break;
+			case 6 : sh = Shielder.makeShielder((int)spawnCorner.getX(), (int)spawnCorner.getY(), getAiEnemys(),PL);
+					 addObToGame(sh, new int[] {4,7,9,10,11});
 			default : 
 		}
 	}
@@ -690,7 +780,11 @@ public class Game extends JPanel implements MouseListener{
 		}
 	}
 	
-	
+	public static void MakeTransparentButton(JButton b) {
+		b.setOpaque(false);
+		b.setContentAreaFilled(false);
+		b.setBorderPainted(false);
+	}
 	
 	private void renderAll(Graphics g) {
 		if(softBorders) {
@@ -714,7 +808,10 @@ public class Game extends JPanel implements MouseListener{
 		g.setColor(Color.white);
 		g.fillRect((int) Math.round(safeZoneCorner.getX()*Game.camera.toMultiply() + Game.camera.toAddX()), (int)Math.round(safeZoneCorner.getY()*Game.camera.toMultiply() + Game.camera.toAddY()),(int)Math.round(safeZoneWidth*Game.camera.toMultiply()),(int) Math.round(safeZoneHeight*Game.camera.toMultiply()));
 		g.setColor(Color.black);
-
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.drawImage(HealthIcon, 0, 0, 30, 30,null);
+		g2.drawImage(AmmoIcon,0,40,30,30,null);
 	}
 	
 	
@@ -755,7 +852,12 @@ public class Game extends JPanel implements MouseListener{
 			g2.drawImage(WarningSign,currentScreenWidth/2-260, currentScreenHeight/2-200,100,100, null);
 			g2.drawImage(WarningSign,currentScreenWidth/2+150, currentScreenHeight/2-200,100,100, null);
 		}
-
+		if(p.isPulseUnlocked()) {	
+			g2.drawImage(PulseIcon, PulseReloadTime.getX()+25,PulseReloadTime.getY()-30,30,30,null);
+		}
+		if(p.isDashUnlocked()) {
+			g2.drawImage(DashRefillIcon, DashRefill.getX()+20, DashRefill.getY()-30, 40, 30,null);
+		}
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
