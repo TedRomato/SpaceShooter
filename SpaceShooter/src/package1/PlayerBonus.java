@@ -30,7 +30,7 @@ public class PlayerBonus extends GameObject{
 				handleDashBonus(p);
 			}else if(pulseUpgrade){
 				handlePulseUpgrade(p);
-			}else if(hpBoost) {
+			}else if(hpBoost) {  
 				p.setHP(p.getHP()+5);
 			}
 		}
