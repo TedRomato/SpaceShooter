@@ -181,10 +181,16 @@ public class GameModeRun extends Game{
 		Corner rp;
 		PlayerBonus b= null;
 		boolean done = false;
+		int i = 0;
 		while(!done) {
 			rp = GameObject.generateCornerInRect(getSpawnBlockCorner().getX(), getSpawnBlockCorner().getY(), getSpawnBlockWidth(), getSpawnBlockHeight());
 			b = PlayerBonus.makeNewPlayerBonus(rp.getX(), rp.getY());
 			done = checkIfSpawnCollision(b);
+			if(i > 20) {
+				return;
+			}
+			i++;
+
 		}
 		
 		
@@ -195,10 +201,16 @@ public class GameModeRun extends Game{
 		Corner rp;
 		Tower t= null;
 		boolean done = false;
+		int i = 0;
 		while(!done) {
 			rp = GameObject.generateCornerInRect(getSpawnBlockCorner().getX(), getSpawnBlockCorner().getY(), getSpawnBlockWidth(), getSpawnBlockHeight());
 			t = Tower.makeNewTower(rp.getX(), rp.getY());
 			done = checkIfSpawnCollision(t);
+			if(i > 20) {
+				return;
+			}
+			i++;
+
 		}
 		
 		t.addTurret();
@@ -213,11 +225,17 @@ public class GameModeRun extends Game{
 		Corner rp;
 		Grenade t= null;
 		boolean done = false;
+		int i = 0;
 		while(!done) {
 			rp = GameObject.generateCornerInRect(getSpawnBlockCorner().getX(), getSpawnBlockCorner().getY(), getSpawnBlockWidth(), getSpawnBlockHeight());
 			t = Grenade.makeNewGrenade(rp.getX(), rp.getY(), new Corner(new double[] {0,0}));
 			done = checkIfSpawnCollision(t);
 			checkIfSpawnCollision(t);
+			if(i > 20) {
+				return;
+			}
+			i++;
+
 			
 		}
 		t.setHP(4);

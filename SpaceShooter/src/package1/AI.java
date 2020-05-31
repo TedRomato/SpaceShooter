@@ -1,10 +1,12 @@
 package package1;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
 public class AI extends LivingObject{
 	Random random = new Random();
+	Color colorUsed;
 	Corner goalDestination;
 	//main detectionLine  --> in direction of move point
 	DetectionLine mainDetectionLine;
@@ -28,6 +30,17 @@ public class AI extends LivingObject{
 	public AI(Corner[] corners, double[] rotationPoint, double rotationAngle, Corner md,Corner goalDestination, int powerLvl) {
 		super(corners, rotationPoint, rotationAngle, md);
 		powerLVL = powerLvl;
+		if(powerLVL == 1) {
+			colorUsed = Color.yellow;
+		}else if(powerLVL == 2) {
+			colorUsed = Color.orange;
+		}else if(powerLVL == 3) {
+			colorUsed = Color.pink;
+		}else if(powerLVL == 4) {
+			colorUsed = Color.MAGENTA;
+		}else {
+			colorUsed = Color.red;
+		}
 		this.goalDestination = goalDestination;
 		this.goalDestination.setToNewRP(rotationPoint);
 		setForward(true);
@@ -414,6 +427,7 @@ public class AI extends LivingObject{
 
 	
 	public void render(@SuppressWarnings("exports") Graphics g) {
+		g.setColor(colorUsed);
 		super.render(g);
 		
 	//	g.setColor(Color.red);

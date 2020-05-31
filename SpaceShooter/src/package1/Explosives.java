@@ -1,5 +1,8 @@
 package package1;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class Explosives extends LivingObject{
 	double distanceTraveled = 0;
 	double BOOMDistance = 1500;
@@ -105,6 +108,13 @@ public class Explosives extends LivingObject{
 		setCurrentSpeed(getMaxSpeed());
 		setNewVels();
 	}
+	
+	
+	public void render(Graphics g) {
+		g.setColor(Color.orange);
+		super.render(g);
+	}
+
 	
 
 }

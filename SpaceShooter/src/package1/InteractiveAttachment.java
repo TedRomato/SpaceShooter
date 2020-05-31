@@ -1,5 +1,6 @@
 package package1;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 
@@ -155,7 +156,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 	//TODO Improve missle speed (take it as argument)
 	public Corner getAimCornerForMovingOb(MovingObject moo) {
 
-		return getNewAimCorner(moo);
+		return getAimCornerNew(moo);
 		
 	}
 	
@@ -353,6 +354,7 @@ public class InteractiveAttachment extends ObjectAttachment{
 	}
 	
 	public void render(Graphics g) {
+		g.setColor(Color.white);
 //		shootDirection.renderCorner(g, 4);
 //		shootPoint.renderCorner(g, 4);
 //		shotTrajectory.render(g);
