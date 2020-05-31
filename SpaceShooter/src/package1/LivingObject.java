@@ -425,7 +425,6 @@ public class LivingObject extends MovingObject{
 
 	
 	public void render(Graphics g) {
-		g.setColor(Color.white);
 		super.render(g);
 		
 		if(attachments != null && attachments.length > 0) {

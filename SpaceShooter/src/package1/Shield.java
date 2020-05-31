@@ -1,5 +1,6 @@
 package package1;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Shield extends GameObject{
@@ -156,6 +157,7 @@ public class Shield extends GameObject{
 	}
 	
 	public void render(Graphics g) {
+		g.setColor(Color.CYAN);
 		super.render(g);
 	//	getCollisionSquare().render(g);
 	}

@@ -1,5 +1,6 @@
 package package1;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -571,25 +572,8 @@ public class Player extends LivingObject{
 	
 
 	public void render(Graphics g) {
+		g.setColor(Color.CYAN);
 		super.render(g);
-/*		Graphics2D g2 = (Graphics2D) g;
-		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-//player skin 2 
-		rotateImage(g2, PlayerSkin, this.getRotatedAngle(),this.getRotationPoint(),50,50);		
-//player skin 1
-//		rotateImage(g2, PlayerSkin, this.getRotatedAngle(),this.getRotationPoint(),90,115,41,50);		
-//canon		
-		rotateImage(g2, PlayerCannon, this.getAttachments()[2].getAttachmentAngleRotated() ,this.getAttachments()[2].getAttachmentRP(),5,0);
-//frontCanon
-		if(faceCanon != -1) {
-		rotateImage(g2, FaceCanon, this.getAttachments()[faceCanon].getAttachmentAngleRotated() + this.getRotatedAngle(),this.getAttachments()[faceCanon].getAttachmentRP(),45,5);
-		}
-		
-		if(machinegun != -1) {
-			rotateImage(g2, MachineGun1, this.getAttachments()[machinegun].getAttachmentAngleRotated() + this.getRotatedAngle(),this.getAttachments()[machinegun].getAttachmentRP(),68,20);
-			rotateImage(g2, MachineGun2, this.getAttachments()[machinegun+1].getAttachmentAngleRotated() + this.getRotatedAngle(),this.getAttachments()[machinegun+1].getAttachmentRP(),70,20);
-
-		}*/
 	}
 
 

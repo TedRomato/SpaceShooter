@@ -1,5 +1,8 @@
 package package1;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class PlayerBonus extends GameObject{
 	
 	boolean dashUpgrade = false;
@@ -8,6 +11,7 @@ public class PlayerBonus extends GameObject{
 
 	public PlayerBonus(Corner[] corners, Corner rp, double rotationAngle) {
 		super(corners, rp, rotationAngle);
+		setHP(10000000);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -33,6 +37,7 @@ public class PlayerBonus extends GameObject{
 			}else if(hpBoost) {  
 				p.setHP(p.getHP()+5);
 			}
+			this.setHP(0);
 		}
 	}
 	
@@ -74,5 +79,10 @@ public class PlayerBonus extends GameObject{
 		}else {
 			return super.checkCollision(go);
 		}
+	}
+	
+	public void render(Graphics g) {
+		g.setColor(Color.CYAN);
+		super.render(g);
 	}
 }
