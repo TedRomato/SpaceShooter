@@ -34,14 +34,14 @@ public class GameModeTower extends Game{
 	private JButton Power1, Power2, Power3, Power4, Power5, Power6, Power7, Power8, Shop, Resume, TurretUpgrade1, TurretUpgrade2,TurretUpgrade3;
 	private BufferedImage Shield, BerserkMode, Pulse,ShieldIcon, Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, BerserkModeIcon;
 	private int AIcount = 90;
-	private int wave = 1;
+	private int wave = 6;
 	private int waveCount = 0;
 	private int AIStrength = 0;
 	private int TowerBaseHP=1000;
 	private int NumberOfPowerUps = 6;
 	private int[] StrenghtAr = new int[] {1,2,4,6,3,4,3};
 	private int AIrnd, PUrnd1, PUrnd2, AIPowerLevel;
-	private boolean AIneeded = true, waveEnd = false, PUpicked = false, ULTpicked = false;
+	private boolean AIneeded = true, waveEnd = false, PUpicked = false, ULTpicked = false, setupdone = false;
 	private Font font = super.font;
 	public GameModeTower(int sw, int sh) {
 		super(sw, sh, true);
@@ -127,7 +127,7 @@ public class GameModeTower extends Game{
 		Power1 = new JButton("");
 		Power1.addMouseListener(this);
 		Power1.setName("Power1");
-		Power1.setIcon(new ImageIcon(resize(Plus1Health,(int) (currentScreenWidth/2-550*Game.screenRatio),(int) (currentScreenHeight-900*Game.screenRatio) )));
+		Power1.setIcon(new ImageIcon(resize(Plus1Health,(int) ((currentScreenWidth/2-275)*Game.screenRatio),(int) ((currentScreenHeight-600)*Game.screenRatio))));
 		Power1.setFocusable(false);
 		Power1.setBackground(Color.WHITE);
 		Power1.addActionListener(new ActionListener() {
@@ -147,7 +147,7 @@ public class GameModeTower extends Game{
 		Power2 = new JButton("");
 		Power2.addMouseListener(this);
 		Power2.setName("Power2");
-		Power2.setIcon(new ImageIcon(resize(Plus1Mag, (int) (currentScreenWidth/2-700*Game.screenRatio), (int) (currentScreenHeight-900*Game.screenRatio))));
+		Power2.setIcon(new ImageIcon(resize(Plus1Mag, (int) ((currentScreenWidth/2-400)*Game.screenRatio), (int) ((currentScreenHeight-600)*Game.screenRatio))));
 		Power2.setFocusable(false);
 		Power2.setBackground(Color.WHITE);
 		Power2.addActionListener(new ActionListener() {
@@ -166,7 +166,7 @@ public class GameModeTower extends Game{
 		Power3 = new JButton("");
 		Power3.addMouseListener(this);
 		Power3.setName("Power3");
-		Power3.setIcon(new ImageIcon(resize(RocketLauncher,(int) ( currentScreenWidth/2-750*Game.screenRatio),(int) ( currentScreenHeight-900*Game.screenRatio))));
+		Power3.setIcon(new ImageIcon(resize(RocketLauncher,(int) ((currentScreenWidth/2-550)*Game.screenRatio),(int) ( (currentScreenHeight-700)*Game.screenRatio))));
 		Power3.setFocusable(false);
 		Power3.setBackground(Color.WHITE);
 		Power3.addActionListener(new ActionListener() {
@@ -194,7 +194,7 @@ public class GameModeTower extends Game{
 		Power4 = new JButton("");
 		Power4.addMouseListener(this);
 		Power4.setName("Power4");
-		Power4.setIcon(new ImageIcon(resize(MachineGun,(int) (currentScreenWidth/2-750*Game.screenRatio), (int) (currentScreenHeight-900*Game.screenRatio))));
+		Power4.setIcon(new ImageIcon(resize(MachineGun,(int) ((currentScreenWidth/2-550)*Game.screenRatio), (int) ((currentScreenHeight-700)*Game.screenRatio))));
 		Power4.setFocusable(false);
 		Power4.setBackground(Color.WHITE);
 		Power4.addActionListener(new ActionListener() {
@@ -224,7 +224,7 @@ public class GameModeTower extends Game{
 		Power5.addMouseListener(this);
 		Power5.setName("Power5");
 		Power5.setFocusable(false);
-		Power5.setIcon(new ImageIcon(resize(DashIcon,(int) (currentScreenWidth/2-650*Game.screenRatio),(int) ( currentScreenHeight-900*Game.screenRatio))));
+		Power5.setIcon(new ImageIcon(resize(DashIcon,(int) ((currentScreenWidth/2-550)*Game.screenRatio),(int) ((currentScreenHeight-800)*Game.screenRatio))));
 		Power5.setBackground(Color.WHITE);
 		Power5.addActionListener(new ActionListener() {
 			
@@ -250,7 +250,7 @@ public class GameModeTower extends Game{
 		Power6.addMouseListener(this);
 		Power6.setName("Power6");
 		Power6.setFocusable(false);
-		Power6.setIcon(new ImageIcon(resize(Shield,(int) (currentScreenWidth/2-700*Game.screenRatio),(int) ( currentScreenHeight-900*Game.screenRatio))));
+		Power6.setIcon(new ImageIcon(resize(Shield,(int) ((currentScreenWidth/2-600)*Game.screenRatio),(int) ((currentScreenHeight-800)*Game.screenRatio))));
 		Power6.setBackground(Color.WHITE);
 		Power6.addActionListener(new ActionListener() {
 			 
@@ -281,7 +281,7 @@ public class GameModeTower extends Game{
 		Power7.addMouseListener(this);
 		Power7.setName("Power7");
 		Power7.setFocusable(false);
-		Power7.setIcon(new ImageIcon(resize(Pulse,(int) (currentScreenWidth/2-600*Game.screenRatio),(int) ( currentScreenHeight-800*Game.screenRatio))));
+		Power7.setIcon(new ImageIcon(resize(Pulse,(int) ((currentScreenWidth/2-500)*Game.screenRatio),(int) ((currentScreenHeight-700)*Game.screenRatio))));
 		Power7.setBackground(Color.WHITE);
 		Power7.addActionListener(new ActionListener() {
 			
@@ -308,7 +308,7 @@ public class GameModeTower extends Game{
 		Power8.addMouseListener(this);
 		Power8.setName("Power8");
 		Power8.setFocusable(false);
-		Power8.setIcon(new ImageIcon(resize(BerserkMode,(int) (currentScreenWidth/2-600*Game.screenRatio),(int) ( currentScreenHeight-800*Game.screenRatio))));
+		Power8.setIcon(new ImageIcon(resize(BerserkMode,(int) ((currentScreenWidth/2-500)*Game.screenRatio),(int) ((currentScreenHeight-700)*Game.screenRatio))));
 		Power8.setBackground(Color.WHITE);
 		Power8.addActionListener(new ActionListener() {
 			
@@ -448,7 +448,7 @@ public class GameModeTower extends Game{
 		}
 	}
 	public void setUpTextOnButtons() {
-		boolean setupdone = false;
+		
 		if(!setupdone) {
 			MakeButtonText(Power1, "<html>MedKit - Fully restores your Health<html>");
 			MakeButtonText(Power2,"<html>Magazine extender - Increases your ammo capacity by 1<html>");
