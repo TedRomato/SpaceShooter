@@ -180,7 +180,7 @@ public class Window extends JFrame implements KeyListener{
 		menu.add(exit);
 	}
 	public void setButtonChangeListener(JButton b) {
-		b.getModel().addChangeListener(new ChangeListener() {		
+		b.getModel().addChangeListener(new ChangeListener() {			
 			@Override
 		public void stateChanged(ChangeEvent e) {
 		    if (b.getModel().isRollover()) {
@@ -244,7 +244,7 @@ class Menu extends JPanel{
 		
 		SpaceShooterSign = new JLabel("Space Shooter", SwingConstants.CENTER);
 		SpaceShooterSign.setForeground(Color.YELLOW);
-		SpaceShooterSign.setFont(new Font(Font.MONOSPACED,Font.BOLD, 150));
+		SpaceShooterSign.setFont(new Font(Font.MONOSPACED,Font.BOLD, (int)(250*Game.screenRatio)));
 		SpaceShooterSign.setBounds(0, 50, Game.currentScreenWidth, 160);
 		//add(SpaceShooterSign);
 		
@@ -260,7 +260,7 @@ class Menu extends JPanel{
 		FontRenderContext fontRendContext = g2.getFontRenderContext();
 		TextLayout tl = new TextLayout(SpaceShooterSign.getText(), SpaceShooterSign.getFont(), fontRendContext);
 		AffineTransform af = g2.getTransform();
-		af.translate(435, 160);	
+		af.translate(735*Game.screenRatio, 320*Game.screenRatio);	
 		Outline = tl.getOutline(af);
 		g2.setColor(Color.YELLOW);
 		g2.setClip(Outline);

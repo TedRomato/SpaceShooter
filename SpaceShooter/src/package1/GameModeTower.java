@@ -127,10 +127,9 @@ public class GameModeTower extends Game{
 		Power1 = new JButton("");
 		Power1.addMouseListener(this);
 		Power1.setName("Power1");
-		Power1.setIcon(new ImageIcon(resize(Plus1Health, currentScreenWidth/2-550, currentScreenHeight-900 )));
+		Power1.setIcon(new ImageIcon(resize(Plus1Health,(int) (currentScreenWidth/2-550*Game.screenRatio),(int) (currentScreenHeight-900*Game.screenRatio) )));
 		Power1.setFocusable(false);
 		Power1.setBackground(Color.WHITE);
-		MakeButtonText(Power1, "<html>MedKit - Fully restores your Health<html>");
 		Power1.addActionListener(new ActionListener() {
 			
 			@Override
@@ -148,10 +147,9 @@ public class GameModeTower extends Game{
 		Power2 = new JButton("");
 		Power2.addMouseListener(this);
 		Power2.setName("Power2");
-		Power2.setIcon(new ImageIcon(resize(Plus1Mag, currentScreenWidth/2-700, currentScreenHeight-900)));
+		Power2.setIcon(new ImageIcon(resize(Plus1Mag, (int) (currentScreenWidth/2-700*Game.screenRatio), (int) (currentScreenHeight-900*Game.screenRatio))));
 		Power2.setFocusable(false);
 		Power2.setBackground(Color.WHITE);
-		MakeButtonText(Power2,"<html>Magazine extender - Increases your ammo capacity by 1<html>");
 		Power2.addActionListener(new ActionListener() {
 			
 			@Override
@@ -168,10 +166,9 @@ public class GameModeTower extends Game{
 		Power3 = new JButton("");
 		Power3.addMouseListener(this);
 		Power3.setName("Power3");
-		Power3.setIcon(new ImageIcon(resize(RocketLauncher, currentScreenWidth/2-750, currentScreenHeight-900)));
+		Power3.setIcon(new ImageIcon(resize(RocketLauncher,(int) ( currentScreenWidth/2-750*Game.screenRatio),(int) ( currentScreenHeight-900*Game.screenRatio))));
 		Power3.setFocusable(false);
 		Power3.setBackground(Color.WHITE);
-		MakeButtonText(Power3,"<html>Rocket Launcher - RIGHT CLICK + LEFT CLICK to shoot rockets<html>");
 		Power3.addActionListener(new ActionListener() {
 			
 			@Override
@@ -197,10 +194,9 @@ public class GameModeTower extends Game{
 		Power4 = new JButton("");
 		Power4.addMouseListener(this);
 		Power4.setName("Power4");
-		Power4.setIcon(new ImageIcon(resize(MachineGun,currentScreenWidth/2-750, currentScreenHeight-900)));
+		Power4.setIcon(new ImageIcon(resize(MachineGun,(int) (currentScreenWidth/2-750*Game.screenRatio), (int) (currentScreenHeight-900*Game.screenRatio))));
 		Power4.setFocusable(false);
 		Power4.setBackground(Color.WHITE);
-		MakeButtonText(Power4,"<html>Machine Gun - Press SPACEBAR + LEFT CLICK to activate<html>");
 		Power4.addActionListener(new ActionListener() {
 			
 			@Override
@@ -228,9 +224,8 @@ public class GameModeTower extends Game{
 		Power5.addMouseListener(this);
 		Power5.setName("Power5");
 		Power5.setFocusable(false);
-		Power5.setIcon(new ImageIcon(resize(DashIcon, currentScreenWidth/2-650, currentScreenHeight-900)));
+		Power5.setIcon(new ImageIcon(resize(DashIcon,(int) (currentScreenWidth/2-650*Game.screenRatio),(int) ( currentScreenHeight-900*Game.screenRatio))));
 		Power5.setBackground(Color.WHITE);
-		MakeButtonText(Power5,"<html>Dash - Press SHIFT to leap forward<html>");
 		Power5.addActionListener(new ActionListener() {
 			
 			@Override
@@ -255,9 +250,8 @@ public class GameModeTower extends Game{
 		Power6.addMouseListener(this);
 		Power6.setName("Power6");
 		Power6.setFocusable(false);
-		Power6.setIcon(new ImageIcon(resize(Shield,currentScreenWidth/2-700, currentScreenHeight-900)));
+		Power6.setIcon(new ImageIcon(resize(Shield,(int) (currentScreenWidth/2-700*Game.screenRatio),(int) ( currentScreenHeight-900*Game.screenRatio))));
 		Power6.setBackground(Color.WHITE);
-		MakeButtonText(Power6, "<html>Shield - press F to activate<html>");
 		Power6.addActionListener(new ActionListener() {
 			 
 		
@@ -287,9 +281,8 @@ public class GameModeTower extends Game{
 		Power7.addMouseListener(this);
 		Power7.setName("Power7");
 		Power7.setFocusable(false);
-		Power7.setIcon(new ImageIcon(resize(Pulse,currentScreenWidth/2-600, currentScreenHeight-800)));
+		Power7.setIcon(new ImageIcon(resize(Pulse,(int) (currentScreenWidth/2-600*Game.screenRatio),(int) ( currentScreenHeight-800*Game.screenRatio))));
 		Power7.setBackground(Color.WHITE);
-		MakeButtonText(Power7, "<html>Pulse - press Q to activate<html>");
 		Power7.addActionListener(new ActionListener() {
 			
 			@Override
@@ -315,9 +308,8 @@ public class GameModeTower extends Game{
 		Power8.addMouseListener(this);
 		Power8.setName("Power8");
 		Power8.setFocusable(false);
-		Power8.setIcon(new ImageIcon(resize(BerserkMode,currentScreenWidth/2-600, currentScreenHeight-800)));
+		Power8.setIcon(new ImageIcon(resize(BerserkMode,(int) (currentScreenWidth/2-600*Game.screenRatio),(int) ( currentScreenHeight-800*Game.screenRatio))));
 		Power8.setBackground(Color.WHITE);
-		MakeButtonText(Power8, "<html>BerserkMode - press C to activate<html>");
 		Power8.addActionListener(new ActionListener() {
 			
 			@Override
@@ -342,6 +334,8 @@ public class GameModeTower extends Game{
 				Shop.setEnabled(true);
 			}
 		});
+		
+		setUpTextOnButtons();
 		
 		MoneyDisplay = new JLabel("Money: ");
 		MoneyDisplay.setFont(new Font("jesus", font.BOLD, 14));
@@ -453,7 +447,20 @@ public class GameModeTower extends Game{
 			AIcount++;
 		}
 	}
-	
+	public void setUpTextOnButtons() {
+		boolean setupdone = false;
+		if(!setupdone) {
+			MakeButtonText(Power1, "<html>MedKit - Fully restores your Health<html>");
+			MakeButtonText(Power2,"<html>Magazine extender - Increases your ammo capacity by 1<html>");
+			MakeButtonText(Power3,"<html>Rocket Launcher - RIGHT CLICK + LEFT CLICK to shoot rockets<html>");
+			MakeButtonText(Power4,"<html>Machine Gun - Press SPACEBAR + LEFT CLICK to activate<html>");
+			MakeButtonText(Power5,"<html>Dash - Press SHIFT to leap forward<html>");
+			MakeButtonText(Power6, "<html>Shield - press F to activate<html>");
+			MakeButtonText(Power7, "<html>Pulse - press Q to activate<html>");
+			MakeButtonText(Power8, "<html>BerserkMode - press C to activate<html>");
+			setupdone = true;
+		}
+	}
 	public int determinePowerLvl() {
 		double rand = Math.random();
 		int difficulty = (int) Math.floor(wave/3)+1;
@@ -845,14 +852,15 @@ public class GameModeTower extends Game{
 		for( ChangeListener cl : b.getChangeListeners() ) {
 	        b.getModel().removeChangeListener( cl );
 	    }
-		
+		String textDisplay = text;
 		b.getModel().addChangeListener(new ChangeListener() {		
 			@Override
 		public void stateChanged(ChangeEvent e) {
+				System.out.println(b.getModel().isRollover());
 		    if (b.getModel().isRollover()) {
 		    	PowerUpDisplay.setBounds(b.getX(), b.getY()+b.getHeight(), b.getWidth(), 70);
-				PowerUpDisplay.setText(text);
-				System.out.println(text);
+				PowerUpDisplay.setText(textDisplay);
+				System.out.println(textDisplay);
 				System.out.println(b.getChangeListeners().length);
 				add(PowerUpDisplay);
 				repaint();
