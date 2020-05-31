@@ -805,7 +805,7 @@ public class Game extends JPanel implements MouseListener{
 	}
 	
 	private void renderDangerZone(Graphics g) {
-		g.setColor(Color.white);
+		g.setColor(Color.BLACK);
 		g.fillRect((int) Math.round(safeZoneCorner.getX()*Game.camera.toMultiply() + Game.camera.toAddX()), (int)Math.round(safeZoneCorner.getY()*Game.camera.toMultiply() + Game.camera.toAddY()),(int)Math.round(safeZoneWidth*Game.camera.toMultiply()),(int) Math.round(safeZoneHeight*Game.camera.toMultiply()));
 		g.setColor(Color.black);
 		Graphics2D g2 = (Graphics2D) g;

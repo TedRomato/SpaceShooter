@@ -1,5 +1,6 @@
 package package1;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -424,6 +425,7 @@ public class LivingObject extends MovingObject{
 
 	
 	public void render(Graphics g) {
+		g.setColor(Color.white);
 		super.render(g);
 		
 		if(attachments != null && attachments.length > 0) {
