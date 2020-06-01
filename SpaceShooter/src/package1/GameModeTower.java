@@ -235,7 +235,7 @@ public class GameModeTower extends Game{
 		Power5.addMouseListener(this);
 		Power5.setName("Power5");
 		Power5.setFocusable(false);
-		Power5.setIcon(new ImageIcon(resize(DashIcon,(int) ((currentScreenWidth/2-550)*Game.screenRatio),(int) ((currentScreenHeight-800)*Game.screenRatio))));
+		Power5.setIcon(new ImageIcon(resize(DashIcon,(int) ((currentScreenWidth/2-550)*Game.screenRatio),(int) ((currentScreenHeight-700)*Game.screenRatio))));
 		Power5.setBackground(Color.WHITE);
 		Power5.addActionListener(new ActionListener() {
 			
@@ -261,7 +261,7 @@ public class GameModeTower extends Game{
 		Power6.addMouseListener(this);
 		Power6.setName("Power6");
 		Power6.setFocusable(false);
-		Power6.setIcon(new ImageIcon(resize(Shield,(int) ((currentScreenWidth/2-600)*Game.screenRatio),(int) ((currentScreenHeight-800)*Game.screenRatio))));
+		Power6.setIcon(new ImageIcon(resize(Shield,(int) ((currentScreenWidth/2-600)*Game.screenRatio),(int) ((currentScreenHeight-700)*Game.screenRatio))));
 		Power6.setBackground(Color.WHITE);
 		Power6.addActionListener(new ActionListener() {
 			 
@@ -590,6 +590,8 @@ public class GameModeTower extends Game{
 			while(PUrnd1 == PUrnd2) {	
 				PUrnd2 = (int) (Math.random() * ((NumberOfPowerUps-1)+1)) + 1;
 			}
+				PUrnd1 = 5;
+				PUrnd2 = 6;
 			if((wave-1)%5==0) {
 				PUrnd1 = 7;
 				PUrnd2 = 8;
