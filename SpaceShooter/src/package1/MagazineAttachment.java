@@ -125,7 +125,7 @@ public class MagazineAttachment extends InteractiveAttachment{
 
 
 
-	public void setMagazineReloadLenght(int magazineReloadLenght) {
-		this.magazineReloadLenght = magazineReloadLenght;
+	public void setMagazineReloadLenght(double d) {
+		this.magazineReloadLenght = d;
 	}
 }
