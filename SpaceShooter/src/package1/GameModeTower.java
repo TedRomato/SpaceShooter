@@ -100,14 +100,17 @@ public class GameModeTower extends Game{
 		
 		TurretUpgrade1 = new JButton("");
 		TurretUpgrade1.setFocusable(false);
+		MakeTransparentButton(TurretUpgrade1);
 		TurretUpgrade1.addMouseListener(this);
 		
 		TurretUpgrade2 = new JButton("");
 		TurretUpgrade2.setFocusable(false);
+		MakeTransparentButton(TurretUpgrade2);
 		TurretUpgrade2.addMouseListener(this);
 		
 		TurretUpgrade3 = new JButton("");
 		TurretUpgrade3.setFocusable(false);
+		MakeTransparentButton(TurretUpgrade3);
 		TurretUpgrade3.addMouseListener(this);
 		
 		Resume = new JButton("Resume");
@@ -747,8 +750,11 @@ public class GameModeTower extends Game{
 		if(!tower.isTurretOn()) {
 			removeActionListeners(TurretUpgrade1);
 			TurretUpgrade1.setName("Turret");
-			TurretUpgrade1.setText("Buy Turret");
-			TurretUpgrade1.setBounds(currentScreenWidth/2-75, currentScreenHeight/2-75, 150, 150);
+			TurretUpgrade1.setText("<html><center>Buy<br/>Turret<center><html>");
+			TurretUpgrade1.setForeground(Color.YELLOW);
+			TurretUpgrade1.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+			setUpTurretButton(TurretUpgrade1, Color.ORANGE, Color.YELLOW, Color.RED);
+			TurretUpgrade1.setBounds(currentScreenWidth-150, 75, 150, 45);
 			TurretUpgrade1.addActionListener(NewTurret);
 			checkUpgrades(TurretUpgrade1, tower.getTurretCost());
 			add(TurretUpgrade1);
@@ -757,24 +763,30 @@ public class GameModeTower extends Game{
 		if(tower.isTurretOn()&&!tower.isGrenadeLauncherOn()&&!tower.isSniperOn()&&!tower.isMachineGunOn()) {
 			removeActionListeners(TurretUpgrade1);
 			TurretUpgrade1.setName("NextTurret");
-			TurretUpgrade1.setText("Buy GrenadeLauncher");
-			TurretUpgrade1.setBounds(currentScreenWidth/2-225, currentScreenHeight/2-75, 150, 150);
+			TurretUpgrade1.setText("<html><center>Buy<br/>Grenade Launcher<center><html>");
 			TurretUpgrade1.addActionListener(GrenadeLauncherTurret);
+			TurretUpgrade1.setBounds(currentScreenWidth-230, 75, 230, 45);
 			checkUpgrades(TurretUpgrade1, tower.getNextTurretCost());
 			add(TurretUpgrade1);
 			
 			removeActionListeners(TurretUpgrade2);
 			TurretUpgrade2.setName("NextTurret");
-			TurretUpgrade2.setText("Buy MachineGun");
-			TurretUpgrade2.setBounds(currentScreenWidth/2-75, currentScreenHeight/2-75, 150, 150);
+			TurretUpgrade2.setText("<html><center>Buy<br/>Machine Gun<center><html>");
+			TurretUpgrade2.setForeground(new Color(238, 37, 251));
+			TurretUpgrade2.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+			setUpTurretButton(TurretUpgrade2, new Color(122, 73, 165), new Color(238, 37, 251), new Color(73, 116, 165));
+			TurretUpgrade2.setBounds(currentScreenWidth-220, 160, 210, 45);
 			TurretUpgrade2.addActionListener(MachineGunTurret);
 			checkUpgrades(TurretUpgrade2, tower.getNextTurretCost());
 			add(TurretUpgrade2);
 			
 			removeActionListeners(TurretUpgrade3);
 			TurretUpgrade3.setName("NextTurret");
-			TurretUpgrade3.setText("Buy Sniper");
-			TurretUpgrade3.setBounds(currentScreenWidth/2+75, currentScreenHeight/2-75, 150, 150);
+			TurretUpgrade3.setText("<html><center>Buy<br/>Sniper Rifle<center><html>");
+			TurretUpgrade3.setForeground(new Color(66, 249, 49));
+			TurretUpgrade3.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+			setUpTurretButton(TurretUpgrade3, new Color(31, 117, 23), new Color(66, 249, 49), new Color(23, 31, 117));
+			TurretUpgrade3.setBounds(currentScreenWidth-220, 245, 210, 45);
 			TurretUpgrade3.addActionListener(SniperTurret);
 			checkUpgrades(TurretUpgrade3, tower.getNextTurretCost());
 			add(TurretUpgrade3);
@@ -782,17 +794,20 @@ public class GameModeTower extends Game{
 		}
 		if(tower.isGrenadeLauncherOn()) {
 			removeActionListeners(TurretUpgrade1);
-			TurretUpgrade1.setText("Upgrade GrenadeChunks");
+			TurretUpgrade1.setText("<html><center>Upgrade<br/>Grenade Chunks<center><html>");
+			TurretUpgrade1.setBounds(currentScreenWidth-220, 75, 220, 45);
 			TurretUpgrade1.addActionListener(UpgradeChunks);
 			add(TurretUpgrade1);
 			
 			removeActionListeners(TurretUpgrade2);
-			TurretUpgrade2.setText("Upgrade ReloadTime");
+			TurretUpgrade2.setText("<html><center>Upgrade<br/>Reload Time<center><html>");
+			TurretUpgrade2.setBounds(currentScreenWidth-210, 160, 200, 45);
 			TurretUpgrade2.addActionListener(UpgradeReload);
 			add(TurretUpgrade2);
 			
 			removeActionListeners(TurretUpgrade3);
-			TurretUpgrade3.setText("Upgrade DMG");
+			TurretUpgrade3.setText("<html><center>Upgrade<br/>DMG<center><html>");
+			TurretUpgrade3.setBounds(currentScreenWidth-185, 245, 150, 45);
 			TurretUpgrade3.addActionListener(UpgradeDMG);
 			add(TurretUpgrade3);
 			
@@ -800,34 +815,40 @@ public class GameModeTower extends Game{
 		}
 		if(tower.isSniperOn()) {
 			removeActionListeners(TurretUpgrade1);
-			TurretUpgrade1.setText("Upgrade Accuracy");
+			TurretUpgrade1.setText("<html><center>Upgrade<br/>Accuracy<center><html>");
+			TurretUpgrade1.setBounds(currentScreenWidth-220, 75, 220, 45);
 			TurretUpgrade1.addActionListener(UpgradeAccuracy);
 			add(TurretUpgrade1);
 			
 			removeActionListeners(TurretUpgrade2);
-			TurretUpgrade2.setText("Upgrade ReloadTime");
+			TurretUpgrade2.setText("<html><center>Upgrade<br/>Reload Time<center><html>");
+			TurretUpgrade2.setBounds(currentScreenWidth-210, 160, 200, 45);
 			TurretUpgrade2.addActionListener(UpgradeReload);
 			add(TurretUpgrade2);
 			
 			removeActionListeners(TurretUpgrade3);
-			TurretUpgrade3.setText("Upgrade DMG");
+			TurretUpgrade3.setText("<html><center>Upgrade<br/>DMG<center><html>");
+			TurretUpgrade3.setBounds(currentScreenWidth-185, 245, 150, 45);
 			TurretUpgrade3.addActionListener(UpgradeDMG);
 			add(TurretUpgrade3);
 			
 		}
 		if(tower.isMachineGunOn()) {
 			removeActionListeners(TurretUpgrade1);
-			TurretUpgrade1.setText("Upgrade Magazine size");
+			TurretUpgrade1.setText("<html><center>Upgrade<br/>Magazine Size<center><html>");
+			TurretUpgrade1.setBounds(currentScreenWidth-220, 75, 220, 45);
 			TurretUpgrade1.addActionListener(UpgradeMag);
 			add(TurretUpgrade1);
 			
 			removeActionListeners(TurretUpgrade2);
-			TurretUpgrade2.setText("Upgrade ReloadTime");
+			TurretUpgrade2.setText("<html><center>Upgrade<br/>Reload Time<center><html>");
+			TurretUpgrade2.setBounds(currentScreenWidth-210, 160, 200, 45);
 			TurretUpgrade2.addActionListener(UpgradeReload);
 			add(TurretUpgrade2);
 			
 			removeActionListeners(TurretUpgrade3);
-			TurretUpgrade3.setText("Upgrade DMG");
+			TurretUpgrade3.setText("<html><center>Upgrade<br/>DMG<center><html>");
+			TurretUpgrade3.setBounds(currentScreenWidth-185, 245, 150, 45);
 			TurretUpgrade3.addActionListener(UpgradeDMG);
 			add(TurretUpgrade3);
 		
@@ -881,6 +902,22 @@ public class GameModeTower extends Game{
 			}
 		});	
 	} 
+	public void setUpTurretButton(JButton b, Color c1, Color c2, Color c3) {
+		b.getModel().addChangeListener(new ChangeListener() {			
+			@Override
+		public void stateChanged(ChangeEvent e) {
+		    if (b.getModel().isRollover()) {
+		    	b.setForeground(c1);
+		    }
+		    else {
+		    	b.setForeground(c2);
+		    }
+		    if (b.getModel().isPressed()) {
+		    	b.setForeground(c3);
+		    	}	 
+			}
+		});
+	}
 	 @Override
 	protected void paintComponent(Graphics g) {
 		// TODO Auto-generated method stub
