@@ -70,7 +70,11 @@ public class Window extends JFrame implements KeyListener{
 		
 		
 		MainMenu = new JButton("Main Menu");
-		MainMenu.setBounds(screenWidth/2-100,screenHeight-300 , 200, 100);
+		MainMenu.setBounds(screenWidth/2-152,screenHeight-300 , 304, 50);
+		MainMenu.setFont(new Font(Font.MONOSPACED,Font.BOLD , 50));
+		MainMenu.setForeground(Color.YELLOW);
+		Game.MakeTransparentButton(MainMenu);
+		setButtonChangeListener(MainMenu);
 		MainMenu.setFocusable(false);
 		MainMenu.addActionListener(new ActionListener() {		
 			@Override
@@ -179,7 +183,7 @@ public class Window extends JFrame implements KeyListener{
 		//menu.add(startTest);
 		menu.add(exit);
 	}
-	public void setButtonChangeListener(JButton b) {
+	public static void setButtonChangeListener(JButton b) {
 		b.getModel().addChangeListener(new ChangeListener() {			
 			@Override
 		public void stateChanged(ChangeEvent e) {

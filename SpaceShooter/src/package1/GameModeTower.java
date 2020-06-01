@@ -79,7 +79,11 @@ public class GameModeTower extends Game{
 		Shop = new JButton("Shop");
 		Shop.setName("Shop");
 		Shop.setFocusable(false);
-		Shop.setBounds(currentScreenWidth-100, 0, 100, 50);
+		Shop.setForeground(Color.YELLOW);
+		Shop.setBounds(currentScreenWidth-118, 12, 98, 27);
+		Shop.setFont(new Font(Font.MONOSPACED,Font.BOLD , 27));
+		MakeTransparentButton(Shop);
+		Window.setButtonChangeListener(Shop);
 		Shop.addActionListener(new ActionListener() {
 			
 			@Override
@@ -96,20 +100,27 @@ public class GameModeTower extends Game{
 		
 		TurretUpgrade1 = new JButton("");
 		TurretUpgrade1.setFocusable(false);
+		MakeTransparentButton(TurretUpgrade1);
 		TurretUpgrade1.addMouseListener(this);
 		
 		TurretUpgrade2 = new JButton("");
 		TurretUpgrade2.setFocusable(false);
+		MakeTransparentButton(TurretUpgrade2);
 		TurretUpgrade2.addMouseListener(this);
 		
 		TurretUpgrade3 = new JButton("");
 		TurretUpgrade3.setFocusable(false);
+		MakeTransparentButton(TurretUpgrade3);
 		TurretUpgrade3.addMouseListener(this);
 		
 		Resume = new JButton("Resume");
 		Resume.setName("Resume");
 		Resume.setFocusable(false);
-		Resume.setBounds(currentScreenWidth-100, 0, 100, 50);
+		Resume.setForeground(Color.YELLOW);
+		Resume.setFont(new Font(Font.MONOSPACED,Font.BOLD , 27));
+		MakeTransparentButton(Resume);
+		Window.setButtonChangeListener(Resume);
+		Resume.setBounds(currentScreenWidth-135, 12, 135, 27);
 		Resume.addActionListener(new ActionListener() {
 			
 			@Override
@@ -127,7 +138,7 @@ public class GameModeTower extends Game{
 		Power1 = new JButton("");
 		Power1.addMouseListener(this);
 		Power1.setName("Power1");
-		Power1.setIcon(new ImageIcon(resize(Plus1Health,(int) (currentScreenWidth/2-550*Game.screenRatio),(int) (currentScreenHeight-900*Game.screenRatio) )));
+		Power1.setIcon(new ImageIcon(resize(Plus1Health,(int) ((currentScreenWidth/2-275)*Game.screenRatio),(int) ((currentScreenHeight-600)*Game.screenRatio))));
 		Power1.setFocusable(false);
 		Power1.setBackground(Color.WHITE);
 		Power1.addActionListener(new ActionListener() {
@@ -147,7 +158,7 @@ public class GameModeTower extends Game{
 		Power2 = new JButton("");
 		Power2.addMouseListener(this);
 		Power2.setName("Power2");
-		Power2.setIcon(new ImageIcon(resize(Plus1Mag, (int) (currentScreenWidth/2-700*Game.screenRatio), (int) (currentScreenHeight-900*Game.screenRatio))));
+		Power2.setIcon(new ImageIcon(resize(Plus1Mag, (int) ((currentScreenWidth/2-400)*Game.screenRatio), (int) ((currentScreenHeight-600)*Game.screenRatio))));
 		Power2.setFocusable(false);
 		Power2.setBackground(Color.WHITE);
 		Power2.addActionListener(new ActionListener() {
@@ -166,7 +177,7 @@ public class GameModeTower extends Game{
 		Power3 = new JButton("");
 		Power3.addMouseListener(this);
 		Power3.setName("Power3");
-		Power3.setIcon(new ImageIcon(resize(RocketLauncher,(int) ( currentScreenWidth/2-750*Game.screenRatio),(int) ( currentScreenHeight-900*Game.screenRatio))));
+		Power3.setIcon(new ImageIcon(resize(RocketLauncher,(int) ((currentScreenWidth/2-550)*Game.screenRatio),(int) ( (currentScreenHeight-700)*Game.screenRatio))));
 		Power3.setFocusable(false);
 		Power3.setBackground(Color.WHITE);
 		Power3.addActionListener(new ActionListener() {
@@ -194,7 +205,7 @@ public class GameModeTower extends Game{
 		Power4 = new JButton("");
 		Power4.addMouseListener(this);
 		Power4.setName("Power4");
-		Power4.setIcon(new ImageIcon(resize(MachineGun,(int) (currentScreenWidth/2-750*Game.screenRatio), (int) (currentScreenHeight-900*Game.screenRatio))));
+		Power4.setIcon(new ImageIcon(resize(MachineGun,(int) ((currentScreenWidth/2-550)*Game.screenRatio), (int) ((currentScreenHeight-700)*Game.screenRatio))));
 		Power4.setFocusable(false);
 		Power4.setBackground(Color.WHITE);
 		Power4.addActionListener(new ActionListener() {
@@ -224,7 +235,7 @@ public class GameModeTower extends Game{
 		Power5.addMouseListener(this);
 		Power5.setName("Power5");
 		Power5.setFocusable(false);
-		Power5.setIcon(new ImageIcon(resize(DashIcon,(int) (currentScreenWidth/2-650*Game.screenRatio),(int) ( currentScreenHeight-900*Game.screenRatio))));
+		Power5.setIcon(new ImageIcon(resize(DashIcon,(int) ((currentScreenWidth/2-550)*Game.screenRatio),(int) ((currentScreenHeight-800)*Game.screenRatio))));
 		Power5.setBackground(Color.WHITE);
 		Power5.addActionListener(new ActionListener() {
 			
@@ -250,7 +261,7 @@ public class GameModeTower extends Game{
 		Power6.addMouseListener(this);
 		Power6.setName("Power6");
 		Power6.setFocusable(false);
-		Power6.setIcon(new ImageIcon(resize(Shield,(int) (currentScreenWidth/2-700*Game.screenRatio),(int) ( currentScreenHeight-900*Game.screenRatio))));
+		Power6.setIcon(new ImageIcon(resize(Shield,(int) ((currentScreenWidth/2-600)*Game.screenRatio),(int) ((currentScreenHeight-800)*Game.screenRatio))));
 		Power6.setBackground(Color.WHITE);
 		Power6.addActionListener(new ActionListener() {
 			 
@@ -281,7 +292,7 @@ public class GameModeTower extends Game{
 		Power7.addMouseListener(this);
 		Power7.setName("Power7");
 		Power7.setFocusable(false);
-		Power7.setIcon(new ImageIcon(resize(Pulse,(int) (currentScreenWidth/2-600*Game.screenRatio),(int) ( currentScreenHeight-800*Game.screenRatio))));
+		Power7.setIcon(new ImageIcon(resize(Pulse,(int) ((currentScreenWidth/2-500)*Game.screenRatio),(int) ((currentScreenHeight-700)*Game.screenRatio))));
 		Power7.setBackground(Color.WHITE);
 		Power7.addActionListener(new ActionListener() {
 			
@@ -308,7 +319,7 @@ public class GameModeTower extends Game{
 		Power8.addMouseListener(this);
 		Power8.setName("Power8");
 		Power8.setFocusable(false);
-		Power8.setIcon(new ImageIcon(resize(BerserkMode,(int) (currentScreenWidth/2-600*Game.screenRatio),(int) ( currentScreenHeight-800*Game.screenRatio))));
+		Power8.setIcon(new ImageIcon(resize(BerserkMode,(int) ((currentScreenWidth/2-500)*Game.screenRatio),(int) ((currentScreenHeight-700)*Game.screenRatio))));
 		Power8.setBackground(Color.WHITE);
 		Power8.addActionListener(new ActionListener() {
 			
@@ -335,20 +346,23 @@ public class GameModeTower extends Game{
 			}
 		});
 		
-		setUpTextOnButtons();
-		
 		MoneyDisplay = new JLabel("Money: ");
 		MoneyDisplay.setFont(new Font("jesus", font.BOLD, 14));
+		MoneyDisplay.setForeground(Color.WHITE);
 		MoneyDisplay.setBounds(currentScreenWidth-100, 30, 150, 50);
 		add(MoneyDisplay);
 		
 		CostDisplay = new JLabel();
 		CostDisplay.setFont(new Font("jesus", font.BOLD, 14));
+		CostDisplay.setForeground(Color.WHITE);
 		CostDisplay.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		PowerUpDisplay = new JLabel("");
 		PowerUpDisplay.setFont(font);
+		PowerUpDisplay.setForeground(Color.WHITE);
 		PowerUpDisplay.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		setUpTextOnButtons();
 		
 		MakeAmmoDisplay(30,40);
 		
@@ -360,11 +374,13 @@ public class GameModeTower extends Game{
 		MachineGunAmmoDisplay = new JLabel("");
 		MachineGunAmmoDisplay.setBounds(30,80,50,30);
 		MachineGunAmmoDisplay.setFont(font);
+		MachineGunAmmoDisplay.setForeground(Color.WHITE);
 		add(MachineGunAmmoDisplay);
 		
 		RocketAmmoDisplay = new JLabel("");
 		RocketAmmoDisplay.setBounds(30,121,50,30);
 		RocketAmmoDisplay.setFont(font);
+		RocketAmmoDisplay.setForeground(Color.WHITE);
 		add(RocketAmmoDisplay);
 		
 		MakeHPDisplay(40,0);
@@ -372,15 +388,18 @@ public class GameModeTower extends Game{
 		waveDisplay = new JLabel("Wave: " + wave);
 		waveDisplay.setBounds(currentScreenWidth/2-50, 0, 150, 50);
 		waveDisplay.setFont(font);
+		waveDisplay.setForeground(Color.WHITE);
 		add(waveDisplay);
 		
 		MachineGunReload = new JProgressBar(0,0);
 		MachineGunReload.setBounds(0, 110, 80, 10);
-		MachineGunReload.setForeground(Color.BLACK);
+		MachineGunReload.setForeground(Color.WHITE);
+		MachineGunReload.setBackground(Color.GRAY);
 		
 		FaceCannonReload = new JProgressBar(0,0);
 		FaceCannonReload.setBounds(0, 151, 80, 10);
-		FaceCannonReload.setForeground(Color.BLACK);
+		FaceCannonReload.setForeground(Color.WHITE);
+		FaceCannonReload.setBackground(Color.GRAY);
 		
 		ShieldStatus = new JProgressBar(0,0);
 		ShieldStatus.setBounds(0,191,80,10);
@@ -448,8 +467,6 @@ public class GameModeTower extends Game{
 		}
 	}
 	public void setUpTextOnButtons() {
-		boolean setupdone = false;
-		if(!setupdone) {
 			MakeButtonText(Power1, "<html>MedKit - Fully restores your Health<html>");
 			MakeButtonText(Power2,"<html>Magazine extender - Increases your ammo capacity by 1<html>");
 			MakeButtonText(Power3,"<html>Rocket Launcher - RIGHT CLICK + LEFT CLICK to shoot rockets<html>");
@@ -458,8 +475,6 @@ public class GameModeTower extends Game{
 			MakeButtonText(Power6, "<html>Shield - press F to activate<html>");
 			MakeButtonText(Power7, "<html>Pulse - press Q to activate<html>");
 			MakeButtonText(Power8, "<html>BerserkMode - press C to activate<html>");
-			setupdone = true;
-		}
 	}
 	public int determinePowerLvl() {
 		double rand = Math.random();
@@ -735,8 +750,11 @@ public class GameModeTower extends Game{
 		if(!tower.isTurretOn()) {
 			removeActionListeners(TurretUpgrade1);
 			TurretUpgrade1.setName("Turret");
-			TurretUpgrade1.setText("Buy Turret");
-			TurretUpgrade1.setBounds(currentScreenWidth/2-75, currentScreenHeight/2-75, 150, 150);
+			TurretUpgrade1.setText("<html><center>Buy<br/>Turret<center><html>");
+			TurretUpgrade1.setForeground(Color.YELLOW);
+			TurretUpgrade1.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+			setUpTurretButton(TurretUpgrade1, Color.ORANGE, Color.YELLOW, Color.RED);
+			TurretUpgrade1.setBounds(currentScreenWidth-150, 75, 150, 45);
 			TurretUpgrade1.addActionListener(NewTurret);
 			checkUpgrades(TurretUpgrade1, tower.getTurretCost());
 			add(TurretUpgrade1);
@@ -745,24 +763,30 @@ public class GameModeTower extends Game{
 		if(tower.isTurretOn()&&!tower.isGrenadeLauncherOn()&&!tower.isSniperOn()&&!tower.isMachineGunOn()) {
 			removeActionListeners(TurretUpgrade1);
 			TurretUpgrade1.setName("NextTurret");
-			TurretUpgrade1.setText("Buy GrenadeLauncher");
-			TurretUpgrade1.setBounds(currentScreenWidth/2-225, currentScreenHeight/2-75, 150, 150);
+			TurretUpgrade1.setText("<html><center>Buy<br/>Grenade Launcher<center><html>");
 			TurretUpgrade1.addActionListener(GrenadeLauncherTurret);
+			TurretUpgrade1.setBounds(currentScreenWidth-230, 75, 230, 45);
 			checkUpgrades(TurretUpgrade1, tower.getNextTurretCost());
 			add(TurretUpgrade1);
 			
 			removeActionListeners(TurretUpgrade2);
 			TurretUpgrade2.setName("NextTurret");
-			TurretUpgrade2.setText("Buy MachineGun");
-			TurretUpgrade2.setBounds(currentScreenWidth/2-75, currentScreenHeight/2-75, 150, 150);
+			TurretUpgrade2.setText("<html><center>Buy<br/>Machine Gun<center><html>");
+			TurretUpgrade2.setForeground(new Color(238, 37, 251));
+			TurretUpgrade2.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+			setUpTurretButton(TurretUpgrade2, new Color(122, 73, 165), new Color(238, 37, 251), new Color(73, 116, 165));
+			TurretUpgrade2.setBounds(currentScreenWidth-220, 160, 210, 45);
 			TurretUpgrade2.addActionListener(MachineGunTurret);
 			checkUpgrades(TurretUpgrade2, tower.getNextTurretCost());
 			add(TurretUpgrade2);
 			
 			removeActionListeners(TurretUpgrade3);
 			TurretUpgrade3.setName("NextTurret");
-			TurretUpgrade3.setText("Buy Sniper");
-			TurretUpgrade3.setBounds(currentScreenWidth/2+75, currentScreenHeight/2-75, 150, 150);
+			TurretUpgrade3.setText("<html><center>Buy<br/>Sniper Rifle<center><html>");
+			TurretUpgrade3.setForeground(new Color(66, 249, 49));
+			TurretUpgrade3.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+			setUpTurretButton(TurretUpgrade3, new Color(31, 117, 23), new Color(66, 249, 49), new Color(23, 31, 117));
+			TurretUpgrade3.setBounds(currentScreenWidth-220, 245, 210, 45);
 			TurretUpgrade3.addActionListener(SniperTurret);
 			checkUpgrades(TurretUpgrade3, tower.getNextTurretCost());
 			add(TurretUpgrade3);
@@ -770,17 +794,20 @@ public class GameModeTower extends Game{
 		}
 		if(tower.isGrenadeLauncherOn()) {
 			removeActionListeners(TurretUpgrade1);
-			TurretUpgrade1.setText("Upgrade GrenadeChunks");
+			TurretUpgrade1.setText("<html><center>Upgrade<br/>Grenade Chunks<center><html>");
+			TurretUpgrade1.setBounds(currentScreenWidth-220, 75, 220, 45);
 			TurretUpgrade1.addActionListener(UpgradeChunks);
 			add(TurretUpgrade1);
 			
 			removeActionListeners(TurretUpgrade2);
-			TurretUpgrade2.setText("Upgrade ReloadTime");
+			TurretUpgrade2.setText("<html><center>Upgrade<br/>Reload Time<center><html>");
+			TurretUpgrade2.setBounds(currentScreenWidth-210, 160, 200, 45);
 			TurretUpgrade2.addActionListener(UpgradeReload);
 			add(TurretUpgrade2);
 			
 			removeActionListeners(TurretUpgrade3);
-			TurretUpgrade3.setText("Upgrade DMG");
+			TurretUpgrade3.setText("<html><center>Upgrade<br/>DMG<center><html>");
+			TurretUpgrade3.setBounds(currentScreenWidth-185, 245, 150, 45);
 			TurretUpgrade3.addActionListener(UpgradeDMG);
 			add(TurretUpgrade3);
 			
@@ -788,34 +815,40 @@ public class GameModeTower extends Game{
 		}
 		if(tower.isSniperOn()) {
 			removeActionListeners(TurretUpgrade1);
-			TurretUpgrade1.setText("Upgrade Accuracy");
+			TurretUpgrade1.setText("<html><center>Upgrade<br/>Accuracy<center><html>");
+			TurretUpgrade1.setBounds(currentScreenWidth-220, 75, 220, 45);
 			TurretUpgrade1.addActionListener(UpgradeAccuracy);
 			add(TurretUpgrade1);
 			
 			removeActionListeners(TurretUpgrade2);
-			TurretUpgrade2.setText("Upgrade ReloadTime");
+			TurretUpgrade2.setText("<html><center>Upgrade<br/>Reload Time<center><html>");
+			TurretUpgrade2.setBounds(currentScreenWidth-210, 160, 200, 45);
 			TurretUpgrade2.addActionListener(UpgradeReload);
 			add(TurretUpgrade2);
 			
 			removeActionListeners(TurretUpgrade3);
-			TurretUpgrade3.setText("Upgrade DMG");
+			TurretUpgrade3.setText("<html><center>Upgrade<br/>DMG<center><html>");
+			TurretUpgrade3.setBounds(currentScreenWidth-185, 245, 150, 45);
 			TurretUpgrade3.addActionListener(UpgradeDMG);
 			add(TurretUpgrade3);
 			
 		}
 		if(tower.isMachineGunOn()) {
 			removeActionListeners(TurretUpgrade1);
-			TurretUpgrade1.setText("Upgrade Magazine size");
+			TurretUpgrade1.setText("<html><center>Upgrade<br/>Magazine Size<center><html>");
+			TurretUpgrade1.setBounds(currentScreenWidth-220, 75, 220, 45);
 			TurretUpgrade1.addActionListener(UpgradeMag);
 			add(TurretUpgrade1);
 			
 			removeActionListeners(TurretUpgrade2);
-			TurretUpgrade2.setText("Upgrade ReloadTime");
+			TurretUpgrade2.setText("<html><center>Upgrade<br/>Reload Time<center><html>");
+			TurretUpgrade2.setBounds(currentScreenWidth-210, 160, 200, 45);
 			TurretUpgrade2.addActionListener(UpgradeReload);
 			add(TurretUpgrade2);
 			
 			removeActionListeners(TurretUpgrade3);
-			TurretUpgrade3.setText("Upgrade DMG");
+			TurretUpgrade3.setText("<html><center>Upgrade<br/>DMG<center><html>");
+			TurretUpgrade3.setBounds(currentScreenWidth-185, 245, 150, 45);
 			TurretUpgrade3.addActionListener(UpgradeDMG);
 			add(TurretUpgrade3);
 		
@@ -852,16 +885,13 @@ public class GameModeTower extends Game{
 		for( ChangeListener cl : b.getChangeListeners() ) {
 	        b.getModel().removeChangeListener( cl );
 	    }
-		String textDisplay = text;
+		b.setName(text);
 		b.getModel().addChangeListener(new ChangeListener() {		
 			@Override
 		public void stateChanged(ChangeEvent e) {
-				System.out.println(b.getModel().isRollover());
-		    if (b.getModel().isRollover()) {
+			PowerUpDisplay.setText(b.getName());
+			if (b.getModel().isRollover()) {
 		    	PowerUpDisplay.setBounds(b.getX(), b.getY()+b.getHeight(), b.getWidth(), 70);
-				PowerUpDisplay.setText(textDisplay);
-				System.out.println(textDisplay);
-				System.out.println(b.getChangeListeners().length);
 				add(PowerUpDisplay);
 				repaint();
 		    	}
@@ -871,6 +901,22 @@ public class GameModeTower extends Game{
 		    	}
 			}
 		});	
+	} 
+	public void setUpTurretButton(JButton b, Color c1, Color c2, Color c3) {
+		b.getModel().addChangeListener(new ChangeListener() {			
+			@Override
+		public void stateChanged(ChangeEvent e) {
+		    if (b.getModel().isRollover()) {
+		    	b.setForeground(c1);
+		    }
+		    else {
+		    	b.setForeground(c2);
+		    }
+		    if (b.getModel().isPressed()) {
+		    	b.setForeground(c3);
+		    	}	 
+			}
+		});
 	}
 	 @Override
 	protected void paintComponent(Graphics g) {

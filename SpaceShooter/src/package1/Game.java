@@ -352,7 +352,7 @@ public class Game extends JPanel implements MouseListener{
 	}
 	public void MakeHPDisplay(int x, int y) {
 		PlayerHPDisplay = new JLabel(""+ p.getHP());
-		PlayerHPDisplay.setBounds(x,y,30,30);
+		PlayerHPDisplay.setBounds(x,y,60,30);
 		PlayerHPDisplay.setFont(font);
 		PlayerHPDisplay.setForeground(new Color(141,198,63));
 		add(PlayerHPDisplay);
@@ -361,12 +361,15 @@ public class Game extends JPanel implements MouseListener{
 		PlayerAmmoDisplay = new JLabel(""+ ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineSize()+"/"+((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineMaxSize());
 		PlayerAmmoDisplay.setBounds(x , y,50,30);
 		PlayerAmmoDisplay.setFont(font);
+		PlayerAmmoDisplay.setForeground(Color.WHITE);
+		
 		add(PlayerAmmoDisplay);
 		
 		PlayerReloadTime = new JProgressBar(0,(int) ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadLenght());
 		PlayerReloadTime.setBounds(x-30, y+30, 80, 10);
 		PlayerReloadTime.setValue((int) ((MagazineAttachment)p.getAttachments()[p.baseCanon]).getMagazineReloadLenght());
-		PlayerReloadTime.setForeground(Color.BLACK);
+		PlayerReloadTime.setForeground(Color.WHITE);
+		PlayerReloadTime.setBackground(Color.DARK_GRAY);
 		add(PlayerReloadTime);
 	}
 	public void updateDisplay() {

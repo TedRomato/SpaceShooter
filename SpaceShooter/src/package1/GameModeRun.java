@@ -1,5 +1,6 @@
 package package1;
 
+import java.awt.Color;
 import java.text.DecimalFormat;
 
 import javax.swing.JLabel;
@@ -50,6 +51,7 @@ public class GameModeRun extends Game{
 		
 		score = new JLabel("Score");
 		score.setBounds(currentScreenWidth/2-50, 0, 150, 50);
+		score.setForeground(Color.WHITE);
 		score.setFont(font);
 		add(score);
 		
