@@ -76,13 +76,14 @@ public class Tower extends LivingObject{
 		MachineGunOn = true;
 	}
 	public void UpgradeReloadTime() {		
-		turret.setReloadLenght(turret.getReloadLenght()-10);
+		turret.setMagazineReloadLenght(turret.getMagazineReloadLenght()-10);
 	}
 	public void UpgradeDMG() {
 		turret.setDmg((turret.getDmg())+1);
 	}
 	public void UpgradeMagazineSize() {
-		turret.setMagazineSize(turret.getMagazineSize()+1);
+		turret.setMagazineMaxSize(turret.getMagazineMaxSize()+2);
+		turret.setMagazineReloadTimer(0);
 	}
 	public void UpgradeAccuracy() {
 		turret.setInaccuracy(turret.getInaccuracy()-5);
