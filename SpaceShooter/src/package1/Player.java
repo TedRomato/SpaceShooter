@@ -236,7 +236,7 @@ public class Player extends LivingObject{
 				}else if(go instanceof Missile) {
 					if(go.getRotationPoint().getPointDistance(getRotationPoint()) < pulseRange) {
 						((MovingObject) go).pushFromObject(this, ((MovingObject) go).getCurrentSpeed());
-						((Missile) go).setImune(new GameObject[] {});
+						((Missile) go).setImune(new GameObject[] {this});
 					}
 				}
 				

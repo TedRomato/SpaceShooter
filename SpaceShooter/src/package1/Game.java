@@ -352,7 +352,7 @@ public class Game extends JPanel implements MouseListener{
 	}
 	public void MakeHPDisplay(int x, int y) {
 		PlayerHPDisplay = new JLabel(""+ p.getHP());
-		PlayerHPDisplay.setBounds(x,y,30,30);
+		PlayerHPDisplay.setBounds(x,y,60,30);
 		PlayerHPDisplay.setFont(font);
 		PlayerHPDisplay.setForeground(new Color(141,198,63));
 		add(PlayerHPDisplay);
