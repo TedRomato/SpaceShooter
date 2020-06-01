@@ -34,14 +34,14 @@ public class GameModeTower extends Game{
 	private JButton Power1, Power2, Power3, Power4, Power5, Power6, Power7, Power8, Shop, Resume, TurretUpgrade1, TurretUpgrade2,TurretUpgrade3;
 	private BufferedImage Shield, BerserkMode, Pulse,ShieldIcon, Plus1Mag, Plus1Health, DashIcon, MachineGunIcon, RocketIcon, RocketLauncher, MachineGun, BerserkModeIcon;
 	private int AIcount = 90;
-	private int wave = 6;
+	private int wave = 1;
 	private int waveCount = 0;
 	private int AIStrength = 0;
 	private int TowerBaseHP=1000;
 	private int NumberOfPowerUps = 6;
 	private int[] StrenghtAr = new int[] {1,2,4,6,3,4,3};
 	private int AIrnd, PUrnd1, PUrnd2, AIPowerLevel;
-	private boolean AIneeded = true, waveEnd = false, PUpicked = false, ULTpicked = false, setupdone = false;
+	private boolean AIneeded = true, waveEnd = false, PUpicked = false, ULTpicked = false;
 	private Font font = super.font;
 	public GameModeTower(int sw, int sh) {
 		super(sw, sh, true);
@@ -79,7 +79,11 @@ public class GameModeTower extends Game{
 		Shop = new JButton("Shop");
 		Shop.setName("Shop");
 		Shop.setFocusable(false);
-		Shop.setBounds(currentScreenWidth-100, 0, 100, 50);
+		Shop.setForeground(Color.YELLOW);
+		Shop.setBounds(currentScreenWidth-118, 12, 98, 27);
+		Shop.setFont(new Font(Font.MONOSPACED,Font.BOLD , 27));
+		MakeTransparentButton(Shop);
+		Window.setButtonChangeListener(Shop);
 		Shop.addActionListener(new ActionListener() {
 			
 			@Override
@@ -109,7 +113,11 @@ public class GameModeTower extends Game{
 		Resume = new JButton("Resume");
 		Resume.setName("Resume");
 		Resume.setFocusable(false);
-		Resume.setBounds(currentScreenWidth-100, 0, 100, 50);
+		Resume.setForeground(Color.YELLOW);
+		Resume.setFont(new Font(Font.MONOSPACED,Font.BOLD , 27));
+		MakeTransparentButton(Resume);
+		Window.setButtonChangeListener(Resume);
+		Resume.setBounds(currentScreenWidth-135, 12, 135, 27);
 		Resume.addActionListener(new ActionListener() {
 			
 			@Override
@@ -335,20 +343,23 @@ public class GameModeTower extends Game{
 			}
 		});
 		
-		setUpTextOnButtons();
-		
 		MoneyDisplay = new JLabel("Money: ");
 		MoneyDisplay.setFont(new Font("jesus", font.BOLD, 14));
+		MoneyDisplay.setForeground(Color.WHITE);
 		MoneyDisplay.setBounds(currentScreenWidth-100, 30, 150, 50);
 		add(MoneyDisplay);
 		
 		CostDisplay = new JLabel();
 		CostDisplay.setFont(new Font("jesus", font.BOLD, 14));
+		CostDisplay.setForeground(Color.WHITE);
 		CostDisplay.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		PowerUpDisplay = new JLabel("");
 		PowerUpDisplay.setFont(font);
+		PowerUpDisplay.setForeground(Color.WHITE);
 		PowerUpDisplay.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		setUpTextOnButtons();
 		
 		MakeAmmoDisplay(30,40);
 		
@@ -360,11 +371,13 @@ public class GameModeTower extends Game{
 		MachineGunAmmoDisplay = new JLabel("");
 		MachineGunAmmoDisplay.setBounds(30,80,50,30);
 		MachineGunAmmoDisplay.setFont(font);
+		MachineGunAmmoDisplay.setForeground(Color.WHITE);
 		add(MachineGunAmmoDisplay);
 		
 		RocketAmmoDisplay = new JLabel("");
 		RocketAmmoDisplay.setBounds(30,121,50,30);
 		RocketAmmoDisplay.setFont(font);
+		RocketAmmoDisplay.setForeground(Color.WHITE);
 		add(RocketAmmoDisplay);
 		
 		MakeHPDisplay(40,0);
@@ -372,15 +385,18 @@ public class GameModeTower extends Game{
 		waveDisplay = new JLabel("Wave: " + wave);
 		waveDisplay.setBounds(currentScreenWidth/2-50, 0, 150, 50);
 		waveDisplay.setFont(font);
+		waveDisplay.setForeground(Color.WHITE);
 		add(waveDisplay);
 		
 		MachineGunReload = new JProgressBar(0,0);
 		MachineGunReload.setBounds(0, 110, 80, 10);
-		MachineGunReload.setForeground(Color.BLACK);
+		MachineGunReload.setForeground(Color.WHITE);
+		MachineGunReload.setBackground(Color.GRAY);
 		
 		FaceCannonReload = new JProgressBar(0,0);
 		FaceCannonReload.setBounds(0, 151, 80, 10);
-		FaceCannonReload.setForeground(Color.BLACK);
+		FaceCannonReload.setForeground(Color.WHITE);
+		FaceCannonReload.setBackground(Color.GRAY);
 		
 		ShieldStatus = new JProgressBar(0,0);
 		ShieldStatus.setBounds(0,191,80,10);
@@ -448,8 +464,6 @@ public class GameModeTower extends Game{
 		}
 	}
 	public void setUpTextOnButtons() {
-		
-		if(!setupdone) {
 			MakeButtonText(Power1, "<html>MedKit - Fully restores your Health<html>");
 			MakeButtonText(Power2,"<html>Magazine extender - Increases your ammo capacity by 1<html>");
 			MakeButtonText(Power3,"<html>Rocket Launcher - RIGHT CLICK + LEFT CLICK to shoot rockets<html>");
@@ -458,8 +472,6 @@ public class GameModeTower extends Game{
 			MakeButtonText(Power6, "<html>Shield - press F to activate<html>");
 			MakeButtonText(Power7, "<html>Pulse - press Q to activate<html>");
 			MakeButtonText(Power8, "<html>BerserkMode - press C to activate<html>");
-			setupdone = true;
-		}
 	}
 	public int determinePowerLvl() {
 		double rand = Math.random();
@@ -852,16 +864,13 @@ public class GameModeTower extends Game{
 		for( ChangeListener cl : b.getChangeListeners() ) {
 	        b.getModel().removeChangeListener( cl );
 	    }
-		String textDisplay = text;
+		b.setName(text);
 		b.getModel().addChangeListener(new ChangeListener() {		
 			@Override
 		public void stateChanged(ChangeEvent e) {
-				System.out.println(b.getModel().isRollover());
-		    if (b.getModel().isRollover()) {
+			PowerUpDisplay.setText(b.getName());
+			if (b.getModel().isRollover()) {
 		    	PowerUpDisplay.setBounds(b.getX(), b.getY()+b.getHeight(), b.getWidth(), 70);
-				PowerUpDisplay.setText(textDisplay);
-				System.out.println(textDisplay);
-				System.out.println(b.getChangeListeners().length);
 				add(PowerUpDisplay);
 				repaint();
 		    	}
@@ -871,7 +880,7 @@ public class GameModeTower extends Game{
 		    	}
 			}
 		});	
-	}
+	} 
 	 @Override
 	protected void paintComponent(Graphics g) {
 		// TODO Auto-generated method stub

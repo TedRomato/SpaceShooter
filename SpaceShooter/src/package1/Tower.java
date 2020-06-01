@@ -1,10 +1,6 @@
 package package1;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
 public class Tower extends LivingObject{
-	Color colorUsed = Color.blue;
 	private boolean SniperOn = false, MachineGunOn = false, GrenadeLauncherOn = false, TurretOn = false; 
 	private MagazineAttachment turret;
 	private int TurretCost = 150, NextTurretCost = 400, UpgradeCost = 200;
@@ -17,6 +13,7 @@ public class Tower extends LivingObject{
 	
 	public static Tower makeNewTower(double x, double y){
 		Tower tower = new Tower(GameObject.generatePeriodicObject(120, 8, new Corner(new double[] {x,y})).getCorners(), new Corner(new double[] {x,y}),0.0, new Corner(new double[] {x+1,y+1}));
+		
 		return tower;
 	}
 	
@@ -122,7 +119,7 @@ public class Tower extends LivingObject{
 	public void setTurretOn(boolean turretOn) {
 		TurretOn = turretOn;
 	}
-	public int getTurretCost() {
+	public int getTurretCost() { 
 		return TurretCost;
 	}
 
@@ -154,26 +151,6 @@ public class Tower extends LivingObject{
 			}
 		}
 		return super.checkCollision(go);
-	}
-	
-	public void addShotImune(GameObject toAdd) {
-		super.addShotImune(toAdd);
-		for(GameObject go : getShotImunes()) {
-			if(go instanceof Player) {
-				colorUsed = Color.green;
-			}
-		}
-	}
-	
-	public void addShotImunes(GameObject[] toAdds) {
-		super.addShotImunes(toAdds);
-		
-		
-	}
-	
-	public void render(Graphics g){
-		g.setColor(colorUsed);
-		super.render(g);
 	}
 }
 	
