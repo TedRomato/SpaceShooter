@@ -1,6 +1,6 @@
 # SpaceShooter
-This is the first big project I took on, when I started programming at the start of 2019. We strated this project at the beginning of 2020. Our inspiration were Space Invaders. Our game is situated in space, and player is in role of a battle space craft. The spacecraft has some unique abilities, you can find in game. There are 2 playable mods. First one is run mode, where you have to defend space cargo from hostile ships.
-The second mode is run mode, where your goal is to survive as long as possible while running from the zone, that deals damig, whrough battlefield full of enemys and asteroids.
+This is the first big project I took on, when I started programming at the start of 2019. We strated this project at the beginning of 2020. It is entirely written in vanilla java. Our inspiration were Space Invaders. Our game is situated in space, and player is in role of a battle space craft, but unlike space invaders, you can move everywhere. The spacecraft has some unique abilities, you can find in game. There are 2 playable mods. First one is run mode, where you have to defend space cargo from hostile ships.
+The second mode is run mode, where your goal is to survive as long as possible while running from the zone, that deals damage, whrough battlefield full of enemys and asteroids.
 <br>
 Tower mode: <br>
 ![Space_shooter_tower](https://user-images.githubusercontent.com/59472129/115547615-bfbc6d80-a2a6-11eb-944b-7f27c974ff69.gif)
