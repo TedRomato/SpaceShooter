@@ -9,5 +9,5 @@ Run mode: <br>
 ![Space_shooter_run](https://user-images.githubusercontent.com/59472129/115548006-3fe2d300-a2a7-11eb-8a1a-83ee838c7a4b.gif)
 <br>
 
-As it is my first project, it was not well documented as you can imagine. I'm writing this readme year after finishing this project, and it would take me too much work to go through all the code, and document it. Let this be a warning to you, and document your code along the way.
+As it is my first project, it was not well documented as you can imagine. I'm writing this readme year after finishing this project, and it would take me too much work to go through all the code, and document it. Let this be a warning to you, and document your code along the way. :)
 
